@@ -1,0 +1,37 @@
+/* Inline `code` inside heading "tags" inherits the light theme color,
+   which is unreadable on the yellow/blue/teal heading backgrounds.
+   Force it to inherit the heading's own (dark) text color, and drop
+   the dark code-background so the heading tag stays a single block. */
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+    color: inherit !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Shrink code blocks slightly so longer exercises fit vertically.
+   Inline `code` keeps its default size; only fenced/`pre` blocks shrink. */
+.slidev-layout pre,
+.slidev-layout pre code {
+    font-size: 0.78em !important;
+    line-height: 1.35 !important;
+}
+
+/* Tighten vertical rhythm between paragraphs and code blocks. */
+.slidev-layout pre {
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+}
+
+/* Shiki themes often italicize keywords / storage modifiers. JetBrains
+   Mono's italic variant is hard to read in a projector setting and
+   makes pipe-heavy patterns look stylized. Force upright in code. */
+.slidev-layout pre code,
+.slidev-layout pre code * {
+    font-style: normal !important;
+}
