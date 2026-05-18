@@ -1,7 +1,7 @@
 [package]
 name = "refactoring"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 # Examples are configured as library crates so they don't need a `fn main`.
 # `cargo test --examples` still picks up their `#[cfg(test)] mod tests`.
