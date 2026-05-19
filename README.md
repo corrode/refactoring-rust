@@ -1,5 +1,7 @@
 # Refactoring Rust
 
+![Sample exercise](./assets/exercise1.jpg)
+
 With Rustlings and 100 exercises to learn Rust, there exist two excellent
 resources for learning Rust.
 
