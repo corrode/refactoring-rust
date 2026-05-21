@@ -11,6 +11,10 @@ pub fn count_distinct(s: &str) -> usize {
     s.chars().collect::<HashSet<_>>().len()
 }
 
+pub fn count_distinct_without_allocations(s: &str) -> usize {
+    s.char_indices().filter(|(pos, c)| s.chars().skip(*pos + 1).find(|n| n == c).is_none()).count()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
