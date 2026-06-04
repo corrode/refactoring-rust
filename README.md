@@ -18,6 +18,18 @@ and make it more idiomatic. There is typically more than one good answer.
 The goal is not to be a definitive source of truth, but rather to give us
 something concrete to talk about.
 
+## The book
+
+A companion mdBook is in development on the `book` branch — see
+[`book/PLAN.md`](./book/PLAN.md). It will be published at
+<https://refactoring.corrode.dev> when v1 is complete.
+
+Build it locally:
+
+```sh
+cd book && mdbook serve --open
+```
+
 ## Running an exercise
 
 ```sh

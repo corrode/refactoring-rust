@@ -1,0 +1,85 @@
+# Build the book, test all code, deploy to GitHub Pages.
+#
+# Per book/PLAN.md §5: the book must be physically incapable of shipping
+# broken code. CI runs in this strict order — `cargo test` first because
+# starters and solutions are wired as `[[example]]` entries (both `NN_*`
+# and `NN_*_solution`), then `mdbook test` for inline rust blocks, then
+# the build, then deploy.
+#
+# Deploys only happen on pushes to `main`. The `book` branch builds and
+# tests but does not publish.
+
+name: book
+
+on:
+  push:
+    branches: [main, book]
+  pull_request:
+    branches: [main, book]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  MDBOOK_VERSION: "0.4.40"
+  # TODO(plugins): bump to >=0.5 once plugins (quiz, mermaid) are wired up
+  # and known to work against it. Sticking with 0.4.x for now because most
+  # mdBook plugins haven't migrated to the 0.5 API surface.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+
+      - name: Test examples + solutions
+        run: cargo test --examples --all-features
+
+      - name: Install mdBook
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          curl -sSL "https://github.com/rust-lang/mdBook/releases/download/v${MDBOOK_VERSION}/mdbook-v${MDBOOK_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar -xz -C "$HOME/.local/bin"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      # TODO(plugins): install mdbook-quiz and mdbook-mermaid here once
+      # they're added to book.toml.
+
+      - name: Test inline rust blocks
+        working-directory: book
+        run: mdbook test
+
+      - name: Build the book
+        working-directory: book
+        run: mdbook build
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: book/book
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

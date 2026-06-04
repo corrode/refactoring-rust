@@ -1,0 +1,31 @@
+name: Suggest a Trade-off
+description: An axis or consideration we didn't score (or scored wrongly).
+title: "[tradeoff] ch. NN: <one-line summary>"
+labels: ["tradeoff", "book"]
+body:
+  - type: input
+    id: chapter
+    attributes:
+      label: Chapter
+    validations:
+      required: true
+  - type: dropdown
+    id: axis
+    attributes:
+      label: Which axis?
+      options:
+        - Type-safety
+        - Readability
+        - API design
+        - Performance
+        - Flexibility
+        - Error reporting
+        - (new axis I think we should add)
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: What did we miss?
+    validations:
+      required: true

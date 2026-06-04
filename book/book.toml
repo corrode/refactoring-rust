@@ -1,0 +1,45 @@
+[book]
+title = "Refactoring Rust"
+authors = ["Matthias Endler"]
+description = "Hands-on exercises for writing more idiomatic, maintainable Rust."
+language = "en"
+src = "src"
+
+[output.html]
+default-theme = "navy"
+preferred-dark-theme = "navy"
+git-repository-url = "https://github.com/corrode/refactoring"
+edit-url-template = "https://github.com/corrode/refactoring/edit/book/book/{path}"
+site-url = "/"
+additional-css = ["theme/css/corrode.css"]
+no-section-label = false
+mathjax-support = false
+# TODO(theme,v2): drop unused themes (coal, ayu, rust) once a custom theme picker lands.
+
+[output.html.playground]
+editable = false
+copyable = true
+copy-js = true
+line-numbers = true
+runnable = true
+
+[output.html.search]
+enable = true
+limit-results = 30
+use-boolean-and = true
+boost-title = 2
+boost-hierarchy = 2
+boost-paragraph = 1
+expand = true
+heading-split-level = 3
+
+[output.html.print]
+enable = true
+
+[rust]
+edition = "2024"
+
+# TODO(plugins): pick & wire up the quiz plugin during Phase 0.
+#   - mdbook-quiz (Brown's, heavier, batteries-included)
+#   - or a custom lightweight shortcode.
+# TODO(plugins): add mdbook-mermaid once the first chapter needs a diagram.
