@@ -34,7 +34,7 @@ Imperative accumulator + match-with-empty-arm. Discoveries:
 
 ---
 
-# 07 · Observations
+# 07 · Review
 
 - Did you know `Option<T>` implements `IntoIterator`? What can you do with an iterator of iterators?
 - The `None => {}` arm is doing nothing - what does that suggest about *filtering*?

@@ -149,7 +149,7 @@ src: ./pages/02_better_match.md
 ---
 
 ---
-src: ./pages/03_path.md
+src: ./pages/03_even_numbers.md
 ---
 
 ---
@@ -164,18 +164,18 @@ layout: section
 
 <div class="text-xs opacity-50 tracking-widest uppercase mb-6">Phase 2 of 6</div>
 
-# `Option` · `Result` · iterators
+# `Option` · `Result` · `?`
 
 <div class="text-2xl opacity-80 mt-4">
 The idioms that show up in almost every Rust file.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 05–09
+Exercises 05–10
 </div>
 
 ---
-src: ./pages/05_let_else.md
+src: ./pages/05_path.md
 ---
 
 ---
@@ -191,7 +191,11 @@ src: ./pages/08_parse_ints.md
 ---
 
 ---
-src: ./pages/09_distinct_characters.md
+src: ./pages/09_error_handling.md
+---
+
+---
+src: ./pages/10_parse_port.md
 ---
 
 ---
@@ -209,23 +213,31 @@ For-loops with accumulators become iterator chains.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 10–13
+Exercises 11–16
 </div>
 
 ---
-src: ./pages/10_room_occupancy.md
+src: ./pages/11_dedup_runs.md
 ---
 
 ---
-src: ./pages/11_highest_and_lowest.md
+src: ./pages/12_excluded_path.md
 ---
 
 ---
-src: ./pages/12_mode.md
+src: ./pages/13_spell_check.md
 ---
 
 ---
-src: ./pages/13_iterators.md
+src: ./pages/14_room_occupancy.md
+---
+
+---
+src: ./pages/15_highest_and_lowest.md
+---
+
+---
+src: ./pages/16_mode.md
 ---
 
 ---
@@ -236,34 +248,38 @@ layout: section
 
 <div class="text-xs opacity-50 tracking-widest uppercase mb-6">Phase 4 of 6</div>
 
-# Parsing & error handling
+# Strings, parsing & iterators
 
 <div class="text-2xl opacity-80 mt-4">
-Where <code>?</code>, <code>FromStr</code>, and custom error types earn their keep.
+Reach for the standard library before hand-rolling a loop.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 14–18
+Exercises 17–22
 </div>
 
 ---
-src: ./pages/14_error_handling.md
+src: ./pages/17_trim_log_line.md
 ---
 
 ---
-src: ./pages/15_parse_port.md
+src: ./pages/18_parse_srt_timestamp.md
 ---
 
 ---
-src: ./pages/16_trim_log_line.md
+src: ./pages/19_iterators.md
 ---
 
 ---
-src: ./pages/17_parse_srt_timestamp.md
+src: ./pages/20_transformer.md
 ---
 
 ---
-src: ./pages/18_iban_prefix_check.md
+src: ./pages/21_fun_strings_ext.md
+---
+
+---
+src: ./pages/22_quicksort.md
 ---
 
 ---
@@ -281,27 +297,11 @@ The fun part. We delete code by changing types.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 19–25
+Exercises 23–25
 </div>
 
 ---
-src: ./pages/19_excluded_path.md
----
-
----
-src: ./pages/20_user_status.md
----
-
----
-src: ./pages/21_spell_check.md
----
-
----
-src: ./pages/22_transformer.md
----
-
----
-src: ./pages/23_fun_strings_ext.md
+src: ./pages/23_iban_prefix_check.md
 ---
 
 ---

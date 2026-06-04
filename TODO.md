@@ -5,13 +5,13 @@
 
 ---
 
-## 1. Put observations next to the source code (on a dedicated slide)
+## 1. Put review prompts next to the source code (on a dedicated slide)
 
 Each exercise should be a 3-slide sequence:
 
 1. **Source code only** &mdash; the starter, full width.
-2. **Source code + observations side-by-side** &mdash; same starter on
-   the left, observation bullets on the right.
+2. **Source code + review prompts side-by-side** &mdash; same starter on
+   the left, review bullets on the right.
 3. **Possible solution** &mdash; as today.
 
 Use Slidev's `two-cols-header` layout for step 2:
@@ -36,11 +36,11 @@ pub fn describe(...) { ... }
 ```
 
 Notes:
-- Observation bullets and the hint already render all-at-once (no
+- Review bullets and the hint already render all-at-once (no
   `v-clicks` animations).
 - Decide whether this applies to **every** exercise or only the ones
   where the starter is short enough to leave room on the right.
-- The current standalone `# NN · Observations` slide goes away once
+- The current standalone `# NN · Review` slide goes away once
   the side-by-side version exists.
 
 ---

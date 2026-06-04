@@ -44,7 +44,7 @@ Discoveries:
 
 ---
 
-# 24 · Observations
+# 24 · Review
 
 - The function answers two questions at once: "what *kind* of status is this?" and "what do we do?". Could those split?
 - Half the lines are <code>status &gt;= X && status &lt; Y</code> ladders - what does Rust offer instead?

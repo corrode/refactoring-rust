@@ -50,7 +50,7 @@ Discoveries:
 
 ---
 
-# 25 · Observations
+# 25 · Review
 
 - Each getter re-parses the same map. Should this happen once, or per call?
 - <code>"banana"</code> for <code>MAX_CONNECTIONS</code> silently becomes <code>100</code>. Is that what an operator wants?

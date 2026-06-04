@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 13 · `Fibonacci`
+# 19 · `Fibonacci`
 
 <div class="opacity-80 text-xs mb-4">
 This works. Make it nicer.
@@ -27,7 +27,7 @@ pub fn first_n(n: usize) -> Vec<u64> {
 ```
 
 <div class="absolute top-25 right-12 text-sm opacity-60">
-<code>cargo test --example 13_iterators</code>
+<code>cargo test --example 19_iterators</code>
 </div>
 
 <!--
@@ -41,7 +41,7 @@ The arc: spot the smells -> reach for `Iterator`.
 
 ---
 
-# 13 · Observations
+# 19 · Review
 
 - `fib(n)` recomputes the same subproblems over and over - what's the complexity?
 - `first_n` allocates a whole `Vec` up front. What if the caller only wants the first few?
@@ -52,7 +52,7 @@ The arc: spot the smells -> reach for `Iterator`.
 zoom: 0.85
 ---
 
-# 13 · Possible solution
+# 19 · Possible solution
 
 ```rust
 struct Fibonacci { current: u64, next: u64 }

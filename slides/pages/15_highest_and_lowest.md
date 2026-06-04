@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 11 · `highest_and_lowest`
+# 15 · `highest_and_lowest`
 
 <div class="opacity-80 mb-4">
 Given a string of space-separated integers, return the highest and lowest value.
@@ -23,7 +23,7 @@ pub fn highest_and_lowest(input: &str) -> (i64, i64) {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 11_highest_and_lowest</code>
+<code>cargo test --example 15_highest_and_lowest</code>
 </div>
 
 <!--
@@ -37,7 +37,7 @@ A Result-returning version is just as valid; mention it.
 
 ---
 
-# 11 · Observations
+# 15 · Review
 
 - What happens with `highest_and_lowest("")`? Or `"7  3"` (two spaces)? Or `"oops"`?
 - Notice the parse runs three times on `parts[0]` - does it need to?
@@ -47,7 +47,7 @@ A Result-returning version is just as valid; mention it.
 
 ---
 
-# 11 · Possible solution
+# 15 · Possible solution
 
 ```rust
 pub fn highest_and_lowest(input: &str) -> (i64, i64) {

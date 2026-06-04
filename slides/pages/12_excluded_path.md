@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 19 · `is_excluded`
+# 12 · `is_excluded`
 
 <div class="opacity-80 mb-4">
 Does <code>path</code> start with any of the excluded prefixes?
@@ -26,7 +26,7 @@ pub fn is_excluded(excluded: &Option<HashSet<PathBuf>>, path: &Path) -> bool {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 19_excluded_path</code>
+<code>cargo test --example 12_excluded_path</code>
 </div>
 
 <!--
@@ -39,7 +39,7 @@ Discoveries:
 
 ---
 
-# 19 · Observations
+# 12 · Review
 
 - `&Option<HashSet<…>>` - does the caller really need to distinguish "no config" from "empty config"?
 - The inner loop is "is there any element that satisfies …". What iterator method is that?
@@ -49,7 +49,7 @@ Discoveries:
 
 ---
 
-# 19 · Possible solution
+# 12 · Possible solution
 
 ```rust
 use std::collections::HashSet;

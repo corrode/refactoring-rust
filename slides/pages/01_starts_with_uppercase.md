@@ -38,7 +38,7 @@ Common discoveries (in roughly the order people will spot them):
 
 ---
 
-# 01 · Observations
+# 01 · Review
 
 - Does the function need to **own** the string?
 - What does `chars().nth(0)` do, and is there a more direct way?

@@ -58,7 +58,7 @@ a command? what's the type of a response?" Each answer collapses code.
 
 ---
 
-# 27 · Observations
+# 27 · Review
 
 - Three storage maps for three data types. What does a *key* actually point to?
 - Can the same key live in two maps at once? Should it? What would Redis itself say?

@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 03 · `is_rust_source_file`
+# 05 · `is_rust_source_file`
 
 <div class="opacity-80 mb-4">
 Does this path point to a Rust source file?
@@ -21,7 +21,7 @@ pub fn is_rust_source_file(path: &Path) -> bool {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 03_path</code>
+<code>cargo test --example 05_path</code>
 </div>
 
 <!--
@@ -33,7 +33,7 @@ Pyramid of nested `match` on `Option`. Discoveries:
 
 ---
 
-# 03 · Observations
+# 05 · Review
 
 - Both `None` branches do the same thing - what does that suggest?
 - What's `Path::extension()`'s return type, and what helpers does `Option` give you?
@@ -43,7 +43,7 @@ Pyramid of nested `match` on `Option`. Discoveries:
 
 ---
 
-# 03 · Possible solution
+# 05 · Possible solution
 
 ```rust
 pub fn is_rust_source_file(path: &Path) -> bool {

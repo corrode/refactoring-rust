@@ -30,7 +30,7 @@ a char boundary. The "fix" depends on the spec we actually want:
 
 ---
 
-# 04 · Observations
+# 04 · Review
 
 - Try `cargo run --example 04_truncate_string` - what happens, and why?
 - What does the doc of `String::truncate` say about char boundaries?

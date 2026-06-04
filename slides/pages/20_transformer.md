@@ -3,7 +3,7 @@ layout: default
 zoom: 0.85
 ---
 
-# 22 · `apply_commands`
+# 20 · `apply_commands`
 
 <div class="opacity-80 mb-4">
 Apply a sequence of <code>Command</code>s to strings.
@@ -36,7 +36,7 @@ pub fn apply_commands(input: Vec<(String, Command)>) -> Vec<String> {
 ```
 
 <div class="absolute top-25 right-12 text-sm opacity-60">
-<code>cargo test --example 22_transformer</code>
+<code>cargo test --example 20_transformer</code>
 </div>
 
 <!--
@@ -49,7 +49,7 @@ Discoveries:
 
 ---
 
-# 22 · Observations
+# 20 · Review
 
 - We own <code>input</code> - why are we cloning each element?
 - A chain of <code>if let</code> on the same enum… what's the better tool?
@@ -59,7 +59,7 @@ Discoveries:
 
 ---
 
-# 22 · Possible solution
+# 20 · Possible solution
 
 ```rust
 pub fn apply_commands(input: Vec<(String, Command)>) -> Vec<String> {

@@ -3,7 +3,7 @@ layout: default
 zoom: 0.9
 ---
 
-# 18 · `is_valid_iban`
+# 23 · `is_valid_iban`
 
 <div class="opacity-80 mb-4">
 Country code (2 letters), check digits (2 digits), then ASCII alphanumerics
@@ -36,7 +36,7 @@ pub fn is_valid_iban(s: &str) -> bool {
 ```
 
 <div class="absolute top-20 right-12 text-sm opacity-60">
-<code>cargo test --example 18_iban_prefix_check</code>
+<code>cargo test --example 23_iban_prefix_check</code>
 </div>
 
 <!--
@@ -49,7 +49,7 @@ Discoveries:
 
 ---
 
-# 18 · Observations
+# 23 · Review
 
 - IBANs are ASCII-only. Do we need <code>chars()</code> at all?
 - Six <code>if/else if</code> arms on a string - what would express that better?
@@ -61,7 +61,7 @@ Discoveries:
 zoom: 0.85
 ---
 
-# 18 · Possible solution
+# 23 · Possible solution
 
 ```rust
 pub fn is_valid_iban(s: &str) -> bool {

@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 21 · `spell_check`
+# 13 · `spell_check`
 
 <div class="opacity-80 mb-4">
 Return the words from <code>words</code> that are not in <code>dict</code>
@@ -29,7 +29,7 @@ pub fn spell_check(words: &Vec<String>, dict: &Vec<String>) -> Vec<String> {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 21_spell_check</code>
+<code>cargo test --example 13_spell_check</code>
 </div>
 
 <!--
@@ -43,7 +43,7 @@ Discoveries:
 
 ---
 
-# 21 · Observations
+# 13 · Review
 
 - What's the time complexity right now? What changes if <code>dict</code> were a <code>HashSet</code>?
 - <code>to_lowercase()</code> is called inside the inner loop - for the same word, every time. Why?
@@ -56,7 +56,7 @@ Hint: build the lookup set once, outside.
 
 ---
 
-# 21 · Possible solution
+# 13 · Possible solution
 
 ```rust
 use std::collections::HashSet;

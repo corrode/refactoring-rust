@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 14 · `read_file_contents`
+# 09 · `read_file_contents`
 
 <div class="opacity-80 mb-4">
 Read the entire contents of a file into a <code>String</code>.
@@ -26,7 +26,7 @@ pub fn read_file_contents(path: &str) -> io::Result<String> {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 14_error_handling</code>
+<code>cargo test --example 09_error_handling</code>
 </div>
 
 <!--
@@ -38,7 +38,7 @@ Discoveries usually arrive in this order:
 
 ---
 
-# 14 · Observations
+# 09 · Review
 
 - What does each `match` actually do with the `Err` branch?
 - Is there an operator that means "unwrap or return the error"?
@@ -48,7 +48,7 @@ Discoveries usually arrive in this order:
 
 ---
 
-# 14 · Possible solution
+# 09 · Possible solution
 
 ```rust
 use std::fs;

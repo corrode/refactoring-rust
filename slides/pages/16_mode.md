@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 12 · `most_common`
+# 16 · `most_common`
 
 <div class="opacity-80 mb-4">
 Find the value that occurs most often in the input.
@@ -29,7 +29,7 @@ pub fn most_common(numbers: &[i32]) -> i32 {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 12_mode</code>
+<code>cargo test --example 16_mode</code>
 </div>
 
 <!--
@@ -40,7 +40,7 @@ and calls `iter().next()` twice to seed `best`.
 
 ---
 
-# 12 · Observations
+# 16 · Review
 
 - The first loop is already idiomatic - focus on the second one.
 - "Iterate, pick the item with the highest something" - there's an iterator method for that.
@@ -49,7 +49,7 @@ and calls `iter().next()` twice to seed `best`.
 
 ---
 
-# 12 · Possible solution
+# 16 · Possible solution
 
 ```rust
 pub fn most_common(numbers: &[i32]) -> i32 {

@@ -3,7 +3,7 @@ layout: default
 zoom: 0.9
 ---
 
-# 10 · `room_occupancy`
+# 14 · `room_occupancy`
 
 ```rust
 pub fn adults_total(rooms: &[RoomOccupancy]) -> i32 {
@@ -32,7 +32,7 @@ pub fn child_ages(rooms: &[RoomOccupancy]) -> Vec<i32> {
 ```
 
 <div class="absolute top-20 right-12 text-sm opacity-60">
-<code>cargo test --example 10_room_occupancy</code>
+<code>cargo test --example 14_room_occupancy</code>
 </div>
 
 <!--
@@ -47,7 +47,7 @@ Worth pausing on `max_adults`: original returns 0 on empty input;
 
 ---
 
-# 10 · Observations
+# 14 · Review
 
 - Every loop has the same shape: read a field, accumulate. What's that pattern in iterator land?
 - For the max, what does `Iterator::max` return - and how is that different from the current behaviour on an empty slice?
@@ -57,7 +57,7 @@ Worth pausing on `max_adults`: original returns 0 on empty input;
 
 ---
 
-# 10 · Possible solution
+# 14 · Possible solution
 
 ```rust
 pub fn adults_total(rooms: &[RoomOccupancy]) -> i32 {

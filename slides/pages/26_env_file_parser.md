@@ -54,7 +54,7 @@ Discoveries:
 
 ---
 
-# 26 · Observations
+# 26 · Review
 
 - What happens to `WITH_EQUALS=a=b=c`? To `WITH_HASH="not # a comment"`?
 - The starter strips `#` before it knows whether it's inside quotes. What does that suggest?

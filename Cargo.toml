@@ -15,7 +15,7 @@ name = "02_better_match"
 crate-type = ["lib"]
 
 [[example]]
-name = "03_path"
+name = "03_even_numbers"
 crate-type = ["lib"]
 
 [[example]]
@@ -23,7 +23,7 @@ name = "04_truncate_string"
 crate-type = ["lib"]
 
 [[example]]
-name = "05_let_else"
+name = "05_path"
 crate-type = ["lib"]
 
 [[example]]
@@ -39,63 +39,63 @@ name = "08_parse_ints"
 crate-type = ["lib"]
 
 [[example]]
-name = "09_distinct_characters"
+name = "09_error_handling"
 crate-type = ["lib"]
 
 [[example]]
-name = "10_room_occupancy"
+name = "10_parse_port"
 crate-type = ["lib"]
 
 [[example]]
-name = "11_highest_and_lowest"
+name = "11_dedup_runs"
 crate-type = ["lib"]
 
 [[example]]
-name = "12_mode"
+name = "12_excluded_path"
 crate-type = ["lib"]
 
 [[example]]
-name = "13_iterators"
+name = "13_spell_check"
 crate-type = ["lib"]
 
 [[example]]
-name = "14_error_handling"
+name = "14_room_occupancy"
 crate-type = ["lib"]
 
 [[example]]
-name = "15_parse_port"
+name = "15_highest_and_lowest"
 crate-type = ["lib"]
 
 [[example]]
-name = "16_trim_log_line"
+name = "16_mode"
 crate-type = ["lib"]
 
 [[example]]
-name = "17_parse_srt_timestamp"
+name = "17_trim_log_line"
 crate-type = ["lib"]
 
 [[example]]
-name = "18_iban_prefix_check"
+name = "18_parse_srt_timestamp"
 crate-type = ["lib"]
 
 [[example]]
-name = "19_excluded_path"
+name = "19_iterators"
 crate-type = ["lib"]
 
 [[example]]
-name = "20_user_status"
+name = "20_transformer"
 crate-type = ["lib"]
 
 [[example]]
-name = "21_spell_check"
+name = "21_fun_strings_ext"
 crate-type = ["lib"]
 
 [[example]]
-name = "22_transformer"
+name = "22_quicksort"
 crate-type = ["lib"]
 
 [[example]]
-name = "23_fun_strings_ext"
+name = "23_iban_prefix_check"
 crate-type = ["lib"]
 
 [[example]]
@@ -127,8 +127,8 @@ path = "solutions/02_better_match.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "03_path_solution"
-path = "solutions/03_path.rs"
+name = "03_even_numbers_solution"
+path = "solutions/03_even_numbers.rs"
 crate-type = ["lib"]
 
 [[example]]
@@ -137,8 +137,8 @@ path = "solutions/04_truncate_string.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "05_let_else_solution"
-path = "solutions/05_let_else.rs"
+name = "05_path_solution"
+path = "solutions/05_path.rs"
 crate-type = ["lib"]
 
 [[example]]
@@ -157,78 +157,78 @@ path = "solutions/08_parse_ints.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "09_distinct_characters_solution"
-path = "solutions/09_distinct_characters.rs"
+name = "09_error_handling_solution"
+path = "solutions/09_error_handling.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "10_room_occupancy_solution"
-path = "solutions/10_room_occupancy.rs"
+name = "10_parse_port_solution"
+path = "solutions/10_parse_port.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "11_highest_and_lowest_solution"
-path = "solutions/11_highest_and_lowest.rs"
+name = "11_dedup_runs_solution"
+path = "solutions/11_dedup_runs.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "12_mode_solution"
-path = "solutions/12_mode.rs"
+name = "12_excluded_path_solution"
+path = "solutions/12_excluded_path.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "13_iterators_solution"
-path = "solutions/13_iterators.rs"
+name = "13_spell_check_solution"
+path = "solutions/13_spell_check.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "14_error_handling_solution"
-path = "solutions/14_error_handling.rs"
+name = "14_room_occupancy_solution"
+path = "solutions/14_room_occupancy.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "15_parse_port_solution"
-path = "solutions/15_parse_port.rs"
+name = "15_highest_and_lowest_solution"
+path = "solutions/15_highest_and_lowest.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "16_trim_log_line_solution"
-path = "solutions/16_trim_log_line.rs"
+name = "16_mode_solution"
+path = "solutions/16_mode.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "17_parse_srt_timestamp_solution"
-path = "solutions/17_parse_srt_timestamp.rs"
+name = "17_trim_log_line_solution"
+path = "solutions/17_trim_log_line.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "18_iban_prefix_check_solution"
-path = "solutions/18_iban_prefix_check.rs"
+name = "18_parse_srt_timestamp_solution"
+path = "solutions/18_parse_srt_timestamp.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "19_excluded_path_solution"
-path = "solutions/19_excluded_path.rs"
+name = "19_iterators_solution"
+path = "solutions/19_iterators.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "20_user_status_solution"
-path = "solutions/20_user_status.rs"
+name = "20_transformer_solution"
+path = "solutions/20_transformer.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "21_spell_check_solution"
-path = "solutions/21_spell_check.rs"
+name = "21_fun_strings_ext_solution"
+path = "solutions/21_fun_strings_ext.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "22_transformer_solution"
-path = "solutions/22_transformer.rs"
+name = "22_quicksort_solution"
+path = "solutions/22_quicksort.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "23_fun_strings_ext_solution"
-path = "solutions/23_fun_strings_ext.rs"
+name = "23_iban_prefix_check_solution"
+path = "solutions/23_iban_prefix_check.rs"
 crate-type = ["lib"]
 
 [[example]]

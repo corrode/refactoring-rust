@@ -35,7 +35,7 @@ but the headline is `collect`.
 
 ---
 
-# 08 · Observations
+# 08 · Review
 
 - What does `collect` do when the items are `Result`s?
 - Does the function need to *own* the `Vec<String>` to read from it?

@@ -32,7 +32,7 @@ Tiny one. People usually spot:
 
 ---
 
-# 02 · Observations
+# 02 · Review
 
 - How many times does the word `Some` appear? Does it need to?
 - Or-patterns can live *inside* a constructor - have you used that form?

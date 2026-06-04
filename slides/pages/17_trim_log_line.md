@@ -3,7 +3,7 @@ layout: default
 zoom: 0.8
 ---
 
-# 16 · `trim_log_line`
+# 17 · `trim_log_line`
 
 <div class="opacity-80 mb-4">
 Trim outer whitespace, collapse internal runs of whitespace, strip a leading
@@ -40,7 +40,7 @@ pub fn trim_log_line(line: &str) -> String {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 16_trim_log_line</code>
+<code>cargo test --example 17_trim_log_line</code>
 </div>
 
 <!--
@@ -53,7 +53,7 @@ Discoveries:
 
 ---
 
-# 16 · Observations
+# 17 · Review
 
 - The first 10 lines hand-roll a function that already lives on `str`. Which one?
 - For "does this string start with X, and if so what's after X?" - what's the standard idiom?
@@ -66,7 +66,7 @@ Hint: <code>trim</code>, <code>strip_prefix</code>, <code>split_whitespace</code
 
 ---
 
-# 16 · Possible solution
+# 17 · Possible solution
 
 ```rust
 pub fn trim_log_line(line: &str) -> String {

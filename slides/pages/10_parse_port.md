@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 15 · `parse_port`
+# 10 · `parse_port`
 
 <div class="opacity-80 mb-4">
 Parse a TCP port string into a <code>u16</code>.
@@ -19,7 +19,7 @@ pub fn parse_port(s: &str) -> Option<u16> {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 15_parse_port</code>
+<code>cargo test --example 10_parse_port</code>
 </div>
 
 <!--
@@ -32,7 +32,7 @@ Discoveries:
 
 ---
 
-# 15 · Observations
+# 10 · Review
 
 - The caller can't tell `"abc"` apart from `"99999"` apart from `"0"`. Should they be able to?
 - Why parse into `i32` when the target is `u16`? What does that buy us?
@@ -47,7 +47,7 @@ Hint: "Parse, don't validate": push invariants into the type.
 zoom: 0.95
 ---
 
-# 15 · Possible solution
+# 10 · Possible solution
 
 ```rust
 use std::num::NonZeroU16;

@@ -36,7 +36,7 @@ Two nested `if` + three `return`s. Discoveries:
 
 ---
 
-# 06 · Observations
+# 06 · Review
 
 - How many places does this function return `None`? Could they all be the *same* `None`?
 - "Keep the value only if it satisfies a predicate" - what's that called on `Option`?
