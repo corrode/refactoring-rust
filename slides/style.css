@@ -22,6 +22,43 @@ h6 code {
     line-height: 1.35 !important;
 }
 
+/* Keep comparison tables readable at presentation distance. */
+.slidev-layout table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 1.25rem 0;
+    border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    border-radius: 0.6rem;
+    overflow: hidden;
+}
+
+.slidev-layout table th,
+.slidev-layout table td {
+    padding: 0.8rem 1.1rem;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    border: 0;
+}
+
+.slidev-layout table th {
+    font-weight: 700;
+    background: color-mix(in srgb, currentColor 8%, transparent);
+    border-bottom: 2px solid color-mix(in srgb, currentColor 22%, transparent);
+}
+
+.slidev-layout table th + th,
+.slidev-layout table td + td {
+    border-left: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.slidev-layout table tbody tr + tr td {
+    border-top: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+}
+
 /* Tighten vertical rhythm between paragraphs and code blocks. */
 .slidev-layout pre {
     margin-top: 0.5em !important;
