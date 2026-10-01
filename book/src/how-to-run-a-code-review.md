@@ -1,252 +1,232 @@
 # How to run a code review
 
-This is the only chapter in the book with no Rust in it. We're going to
-spend the next twenty-six chapters looking at small pieces of Rust and
-asking what we'd say about them in a code review. Before we do that,
-let's talk about what a code review is actually *for*, because most
-teams have never agreed on an answer, and the disagreement quietly
-colours every PR.
+A code review can catch a bug and still leave the team worse off. The patch gets
+fixed, but nobody learns why. Or a reviewer wins an argument about style and the
+author learns to keep quiet next time.
+
+This is the only instructional chapter without a Rust exercise. The twenty-seven
+exercise chapters ask what we'd say about small pieces of Rust in review. First we need
+to agree on what that conversation is for.
 
 ## The reviewer's job is not to be right
 
-A reviewer's job is to help the author (and, more importantly, the
-team) write better code six months from now. That's it. Catching bugs
-is a side effect. Enforcing the style guide is a side effect. Making
-the diff prettier is a side effect.
+The reviewer's job is to help the author and the wider team write better code six
+months from now. Catching bugs, enforcing written agreements,
+and making a diff easier to read all matter. They're still side effects of
+helping the team improve, not reasons to treat the review as a contest.
 
-If you walk away from a review having "won" the argument, you've
-probably failed. The PR merges or it doesn't, but the team's collective
-taste only moves if the author and the reviewer both understand each
-other a little better at the end. That requires a different kind of
-conversation than a debate.
+If you leave a review having won the argument, you may still have failed. The
+PR either merges or it doesn't. The team's judgement improves only when author
+and reviewer understand the decision better than they did before.
 
-The book's premise is that the conversation that works is built on
-**asking questions**.
-Not for theatrical reasons. Questions are not a polite way of dressing
-up a verdict. They're a more accurate description of what's actually
-happening. A reviewer almost never *knows* that a piece of code is
-wrong. They notice that it's *unfamiliar*, or *complicated*, or
-*tightly coupled*, or *the third version of something we already have
-twice*. Whether those things matter depends on context the reviewer
-usually doesn't have. Asking is honest. Pronouncing is overreach.
+The most reliable way to get there is to **ask questions**.
+
+This isn't politeness theatre. A question isn't a verdict with softer
+punctuation. It reflects what a reviewer usually knows: something is unfamiliar,
+complicated, tightly coupled, or the third version of code that already exists
+twice. Whether that observation matters depends on context the reviewer may not
+have. Asking exposes the missing context. Pronouncing skips over it.
 
 ## Three rhetorical postures
 
-A reviewer's comment can take one of three forms. Most teams use them
-all, and most use the wrong one most of the time.
+Every review comment takes one of three postures: ask, suggest, or require. Most
+teams use all three. Trouble starts when they use them interchangeably.
 
 **Ask.** *"What happens when this is called with an empty string?"*
-You don't know the answer; you're not even sure there's a problem;
-you're surfacing the question. The author either answers it (good, a
-test case might come out of the exchange) or realises they don't know
-either (better, a bug just got caught before merge). Asking is the
-default. If you're not sure whether a comment belongs in the review at
-all, phrase it as a question and you almost always make it land better.
 
-**Suggest.** *"Consider returning `Option<&str>` here so the caller
-doesn't have to check for the sentinel value."* You have an opinion;
-you're sharing it; the author is free to take it or leave it. The key
-word is *consider*. A suggestion that the author rejects is not a
-failure of the review. The suggestion did its job by getting
-articulated. Sometimes the author rejects it because they thought of it
-already and chose the other path; in that case the comment thread
-becomes the record of that decision, which is itself valuable. The PR
-gets merged, and now the team has a richer shared model of why this
-function looks the way it does.
+You don't know the answer, and you may not know whether there's a problem. You
+want the case considered. The author may explain it, which could lead to a test.
+Or they may realise they don't know either, which could reveal a bug before
+merge. Ask by default when context could change your judgement. If you're not
+sure a comment belongs in the review at all, a real question usually gives the
+author a better way to answer it.
 
-**Require.** *"This needs to handle the disconnect case before this
-ships."* You're blocking the merge. Use this for: correctness bugs,
-security issues, public-API mistakes that would be expensive to undo,
-and violations of agreements the team has already made and written
-down. Don't use it for taste, idioms, structure, or anything that's
-genuinely contested. If you find yourself reaching for *require* on a
-matter of taste, the right move is to back off, write a *suggest*, and
-take the taste argument to a separate conversation: a team discussion,
-a design doc, an RFC. The PR isn't the place to settle whether the team
-prefers `?` over `match`.
+That doesn't mean turning a known bug into a timid question. If the code is
+wrong, say so. Questions are useful because they're accurate, not because
+they're gentle.
 
-A useful exercise: count, across your last ten reviews, how often you
-*asked* vs. how often you *required*. If the ratio is anywhere near
-1:1, you're requiring too much.
+**Suggest.** *"Consider returning `Option<&str>` here so the caller doesn't
+have to check for the sentinel value."*
+
+You have a preferred design, but the author can reasonably reject it. The word
+*consider* carries real meaning. A rejected suggestion hasn't failed. It made
+the alternative and its trade-offs explicit. If the author already considered
+it, the thread records why the team chose another path. That record can matter
+long after the patch merges.
+
+**Require.** *"This needs to handle the disconnect case before this ships."*
+
+A requirement blocks the merge. Reserve it for correctness bugs, security
+issues, public API mistakes that would be expensive to undo, and violations of
+agreements the team has already written down. Don't use it for taste, idioms,
+structure, or a genuinely contested design.
+
+If you want to require a matter of taste, step back. Write a suggestion, then
+move the larger argument to a team discussion, design document, or RFC. A pull
+request is a poor place to settle whether the team prefers `?` over `match`.
+
+Look at your last ten reviews and count asks against requirements. If the ratio
+is close to 1:1, you're requiring too much.
 
 ## Every refactor has a cost. Name it
 
-The single most common review failure I see is suggesting a refactor
-without acknowledging what it costs. *"You could replace this loop with
-a fold."* Could you? Sure. Should you? That depends. A fold is denser;
-it requires the reader to hold the accumulator in their head; it's
-harder to set a breakpoint inside; it's easier to write a closure that
-captures the wrong variable. A loop is more verbose but reads top to
-bottom. Neither is universally better.
+A comment such as *"You could replace this loop with a fold"* names an
+alternative but hides the decision. Yes, you could. Should you?
 
-When you suggest a change, name what the reader gives up by accepting
-it. *"This would be shorter as a fold, but the loop is easier to debug.
-Up to you."* That sentence does three things at once. It states the
-benefit. It states the cost. It puts the decision back on the author,
-where it belongs. It also models, for the rest of the team reading the
-PR later, what an honest engineering trade-off looks like.
+A fold is denser. You have to keep the accumulator in your head, setting a
+breakpoint inside it is harder, and its closure can capture the wrong variable.
+A loop takes more lines but reads from top to bottom. Neither is better in every
+context.
 
-This book leans hard on this idea. Every chapter ends with a
-*Trade-offs* section that scores the canonical solution against six
-fixed axes (type-safety, readability, API design, performance,
-flexibility, error reporting). Some chapters score the canonical
-solution as *losing* on at least one axis, and we say so. That's not a
-failure; that's how engineering works. There is no global optimum. A
-review that pretends there is one is selling a fiction.
+When you suggest a change, name what the author gives up by accepting it:
+*"This would be shorter as a fold, but the loop is easier to debug. Up to you."*
+The comment states the benefit, states the cost, and leaves a contested choice
+with the author. It also shows everyone who reads the PR later what an honest
+engineering trade-off looks like.
+
+Every chapter in this book follows that discipline. Its *Trade-offs* section
+scores the canonical solution against six fixed axes: type-safety, readability,
+API design, performance, flexibility, and error reporting. Some canonical
+solutions lose on an axis. We say so.
+
+That's not a defect in the exercise. Engineering has no global optimum. A
+review that pretends otherwise is selling a fiction.
 
 ## Trust the type system, but don't worship it
 
-A lot of the refactors in this book end with "and now the invariant
-lives in the type system." That's usually a win, sometimes a big one.
-But not always. Sometimes the invariant is *cheap to check at runtime
-and expensive to express in the type system*, and the right move is to
-keep the runtime check, write a good test, and move on. Sometimes
-making illegal states unrepresentable requires a generic-parameter
-machine that nobody on the team will ever extend, and the team would be
-better served by a comment and a `debug_assert!`.
+Many refactors in this book end with an invariant moving into the type system.
+That's often a win, sometimes a large one. It isn't free.
 
-The book is going to push you toward type-driven design a lot, because
-that's where Rust pays its dividends and because the canonical
-solutions in our exercises mostly win on that axis. But type-driven
-design is a tool, not an identity. A reviewer who reaches for "make
-illegal states unrepresentable" on every PR has stopped reviewing and
-started signalling.
+An invariant may be cheap to check at runtime and expensive to express in a
+type. In that case, keep the runtime check, write a good test, and move on.
+Making an illegal state unrepresentable may also require a machine of generic
+parameters that nobody on the team will extend. For an internal invariant whose
+violation cannot make release behaviour incorrect, a comment and `debug_assert!` may
+serve that team better. Use a normal runtime check when release code still needs the
+protection.
 
-When you suggest a type-level fix, ask yourself: *would I be comfortable
-maintaining this in two years, with a different team?* If the answer
-isn't yes, suggest something simpler.
+The exercises lean toward type-driven design because Rust is unusually good at
+it, and because the canonical solutions often improve on that axis. Still,
+type-driven design is a tool, not an identity. Repeating "make illegal states
+unrepresentable" on every PR isn't review. It's signalling.
+
+Before suggesting a type-level fix, ask: *would I be comfortable maintaining
+this in two years with a different team?* If not, suggest the less elaborate
+option.
 
 ## Disagreement is the point
 
-Two senior reviewers will disagree about the same PR. They should. If
-they don't, one of them isn't paying attention.
+Two senior reviewers can look at the same code and reach different conclusions.
+The useful outcome isn't a ranking of whose opinion wins. It's a record:
+*here are two reasonable ways to think about this; here's why we chose one this
+time; here's what would make us reconsider.*
 
-The bad version of this is when disagreement turns into ranking: whose
-opinion wins. The good version is when disagreement becomes a record:
-*here are two reasonable ways to think about this; here's why we chose
-one this time; here's what we'd reconsider if conditions changed.*
-That record is one of the most valuable things a PR can produce. It
-outlives the author, the reviewer, and often the code itself.
+That record is one of the most valuable things a PR can produce. It can outlive
+the author, the reviewer, and the code itself.
 
-Concretely: when you disagree with a teammate's review (or with the
-canonical solution in this book, or with Clippy), say so. Out loud. In
-writing. With your reasons. Don't quietly comply. Don't passively
-approve. The team learns from your dissent in a way it cannot learn
-from your silence.
+So when you disagree with a teammate's review, the canonical solution in this
+book, or Clippy, say so and give your reasons. Say it out loud. Put it in
+writing. Don't quietly comply or passively approve. Your team can learn from an explicit disagreement. It can't learn from silence.
 
-This book disagrees with itself in places. We disagree with Clippy in
-places. We're going to flag those moments explicitly, because they're
-where the most learning happens.
+This book disagrees with itself in places, and it sometimes disagrees with
+Clippy. Those moments are marked because they expose the judgement behind the
+code.
 
 ## Distinguish bug, design, and preference
 
-A useful triage before you write any review comment:
+Before writing a comment, decide what kind of problem you're looking at:
 
-- **Bug.** The code is wrong. It crashes, it returns the wrong answer,
-  it has a security implication, it violates a documented contract.
-  This is *require*. Block the merge. Be specific about the failing
-  case.
+- **Bug.** The code is wrong. It crashes, returns the wrong answer, has a
+  security implication, or violates a documented contract. This is *require*.
+  Block the merge and name the failing case.
 
-- **Design.** The code works, but the structure is wrong. The function
-  does too much, the type leaks an implementation detail, the error
-  case is hidden inside an `Option` that should be a `Result`. This is
-  *suggest*, occasionally *require* if the design will be expensive to
-  fix later (public API). Always include the cost of changing it now
-  vs. later.
+- **Design.** The code works, but its structure causes trouble. The function
+  does too much, the type leaks an implementation detail, or an error is hidden
+  in an `Option` that should be a `Result`. This is usually *suggest*. It can be
+  *require* when delay would make the design expensive to fix, as with a public
+  API. State the cost of changing it now and the cost of changing it later.
 
-- **Preference.** The code works and the design is fine; you'd have
-  written it differently. This is *ask*, occasionally *suggest*, never
-  *require*. If you find yourself wanting to require a preference,
-  what you actually want is a team conversation, not a PR comment.
+- **Preference.** The code works and the design is sound, but you'd have written
+  it differently. This is *ask*, sometimes *suggest*, and never *require*. If a
+  preference needs to become a rule, take it to the team rather than smuggling
+  it into one PR.
 
-Conflating these is how reviews go bad. A preference dressed as a
-require feels like an ambush; a bug dressed as a question gets lost.
+Conflating these categories is how reviews go bad. A preference dressed as a
+requirement feels like an ambush. A bug dressed as a question gets lost.
 
 ## Praise the things you'd otherwise overlook
 
-If a function is well-named, say so. If an error type carries exactly
-the right amount of information, say so. If a refactor of a function
-you reviewed three months ago made the new function trivial to write,
-say so, and tag the original author.
+If a function is well named, say so. If an error type carries the right amount
+of information, say so. If an earlier refactor made today's change easy, say so
+and tag the person who wrote it.
 
-Praise is not a politeness ritual. It's a signal of what the team
-agrees *good* looks like, and that signal is hard to send any other
-way. A team that only ever writes critical review comments is a team
-that's slowly losing track of its own taste.
+Praise isn't a politeness ritual. It tells the team what should survive the
+next refactor. A review culture that only records criticism eventually loses
+track of what the team already does well.
 
-This is the cheapest thing in a review and the most consistently
-neglected. Build the habit.
+This costs almost nothing, which makes its absence hard to defend. Build the
+habit.
 
 ## When you can't articulate it
 
-Sometimes you look at a piece of code and your gut says *no* and you
-can't say why. Most reviewers either approve-and-grumble or write a
-vague "this feels off" comment that lands as either passive-aggressive
-or actionable-by-nobody. Both are bad.
+Sometimes the code bothers you before you know why. Approving while grumbling
+doesn't help. Neither does *"this feels off"*, which leaves the author with
+nothing they can act on.
 
-The honest move is to say so. *"Something about this is bothering me
-and I haven't figured out what. Give me a day."* Then come back. Either
-you'll articulate it (now you have a real review comment), or you
-won't (apologise, approve, move on). Either outcome is fine; the
-loitering "this feels off" comment is not.
+Be precise about the uncertainty: *"Something about this is bothering me and I
+haven't figured out what. Give me a day."* Then come back. If you can explain
+the concern, write the real comment. If you can't, apologise, approve, and move
+on. Don't leave a vague objection hanging over the PR.
 
-This requires trust on the team: that a reviewer asking for time
-isn't blocking the PR out of spite. You can't fake that culture; you
-have to build it. The shortest path to building it is being the
-reviewer who explicitly says "I approved this despite not loving X,
-because Y" once or twice. It's contagious.
+This only works when the team trusts that a request for time isn't a spiteful
+block. You can't fake that trust. You build it by making your own boundaries
+visible, for example: *"I approved this despite not loving X, because Y."*
+After people see that disagreement doesn't automatically block a merge, they're
+more likely to be equally candid.
 
 ## The code is not your friend
 
 Be ruthless about the code. Be gentle about the person.
 
-The code is text. It does not have feelings. You can say *"this is
-confusing"* and the code will be fine. The author has feelings; the
-author has worked on the change for hours or days; the author is
-reading the review at 4pm with a deadline.
+Code is text. You can call it confusing and it won't mind. Its author has spent
+hours or days on the change and may be reading your comment at 4pm against a
+deadline.
 
-Concretely: write about the code, not the author. *"This function does
-two things"* lands. *"You're doing two things here"* lands worse, even
-when both sentences are objectively true and equally specific. The
-grammatical subject of a review comment should almost always be a noun
-in the code, not the second person.
+Write about the code, not its author. *"This function does two things"* lands
+better than *"You're doing two things here."* Both statements may be accurate,
+but only one keeps the discussion attached to the thing everyone can change.
+The grammatical subject of a review comment should usually be a noun in the
+code, not *you*.
 
-This sounds like a small thing. It is a small thing. Small things in
-code reviews compound the way small things compound everywhere else.
+It's a small distinction. Small distinctions accumulate.
 
 ## Receiving a review
 
-This book is about giving reviews, but every author is also a
-receiver, so a brief note.
+Giving and receiving reviews are the same practice from opposite sides. The
+hardest part for an author is separating the idea from themselves. A comment on
+your code isn't a verdict on your worth as an engineer. That's easy to write
+and hard to feel.
 
-The hardest skill on the author side is **separating the idea from
-yourself**. A comment on your code is not a comment on your worth as
-an engineer. This is easy to write and hard to feel. The reviewer
-who suggests rewriting your function is not telling you that you're
-bad at your job; they're telling you they think there's a better
-design. They might be wrong. You're allowed to push back. *Engage with
-the idea.*
+A reviewer who suggests rewriting a function is saying they see a better
+design. They may be wrong. Push back when you think they are, but engage with
+the idea rather than defending yourself from a claim they didn't make.
 
-The second hardest skill is recognising **when you'd write it the same
-way again**. If, after a thorough review, you would write the function
-exactly as you originally wrote it, the review hasn't taught you
-anything. That's not always bad. Sometimes you were right the first
-time. But it's worth noticing, because if it keeps happening, either
-you're not engaging with reviews honestly or your reviewers aren't
-engaging with your code honestly. Both are fixable. Neither is fixable
-if nobody names it.
+The next question is whether the review changed your reasoning, confidence, or code. It
+may change none of them. Sometimes the first version was right, and the discussion only
+confirmed why. But if reviews repeatedly add neither new context nor confidence, say so.
+The author may not be engaging with the comments, the comments may not engage with the
+code, or the team may be reviewing at the wrong level. You can only fix that once it is
+visible.
 
 ## How this book uses all this
 
-Every chapter from here on follows the same format. We show you a piece
-of code. We pose the questions a thoughtful reviewer would ask. We
-walk through what the answers point at. We score the trade-offs
-honestly, including the ones the canonical solution loses. We end
-with follow-up questions you can take to your own team's code.
+From here on, each chapter follows the same sequence. You see a piece of code,
+consider the questions a thoughtful reviewer would ask, and follow the answers
+toward a possible solution. Then you score its costs as well as its benefits
+and take the follow-up questions back to your own code.
 
-If you read it the right way, the book is a long worked example of the
-posture this chapter describes. You're welcome to disagree with any of
-it. The point is to give us (you, your team, and me) a shared
-vocabulary for the disagreement.
+Treat the book as a long worked example of this review posture. Disagree with
+it where your context points somewhere else. The goal isn't agreement. It's a
+shared vocabulary precise enough to make the disagreement useful.
 
-Let's get to the code.
+Now we can get to the code.

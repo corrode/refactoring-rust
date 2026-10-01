@@ -66,7 +66,7 @@ time for discussion and disagreement. You can find it at <https://corrode.dev>.
 The Rust code in this repository is MIT-licensed, so you can copy and adapt it. The
 prose is all-rights-reserved by corrode, with permission to quote short passages for
 review or teaching with attribution. The reasoning behind that split is in
-[the book license](https://github.com/corrode/refactoring/blob/main/book/LICENSE.md).
+[the book license](https://github.com/corrode/refactoring-rust/blob/main/book/LICENSE.md).
 
 Thanks to everyone who challenged an early workshop solution. Many of those objections
 now appear in the trade-off sections.

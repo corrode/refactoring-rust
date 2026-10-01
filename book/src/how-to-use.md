@@ -1,86 +1,89 @@
 # How to use this book
 
-The book is designed to be read in any of four modes. Pick the one
-that matches your situation; the chapters work the same way in all
-four.
+The useful part of this book begins when you stop reading it.
+
+Each chapter gives you a small piece of Rust to review and refactor. If you read
+straight through to the solution, you'll understand the explanation but miss
+the practice. Pick one of the four modes below, then make sure your answer comes
+before ours.
 
 ## Solo
 
-You at a keyboard, by yourself, on a couch or a desk or a train. The
-default mode. For each chapter:
+This is the default: you, a keyboard, and five to twenty minutes per chapter.
+A couch, desk, or train all work.
 
 1. Read *The problem*.
-2. Read the starter code carefully, slowly, the way you'd read it on
-   GitHub before commenting on a PR.
-3. **Stop reading the chapter.** Make a list of what you'd say in a
-   review. Try to refactor the code yourself in your editor. Spend
-   five to twenty minutes, depending on the chapter's size.
-4. Then read *Review* and see which of your observations match
-   ours, and which we surfaced that you didn't.
-5. Read *A possible solution* and compare it to yours.
-6. Read *Trade-offs* and decide whether you agree with our scoring.
+2. Read the starter code carefully, as if it were a pull request on GitHub.
+3. **Stop reading the chapter.** Write down what you'd say in a review, then
+   refactor the code in your editor. Spend five to twenty minutes, depending on
+   the size of the chapter.
+4. Read *Review*. Compare its questions with yours. Which concerns did you both
+   notice? Which ones did either of you miss?
+5. Open *A possible solution* and compare it with your version.
+6. Read *Trade-offs* and decide whether you agree with the scores.
 7. Do the quiz.
-8. Sit with the *Follow-up questions* until you have at least one you
-   want to discuss with someone.
+8. Stay with the *Follow-up questions* until you find at least one worth
+   discussing with someone else.
 
-Skipping step 3 turns the book into entertainment. The whole point of
-the format is that *your* answer comes before ours, because
-internalising the rubric requires producing answers, not consuming
-them. A little trick is to delete your first attempt at the refactor before trying again after reading the chapter. You won't be able to copy-paste, and you'll build the muscle memory to improve similar code in the future.
+Step 3 is the important one. Skip it and the book becomes entertainment.
+Internalising the rubric takes more than recognising a good answer after you've
+seen it.
+
+One useful constraint is to delete your first refactor before trying again
+after the chapter. You can't copy and paste your way through the second attempt,
+so you practise making the same kind of change from memory.
 
 ## Pair
 
-Two engineers, one keyboard. One drives (writes the refactor), one
-reviews (asks the *Review* questions out loud, gently). Swap roles
-every chapter, or every other chapter. The chapter's *Review*
-section gives the reviewer their script, but the best discussions
-happen when the reviewer goes off-script.
+Put two engineers at one keyboard. One drives and writes the refactor. The other
+reviews by asking the chapter's *Review* questions out loud, with room for a real
+answer. Swap roles every chapter, or every other chapter.
 
-Pairing on this book is genuinely better than reading it alone. You
-get the disagreements the chapter can only describe.
+The questions give the reviewer a place to start, not a script to obey. Go
+off-script when the code gives you a better question. Pairing adds the part a
+written chapter can only describe: a real disagreement with someone who can
+answer back.
 
 ## Book club / team
 
-A small group, three to eight people, reads one chapter per week.
-Anyone who wants to brings their refactored version. The meeting (an
-hour, max) walks through:
+For a group of three to eight people, read one chapter per week. Anyone who
+wants to can bring a refactored version. Keep the meeting to an hour and spend
+it on four things:
 
-1. What each person noticed in *Review* before reading ours.
-2. Whose solution is closest to the canonical, whose is furthest, why.
-3. Where the group disagrees with the *Trade-offs* scoring.
-4. The *Follow-up questions*. These were chosen for exactly this
-   meeting.
+1. What each person noticed before reading *Review*.
+2. Which solution is closest to the canonical one, which is furthest away, and
+   why.
+3. Where the group disagrees with the *Trade-offs* scores.
+4. The *Follow-up questions*. They were written for this conversation.
 
-Don't try to read the whole book in a sprint. The point is the
-recurring practice; the gap between meetings is where the ideas
-actually land. Twenty-seven weeks is fine. Skip the warm-up chapters
-if your team is past them.
+Don't race through the book. The recurring practice matters more than finishing
+quickly, and the gap between meetings gives the ideas time to show up in real
+code. Twenty-seven weeks is fine. If your team is past the warm-ups, skip them.
 
 ## Workshop facilitator
 
-If you're running an internal workshop, the slides in `slides/`
-(<https://github.com/corrode/refactoring>) are the live-delivery
-artifact and the book is your reference companion. Use the chapter's
-*Review* questions as your prompts to the room; use *Trade-offs*
-to keep the discussion honest when it veers into religion; use
-*Follow-up questions* as the breakout-room material.
+If you're running an internal workshop, use the slides in
+[`slides/`](https://github.com/corrode/refactoring-rust/tree/main/slides) for the live
+session and keep the book nearby as the reference. The chapter
+sections already divide the work:
 
-If your team would rather have the workshop delivered by someone who
-has run it before, the booking form is at <https://corrode.dev>.
+- Use *Review* to prompt the room.
+- Use *Trade-offs* when the discussion starts treating a preference as a rule.
+- Use *Follow-up questions* for breakout rooms.
+
+If your team would rather have the workshop delivered by someone who has run it
+before, the booking form is at <https://corrode.dev>.
 
 ## Running the code locally
 
-The starters and canonical solutions live in `examples/` and
-`solutions/` in the repo. Both are wired as `cargo` examples, so:
+The starters live in `examples/`; the canonical solutions live in `solutions/`.
+Both are wired up as Cargo examples:
 
 ```sh
-git clone https://github.com/corrode/refactoring
-cd refactoring
+git clone https://github.com/corrode/refactoring-rust
+cd refactoring-rust
 
-# Run a starter
-cargo run --example 01_starts_with_uppercase
-
-# Run its tests (these are the tests every refactor has to keep passing)
+# Test a starter (these are the tests every refactor has to keep passing)
 cargo test --example 01_starts_with_uppercase
 
 # Run the canonical solution's tests
@@ -90,15 +93,14 @@ cargo test --example 01_starts_with_uppercase_solution
 make test
 ```
 
-Every code block in the book that's runnable also has a small "play"
-button in the top-right corner that opens the snippet in the [Rust
-Playground](https://play.rust-lang.org). Useful for quick "what if"
-experiments without leaving the page.
+Runnable code blocks also have a small play button in the top-right corner. It
+opens the snippet in the [Rust Playground](https://play.rust-lang.org), which is
+handy for a quick "what if" experiment without leaving the page.
 
 ## Building the book locally
 
-If you want to read the book offline, or to preview an edit, you'll
-need [mdBook](https://rust-lang.github.io/mdBook/):
+To read the book offline or preview an edit, install
+[mdBook](https://rust-lang.github.io/mdBook/):
 
 ```sh
 cargo install mdbook
@@ -107,32 +109,30 @@ make book-build     # static HTML in book/book/
 make book-open      # build once, open the static HTML
 ```
 
-`make help` lists everything.
+`make help` lists the other commands.
 
 ## Conventions
 
-You'll see a handful of recurring callouts in every chapter. Each is a
-labelled block:
+The same callouts recur throughout the book:
 
 > **EXERCISE**
 >
-> Wraps the starter listing. *"Here's what you're refactoring."*
+> The starter code. This is what you're refactoring.
 
 > **REVIEW**
 >
-> The questions a thoughtful reviewer would ask. The book's signature
+> The questions a thoughtful reviewer would ask. This is the book's signature
 > section.
 
 > **TRADE-OFF**
 >
-> Where we score the canonical solution against the six axes. Always
-> the same axes, always the same order, always a sentence of
-> justification.
+> The canonical solution scored against the same six axes, in the same order,
+> with a sentence explaining each score.
 
 > **EDGE CASE**
 >
-> Production concerns the canonical solution skipped on purpose. Only
-> present when there's something real to flag.
+> Production concerns the canonical solution skipped on purpose. This appears
+> only when there's something worth flagging.
 
 > **FOLLOW-UP**
 >
@@ -140,36 +140,34 @@ labelled block:
 
 > **CONCEPT**
 >
-> Named idea this chapter introduced, with a pointer to the
-> [Cheatsheet](appendix/concept-index.md) entry where it's defined
-> properly and linked from every other chapter that touches it.
+> A named idea introduced by the chapter, with a link to its
+> [Cheatsheet](appendix/concept-index.md) entry and every other chapter that
+> uses it.
 
-A few chapters open with a **BONUS** callout. Those are optional: skip
-them if you're short on time, since nothing later in the book depends
-on them.
+Some chapters open with a **BONUS** callout. They're optional. Skip them when
+you're short on time because no later chapter depends on them.
 
 ## Filing issues
 
-If you spot a typo, a broken link, a refactor we missed, or a
-trade-off we scored wrongly: [the issue
-templates](https://github.com/corrode/refactoring/issues/new/choose)
-channel feedback into the buckets we can actually act on. We don't
-accept prose PRs (the book has a single author on purpose, see
-[Contributing](appendix/contributing.md)), but every substantive
-issue is credited in the [Acknowledgements](appendix/acknowledgements.md)
-when it's adopted.
+Found a typo, broken link, missed refactor, or trade-off you'd score differently?
+Use the [issue templates](https://github.com/corrode/refactoring-rust/issues/new/choose).
+They sort feedback into categories we can act on.
+
+We don't accept prose pull requests. The book has a single author on purpose,
+as explained in [Contributing](appendix/contributing.md). When a substantive
+issue is adopted, its author is credited in the
+[Acknowledgements](appendix/acknowledgements.md).
 
 ## Where to start
 
-If you've read enough Rust to follow the starter code in
-[chapter 01](part-1-warmups/01-starts-with-uppercase.md), start at
-[the Preface](preface.md) and read forward. If you haven't, work
-through *The Book* or *100 Exercises to Learn Rust* first; the format
-here assumes you can read Rust without help.
+If you can follow the starter code in
+[chapter 01](part-1-warmups/01-starts-with-uppercase.md), begin with the
+[Preface](preface.md) and read forward. If not, work through *The Book* or
+*100 Exercises to Learn Rust* first. This book assumes you can read Rust without
+help.
 
-If you've been writing Rust for a while and you're impatient, skim
-[How to run a code review](how-to-run-a-code-review.md) and
-[The trade-off axes](trade-off-axes.md). Those two chapters define
-everything the rest of the book trades on. Then jump straight into
-whichever part interests you most. The [Roadmap](roadmap.md) is the
-shortest way to decide where to land.
+If you've written Rust for a while and want to get to the harder exercises,
+skim [How to run a code review](how-to-run-a-code-review.md) and
+[The trade-off axes](trade-off-axes.md) first. They define the vocabulary used
+throughout the book. Then use the [Roadmap](roadmap.md) to choose a part and
+jump in.

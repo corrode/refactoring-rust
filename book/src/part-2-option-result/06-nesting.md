@@ -2,19 +2,19 @@
 
 ## The problem
 
-An optional text value needs three steps: trim surrounding whitespace, reject an empty
-result, then convert the remaining text to uppercase. The starter implements that policy
-with nested `if` expressions and repeated early returns. The behaviour is sound, but the
-control flow hides a useful sequence of transformations from borrowed input to an owned
-result.
+An optional text value passes through three decisions: trim surrounding whitespace,
+reject an empty result, then uppercase what remains. The starter spreads that sequence
+across nested `if` expressions and repeated early returns. Its behaviour is correct, but
+the branches make it harder to see that the value stays borrowed until the final step
+creates an owned result.
 
 ## Starter code
 
 > **EXERCISE**
 >
-> Review the branches as a data-processing sequence. Preserve all four tested cases:
-> absent input, empty input, whitespace-only input, and non-empty text with surrounding
-> whitespace.
+> Read the branches as a sequence of data transformations. Preserve all four tested
+> cases: absent input, empty input, whitespace-only input, and non-empty text surrounded
+> by whitespace.
 
 ```rust
 {{#include ../../../examples/06_nesting.rs}}
@@ -22,41 +22,41 @@ result.
 
 > **TRY THIS**
 >
-> Run the starter tests, then refactor `examples/06_nesting.rs` without changing the
+> Run the starter tests, then refactor `examples/06_nesting.rs` without changing its
 > behaviour:
 >
 > ```sh
 > cargo test --example 06_nesting
 > ```
 >
-> Keep the value borrowed through trimming and validation. Allocate the uppercase
-> `String` only after the value has passed the empty check.
+> Keep trimming and validation on borrowed text. Create the uppercase `String` only after
+> the value survives the empty check.
 
 ## Review
 
 > **REVIEW**
 >
-> - What value and type exist after each successful step?
-> - Does `str::trim` allocate or return a view into the input?
-> - Which two cases become `None` in the starter?
-> - Can `Option::filter` express the empty-string check?
-> - At what point does the function first need an owned `String`?
-> - Would explicit branches communicate anything that a combinator chain would lose?
+> - After each successful step, what value exists and what is its type?
+> - Does `str::trim` allocate, or does it return a view into the original input?
+> - Which two failure states become `None` in the starter?
+> - Can `Option::filter` state the non-empty requirement?
+> - Where does the function first need to own a `String`?
+> - Would replacing the branches with combinators hide any useful distinction?
 
-Start with the states rather than the syntax. The input is either `None` or
-`Some(&str)`. If text is present, `trim` returns another `&str` borrowed from the same
-input. An empty trimmed slice is rejected. Only a non-empty slice reaches
-`to_uppercase`, which creates the returned `String`.
+Start with the values. The input is `None` or `Some(&str)`. When text is present, `trim`
+returns another `&str` borrowed from the same input. The function rejects that slice if
+it is empty. Only a non-empty slice reaches `to_uppercase`, which creates the `String`
+returned to the caller.
 
-The outer `if let` handles presence, while the inner `if` handles a predicate on the
-present value. Both failure branches return `None`. This is the same structure that
-`Option` combinators describe: transform a present value, keep it only when a predicate
-passes, then transform it again.
+The outer `if let` asks whether a value is present. The inner `if` applies a predicate to
+that value. Both failure paths return `None`. `Option` combinators express the same sequence:
+transform a present value, retain it when a predicate passes, then transform it once
+more.
 
-Does trimming allocate? No. `str::trim` returns a subslice, so the value can stay
-borrowed through validation. `str::to_uppercase` returns `String`, so that final step
-allocates. Keeping it last means `None`, empty input, and whitespace-only input never pay
-for an owned result.
+Does `trim` allocate? No. It returns a subslice, so validation can continue with borrowed
+text. `to_uppercase` returns a `String`, which is where allocation enters. Leaving that
+step until last means absent, empty, and whitespace-only inputs never allocate an owned
+result.
 
 ## A possible solution
 
@@ -67,32 +67,32 @@ for an owned result.
 {{#include ../../../solutions/06_nesting.rs}}
 ```
 
-Read the chain from top to bottom as three stages:
+Read the chain as three stages, in order:
 
-1. `map(str::trim)` transforms `Some(&str)` into a trimmed `Some(&str)`. For `None`, it
-   does nothing.
-2. `filter(|t| !t.is_empty())` keeps non-empty text and turns empty text into `None`.
-3. `map(str::to_uppercase)` transforms the surviving `&str` into an owned `String`.
+1. `map(str::trim)` turns `Some(&str)` into a trimmed `Some(&str)` and leaves `None`
+   alone.
+2. `filter(|t| !t.is_empty())` retains non-empty text and converts empty text to `None`.
+3. `map(str::to_uppercase)` converts the remaining `&str` into an owned `String`.
 
-Each combinator runs only for `Some`. That means an absent input skips every operation,
-and a value rejected by `filter` never reaches the allocating final `map`.
+A combinator runs only while the option is `Some`. Absent input skips the entire chain.
+Once `filter` rejects a value, the allocating final `map` does not run.
 
-`filter` borrows the contained value while it tests the predicate. Here the contained
-value is already an `&str`, so the closure receives another reference around it. Method
-call auto-dereferencing lets `t.is_empty()` read naturally without spelling out that
-extra layer.
+There is one type detail worth noticing. `filter` borrows the value inside the option to
+test its predicate. That value is already an `&str`, so the closure receives a reference
+to a reference. Method-call auto-dereferencing is why `t.is_empty()` works without
+spelling out the extra layer.
 
-The chain resembles an iterator pipeline, but `Option` is not itself an `Iterator`.
-`Option` provides its own `map` and `filter` methods, and it can also be converted into
-an iterator over zero or one item. The useful connection is the shared vocabulary: each
-step transforms or rejects the value without opening another nested branch.
+This looks like an iterator pipeline, but `Option` is not an `Iterator`. It has its own
+`map` and `filter` methods, and it can also be converted into an iterator containing zero
+or one item. The useful connection is the vocabulary: each stage transforms or rejects
+a value without introducing another nested branch.
 
 </details>
 
 ## Alternative approaches
 
-The combinator chain is not the only readable version. You can keep the decisions
-explicit while removing the nesting:
+A combinator chain is not the only clear answer. You can remove the nesting while keeping
+each decision explicit:
 
 ```rust
 pub fn shout(s: Option<&str>) -> Option<String> {
@@ -109,35 +109,35 @@ pub fn shout(s: Option<&str>) -> Option<String> {
 }
 ```
 
-I would keep this form when the failure paths need comments, logging, or different
-return values. It is also reasonable when a team is still learning the combinators and
-can review named intermediate values more confidently. The canonical chain earns its
-place here because every step is short, pure, and follows the contract in order.
+I would choose this form when the failure paths need comments, logging, or distinct
+return values. Named intermediate values can also be easier to review while a team is
+learning the combinators. The canonical chain works well here because every stage is
+short, pure, and appears in the same order as the contract.
 
-Avoid moving `to_uppercase` before `filter`. That would allocate before the function
-knows whether the trimmed input should be rejected. It also changes the useful type
-progression from borrowed validation followed by owned output.
+Do not move `to_uppercase` ahead of `filter`. That would allocate before the function
+knows whether it will discard the trimmed input. It would also give up the useful
+progression from borrowed validation to owned output.
 
 ## Edge cases and production concerns
 
 > **EDGE CASE**
 >
-> Unicode uppercasing can change the number of characters and bytes. It is not an
-> in-place, fixed-length transformation.
+> Unicode uppercasing can change both the character count and the byte count. It is not a
+> fixed-length transformation that can happen in place.
 
 For example, uppercasing `"straße"` produces `"STRASSE"`. `str::to_uppercase` returns a
-new `String` because the output may need more storage than the input. The canonical
-solution performs that allocation only for text that remains after trimming and
-filtering, just as the starter does.
+new `String` because the output may require more storage than the input. As in the
+starter, the canonical solution allocates that string only after trimming and filtering
+leave a value to convert.
 
 `trim` removes leading and trailing Unicode whitespace according to Rust's whitespace
-rules. If the input comes from a protocol that defines a narrower set, such as ASCII
-spaces only, `trim` may accept more input than the protocol permits. That is a contract
-decision rather than a reason to expand this exercise's implementation.
+rules. A protocol may define a narrower set, such as ASCII spaces only. In that case,
+`trim` can accept input the protocol rejects. That is a contract decision, not a reason
+to broaden this exercise.
 
-Uppercasing is also not locale-aware. If the result is used for identifiers, security
-checks, or user-facing language rules, decide whether Unicode default case conversion
-matches the domain before treating it as normalization.
+Uppercasing is not locale-aware either. Before using this result for identifiers,
+security checks, or language shown to users, decide whether Unicode's default case
+conversion is the normalization your domain intends.
 
 ## Trade-offs
 
@@ -147,56 +147,55 @@ matches the domain before treating it as normalization.
 
 | Axis | Score | Why |
 |---|---|---|
-| Type-safety | neutral | Both versions use the same `Option<&str>` input and `Option<String>` output, with the same valid states. |
-| Readability | wins | The chain presents trimming, rejection, and uppercasing in the order they happen without nested branches or repeated returns. |
-| API design | neutral | The signature still treats absent input and empty-after-trimming input as the same `None` result. |
-| Performance | neutral | Both versions trim without allocating and allocate one uppercase `String` only after a non-empty value survives. |
-| Flexibility | wins | Additional transformations and predicates can be inserted as stages without adding another level of control-flow nesting. |
-| Error reporting | neutral | Both versions discard the reason for `None`, so callers cannot distinguish absent from empty input. |
+| Type-safety | neutral | Both versions accept `Option<&str>` and return `Option<String>`, with the same set of valid states. |
+| Readability | wins | Trimming, rejection, and uppercasing appear in execution order, without nested branches or repeated returns. |
+| API design | neutral | The signature still combines absent input and input that becomes empty after trimming into the same `None`. |
+| Performance | neutral | Both versions trim without allocating and create one uppercase `String` only after a non-empty value survives. |
+| Flexibility | wins | Another transformation or predicate can be added as a stage without another level of control-flow nesting. |
+| Error reporting | neutral | Both versions erase the reason for `None`, so the caller cannot distinguish absent input from empty input. |
 
-The readability win depends on keeping the chain short. A long series of closures can
-make intermediate types and failure points harder to inspect. Here, each operation has
-one job and the order matches the function's contract. If that stops being true, named
-locals and explicit branches are a better choice.
+The readability win has a limit. A long chain of closures can obscure intermediate types
+and make failure points harder to inspect. Here each operation has one job, and their
+order mirrors the contract. Once that stops being true, use named locals and explicit
+branches.
 
 ## Quiz
 
 ### 1. Should `to_uppercase` run before the empty check to keep all transformations together?
 
-*Answer:* No. Trimming and checking emptiness can operate on borrowed `&str` values.
-Uppercasing first would allocate a `String` for input that may be discarded. Keep the
-owned transformation after filtering unless the contract requires a different order.
+*Answer:* No. Trimming and the empty check work on borrowed `&str` values. Uppercasing
+first would allocate a `String` that the function may immediately discard. Keep the
+owned transformation after filtering unless the contract requires another order.
 
 ### 2. Should a review reject the explicit version because combinators are more idiomatic?
 
-*Answer:* No. The explicit version can be easier to extend when failure cases need
-logging, distinct errors, or more involved decisions. Prefer the combinator chain here
-because its three short stages follow the contract in order. Explicit control flow is
-still a sound choice.
+*Answer:* No. Explicit control flow is easier to extend when failure paths need logging,
+different errors, or more involved decisions. The combinator chain is a good fit here
+because three short stages follow the contract in order, not because explicit branches
+are unsound.
 
 ### 3. Should `shout` return `Result<String, Error>` instead of `Option<String>`?
 
-*Answer:* Only if callers need to react differently to absent input and empty input, or
-if either state is an error in the domain. The tests require the same `None` result for
-both, so `Option` matches the current contract.
+*Answer:* Only when callers must respond differently to absent and empty input, or when
+either state counts as a domain error. The tests require both cases to return the same
+`None`, so `Option` matches the current contract.
 
 ### 4. Can callers assume the uppercase result has the same length as the trimmed input?
 
-*Answer:* No. Unicode case conversion can expand text, as when `ß` becomes `SS`.
-`to_uppercase` therefore returns an allocated `String`, and callers should not use input
-length as an output-size guarantee.
+*Answer:* No. Unicode case conversion can expand text, including the conversion from `ß`
+to `SS`. That is why `to_uppercase` returns an allocated `String`. The input length is not
+a guarantee about the output length.
 
 ## Follow-up questions
 
 > **FOLLOW-UP**
 >
-> - Do callers need to distinguish missing input from input that becomes empty after
->   trimming?
-> - Which validation steps in your codebase can stay borrowed until the final output is
->   constructed?
-> - At what chain length does your team prefer named intermediate values?
-> - Does your domain want Unicode whitespace trimming or a narrower protocol rule?
-> - Is Unicode default uppercasing suitable for the way the result will be compared or
+> - Must callers distinguish missing input from text that becomes empty after trimming?
+> - Which validation steps in your codebase can keep borrowing until the output is built?
+> - How long can a combinator chain become before your team prefers named intermediate
+>   values?
+> - Does your domain use Unicode whitespace, or does a protocol define a narrower rule?
+> - Is Unicode default uppercasing appropriate for how the result will be compared or
 >   displayed?
 
 ## Concepts recap
@@ -204,12 +203,12 @@ length as an output-size guarantee.
 > **CONCEPT**
 >
 > - [`Option::map`](../appendix/concept-index.md#option-map): transform a present value
->   while leaving `None` unchanged.
-> - [`Option::filter`](../appendix/concept-index.md#option-filter): keep a present value
->   only when it satisfies a predicate.
+>   without changing `None`.
+> - [`Option::filter`](../appendix/concept-index.md#option-filter): retain a present value
+>   only when it passes a predicate.
 > - [Option combinator pipelines](../appendix/concept-index.md#option-combinator-pipelines):
->   express a sequence of transformations and rejections without nested control flow.
+>   arrange transformations and rejections as a sequence rather than nested control flow.
 > - [Borrow before owning](../appendix/concept-index.md#borrow-before-owning): validate a
->   borrowed view first, then allocate the owned result only when needed.
+>   borrowed view, then allocate an owned result only when the value survives.
 > - [Unicode case conversion](../appendix/concept-index.md#unicode-case-conversion): case
->   mappings may expand text and are not locale-aware normalization.
+>   mappings can expand text and do not provide locale-aware normalization.

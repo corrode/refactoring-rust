@@ -2,18 +2,17 @@
 
 ## The problem
 
-A service must keep a text value within a byte budget. The starter copies the input
-into a `String`, then truncates it to the requested length. Every test passes, including
-one with non-ASCII text. But one case is missing: when the limit falls inside a
-multi-byte UTF-8 encoding, `String::truncate` panics instead of returning a shorter
-string.
+`truncate("café", 4)` panics. That is the awkward case hiding behind an otherwise green
+test suite. The service wants text that fits within a byte budget, but byte 4 sits inside
+the two-byte UTF-8 encoding of `é`. The starter copies the full input into a `String` and
+passes that invalid boundary to `String::truncate`.
 
 ## Starter code
 
 > **EXERCISE**
 >
-> Review the implementation and the tests. The contract says “at most `max_bytes`
-> bytes,” so the result may be shorter than the requested limit.
+> Review the implementation and its tests against the contract. The result must use “at
+> most `max_bytes` bytes,” which means it may be shorter than the requested limit.
 
 ```rust
 {{#include ../../../examples/04_truncate_string.rs}}
@@ -21,7 +20,7 @@ string.
 
 > **TRY THIS**
 >
-> Run the green starter suite:
+> Start with the green starter suite:
 >
 > ```sh
 > cargo test --example 04_truncate_string
@@ -36,7 +35,8 @@ string.
 > }
 > ```
 >
-> Run the focused test and inspect the panic before you change the implementation:
+> Run the focused test before changing the implementation. The panic tells you which
+> precondition the current code violates:
 >
 > ```sh
 > cargo test --example 04_truncate_string backs_up_to_a_character_boundary
@@ -46,29 +46,29 @@ string.
 
 > **REVIEW**
 >
-> - What unit does `str::len` return?
+> - What does `str::len` count?
 > - Which byte indices are valid boundaries in `"café"`?
 > - Why does the existing Unicode test miss the dangerous case?
 > - What precondition does `String::truncate` place on its argument?
 > - If four bytes would split `é`, should the function panic, return an error, or use
 >   the longest valid prefix below the limit?
-> - Does `max_bytes` mean bytes or Unicode scalar values?
+> - Does `max_bytes` count bytes or Unicode scalar values?
 
-`"café"` occupies five bytes. `c`, `a`, and `f` use one byte each, while `é` uses two.
-That gives us valid boundaries at 0, 1, 2, 3, and 5. Index 4 sits inside the encoding of
-`é`. Although `String::truncate` accepts a byte length, it panics unless that length is
-a valid character boundary.
+`"café"` occupies five bytes. `c`, `a`, and `f` each use one byte; `é` uses two. The valid
+boundaries are therefore 0, 1, 2, 3, and 5. Index 4 lands inside the encoding of `é`.
+`String::truncate` takes a byte length, but it panics unless that length is also a valid
+character boundary.
 
-Why doesn't the existing Unicode test catch this? Its limit is five. That proves the
-function accepts the complete non-ASCII string, but it never asks the implementation
-to cut through a multi-byte value. Unicode input alone is not enough. The limit must
-reach the boundary condition.
+The existing Unicode test uses a limit of five. It proves that the function accepts the
+complete non-ASCII string, but it never asks the implementation to cut through a
+multi-byte value. Unicode input alone does not reach the bug. The limit has to land inside
+the encoding.
 
-The parameter name tells us which unit the API intends to count. With an “at most four
-bytes” contract, `"caf"` is the longest valid prefix. With a “first four Unicode scalar
-values” contract, the result is `"café"`, which occupies five bytes. Those are different
-APIs, and choosing between them belongs in the contract rather than an implementation
-detail.
+The exercise contract settles another possible disagreement: the result must use at most
+`max_bytes` bytes. Under that contract, `"caf"` is the longest valid prefix. A different
+contract, “first four Unicode scalar values,” would return `"café"`, which takes five
+bytes. Both policies can be useful, but they are different APIs. The parameter name
+reinforces the byte-based contract; it does not define that contract by itself.
 
 ## A possible solution
 
@@ -79,7 +79,7 @@ detail.
 {{#include ../../../solutions/04_truncate_string.rs}}
 ```
 
-Read the byte-cap implementation from the inside out:
+The byte-cap implementation does four things:
 
 1. `s.len().min(max_bytes)` clamps the candidate index to the input length.
 2. `floor_char_boundary` finds the greatest valid UTF-8 boundary at or below that
@@ -87,21 +87,22 @@ Read the byte-cap implementation from the inside out:
 3. Slicing through the boundary preserves valid UTF-8.
 4. `to_string` allocates and copies the returned prefix.
 
-For `"café"` with a limit of four, the candidate is 4 and the previous boundary is 3.
-The result is `"caf"`. A limit beyond the input length returns the complete string. Zero
-and empty input both produce an empty result.
+For `"café"` with a limit of four, the candidate is 4 and the preceding boundary is 3, so
+the result is `"caf"`. A limit beyond the input length returns the complete string. Zero
+and empty input both return an empty string.
 
-Every valid `&str` and `usize` now has a result. Under this contract, a non-boundary
-limit is ordinary input, so the function has no reason to panic or return an error.
+This gives every valid `&str` and `usize` a result. A limit inside a multi-byte encoding is
+ordinary input under this contract. Backing up to the previous boundary satisfies the
+byte cap, so a panic or error would make the API stricter than the requirement.
 
-`floor_char_boundary` has been stable since Rust 1.91. If your minimum supported Rust
-version is older, use the manual alternative below.
+There is one compatibility limit: `floor_char_boundary` has been stable since Rust 1.91.
+If the project supports an older compiler, use the manual alternative below.
 
 </details>
 
 ## Alternative approaches
 
-The solution file also includes an interpretation based on character count:
+The solution file also includes a helper for a different unit, character count:
 
 ```rust
 pub fn truncate_chars(s: &str, num_chars: usize) -> String {
@@ -109,12 +110,12 @@ pub fn truncate_chars(s: &str, num_chars: usize) -> String {
 }
 ```
 
-This version is correct when the limit counts Unicode scalar values. It does not enforce
-a byte budget: four scalar values from `"café"` occupy five bytes. A Rust `char` may also
-be smaller than a complete user-perceived symbol, so character limits and grapheme
-limits need separate contracts.
+This is correct when the limit counts Unicode scalar values. It does not enforce a byte
+budget. Four scalar values from `"café"` occupy five bytes. A Rust `char` can also be only
+part of a user-perceived symbol, so a grapheme limit needs yet another contract.
 
-Before Rust 1.91, you can search for the boundary yourself:
+If the minimum supported Rust version is older than 1.91, you can search for the boundary
+with older stable APIs:
 
 ```rust
 pub fn truncate(s: &str, max_bytes: usize) -> String {
@@ -131,28 +132,29 @@ pub fn truncate(s: &str, max_bytes: usize) -> String {
 }
 ```
 
-The loop follows the same byte-cap policy. It takes more code, but it uses older stable
-APIs and puts the boundary search in plain view.
+The loop implements the same byte-cap policy. It is longer, but the boundary search is
+visible and it works with older stable Rust releases.
 
 ## Edge cases and production concerns
 
 > **EDGE CASE**
 >
-> A UTF-8 character boundary prevents invalid text. It does not guarantee that the
-> result ends at a complete grapheme cluster.
+> A UTF-8 character boundary keeps the text valid. It does not guarantee that the result
+> ends at a complete grapheme cluster.
 
-Emoji with modifiers, flags, and letters followed by combining marks can contain
-several Unicode scalar values. `floor_char_boundary` may split those sequences while
-still returning valid UTF-8. If you display the output directly in a user interface, a
-grapheme-aware library and a name that states the unit may be a better fit.
+Emoji with modifiers, flags, and letters followed by combining marks can span several
+Unicode scalar values. `floor_char_boundary` may split such a sequence while still
+returning valid UTF-8. If the result goes straight into a user interface, use a
+grapheme-aware library and a function name that states the unit.
 
 A byte cap cannot always be filled exactly. No valid prefix of `"café"` occupies four
-bytes. If you require exactly four bytes, the return type should represent failure, or
-the API should operate on bytes instead of promising valid text.
+bytes. If the caller requires exactly four bytes, the return type should represent
+failure, or the API should operate on bytes rather than promise valid text.
 
-The function always allocates because it returns `String`. A borrowed `&str` would avoid
-that allocation, but the result would borrow from the input. Every caller would then
-have to work with the new lifetime and interface.
+The function always allocates because it returns `String`. Returning a borrowed `&str`
+would avoid that allocation, but the prefix would borrow from the input. Callers would
+then have to accept the new lifetime and interface. Make that change only when the call
+sites benefit from it.
 
 ## Trade-offs
 
@@ -170,33 +172,33 @@ have to work with the new lifetime and interface.
 | Flexibility | neutral | The function still implements one byte-cap policy and returns an owned string. |
 | Error reporting | N/A | Every input has a valid result under the “at most” contract. An exact-length contract would need a failure case. |
 
-Removing the panic is a correctness fix that the six axes do not capture neatly. I see
-that as a useful limit of the rubric: a scorecard can support review judgement, but it
-cannot replace a failing characterization test.
+Removing the panic is a correctness fix, but the six axes do not express that result
+neatly. That is a useful limit of the rubric. A scorecard can focus review judgement; it
+cannot replace the characterization test that exposes the failure.
 
 ## Quiz
 
 ### 1. The starter already tests `"café"`. Is another Unicode test warranted?
 
-*Answer:* Yes. The existing limit is five, which is both the full byte length and a
-valid boundary. A limit of four reaches the untested case inside `é`.
+*Answer:* Yes. The existing limit is five, both the full byte length and a valid boundary.
+A limit of four reaches the untested position inside `é`.
 
 ### 2. What should `truncate("café", 4)` return?
 
-*Answer:* Under an “at most four bytes” contract, `"caf"`. No valid UTF-8 prefix uses
+*Answer:* Under an “at most four bytes” contract, `"caf"`. No valid UTF-8 prefix occupies
 exactly four bytes. Under a four-scalar-value contract, `"café"`. The name `max_bytes`
 supports the first interpretation.
 
 ### 3. Should a non-boundary limit return an error?
 
-*Answer:* Not for the stated maximum-byte contract. Backing up produces a valid prefix
-within the limit. An error makes sense when the caller requires an exact byte length or
-needs to know that the boundary moved.
+*Answer:* Not for the stated maximum-byte contract. Backing up gives the caller a valid
+prefix within the limit. An error is appropriate when the caller requires an exact byte
+length or needs to know that the boundary moved.
 
 ### 4. Can `s.chars().take(max_bytes).collect()` replace the canonical solution?
 
-*Answer:* No. That treats the argument as a Unicode scalar count. A selected scalar can
-occupy more than one byte, so the result may exceed the byte limit.
+*Answer:* No. That expression treats the argument as a Unicode scalar count. A selected
+scalar may occupy more than one byte, so the result can exceed the byte limit.
 
 ## Follow-up questions
 
@@ -205,7 +207,7 @@ occupy more than one byte, so the result may exceed the byte limit.
 > - Where do byte budgets in your codebase come from: protocols, databases, or external
 >   APIs?
 > - Should those limits count bytes, Unicode scalar values, or grapheme clusters?
-> - Do callers need an owned `String`, or could a borrowed prefix work?
+> - Do callers need an owned `String`, or would a borrowed prefix work?
 > - Is Rust 1.91 an acceptable minimum compiler for the project?
 > - When should an impossible exact byte length return `Option`, `Result`, or raw bytes?
 

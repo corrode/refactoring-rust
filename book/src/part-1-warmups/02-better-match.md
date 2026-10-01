@@ -2,17 +2,17 @@
 
 ## The problem
 
-A `match` expression can repeat an enum constructor even when only the value inside it
-changes. This function is correct, but the first two arms make you scan past `Some`
-eight times to find the numbers that define each category. Rust patterns let us put
-the alternatives where the values differ.
+The first two arms of this `match` repeat `Some` eight times. That repetition is not a
+correctness bug, but it hides the part you need to compare: the numbers assigned to each
+category. Rust patterns can keep the shared enum constructor in one place and put the
+alternatives where the values differ.
 
 ## Starter code
 
 > **EXERCISE**
 >
-> Review the repeated alternatives in this `match`. Keep every tested result, including
-> the distinction between `None` and a number that isn't listed.
+> Review the repeated alternatives in this `match`. Preserve every tested result,
+> especially the difference between `None` and a number that isn't listed.
 
 ```rust
 {{#include ../../../examples/02_better_match.rs}}
@@ -20,39 +20,41 @@ the alternatives where the values differ.
 
 > **TRY THIS**
 >
-> Run the starter tests, then refactor `examples/02_better_match.rs` without changing
+> Run the starter tests. Then refactor `examples/02_better_match.rs` without changing
 > its behaviour:
 >
 > ```sh
 > cargo test --example 02_better_match
 > ```
 >
-> Stop when each arm puts the values that differ first and leaves the shared enum
-> constructor in the background.
+> Stop when each arm foregrounds the values that differ and leaves the shared enum
+> constructor as context.
 
 ## Review
 
 > **REVIEW**
 >
-> - Which parts of the first two arms change, and which parts repeat?
-> - Can you put an or-pattern inside an enum variant pattern?
-> - If you move `|` inside `Some`, do the arms still cover the same values?
-> - Which values can reach the final `_` after the earlier arms run?
-> - Do the labels describe mathematical categories, or only the listed values?
+> - What changes across the first two arms, and what stays the same?
+> - Can an enum variant pattern contain an or-pattern?
+> - After moving `|` inside `Some`, do the arms still accept exactly the same values?
+> - Which inputs can reach the final `_` once the earlier arms have run?
+> - Are the labels mathematical categories, or names for the listed values?
 
-In the first arm, every alternative has the same outer constructor. Only the contained
-integer changes. Rust applies or-patterns recursively, so `Some(2 | 3)` covers exactly
-the same values as `Some(2) | Some(3)`. The second arm can use the same refactor.
+Every alternative in the first arm has the same outer constructor. Only the integer
+inside it changes. Or-patterns work recursively, which means `Some(2 | 3)` accepts
+exactly the values accepted by `Some(2) | Some(3)`. The same reasoning applies to the
+second arm.
 
-Now inspect the fallback. `_` can match any value, including `None`. In this function,
-it only receives unlisted `Some` values because an earlier arm already handles `None`.
-Writing `Some(_)` would describe that remaining case more precisely. It would also make
-the exhaustiveness check fail if someone accidentally removed the `None` arm.
+The fallback deserves a separate look. `_` can match anything, including `None`, but
+`None` never reaches it here because an earlier arm handles that case. In this match,
+only unlisted `Some` values remain. Writing `Some(_)` would state that more precisely,
+and the compiler would reject the match if a later edit accidentally removed the
+`None` arm.
 
-The labels invite another question: are these mathematical categories? They aren't.
-The function recognizes two fixed sets rather than calculating whether a number is
-prime or square. The `Some(11)` test proves the distinction. Although 11 is prime, this
-function returns `"something else"`.
+There is a more important limitation behind the labels. These are not mathematical
+classifications. The function recognizes two fixed sets; it does not calculate whether
+a number is prime or square. The `Some(11)` test makes that contract visible: 11 is
+prime, but this function still returns `"something else"`.
 
 ## A possible solution
 
@@ -64,22 +66,22 @@ function returns `"something else"`.
 ```
 
 `Some(2 | 3 | 5 | 7)` applies one constructor pattern to four possible payloads. The
-second arm does the same for its four values. `None` and the fallback stay unchanged,
-so the match still partitions the input into four cases:
+next arm does the same for its four values. Since `None` and the fallback are unchanged,
+the match still divides every input into the same four cases:
 
 1. `Some` containing one of the listed prime values;
 2. `Some` containing one of the listed square values;
 3. `None`;
 4. every other `Some(u32)`.
 
-The two literal sets don't overlap. Moving the `|` operators inward therefore preserves
-both the matched values and the priority of the arms.
+The two sets of literals do not overlap. Moving the `|` operators inward therefore
+preserves both which values match and which arm has priority.
 
-This is a readability refactor. The function's design stays the same. The nested form
-puts the changing information together and removes repeated constructor syntax. If your
-team hasn't used nested or-patterns before, the new form may take a moment to parse. A
-review should explain why the patterns are equivalent rather than treating fewer tokens
-as proof that the code is clearer.
+Nothing about the function's design changes. This is a readability refactor: the nested
+patterns collect the varying information and remove repeated constructor syntax. The
+objection is fair, though. If nested or-patterns are new to your team, the compact
+version may take longer to parse at first. A useful review explains the equivalence. A
+smaller token count alone does not prove that code is easier to read.
 
 </details>
 
@@ -87,73 +89,72 @@ as proof that the code is clearer.
 
 > **EDGE CASE**
 >
-> The category names promise more than the implementation provides. Both versions are
-> fixed lookup tables.
+> The names suggest broader categories than the implementation provides. Both versions
+> are fixed lookup tables.
 
-Other primes such as 13 and squares such as 16 fall through to `"something else"`. If
-the requirement changes to mathematical classification, you'll need algorithms, wider
-tests, and a rule for values that belong to more than one category. Adding more literals
-would only postpone that design decision.
+Primes such as 13 and squares such as 16 still fall through to `"something else"`. If
+the requirement becomes mathematical classification, the implementation needs
+algorithms, wider tests, and a rule for numbers that belong to both categories. A longer
+list of literals would defer that design decision, not resolve it.
 
-Match arms run in source order. If a future edit puts the same literal in both sets, the
-earlier category wins. The contract should define that priority rather than leaving
-source order to decide it by accident.
+Match arms are evaluated in source order. If a later change places one literal in both
+sets, the earlier category wins. That priority belongs in the contract rather than
+emerging accidentally from the order of the arms.
 
-Returning `&'static str` works for display. If downstream code branches on these labels,
-an enum would prevent typos and make category changes visible to the compiler. That is
-an API redesign, so it doesn't belong in this warm-up refactor.
+A `&'static str` is adequate for display. If downstream code starts branching on these
+labels, an enum would rule out typos and make category changes visible to the compiler.
+That would redesign the API, so I would not fold it into this warm-up refactor.
 
 ## Trade-offs
 
 > **TRADE-OFF**
 >
-> These scores compare the nested or-patterns with the starter's repeated `Some`
-> patterns.
+> These scores compare nested or-patterns with the repeated `Some` patterns in the
+> starter.
 
 | Axis | Score | Why |
 |---|---|---|
-| Type-safety | neutral | Both versions match the same `Option<u32>` states and encode the same fixed literal sets. |
-| Readability | wins | Each arm states `Some` once and groups the payloads that lead to the same result. |
-| API design | neutral | The signature, broad `describe` name, string return type, and fallback remain unchanged. |
-| Performance | neutral | Both versions perform one fixed pattern match without allocation. |
-| Flexibility | neutral | Both versions require a source edit when either category changes. |
-| Error reporting | N/A | The function maps every `Option<u32>` to a label and has no failure case. |
+| Type-safety | neutral | Both versions match the same `Option<u32>` states and represent the same fixed sets of literals. |
+| Readability | wins | Each arm writes `Some` once and keeps payloads with the same result together. |
+| API design | neutral | The signature, broad `describe` name, string return type, and fallback do not change. |
+| Performance | neutral | Both versions perform one fixed pattern match and allocate nothing. |
+| Flexibility | neutral | Changing either category still requires a source edit in both versions. |
+| Error reporting | N/A | Every `Option<u32>` maps to a label, so the function has no failure case. |
 
-Nested or-patterns are standard Rust, but your team's familiarity still matters. A
-useful review comment explains why the patterns are equivalent. I wouldn't make the
-nested form a hard requirement if the team can maintain the expanded version more
-comfortably.
+Nested or-patterns are ordinary Rust, but familiarity still affects readability. A good
+review comment shows why the two forms match the same inputs. I wouldn't require the
+nested version when a team can maintain the expanded form more comfortably.
 
 ## Quiz
 
-### 1. Should a review require the nested form?
+### 1. Should code review require the nested form?
 
-*Answer:* Require unchanged behaviour and clear grouping. The nested form is a good
-suggestion because it removes repeated context, but the starter is already correct.
-Team familiarity belongs in the readability judgement.
+*Answer:* Require preserved behaviour and clear grouping. The nested form is worth
+suggesting because it removes repeated context, but the starter is already correct.
+What the team knows belongs in the readability decision.
 
-### 2. Should the fallback remain `_`, or become `Some(_)`?
+### 2. Should the fallback stay `_`, or change to `Some(_)`?
 
-*Answer:* Both behave the same in this match because `None` is handled first.
-`Some(_)` communicates the intended remaining case more precisely and would expose an
-accidentally removed `None` arm during compilation.
+*Answer:* They behave identically here because an earlier arm handles `None`.
+`Some(_)` names the intended remaining case more precisely, and removing the `None` arm
+by accident would then produce a compiler error.
 
-### 3. Product now asks for every prime and square to be recognized. Is another
-or-pattern the right change?
+### 3. Product asks to recognize every prime and square. Is another or-pattern the right
+change?
 
-*Answer:* No. The current function recognizes a hard-coded set, as the `Some(11)` test
-shows. General classification needs arithmetic rules, broader tests, and a decision
-about overlapping categories.
+*Answer:* No. As the `Some(11)` test demonstrates, this function recognizes a hard-coded
+set. General classification calls for arithmetic rules, broader tests, and a decision
+about values that belong to both categories.
 
 ## Follow-up questions
 
 > **FOLLOW-UP**
 >
-> - When does removing repeated constructor syntax help you read a pattern, and when
->   does nesting make the pattern harder to scan?
-> - Would `Some(_)` communicate the fallback better than `_` in your codebase?
-> - Does `describe` tell you that this function recognizes fixed categories?
-> - When should a small fixed set remain a pattern, and when should it become data or
+> - When does removing a repeated constructor make a pattern easier to read, and when
+>   does nesting make it harder to scan?
+> - In your codebase, would `Some(_)` communicate the fallback more clearly than `_`?
+> - Does the name `describe` reveal that this function recognizes fixed categories?
+> - When should a small fixed set stay in a pattern, and when should it become data or
 >   an algorithm?
 
 ## Concepts recap
@@ -161,10 +162,10 @@ about overlapping categories.
 > **CONCEPT**
 >
 > - [Or-patterns](../appendix/concept-index.md#or-patterns): use `|` when several
->   patterns lead to the same match arm.
-> - [Nested patterns](../appendix/concept-index.md#nested-patterns): match alternatives
->   inside a shared enum constructor.
+>   patterns should run the same match arm.
+> - [Nested patterns](../appendix/concept-index.md#nested-patterns): place alternatives
+>   inside their shared enum constructor.
 > - [Wildcard patterns](../appendix/concept-index.md#wildcard-patterns): `_` accepts
->   every value not handled by an earlier arm.
-> - [Exhaustive matching](../appendix/concept-index.md#exhaustive-matching): cover every
->   possible input with explicit cases and a deliberate fallback.
+>   every value not consumed by an earlier arm.
+> - [Exhaustive matching](../appendix/concept-index.md#exhaustive-matching): account for
+>   every possible input with explicit cases and an intentional fallback.
