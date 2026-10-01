@@ -13,7 +13,6 @@ pub fn truncate_chars(s: &str, num_chars: usize) -> String {
     s.chars().take(num_chars).collect()
 }
 
-
 // Alternative interpretations:
 // - char-count semantics: `s.chars().take(n).collect()`
 // - nightly: `s.floor_char_boundary(max_bytes)`
@@ -35,5 +34,10 @@ mod tests {
     #[test]
     fn whole_unicode_string_fits() {
         assert_eq!(truncate("café", 5), "café");
+    }
+
+    #[test]
+    fn backs_up_to_a_character_boundary() {
+        assert_eq!(truncate("café", 4), "caf");
     }
 }

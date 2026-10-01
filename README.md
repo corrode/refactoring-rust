@@ -20,14 +20,14 @@ something concrete to talk about.
 
 ## The book
 
-A companion mdBook is in development on the `book` branch — see
+A companion mdBook is in development on the `book` branch. See
 [`book/PLAN.md`](./book/PLAN.md). It will be published at
 <https://refactoring.corrode.dev> when v1 is complete.
 
-Build it locally:
+Open it locally with live reload:
 
 ```sh
-cd book && mdbook serve --open
+make book
 ```
 
 ## Running an exercise

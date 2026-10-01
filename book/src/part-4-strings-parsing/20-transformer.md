@@ -15,3 +15,7 @@
 >
 > Optional: Alternative approaches, Edge cases & production concerns,
 > Further reading.
+>
+> TODO(prose): After the enum transformer, introduce the trait-object
+> pipeline. Add an erasing command to expose the empty-string sentinel,
+> then initialize the accumulator with the input as the pipeline identity.

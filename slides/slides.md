@@ -233,7 +233,7 @@ src: ./pages/14_room_occupancy.md
 ---
 
 ---
-src: ./pages/15_highest_and_lowest.md
+src: ./pages/15_text_stats.md
 ---
 
 ---

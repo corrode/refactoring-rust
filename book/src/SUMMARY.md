@@ -33,7 +33,7 @@
   - [12 · excluded_path](part-3-aggregations/12-excluded-path.md)
   - [13 · spell_check](part-3-aggregations/13-spell-check.md)
   - [14 · room_occupancy](part-3-aggregations/14-room-occupancy.md)
-  - [15 · highest_and_lowest](part-3-aggregations/15-highest-and-lowest.md)
+  - [15 · text_stats](part-3-aggregations/15-text-stats.md)
   - [16 · mode](part-3-aggregations/16-mode.md)
 
 # Part IV. Strings, parsing & iterators

@@ -15,3 +15,8 @@
 >
 > Optional: Alternative approaches, Edge cases & production concerns,
 > Further reading.
+>
+> TODO(prose): Open with the `Settings` visibility interlude. Make the type,
+> constructor, and accessor public while keeping the field private. Connect
+> that boundary to the typed `Settings` API and discuss `pub(crate)` and
+> `pub(super)` as architectural tools.

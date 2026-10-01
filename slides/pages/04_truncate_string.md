@@ -21,7 +21,7 @@ pub fn truncate(s: &str, max_bytes: usize) -> String {
 </div>
 
 <!--
-The bug is hidden until you run main: `truncate("café", 4)` panics
+The bug is hidden until you add a boundary test: `truncate("café", 4)` panics
 because byte 4 is in the middle of `é`. `String::truncate` requires
 a char boundary. The "fix" depends on the spec we actually want:
   - byte cap that respects char boundaries
@@ -32,12 +32,19 @@ a char boundary. The "fix" depends on the spec we actually want:
 
 # 04 · Review
 
-- Try `cargo run --example 04_truncate_string` - what happens, and why?
-- What does the doc of `String::truncate` say about char boundaries?
+- Add `assert_eq!(truncate("café", 4), "caf")`. What happens, and why?
+- What does the documentation for `String::truncate` say about char boundaries?
 - Do you actually want "first N bytes" or "first N characters"?
 - Is there a `str` method that tells you whether an index is safe to cut at?
 
-<div class="mt-10 opacity-70">
+```rust
+#[test]
+fn backs_up_to_a_character_boundary() {
+    assert_eq!(truncate("café", 4), "caf");
+}
+```
+
+<div class="mt-6 opacity-70">
 Hint: look for <code>is_char_boundary</code>, or step through <code>chars()</code>.
 </div>
 
@@ -61,13 +68,13 @@ pub fn truncate(s: &str, max_bytes: usize) -> String {
 <div class="mt-6 text-base opacity-80">
 
 - `is_char_boundary` lets us back up to the nearest safe cut.
-- Slicing a `&str` at a boundary is panic-free and allocation-cheap.
-- No more mid-codepoint crash on `"café"`.
+- Slicing at a character boundary does not panic and allocates only the result.
+- `"café"` no longer crashes when the limit falls inside `é`.
 
 </div>
 <!--
-Alternative interpretations are equally valid:
-  - char-count semantics: `s.chars().take(n).collect()`
-  - nightly: `s.floor_char_boundary(max_bytes)`
-Mention both so people see the spec ambiguity is the real lesson.
+Both contracts can make sense:
+  - count characters with `s.chars().take(n).collect()`
+  - cap bytes with `s.floor_char_boundary(max_bytes)` on nightly
+The contract matters more than either implementation.
 -->

@@ -41,7 +41,7 @@ pub fn apply_commands(input: Vec<(String, Command)>) -> Vec<String> {
 
 <!--
 Discoveries:
-  - Index loop + `.clone()` when we already own the `Vec` - pure waste.
+  - The index loop clones elements from a `Vec` we already own.
   - Chained `if let` on an enum should be `match`, with exhaustiveness checking.
   - Manual loop appending "bar" n times is `"bar".repeat(n)` or `s.push_str(&"bar".repeat(n))`.
   - "Map every element through a function" is `iter.map(...).collect()`.
@@ -51,9 +51,9 @@ Discoveries:
 
 # 20 · Review
 
-- We own <code>input</code> - why are we cloning each element?
+- We own <code>input</code>. Why are we cloning each element?
 - A chain of <code>if let</code> on the same enum… what's the better tool?
-- Pushing <code>"bar"</code> in a loop, <code>n</code> times - does <code>str</code> have a helper for that?
+- We push <code>"bar"</code> in a loop, <code>n</code> times. Does <code>str</code> have a helper for that?
 - Build a <code>Vec</code> by walking another <code>Vec</code>: that's almost always <code>iter().map(…).collect()</code>.
 
 
@@ -76,7 +76,7 @@ pub fn apply_commands(input: Vec<(String, Command)>) -> Vec<String> {
 
 <div class="mt-8 text-base opacity-80">
 
-- `into_iter()` consumes the input - no clones.
+- `into_iter()` consumes the input, so no clone is needed.
 - `match` on the enum is exhaustive: add a `Command` variant and the compiler complains here.
 - `"bar".repeat(n)` replaces the inner loop. `String + &str` reuses the existing buffer.
 
@@ -84,4 +84,96 @@ pub fn apply_commands(input: Vec<(String, Command)>) -> Vec<String> {
 <!--
 Alternative for the `Append` arm: `let mut s = s; s.push_str(&"bar".repeat(n)); s`.
 Both fine. The `s + &"bar".repeat(n)` form is shorter and reuses `s`'s allocation.
+-->
+
+---
+zoom: 0.8
+---
+
+# 20 · Follow-up: commands form a pipeline
+
+```rust
+fn apply_pipeline(commands: &[Box<dyn PipelineCommand>], input: &str) -> String {
+    if commands.is_empty() {
+        return input.to_string();
+    }
+
+    let mut result = String::new();
+    for command in commands {
+        result = command.run(if result.is_empty() {
+            input
+        } else {
+            result.as_str()
+        });
+    }
+    result
+}
+```
+
+<div class="mt-4 opacity-80">
+Each command should receive the previous command's output.
+</div>
+
+<!--
+The code uses an empty `String` to mean that no command has run. Empty output is valid
+data. This is a sentinel bug; iterator style is beside the point.
+-->
+
+---
+
+# 20 · Review the pipeline state
+
+Add a command that erases its input:
+
+```rust
+struct Erase;
+
+impl PipelineCommand for Erase {
+    fn run(&self, _input: &str) -> String {
+        String::new()
+    }
+}
+```
+
+Then test this transition:
+
+```text
+"hello" -> Erase -> "" -> Append("!") -> "!"
+```
+
+- What does the target produce instead?
+- Can an empty string mean both “valid output” and “not started”?
+- What value should a pipeline with no commands return?
+
+---
+zoom: 1.05
+---
+
+# 20 · Use the pipeline identity
+
+```rust
+fn apply_pipeline(
+    commands: &[Box<dyn PipelineCommand>],
+    input: &str,
+) -> String {
+    let mut current = input.to_string();
+    for command in commands {
+        current = command.run(&current);
+    }
+    current
+}
+```
+
+<div class="mt-8 text-base opacity-80">
+
+- The input is the identity value for an empty pipeline.
+- Empty command output remains ordinary data.
+- Initializing the real state removes both special cases.
+
+</div>
+
+<!--
+A fold is a valid final variation, but it is not the lesson. Every output must become
+the next input. This is also a useful place to compare the earlier enum dispatch with
+trait-object dispatch.
 -->

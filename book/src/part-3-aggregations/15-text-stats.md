@@ -1,4 +1,4 @@
-# 15 · `highest_and_lowest`
+# 15 · `text_stats`
 
 > **TODO**. chapter not yet written.
 >
@@ -15,3 +15,8 @@
 >
 > Optional: Alternative approaches, Edge cases & production concerns,
 > Further reading.
+>
+> TODO(prose): Start from green tests that only use words occurring once.
+> Add a repeated-word test before changing the implementation, then define
+> total words, unique words, occurrence-weighted average length, and the
+> empty-input policy explicitly.

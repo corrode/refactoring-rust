@@ -6,6 +6,7 @@
 //!   compiler complains here.
 //! - `"bar".repeat(n)` replaces the inner loop; `String + &str` reuses the
 //!   existing buffer.
+//! - The pipeline starts with its input, so empty output remains valid data.
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Command {
@@ -25,9 +26,46 @@ pub fn apply_commands(input: Vec<(String, Command)>) -> Vec<String> {
         .collect()
 }
 
+pub trait PipelineCommand {
+    fn run(&self, input: &str) -> String;
+}
+
+/// Feed each command's output into the next command.
+pub fn apply_pipeline(commands: &[Box<dyn PipelineCommand>], input: &str) -> String {
+    let mut current = input.to_string();
+    for command in commands {
+        current = command.run(&current);
+    }
+    current
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    struct Append(&'static str);
+
+    impl PipelineCommand for Append {
+        fn run(&self, input: &str) -> String {
+            input.to_string() + self.0
+        }
+    }
+
+    struct Uppercase;
+
+    impl PipelineCommand for Uppercase {
+        fn run(&self, input: &str) -> String {
+            input.to_uppercase()
+        }
+    }
+
+    struct Erase;
+
+    impl PipelineCommand for Erase {
+        fn run(&self, _input: &str) -> String {
+            String::new()
+        }
+    }
 
     fn sample() -> Vec<(String, Command)> {
         vec![
@@ -58,5 +96,25 @@ mod tests {
     fn append_zero_is_a_noop() {
         let out = apply_commands(vec![("x".into(), Command::Append(0))]);
         assert_eq!(out, vec!["x".to_string()]);
+    }
+
+    #[test]
+    fn pipeline_passes_each_output_to_the_next_command() {
+        let commands: Vec<Box<dyn PipelineCommand>> =
+            vec![Box::new(Append("-next")), Box::new(Uppercase)];
+
+        assert_eq!(apply_pipeline(&commands, "start"), "START-NEXT");
+    }
+
+    #[test]
+    fn empty_pipeline_returns_the_input() {
+        assert_eq!(apply_pipeline(&[], "start"), "start");
+    }
+
+    #[test]
+    fn empty_command_output_is_still_pipeline_data() {
+        let commands: Vec<Box<dyn PipelineCommand>> = vec![Box::new(Erase), Box::new(Append("!"))];
+
+        assert_eq!(apply_pipeline(&commands, "start"), "!");
     }
 }

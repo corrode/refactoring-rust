@@ -63,7 +63,7 @@ name = "14_room_occupancy"
 crate-type = ["lib"]
 
 [[example]]
-name = "15_highest_and_lowest"
+name = "15_text_stats"
 crate-type = ["lib"]
 
 [[example]]
@@ -187,8 +187,8 @@ path = "solutions/14_room_occupancy.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "15_highest_and_lowest_solution"
-path = "solutions/15_highest_and_lowest.rs"
+name = "15_text_stats_solution"
+path = "solutions/15_text_stats.rs"
 crate-type = ["lib"]
 
 [[example]]

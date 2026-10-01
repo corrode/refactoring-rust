@@ -15,3 +15,7 @@
 >
 > Optional: Alternative approaches, Edge cases & production concerns,
 > Further reading.
+>
+> TODO(prose): Ask the reader to add the `truncate("café", 4)` test. The
+> checked-in tests are green but do not exercise a non-boundary byte limit.
+> Use the failure to define byte-limit versus character-count semantics.

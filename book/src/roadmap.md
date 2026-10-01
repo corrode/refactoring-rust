@@ -5,8 +5,7 @@ has a theme; each chapter inside a part stands on its own. You can
 read straight through, jump to a part that interests you, or treat
 the sidebar as a buffet.
 
-This page is the shortest possible answer to *what does each part
-teach, and what should I expect by the end of it?*
+This page explains what each part teaches and what to expect from it.
 
 ## Part I. Warm-ups (chapters 01–04)
 
@@ -15,7 +14,7 @@ the refactors. It's the format. By the end of part I you'll have seen
 the *Review / Trade-offs / Quiz / Follow-up / Concepts recap*
 cycle four times and know how the rest of the book reads.
 
-You'll meet: `&str` vs. `String`, `is_empty`, `chars().next()` over
+Part I covers `&str` vs. `String`, `is_empty`, `chars().next()` over
 `chars().nth(0)`, `matches!`, returning `impl Iterator` instead of a
 `Vec`, char boundaries, and the rule that an `if x { true } else
 { false }` is always wrong.
@@ -30,20 +29,20 @@ look at the cost of deeply nested `if let`, when to reach for
 combinators (`is_some_and`, `map`, `and_then`, `filter_map`) and when
 a loop is honestly clearer, what the standard library does with
 iterators of `Result`, and how `?` collapses a page of `match` into a
-line.
+line. We also contrast fail-fast parsing with collect-all validation,
+where every rule must run and every error matters.
 
 By the end you should be able to read a complicated `Option`/`Result`
-pipeline at a glance, and (more importantly) write one a teammate
-will be able to read. Chapter 09 is the reference chapter for the
+pipeline at a glance and write one a teammate can follow. Chapter 09 is the reference chapter for the
 book's whole approach to trade-offs. Read it slowly.
 
 ## Part III. Aggregations & counting (chapters 11–16)
 
-Real-world iterator work: collapsing runs with `dedup`, membership
-checks against a `HashSet`, rolling up a `Vec` of structs into totals,
-finding extremes, and computing modes with the `entry` API. Once
-you've seen the canonical solutions, much of the everyday Rust you
-write afterwards gets shorter and easier to maintain.
+Part III moves into everyday iterator work: collapsing runs with
+`dedup`, checking membership with a `HashSet`, rolling up structs into
+totals, defining occurrence-weighted text statistics, and computing
+modes with the `entry` API. These patterns make later Rust code shorter
+and easier to maintain.
 
 This part also introduces the **newtype** pattern in a setting where
 it earns its keep, and shows when a small `struct` with methods beats
@@ -57,7 +56,8 @@ you're short on time.
 Reach for the standard library before hand-rolling a loop. We clean
 up log lines with `split_whitespace` and `strip_prefix`, parse a
 timestamp without a single `unwrap`, implement `Iterator` for a type
-of our own, drive a small transformer off an `enum`, turn a pile of
+of our own, drive a small transformer off an `enum`, remove a sentinel
+from a command pipeline by choosing its identity value, turn a pile of
 free functions into a fluent extension trait, and rewrite a verbose
 quicksort until it reads like its textbook definition.
 
@@ -70,11 +70,12 @@ you're short on time.
 
 ## Part V. Domain modeling (chapters 23–25)
 
-Where Rust pays its biggest dividends. *Make illegal states
-unrepresentable* gets a thorough working-out across three exercises:
+Part V moves from syntax to data and API design. *Make illegal states
+unrepresentable* runs through three exercises:
 validating structure with the type system (ch. 23), enum-driven
 routers that separate decisions from side effects (ch. 24), and
-layered configuration with `FromStr` and `Default` (ch. 25).
+visibility plus layered configuration with `TryFrom` and `FromStr`
+(ch. 25).
 
 If your team's Rust review comments are mostly about types and design
 rather than syntax, this is where you'll find your vocabulary.
@@ -106,8 +107,8 @@ the book as the post-workshop reference.
 
 ## And then
 
-When you finish, the back matter is where the book stops being a
-sequence and starts being a tool:
+After the final chapter, use the back matter to revisit ideas across
+the book:
 
 - The [Cheatsheet](appendix/concept-index.md): every named concept,
   linked from every chapter that touches it. Use it as a lookup.

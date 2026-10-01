@@ -15,3 +15,7 @@
 >
 > Optional: Alternative approaches, Edge cases & production concerns,
 > Further reading.
+>
+> TODO(prose): Follow the fail-fast `parse_values` solution with
+> `collect_errors`. Contrast `collect::<Result<_, _>>()` with collect-all
+> validation, where every validator runs and error order is preserved.

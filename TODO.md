@@ -66,7 +66,7 @@ caller can't accidentally pass an unrelated `&[RoomOccupancy]`.
 
 ---
 
-## 3. Exercise 15 · `parse_port` — show `NonZeroU16` + `InvalidPort` solution
+## 3. Exercise 10 · `parse_port` — show `NonZeroU16` + `InvalidPort` solution
 
 Add this as a solution slide:
 

@@ -2,6 +2,22 @@
 
 use std::collections::HashMap;
 
+pub mod settings {
+    pub struct Settings {
+        pub port: u16,
+    }
+
+    impl Settings {
+        pub fn new(port: u16) -> Self {
+            Self { port }
+        }
+
+        pub fn get_port(&self) -> u16 {
+            self.port
+        }
+    }
+}
+
 pub fn get_port(config: &HashMap<String, String>) -> u16 {
     config
         .get("PORT")
@@ -35,6 +51,12 @@ pub fn get_max_connections(config: &HashMap<String, String>) -> u32 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn settings_exposes_its_port() {
+        let settings = settings::Settings::new(8080);
+        assert_eq!(settings.get_port(), 8080);
+    }
 
     fn cfg(pairs: &[(&str, &str)]) -> HashMap<String, String> {
         pairs
