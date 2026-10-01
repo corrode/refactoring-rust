@@ -51,10 +51,14 @@ Discoveries:
 
 # 20 · Review
 
+<v-clicks at="+0">
+
 - We own <code>input</code> - why are we cloning each element?
 - A chain of <code>if let</code> on the same enum… what's the better tool?
 - Pushing <code>"bar"</code> in a loop, <code>n</code> times - does <code>str</code> have a helper for that?
 - Build a <code>Vec</code> by walking another <code>Vec</code>: that's almost always <code>iter().map(…).collect()</code>.
+
+</v-clicks>
 
 
 ---

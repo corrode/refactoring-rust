@@ -42,10 +42,14 @@ and calls `iter().next()` twice to seed `best`.
 
 # 16 · Review
 
+<v-clicks at="+0">
+
 - The first loop is already idiomatic - focus on the second one.
 - "Iterate, pick the item with the highest something" - there's an iterator method for that.
 - Why call `iter().next()` twice to seed `best`?
 - After replacing the second loop, does `most_common` even need the temporary `best`?
+
+</v-clicks>
 
 ---
 

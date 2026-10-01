@@ -35,10 +35,14 @@ Pyramid of nested `match` on `Option`. Discoveries:
 
 # 05 · Review
 
+<v-clicks at="+0">
+
 - Both `None` branches do the same thing - what does that suggest?
 - What's `Path::extension()`'s return type, and what helpers does `Option` give you?
 - Do you actually need `to_str`? `OsStr` has its own `==`.
 - The shape is "if some, check predicate, else false" - there's a one-liner for that.
+
+</v-clicks>
 
 
 ---

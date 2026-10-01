@@ -34,9 +34,13 @@ Tiny one. People usually spot:
 
 # 02 · Review
 
+<v-clicks at="+0">
+
 - How many times does the word `Some` appear? Does it need to?
 - Or-patterns can live *inside* a constructor - have you used that form?
 - If you read the arms aloud, what's the actual information density?
+
+</v-clicks>
 
 ---
 

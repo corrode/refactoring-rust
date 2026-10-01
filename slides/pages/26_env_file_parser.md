@@ -56,11 +56,15 @@ Discoveries:
 
 # 26 · Review
 
+<v-clicks at="+0">
+
 - What happens to `WITH_EQUALS=a=b=c`? To `WITH_HASH="not # a comment"`?
 - The starter strips `#` before it knows whether it's inside quotes. What does that suggest?
 - A multi-line quoted value spans line breaks. `lines()` already split them apart. Is `lines()` the right primitive?
 - The function returns a `HashMap` no matter what. If line 47 is malformed, how does the caller find out?
 - "Inside quotes" / "expecting `=`" / "skipping a comment" are not booleans. What are they?
+
+</v-clicks>
 
 
 ---

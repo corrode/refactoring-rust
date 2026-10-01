@@ -49,10 +49,14 @@ Worth pausing on `max_adults`: original returns 0 on empty input;
 
 # 14 · Review
 
+<v-clicks at="+0">
+
 - Every loop has the same shape: read a field, accumulate. What's that pattern in iterator land?
 - For the max, what does `Iterator::max` return - and how is that different from the current behaviour on an empty slice?
 - For `child_ages`, the nested loop is exactly what one adapter is named after.
 - Do you need any `mut` locals at all?
+
+</v-clicks>
 
 
 ---
@@ -77,7 +81,7 @@ pub fn child_ages(rooms: &[RoomOccupancy]) -> Vec<i32> {
 }
 ```
 
-<div class="mt-6 text-base opacity-80">
+<div v-click class="mt-6 text-base opacity-80">
 
 - Each helper collapses to one chain - the shape is now visible at a glance.
 - `max` returns `Option`, so we restore the original "0 if empty" with `unwrap_or(0)`.

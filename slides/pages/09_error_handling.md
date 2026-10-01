@@ -40,10 +40,14 @@ Discoveries usually arrive in this order:
 
 # 09 · Review
 
+<v-clicks at="+0">
+
 - What does each `match` actually do with the `Err` branch?
 - Is there an operator that means "unwrap or return the error"?
 - Does `std::fs` already have a one-shot helper for this?
 - After switching, which `use` lines are still needed?
+
+</v-clicks>
 
 
 ---

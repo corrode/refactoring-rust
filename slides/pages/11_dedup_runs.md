@@ -36,9 +36,13 @@ The arc: this is exactly what `Vec::dedup` does.
 
 # 11 · Review
 
+<v-clicks at="+0">
+
 - What does the standard library call "collapse consecutive equal elements"?
 - The manual loop tracks `result.last()`. Does anything already do that for us?
 - Would the answer change if we only had a `&[i32]` instead of an owned `Vec`?
+
+</v-clicks>
 
 ---
 

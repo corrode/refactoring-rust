@@ -60,12 +60,16 @@ a command? what's the type of a response?" Each answer collapses code.
 
 # 27 · Review
 
+<v-clicks at="+0">
+
 - Three storage maps for three data types. What does a *key* actually point to?
 - Can the same key live in two maps at once? Should it? What would Redis itself say?
 - The dispatcher uppercases a string and runs an `if/else` ladder. Where have we seen *that* antipattern in this workshop?
 - `args[3]` panics when missing. The other two commands handle the same shape three different ways. Whose job is arity?
 - `+OK\r\n` / `:1\r\n` / `-ERR ...\r\n` are written by hand. What is the *type* of a reply?
 - Adding `GET`, `DEL`, `INCR`, `TYPE`, `LRANGE`, ... copies this whole structure for each. How many bugs scale with command count?
+
+</v-clicks>
 
 ---
 

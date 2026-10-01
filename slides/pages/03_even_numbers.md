@@ -38,9 +38,13 @@ The arc: return an iterator, say what we mean with `step_by`.
 
 # 03 · Review
 
+<v-clicks at="+0">
+
 - `evens` allocates a whole `Vec` up front. What if the caller only wants the first few?
 - `n % 2 == 0` filters for evens - is there a way to *step* over them directly?
 - What does returning `impl Iterator` buy the caller over a `Vec`?
+
+</v-clicks>
 
 ---
 
@@ -55,7 +59,7 @@ pub fn evens(max: u32) -> impl Iterator<Item = u32> {
 // let first_three: Vec<u32> = evens(u32::MAX).take(3).collect();
 ```
 
-<div class="mt-6 text-base opacity-80">
+<div v-click class="mt-6 text-base opacity-80">
 
 - `impl Iterator<Item = u32>` returns the iterator without allocating.
 - `step_by(2)` says exactly what we mean: walk in steps of two.

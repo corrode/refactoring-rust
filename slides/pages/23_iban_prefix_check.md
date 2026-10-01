@@ -51,10 +51,14 @@ Discoveries:
 
 # 23 · Review
 
+<v-clicks at="+0">
+
 - IBANs are ASCII-only. Do we need <code>chars()</code> at all?
 - Six <code>if/else if</code> arms on a string - what would express that better?
 - Can we collapse the position checks into one pass?
 - We check the prefix bytes individually *and* then the rest. Is there overlap?
+
+</v-clicks>
 
 
 ---

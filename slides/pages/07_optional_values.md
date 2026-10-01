@@ -36,9 +36,13 @@ Imperative accumulator + match-with-empty-arm. Discoveries:
 
 # 07 · Review
 
+<v-clicks at="+0">
+
 - Did you know `Option<T>` implements `IntoIterator`? What can you do with an iterator of iterators?
 - The `None => {}` arm is doing nothing - what does that suggest about *filtering*?
 - Once the `None`s are gone, the loop is just an addition.
+
+</v-clicks>
 
 
 ---

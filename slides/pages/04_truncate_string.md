@@ -32,12 +32,16 @@ a char boundary. The "fix" depends on the spec we actually want:
 
 # 04 · Review
 
+<v-clicks at="+0">
+
 - Try `cargo run --example 04_truncate_string` - what happens, and why?
 - What does the doc of `String::truncate` say about char boundaries?
 - Do you actually want "first N bytes" or "first N characters"?
 - Is there a `str` method that tells you whether an index is safe to cut at?
 
-<div class="mt-10 opacity-70">
+</v-clicks>
+
+<div v-after class="mt-10 opacity-70">
 Hint: look for <code>is_char_boundary</code>, or step through <code>chars()</code>.
 </div>
 

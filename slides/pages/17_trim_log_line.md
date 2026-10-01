@@ -55,12 +55,16 @@ Discoveries:
 
 # 17 · Review
 
+<v-clicks at="+0">
+
 - The first 10 lines hand-roll a function that already lives on `str`. Which one?
 - For "does this string start with X, and if so what's after X?" - what's the standard idiom?
 - `split_whitespace()` already knows what whitespace is. Could it replace the collapse loop?
 - After the rewrite, how many lines are left?
 
-<div class="mt-12 opacity-70">
+</v-clicks>
+
+<div v-after class="mt-12 opacity-70">
 Hint: <code>trim</code>, <code>strip_prefix</code>, <code>split_whitespace</code>.
 </div>
 

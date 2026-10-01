@@ -41,10 +41,14 @@ Discoveries:
 
 # 12 · Review
 
+<v-clicks at="+0">
+
 - `&Option<HashSet<…>>` - does the caller really need to distinguish "no config" from "empty config"?
 - The inner loop is "is there any element that satisfies …". What iterator method is that?
 - Can <code>let … else</code> remove the indentation?
 - Could the signature just take <code>&HashSet&lt;PathBuf&gt;</code>?
+
+</v-clicks>
 
 
 ---

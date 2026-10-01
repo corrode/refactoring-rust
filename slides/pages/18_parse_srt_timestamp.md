@@ -49,10 +49,14 @@ Discoveries:
 
 # 18 · Review
 
+<v-clicks at="+0">
+
 - What happens to <code>"ab:cd:ef,gh"</code> today?
 - Do we really need a <code>Vec</code> just to grab "before colon" and "after colon"?
 - `Option` says *whether* it failed; would the caller want to know *why*?
 - Could this be a <code>FromStr</code> impl on a newtype?
+
+</v-clicks>
 
 
 ---
@@ -88,7 +92,7 @@ pub fn parse_srt_timestamp(s: &str) -> Result<Duration, ParseError> {
 }
 ```
 
-<div class="mt-8 text-base opacity-80">
+<div v-click class="mt-8 text-base opacity-80">
 
 - `split_once` returns `Option<(&str, &str)>` (no allocation)
 - `?` propagates both the format error and the numeric error via `From`.

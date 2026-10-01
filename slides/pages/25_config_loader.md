@@ -52,12 +52,16 @@ Discoveries:
 
 # 25 · Review
 
+<v-clicks at="+0">
+
 - Each getter re-parses the same map. Should this happen once, or per call?
 - <code>"banana"</code> for <code>MAX_CONNECTIONS</code> silently becomes <code>100</code>. Is that what an operator wants?
 - The map is stringly-typed; the program wants a real <code>Config</code>. Where should the conversion live?
 - If we parsed once into a struct, how many of these functions survive?
 
-<div class="mt-12 opacity-70">
+</v-clicks>
+
+<div v-after class="mt-12 opacity-70">
 Hint: you can <code>impl TryFrom&lt;&HashMap&lt;String, String&gt;&gt; for Config</code>.
 </div>
 
@@ -97,7 +101,7 @@ impl TryFrom<&HashMap<String, String>> for Config {
 }
 ```
 
-<div class="mt-8 text-base opacity-80">
+<div v-click class="mt-8 text-base opacity-80">
 
 - Parsing happens **once**, at the edge. The rest of the program works with a typed `Config`.
 - Bad input produces a real `ConfigError` instead of a silent default.

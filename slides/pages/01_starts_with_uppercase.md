@@ -40,12 +40,16 @@ Common discoveries (in roughly the order people will spot them):
 
 # 01 · Review
 
+<v-clicks at="+0">
+
 - Does the function need to **own** the string?
 - What does `chars().nth(0)` do, and is there a more direct way?
 - That `if … { true } else { false }` could be simpler.
 - What's the right answer for `""` ?
 
-<div class="mt-12 opacity-70">
+</v-clicks>
+
+<div v-after class="mt-12 opacity-70">
 Hint: Clippy will tell you most of these. Run it.
 </div>
 
@@ -58,11 +62,16 @@ pub fn starts_with_uppercase(s: &str) -> bool {
     s.chars().next().is_some_and(char::is_uppercase)
 }
 ```
+
+<v-click>
+
 ```rust
 pub fn starts_with_uppercase(s: &str) -> bool {
     s.starts_with(char::is_uppercase)
 }
 ```
+
+</v-click>
 
 <div class="mt-8 text-base opacity-80">
 

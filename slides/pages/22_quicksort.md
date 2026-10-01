@@ -45,10 +45,14 @@ is buried. Ask the audience to make it read like the textbook definition.
 
 # 22 · Review
 
+<v-clicks at="+0">
+
 - Quicksort is "pick a pivot, recurse on the smaller, then the larger." How much of that survives in the code?
 - Slice patterns can name the head and the tail at once. What would `[pivot, rest @ ..]` give us?
 - Is there a single call that splits the rest into "<= pivot" and "> pivot"?
 - What are we trading away by allocating instead of sorting in place?
+
+</v-clicks>
 
 ---
 zoom: 0.95
@@ -71,7 +75,7 @@ pub fn quicksort(input: &[i32]) -> Vec<i32> {
 }
 ```
 
-<div class="mt-4 text-base opacity-80">
+<div v-click class="mt-4 text-base opacity-80">
 
 - Slice pattern + `let ... else` names the pivot and folds in the base case.
 - `partition` does the split in one pass; the recursion reads like the definition.

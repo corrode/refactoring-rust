@@ -15,10 +15,6 @@ npm run export   # PDF (needs `npm i -D playwright-chromium` once)
 - `pages/` - per-exercise pages, one file per exercise (`NN_name.md`).
 - `NOTES.md` - Slidev cheat sheet and lessons learned for next time.
 
-Each per-exercise page contains three slides: task, hints, solution.
-Hints and solutions use `<v-click>` reveals so the answer never shows
-up by accident when you advance through the deck.
-
 The exercises themselves live in `../examples/NN_name.rs`. Slide
 numbers match file numbers exactly.
 

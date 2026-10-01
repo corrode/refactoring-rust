@@ -43,10 +43,14 @@ The arc: spot the smells -> reach for `Iterator`.
 
 # 19 · Review
 
+<v-clicks at="+0">
+
 - `fib(n)` recomputes the same subproblems over and over - what's the complexity?
 - `first_n` allocates a whole `Vec` up front. What if the caller only wants the first few?
 - That `while` + counter pattern - is there a more Rust-y way to produce a sequence?
 - If we had an `Iterator`, what would we get for free?
+
+</v-clicks>
 
 ---
 zoom: 0.85
@@ -75,7 +79,7 @@ impl Iterator for Fibonacci {
 // let fib: Vec<u64> = Fibonacci::new().take(10).collect();
 ```
 
-<div class="mt-6 text-base opacity-80">
+<div v-click class="mt-6 text-base opacity-80">
 
 - One `struct` holds the state; `next` advances it in O(1).
 - Implementing `Iterator` unlocks `take`, `map`, `zip`, `collect`, …

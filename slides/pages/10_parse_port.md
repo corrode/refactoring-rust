@@ -34,12 +34,16 @@ Discoveries:
 
 # 10 · Review
 
+<v-clicks at="+0">
+
 - The caller can't tell `"abc"` apart from `"99999"` apart from `"0"`. Should they be able to?
 - Why parse into `i32` when the target is `u16`? What does that buy us?
 - If `u16` already rules out values above 65535, what's the *only* remaining invariant?
 - Is there a type in `std` that says "a `u16` that isn't zero"?
 
-<div class="mt-12 opacity-70">
+</v-clicks>
+
+<div v-after class="mt-12 opacity-70">
 Hint: "Parse, don't validate": push invariants into the type.
 </div>
 
@@ -64,7 +68,7 @@ pub fn parse_port(s: &str) -> Result<NonZeroU16, InvalidPort> {
 }
 ```
 
-<div class="mt-8 text-base opacity-80">
+<div v-click class="mt-8 text-base opacity-80">
 
 - Parsing directly as `u16` removes the manual upper-bound check.
 - `NonZeroU16` makes "port 0" unrepresentable in the success type.

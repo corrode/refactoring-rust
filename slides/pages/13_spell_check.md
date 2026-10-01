@@ -45,12 +45,16 @@ Discoveries:
 
 # 13 · Review
 
+<v-clicks at="+0">
+
 - What's the time complexity right now? What changes if <code>dict</code> were a <code>HashSet</code>?
 - <code>to_lowercase()</code> is called inside the inner loop - for the same word, every time. Why?
 - <code>&Vec&lt;T&gt;</code> vs <code>&[T]</code> - does the function need <code>Vec</code> capabilities?
 - Do we need to <code>clone</code> the output strings, or could we return borrows?
 
-<div class="mt-12 opacity-70">
+</v-clicks>
+
+<div v-after class="mt-12 opacity-70">
 Hint: build the lookup set once, outside.
 </div>
 
@@ -70,7 +74,7 @@ pub fn spell_check<'a>(words: &[&'a str], dict: &HashSet<String>) -> Vec<&'a str
 }
 ```
 
-<div class="mt-8 text-base opacity-80">
+<div v-click class="mt-8 text-base opacity-80">
 
 - The caller builds the `HashSet` once (lowercased) and reuses it - O(n) lookups.
 - `&[&str]` and `Vec<&'a str>` avoid the per-word `clone`.

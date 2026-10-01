@@ -46,10 +46,14 @@ Discoveries:
 
 # 24 · Review
 
+<v-clicks at="+0">
+
 - The function answers two questions at once: "what *kind* of status is this?" and "what do we do?". Could those split?
 - Half the lines are <code>status &gt;= X && status &lt; Y</code> ladders - what does Rust offer instead?
 - If we named the classes (<code>Informational</code>, <code>Success</code>, …), what would the dispatcher look like?
 - 408 and 429 are special inside 4xx. Where do they belong after splitting?
+
+</v-clicks>
 
 
 ---
@@ -104,7 +108,7 @@ pub fn handle_response(resp: Response) -> Action {
 }
 ```
 
-<div class="mt-6 text-base opacity-80">
+<div v-click class="mt-6 text-base opacity-80">
 
 - `handle_response` is a flat `match` &mdash; one arm per policy decision.
 - Adding a new class or special-case status now changes exactly one place.

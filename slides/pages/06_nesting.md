@@ -38,9 +38,13 @@ Two nested `if` + three `return`s. Discoveries:
 
 # 06 · Review
 
+<v-clicks at="+0">
+
 - How many places does this function return `None`? Could they all be the *same* `None`?
 - "Keep the value only if it satisfies a predicate" - what's that called on `Option`?
 - The flow is: trim → reject empty → uppercase. Read top to bottom, can you make the code read the same way?
+
+</v-clicks>
 
 
 ---
@@ -55,7 +59,7 @@ pub fn shout(s: Option<&str>) -> Option<String> {
 }
 ```
 
-<div class="mt-8 text-base opacity-80">
+<div v-click class="mt-8 text-base opacity-80">
 
 - `map(str::trim)` transforms the inner string.
 - `filter` turns the `Some("")` case into `None` declaratively.

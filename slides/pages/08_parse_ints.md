@@ -37,9 +37,13 @@ but the headline is `collect`.
 
 # 08 · Review
 
+<v-clicks at="+0">
+
 - What does `collect` do when the items are `Result`s?
 - Does the function need to *own* the `Vec<String>` to read from it?
 - The early return on `Err` is doing the same thing `collect` does for free.
+
+</v-clicks>
 
 ---
 zoom: 1.2
@@ -53,7 +57,7 @@ pub fn parse_values(values: &[String]) -> Result<Vec<i32>, ParseIntError> {
 }
 ```
 
-<div class="mt-8 text-base opacity-80">
+<div v-click class="mt-8 text-base opacity-80">
 
 - `collect` is overloaded: from `Iterator<Item = Result<T, E>>` it builds `Result<Vec<T>, E>` and stops at the first `Err`.
 - The return type drives type inference for `parse` and `collect`.

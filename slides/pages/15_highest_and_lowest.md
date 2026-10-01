@@ -39,10 +39,14 @@ A Result-returning version is just as valid; mention it.
 
 # 15 · Review
 
+<v-clicks at="+0">
+
 - What happens with `highest_and_lowest("")`? Or `"7  3"` (two spaces)? Or `"oops"`?
 - Notice the parse runs three times on `parts[0]` - does it need to?
 - The loop tracks `(max, min)` together. What iterator method threads a running value through?
 - Should this really return `(i64, i64)`, or admit failure with a `Result`?
+
+</v-clicks>
 
 
 ---

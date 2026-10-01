@@ -53,10 +53,14 @@ Discoveries:
 
 # 21 · Review
 
+<v-clicks at="+0">
+
 - Why does <code>sparkle(&shout(s.trim()))</code> read backwards?
 - Method calls chain left-to-right. Could these *be* methods on <code>str</code>?
 - We can't add inherent methods to a foreign type - what's the workaround?
 - What does the orphan rule allow us to do here?
+
+</v-clicks>
 
 ---
 zoom: 0.85
@@ -86,7 +90,7 @@ impl FunStr for str {
 // let banner = "hello".trim().shout().sparkle();
 ```
 
-<div class="mt-8 text-base opacity-80">
+<div v-click class="mt-8 text-base opacity-80">
 
 - An extension trait lets us add methods to a foreign type (`str`) because we own the trait.
 - Call sites flow in reading order: `s.trim().shout().sparkle()`.
