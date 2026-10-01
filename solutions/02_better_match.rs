@@ -3,7 +3,7 @@
 //! Solution highlights:
 //! - Or-patterns nest inside `Some(_)` since Rust 1.53.
 //! - The wildcard `_` still catches every other `Some(n)`.
-//! - Same behaviour, half the noise.
+//! - Each arm states the shared `Some` constructor once.
 
 pub fn describe(value: Option<u32>) -> &'static str {
     match value {

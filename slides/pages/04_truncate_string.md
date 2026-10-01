@@ -75,6 +75,6 @@ pub fn truncate(s: &str, max_bytes: usize) -> String {
 <!--
 Both contracts can make sense:
   - count characters with `s.chars().take(n).collect()`
-  - cap bytes with `s.floor_char_boundary(max_bytes)` on nightly
+  - cap bytes with `s.floor_char_boundary(max_bytes)` on Rust 1.91 and newer
 The contract matters more than either implementation.
 -->

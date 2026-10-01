@@ -1,7 +1,7 @@
 //! Return the even numbers below `max`.
 //!
 //! This works right now, but it eagerly builds a whole `Vec` and hand-rolls
-//! the loop. Can you return something lazier and more idiomatic instead?
+//! the loop. Can you return a lazy sequence instead?
 //! (You have free rein to change the signature.)
 
 pub fn evens(max: u32) -> Vec<u32> {

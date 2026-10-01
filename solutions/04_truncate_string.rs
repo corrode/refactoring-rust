@@ -1,9 +1,9 @@
 //! Truncate a string to at most `max_bytes` bytes, respecting char boundaries.
 //!
 //! Solution highlights:
-//! - `is_char_boundary` lets us back up to the nearest safe cut.
-//! - Slicing a `&str` at a boundary is panic-free and allocation-cheap.
-//! - No more mid-codepoint crash on `"café"`.
+//! - `floor_char_boundary` finds the nearest safe cut at or below the limit.
+//! - Slicing a `&str` at that boundary preserves valid UTF-8.
+//! - The function allocates only the returned prefix.
 
 pub fn truncate(s: &str, max_bytes: usize) -> String {
     s[..s.floor_char_boundary(s.len().min(max_bytes))].to_string()
@@ -13,9 +13,9 @@ pub fn truncate_chars(s: &str, num_chars: usize) -> String {
     s.chars().take(num_chars).collect()
 }
 
-// Alternative interpretations:
+// Alternative interpretation:
 // - char-count semantics: `s.chars().take(n).collect()`
-// - nightly: `s.floor_char_boundary(max_bytes)`
+// `floor_char_boundary` is stable since Rust 1.91.
 
 #[cfg(test)]
 mod tests {
