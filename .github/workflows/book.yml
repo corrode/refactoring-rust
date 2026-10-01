@@ -28,10 +28,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  MDBOOK_VERSION: "0.4.40"
-  # TODO(plugins): bump to >=0.5 once plugins (quiz, mermaid) are wired up
-  # and known to work against it. Sticking with 0.4.x for now because most
-  # mdBook plugins haven't migrated to the 0.5 API surface.
+  MDBOOK_VERSION: "0.5.4"
 
 jobs:
   build:
