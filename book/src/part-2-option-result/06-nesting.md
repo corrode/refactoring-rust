@@ -17,7 +17,7 @@ creates an owned result.
 > by whitespace.
 
 ```rust
-{{#include ../../../examples/06_nesting.rs}}
+{{#rustdoc_include ../../../examples/06_nesting.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -64,7 +64,7 @@ result.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/06_nesting.rs}}
+{{#rustdoc_include ../../../solutions/06_nesting.rs:listing}}
 ```
 
 Read the chain as three stages, in order:

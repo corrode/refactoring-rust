@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Return the even numbers below `max`.
 //!
 //! This works right now, but it eagerly builds a whole `Vec` and hand-rolls
@@ -15,6 +16,8 @@ pub fn evens(max: u32) -> Vec<u32> {
     }
     result
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

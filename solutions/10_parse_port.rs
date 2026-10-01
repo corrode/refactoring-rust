@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Parse a TCP port string into a `NonZeroU16`.
 //!
 //! Solution highlights:
@@ -17,6 +18,8 @@ pub fn parse_port(s: &str) -> Result<NonZeroU16, InvalidPort> {
     let n: u16 = s.parse().map_err(|_| InvalidPort::Invalid)?;
     NonZeroU16::new(n).ok_or(InvalidPort::Zero)
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

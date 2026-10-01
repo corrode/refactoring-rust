@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Sum all `Some` values in the vector. Ignore `None` entries.
 
 pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
@@ -10,6 +11,8 @@ pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
     }
     sum
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

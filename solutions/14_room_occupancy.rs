@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Compute totals across a list of room occupancies.
 //!
 //! Solution highlights:
@@ -28,6 +29,8 @@ pub fn child_ages(rooms: &[RoomOccupancy]) -> Vec<i32> {
         .flat_map(|r| r.children.iter().copied())
         .collect()
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

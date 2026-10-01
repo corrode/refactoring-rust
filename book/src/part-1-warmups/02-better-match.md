@@ -15,7 +15,7 @@ alternatives where the values differ.
 > especially the difference between `None` and a number that isn't listed.
 
 ```rust
-{{#include ../../../examples/02_better_match.rs}}
+{{#rustdoc_include ../../../examples/02_better_match.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -62,7 +62,7 @@ prime, but this function still returns `"something else"`.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/02_better_match.rs}}
+{{#rustdoc_include ../../../solutions/02_better_match.rs:listing}}
 ```
 
 `Some(2 | 3 | 5 | 7)` applies one constructor pattern to four possible payloads. The

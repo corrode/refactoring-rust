@@ -125,7 +125,7 @@ have a clear chance to try the exercise before seeing an answer. Use this form:
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/NN_name.rs}}
+{{#rustdoc_include ../../../solutions/NN_name.rs:listing}}
 ```
 
 Walk through the code here.
@@ -140,11 +140,15 @@ block.
 
 ## Code blocks
 
-- **Starter listings:** `{{#include ../../../examples/NN_name.rs}}` from a chapter
-  under `book/src/part-*`.
-- **Canonical solutions:** `{{#include ../../../solutions/NN_name.rs}}` from the same
-  location. Include paths are relative to the Markdown file, so front-matter pages
-  need a different number of parent traversals.
+- **Starter listings:** `{{#rustdoc_include ../../../examples/NN_name.rs:listing}}`
+  from a chapter under `book/src/part-*`.
+- **Canonical solutions:**
+  `{{#rustdoc_include ../../../solutions/NN_name.rs:listing}}` from the same location.
+  Put the code readers should see between `// ANCHOR: listing` and
+  `// ANCHOR_END: listing`. Keep tests outside that region. mdBook hides them until
+  the code block is expanded, but still compiles the complete file. Include paths are
+  relative to the Markdown file, so front-matter pages need a different number of
+  parent traversals.
 - **Alternative solutions worth keeping runnable:** add a real file
   `solutions/NN_name_alt.rs` (and a matching `[[example]]` entry in
   `Cargo.toml`), then `{{#include}}` it.

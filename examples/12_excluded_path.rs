@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Does `path` start with any of the excluded prefixes?
 //! `None` means no exclusions are configured (so nothing is excluded).
 
@@ -14,6 +15,8 @@ pub fn is_excluded(excluded: &Option<HashSet<PathBuf>>, path: &Path) -> bool {
     }
     false
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

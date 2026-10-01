@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Parse every string in the input as `i32`. Return all parsed
 //! integers, or the first error encountered.
 
@@ -29,6 +30,8 @@ pub fn collect_errors(validators: &[&dyn Validator], input: &str) -> Vec<String>
     }
     errors
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

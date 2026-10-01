@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Read the entire contents of a file into a `String`.
 
 use std::fs::File;
@@ -14,6 +15,8 @@ pub fn read_file_contents(path: &str) -> io::Result<String> {
         Err(e) => Err(e),
     }
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

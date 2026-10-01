@@ -15,7 +15,7 @@ passes that invalid boundary to `String::truncate`.
 > most `max_bytes` bytes,” which means it may be shorter than the requested limit.
 
 ```rust
-{{#include ../../../examples/04_truncate_string.rs}}
+{{#rustdoc_include ../../../examples/04_truncate_string.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -76,7 +76,7 @@ reinforces the byte-based contract; it does not define that contract by itself.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/04_truncate_string.rs}}
+{{#rustdoc_include ../../../solutions/04_truncate_string.rs:listing}}
 ```
 
 The byte-cap implementation does four things:

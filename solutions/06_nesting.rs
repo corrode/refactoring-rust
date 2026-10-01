@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! If the input is `Some` and non-empty after trimming, return it uppercased. Otherwise `None`.
 //!
 //! Solution highlights:
@@ -11,6 +12,8 @@ pub fn shout(s: Option<&str>) -> Option<String> {
         .filter(|t| !t.is_empty())
         .map(str::to_uppercase)
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

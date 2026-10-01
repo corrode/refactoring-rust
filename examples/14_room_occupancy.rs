@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Compute totals across a list of room occupancies. Notice the
 //! repetition between the helpers: every one of them follows the same
 //! aggregation pattern.
@@ -42,6 +43,8 @@ pub fn child_ages(rooms: &[RoomOccupancy]) -> Vec<i32> {
     }
     ages
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

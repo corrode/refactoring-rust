@@ -19,7 +19,7 @@ is useful, but only after we settle which behaviour belongs to the contract.
 > an accumulator's initial value can change the answer.
 
 ```rust
-{{#include ../../../examples/14_room_occupancy.rs}}
+{{#rustdoc_include ../../../examples/14_room_occupancy.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -66,7 +66,7 @@ accident of the accumulator.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/14_room_occupancy.rs}}
+{{#rustdoc_include ../../../solutions/14_room_occupancy.rs:listing}}
 ```
 
 The two totals translate directly. Borrow the rooms, map each room to the number the

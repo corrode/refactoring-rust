@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Return the even numbers below `max` as a lazy iterator.
 //!
 //! Solution highlights:
@@ -8,6 +9,8 @@
 pub fn evens(max: u32) -> impl Iterator<Item = u32> {
     (0..max).step_by(2)
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

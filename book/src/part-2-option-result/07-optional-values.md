@@ -15,7 +15,7 @@ ignore each missing entry. The starter gets the right answer with a mutable tota
 > `None`, an empty input vector, and a vector with no present values.
 
 ```rust
-{{#include ../../../examples/07_optional_values.rs}}
+{{#rustdoc_include ../../../examples/07_optional_values.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -63,7 +63,7 @@ API change.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/07_optional_values.rs}}
+{{#rustdoc_include ../../../solutions/07_optional_values.rs:listing}}
 ```
 
 `into_iter()` consumes the vector and yields each `Option<i32>` by value, just as the

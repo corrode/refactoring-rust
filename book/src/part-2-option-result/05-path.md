@@ -17,7 +17,7 @@ directly with a string literal.
 > `.rs`.
 
 ```rust
-{{#include ../../../examples/05_path.rs}}
+{{#rustdoc_include ../../../examples/05_path.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -69,7 +69,7 @@ filesystem.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/05_path.rs}}
+{{#rustdoc_include ../../../solutions/05_path.rs:listing}}
 ```
 
 The function now states the two parts of its decision directly:

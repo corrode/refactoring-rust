@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Does this path point to a Rust source file?
 //!
 //! Solution highlights:
@@ -15,6 +16,8 @@ pub fn is_rust_source_file(path: &Path) -> bool {
 // pub fn is_rust_source_file(path: &Path) -> bool {
 //     path.extension().map_or(false, |e| e == "rs")
 // }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

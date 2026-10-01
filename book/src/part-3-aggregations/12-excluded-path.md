@@ -20,7 +20,7 @@ system.
 > this function uses.
 
 ```rust
-{{#include ../../../examples/12_excluded_path.rs}}
+{{#rustdoc_include ../../../examples/12_excluded_path.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -67,7 +67,7 @@ to see it.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/12_excluded_path.rs}}
+{{#rustdoc_include ../../../solutions/12_excluded_path.rs:listing}}
 ```
 
 `let ... else` handles `None` before the search starts. Past that statement,

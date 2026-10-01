@@ -17,7 +17,7 @@ fails. Any cleanup has to preserve that difference.
 > runs.
 
 ```rust
-{{#include ../../../examples/08_parse_ints.rs}}
+{{#rustdoc_include ../../../examples/08_parse_ints.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -73,7 +73,7 @@ better. In an iterator pipeline, `filter_map` can consume that `Option` directly
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/08_parse_ints.rs}}
+{{#rustdoc_include ../../../solutions/08_parse_ints.rs:listing}}
 ```
 
 The new `parse_values` takes a borrowed slice. `values.iter()` visits each `String` by

@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Classify a number as "prime", "square", "nothing", or "something else".
 //!
 //! Solution highlights:
@@ -13,6 +14,8 @@ pub fn describe(value: Option<u32>) -> &'static str {
         _ => "something else",
     }
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! If the input is `Some` and not empty after trimming, return the
 //! uppercased trimmed text. Otherwise return `None`.
 
@@ -13,6 +14,8 @@ pub fn shout(s: Option<&str>) -> Option<String> {
         return None;
     }
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

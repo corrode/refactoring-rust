@@ -17,7 +17,7 @@ not to hide failure, but to remove plumbing without weakening the error contract
 > into a `String`.
 
 ```rust
-{{#include ../../../examples/09_error_handling.rs}}
+{{#rustdoc_include ../../../examples/09_error_handling.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -71,7 +71,7 @@ the error value instead.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/09_error_handling.rs}}
+{{#rustdoc_include ../../../solutions/09_error_handling.rs:listing}}
 ```
 
 `fs::read_to_string(path)` opens the file, reads all bytes as UTF-8 text, and returns the

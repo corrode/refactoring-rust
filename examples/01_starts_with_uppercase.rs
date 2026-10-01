@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Does this string start with an uppercase letter?
 
 pub fn starts_with_uppercase(s: String) -> bool {
@@ -11,6 +12,8 @@ pub fn starts_with_uppercase(s: String) -> bool {
         return false;
     }
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

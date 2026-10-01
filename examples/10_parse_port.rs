@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Parse a TCP port string into a `u16`.
 
 pub fn parse_port(s: &str) -> Option<u16> {
@@ -7,6 +8,8 @@ pub fn parse_port(s: &str) -> Option<u16> {
     }
     Some(n as u16)
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

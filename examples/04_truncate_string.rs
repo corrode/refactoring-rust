@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Truncate a string to at most `max_bytes` bytes.
 
 pub fn truncate(s: &str, max_bytes: usize) -> String {
@@ -5,6 +6,8 @@ pub fn truncate(s: &str, max_bytes: usize) -> String {
     owned.truncate(max_bytes);
     owned
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

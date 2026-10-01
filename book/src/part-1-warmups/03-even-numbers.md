@@ -16,7 +16,7 @@ even though the traversal itself can skip the odd values.
 > construct the complete result before it returns.
 
 ```rust
-{{#include ../../../examples/03_even_numbers.rs}}
+{{#rustdoc_include ../../../examples/03_even_numbers.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -65,7 +65,7 @@ values to consume and whether to collect them.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/03_even_numbers.rs}}
+{{#rustdoc_include ../../../solutions/03_even_numbers.rs:listing}}
 ```
 
 `0..max` already has the tested boundaries: it starts at zero, excludes `max`, and is

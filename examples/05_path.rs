@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Does this path point to a Rust source file?
 
 use std::path::Path;
@@ -11,6 +12,8 @@ pub fn is_rust_source_file(path: &Path) -> bool {
         None => false,
     }
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

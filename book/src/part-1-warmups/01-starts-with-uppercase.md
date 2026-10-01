@@ -16,7 +16,7 @@ more from callers than the predicate needs.
 > define the current contract for empty input and for a non-ASCII uppercase letter.
 
 ```rust
-{{#include ../../../examples/01_starts_with_uppercase.rs}}
+{{#rustdoc_include ../../../examples/01_starts_with_uppercase.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -62,7 +62,7 @@ to inspect.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/01_starts_with_uppercase.rs}}
+{{#rustdoc_include ../../../solutions/01_starts_with_uppercase.rs:listing}}
 ```
 
 The borrowed signature accepts string literals, borrowed `String` values, and other

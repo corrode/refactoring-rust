@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Read the entire contents of a file into a `String`.
 //!
 //! Solution highlights:
@@ -11,6 +12,8 @@ use std::io;
 pub fn read_file_contents(path: &str) -> io::Result<String> {
     fs::read_to_string(path)
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {

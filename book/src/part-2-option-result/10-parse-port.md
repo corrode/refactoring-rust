@@ -16,7 +16,7 @@ those facts in the function's interface.
 > whose parser enforces the upper bound, then a success type that cannot contain zero.
 
 ```rust
-{{#include ../../../examples/10_parse_port.rs}}
+{{#rustdoc_include ../../../examples/10_parse_port.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -66,7 +66,7 @@ useful distinction in the error type.
 <summary>Show a possible solution</summary>
 
 ```rust
-{{#include ../../../solutions/10_parse_port.rs}}
+{{#rustdoc_include ../../../solutions/10_parse_port.rs:listing}}
 ```
 
 The first operation asks `str::parse` for a `u16`, so the target type decides which

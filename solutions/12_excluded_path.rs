@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Does `path` start with any of the excluded prefixes?
 //!
 //! Solution highlights:
@@ -15,6 +16,8 @@ pub fn is_excluded(excluded: &Option<HashSet<PathBuf>>, path: &Path) -> bool {
     };
     excluded.iter().any(|prefix| path.starts_with(prefix))
 }
+
+// ANCHOR_END: listing
 
 #[cfg(test)]
 mod tests {
