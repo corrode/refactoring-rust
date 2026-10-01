@@ -97,7 +97,15 @@ pre,
     font-feature-settings:
         "calt" 1,
         "liga" 0;
-    font-size: 0.9em;
+}
+
+.content pre {
+    font-size: 0.96em;
+}
+
+.content pre code,
+.content pre .hljs {
+    font-size: inherit;
 }
 
 /* ---------- Navy theme overrides ----------
@@ -160,6 +168,7 @@ pre,
 /* Inline code: subtle pill, warm accent, no aggressive box. */
 .navy :not(pre) > code {
     background: #1a2138;
+    font-size: 0.9em;
     padding: 0.12em 0.4em;
     border-radius: 3px;
     border: 1px solid transparent;
