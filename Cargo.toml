@@ -177,6 +177,11 @@ path = "solutions/12_excluded_path.rs"
 crate-type = ["lib"]
 
 [[example]]
+name = "12_excluded_path_alt"
+path = "solutions/12_excluded_path_alt.rs"
+crate-type = ["lib"]
+
+[[example]]
 name = "13_spell_check_solution"
 path = "solutions/13_spell_check.rs"
 crate-type = ["lib"]
@@ -184,6 +189,11 @@ crate-type = ["lib"]
 [[example]]
 name = "14_room_occupancy_solution"
 path = "solutions/14_room_occupancy.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "14_room_occupancy_alt"
+path = "solutions/14_room_occupancy_alt.rs"
 crate-type = ["lib"]
 
 [[example]]

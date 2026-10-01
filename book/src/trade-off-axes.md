@@ -236,7 +236,7 @@ larger, but the method is exactly this.
 
 Six axes is a deliberate choice. Five felt like it was missing
 something; seven felt like it was inventing distinctions to seem
-thorough. If the reference trio of chapters (01, 14, 19) had exposed
+thorough. If the reference trio of chapters (01, 14, 12) had exposed
 a sixth axis the rubric kept dancing around, we'd have added it. They
 didn't, so this is the list.
 

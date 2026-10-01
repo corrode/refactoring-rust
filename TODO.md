@@ -45,7 +45,7 @@ Notes:
 
 ---
 
-## 2. Exercise 10 · `room_occupancy` — also show the newtype solution
+## 2. Exercise 14 · `room_occupancy`: also show the newtype solution
 
 Currently the solution slide only shows the four iterator-chain helpers.
 Add a second solution slide showing a `Rooms` newtype:
@@ -66,7 +66,7 @@ caller can't accidentally pass an unrelated `&[RoomOccupancy]`.
 
 ---
 
-## 3. Exercise 10 · `parse_port` — show `NonZeroU16` + `InvalidPort` solution
+## 3. Exercise 10 · `parse_port`: show `NonZeroU16` + `InvalidPort` solution
 
 Add this as a solution slide:
 
@@ -90,7 +90,7 @@ pub fn parse_port(s: &str) -> Result<NonZeroU16, InvalidPort> {
 
 ---
 
-## 4. Exercise 19 · `excluded_path` — show alternative signatures
+## 4. Exercise 12 · `excluded_path`: show alternative signatures
 
 The current signature is:
 
@@ -117,7 +117,7 @@ trait Excludable {
 }
 impl Excludable for Path {
     fn is_excluded(&self, excluded: &HashSet<PathBuf>) -> bool {
-        excluded.contains(self)
+        excluded.iter().any(|prefix| self.starts_with(prefix))
     }
 }
 
@@ -129,7 +129,7 @@ Frame it as "what is the type *really* telling us, and what's it hiding?".
 
 ---
 
-## 6. Exercise 21 · `spell_check` — show the lazy `vimspell` solution
+## 6. Exercise 13 · `spell_check`: show the lazy `vimspell` solution
 
 Add an extra solution slide that shows returning an `impl Iterator` of
 byte ranges instead of allocating a `Vec`. Source for reference:
@@ -145,12 +145,12 @@ pub fn spell_check<'a>(
 }
 ```
 
-Talking point: **it's lazy** — caller can stop at the first misspelling,
+Talking point: **it's lazy**. The caller can stop at the first misspelling,
 no `Vec` allocation, ranges instead of copied strings.
 
 ---
 
-## 7. Exercise 23 · `fun_strings` — trim vertical on the solution
+## 7. Exercise 21 · `fun_strings`: trim vertical on the solution
 
 The solution slide is tall. Tighten it (compact `emoji_case` /
 `spongebob_case` iterator chain, drop blank lines, shorter takeaway).

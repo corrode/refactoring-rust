@@ -121,10 +121,12 @@ scoring problems.
 
 **Hybrid include strategy, biased toward `{{#include}}`.**
 
-- **Starter listings:** `{{#include ../../examples/NN_name.rs}}`.
-- **Canonical solution listings:** `{{#include ../../solutions/NN_name.rs}}`.
+- **Starter listings:** `{{#include ../../../examples/NN_name.rs}}` from chapters
+  under `book/src/part-*`.
+- **Canonical solution listings:** `{{#include ../../../solutions/NN_name.rs}}` from
+  the same location.
 - **Substantial alternative solutions** (e.g. the `Rooms` newtype, the
-  `NonZeroU16` `parse_port`, the alternative `excluded_path` signatures,
+  `NonZeroU16` `parse_port`, the alternative `excluded_path` APIs,
   the lazy `spell_check` iterator): get their own files such as
   `solutions/NN_name_alt.rs` and are included.
 - **Small variations / partials:** inline ```rust blocks (runnable via
@@ -388,15 +390,15 @@ The front matter must be written **before** the reference trio so the
 six trade-off axes and the meta-position on code review are committed to
 prose before any chapter operationalizes them.
 
-The reference trio is **ch. 01, ch. 14, ch. 19**:
+The reference trio is **ch. 01, ch. 14, ch. 12**:
 - **01** tests "does the format collapse on a trivial exercise?"
-- **14** tests "does it handle genuinely contested error-handling
-  trade-offs?"
-- **19** tests "does Alternative approaches handle a 5-signature design
-  space?"
+- **14** tests whether the format handles repeated aggregations, a semantic edge
+  case, and a domain-newtype alternative.
+- **12** tests whether *Alternative approaches* can handle a multi-signature API
+  design space.
 
-Once the trio is locked, *they are the format spec.* New chapters are
-written by copying their shape. No separate format spec document.
+Once the trio is locked, *they are the format spec.* New chapters follow
+their structure. No separate format spec document.
 
 ### Phase 0, Scaffolding (~1 day)
 
@@ -422,18 +424,19 @@ written by copying their shape. No separate format spec document.
 ### Phase 2, Format lock / reference trio (~4 days)
 
 - Chapter 01 (`starts_with_uppercase`)
-- Chapter 14 (`error_handling`)
-- Chapter 19 (`excluded_path`)
+- Chapter 14 (`room_occupancy`)
+- Chapter 12 (`excluded_path`)
 - Iterate on `STYLE.md` until it reflects what the trio actually does.
 
 ### Phase 3, Bulk write (~12 days)
 
-- Chapters 02–13, 15–18, 20–27.
+- Write the remaining chapters.
 - Go part-by-part so part intros can be tightened against the chapters
   they introduce.
-- Add real solution files for the alternative solutions TODO already
-  identifies (`Rooms` newtype for ch. 10, `NonZeroU16` for ch. 15,
-  alternative signatures for ch. 19, lazy iterator for ch. 21).
+- Add real solution files for the remaining alternatives the TODO identifies
+  (`NonZeroU16` for ch. 10 and a lazy iterator for ch. 13). The `Rooms` newtype
+  for ch. 14 and alternative exclusion APIs for ch. 12 were completed with the
+  reference trio.
 
 ### Phase 4, Back matter (~3 days)
 

@@ -1,6 +1,6 @@
 //! Compute totals across a list of room occupancies. Notice the
-//! repetition between the helpers - every one of them follows the same
-//! shape.
+//! repetition between the helpers: every one of them follows the same
+//! aggregation pattern.
 
 pub struct RoomOccupancy {
     pub adults: i32,

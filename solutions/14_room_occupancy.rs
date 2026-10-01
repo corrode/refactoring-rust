@@ -1,7 +1,7 @@
 //! Compute totals across a list of room occupancies.
 //!
 //! Solution highlights:
-//! - Each helper collapses to one iterator chain - the shape is visible at a glance.
+//! - Each helper names its aggregate in one iterator chain.
 //! - `max` returns `Option`, so we restore the original "0 if empty" with `unwrap_or(0)`.
 //! - `flat_map` + `copied` flattens the nested `&Vec<i32>` into owned values.
 

@@ -1,8 +1,8 @@
 //! Does `path` start with any of the excluded prefixes?
 //!
 //! Solution highlights:
-//! - `let ... else` handles the "no exclusions" case up front, no nesting.
-//! - `iter().any(...)` is the idiomatic spelling of "does any element match?"
+//! - `let ... else` handles the "no exclusions" case first and avoids nesting.
+//! - `iter().any(...)` asks directly whether any element matches.
 //! - Even better, if the API allows it: take `&HashSet<PathBuf>` and let the
 //!   empty set carry the "nothing excluded" meaning.
 

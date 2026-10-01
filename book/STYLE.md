@@ -1,7 +1,7 @@
 # Writing style for Refactoring Rust
 
 > **Status:** living document. Updated during Phase 2 against the
-> reference trio (chapters 01, 14, 19); frozen by the start of Phase 3.
+> reference trio (chapters 01, 14, 12); frozen by the start of Phase 3.
 > See `book/PLAN.md` §7 for the rationale.
 
 ## Voice
@@ -85,9 +85,11 @@ Optional, included only when there's something real to say:
 
 ## Spine sections as callouts
 
-Each spine section after *The problem* opens with a labelled blockquote.
-The CSS in `theme/css/corrode.css` styles the leading `**LABEL**` as a
-small-caps badge.
+Prompt-oriented spine sections open with a labelled blockquote. Use badges for
+*Starter code*, *Review*, *Trade-offs*, *Follow-up questions*, and *Concepts recap*.
+*A possible solution* and *Quiz* do not need badges because their headings already
+name the content. The CSS in `theme/css/corrode.css` styles the leading `**LABEL**`
+as a small-caps badge.
 
 ```markdown
 > **REVIEW**
@@ -108,8 +110,11 @@ Standard labels:
 
 ## Code blocks
 
-- **Starter listings:** `{{#include ../../examples/NN_name.rs}}`.
-- **Canonical solutions:** `{{#include ../../solutions/NN_name.rs}}`.
+- **Starter listings:** `{{#include ../../../examples/NN_name.rs}}` from a chapter
+  under `book/src/part-*`.
+- **Canonical solutions:** `{{#include ../../../solutions/NN_name.rs}}` from the same
+  location. Include paths are relative to the Markdown file, so front-matter pages
+  need a different number of parent traversals.
 - **Alternative solutions worth keeping runnable:** add a real file
   `solutions/NN_name_alt.rs` (and a matching `[[example]]` entry in
   `Cargo.toml`), then `{{#include}}` it.
@@ -126,7 +131,7 @@ Standard labels:
 - Link Concepts recap entries to the appendix Cheatsheet with
   `[newtype](../appendix/concept-index.md#newtype)` style anchors.
 - Link forward and backward between chapters generously
-  (`see [ch. 19](../part-5-domain-modeling/19-excluded-path.md)`). The
+  (`see [ch. 12](../part-3-aggregations/12-excluded-path.md)`). The
   book is a graph, not a list.
 
 ## Trade-off scoring vocabulary
@@ -148,6 +153,9 @@ Always include a one-sentence justification. Never just the label.
   *Follow-up questions*.
 - **Judgement** style, not recall. See `PLAN.md` §13.
 - Never "what does this print" unless the surprise is the point.
+- Until the quiz plugin is chosen, use numbered `###` question headings followed by
+  an italic `*Answer:*` paragraph. This keeps the questions readable and leaves a
+  consistent structure for a later migration.
 
 ## TODOs
 
