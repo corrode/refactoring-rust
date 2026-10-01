@@ -14,8 +14,8 @@ passes that invalid boundary to `String::truncate`.
 > Review the implementation and its tests against the contract. The result must use “at
 > most `max_bytes` bytes,” which means it may be shorter than the requested limit.
 
-```rust
-{{#rustdoc_include ../../../examples/04_truncate_string.rs:listing}}
+```rust,editable
+{{#include ../../../examples/04_truncate_string.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -75,8 +75,8 @@ reinforces the byte-based contract; it does not define that contract by itself.
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/04_truncate_string.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/04_truncate_string.rs:listing}}
 ```
 
 The byte-cap implementation does four things:
@@ -104,7 +104,7 @@ If the project supports an older compiler, use the manual alternative below.
 
 The solution file also includes a helper for a different unit, character count:
 
-```rust
+```rust,editable
 pub fn truncate_chars(s: &str, num_chars: usize) -> String {
     s.chars().take(num_chars).collect()
 }
@@ -117,7 +117,7 @@ part of a user-perceived symbol, so a grapheme limit needs yet another contract.
 If the minimum supported Rust version is older than 1.91, you can search for the boundary
 with older stable APIs:
 
-```rust
+```rust,editable
 pub fn truncate(s: &str, max_bytes: usize) -> String {
     if max_bytes >= s.len() {
         return s.to_string();

@@ -16,8 +16,8 @@ directly with a string literal.
 > including the existing results for a path without an extension and for the dotfile
 > `.rs`.
 
-```rust
-{{#rustdoc_include ../../../examples/05_path.rs:listing}}
+```rust,editable
+{{#include ../../../examples/05_path.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -68,8 +68,8 @@ filesystem.
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/05_path.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/05_path.rs:listing}}
 ```
 
 The function now states the two parts of its decision directly:
@@ -94,7 +94,7 @@ match. `Cargo.toml` and `README` do not. Under `Path`'s rules, `.rs` has no exte
 
 The solution file also includes `map_or`, which is just as valid here:
 
-```rust
+```rust,editable
 # use std::path::Path;
 pub fn is_rust_source_file(path: &Path) -> bool {
     path.extension().map_or(false, |ext| ext == "rs")
@@ -109,7 +109,7 @@ uses it consistently or supports a Rust version that predates `is_some_and`.
 
 An explicit `match` is sound too:
 
-```rust
+```rust,editable
 # use std::path::Path;
 pub fn is_rust_source_file(path: &Path) -> bool {
     match path.extension() {

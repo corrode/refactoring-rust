@@ -108,6 +108,10 @@ pre,
     font-size: inherit;
 }
 
+.content .ace_editor {
+    font-size: 0.96em;
+}
+
 /* ---------- Navy theme overrides ----------
  * mdBook's navy is closest to the slides palette; we nudge it the rest of
  * the way to a Brown-style bookish dark.

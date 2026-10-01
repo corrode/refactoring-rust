@@ -15,8 +15,8 @@ those facts in the function's interface.
 > Review the parsing type, range check, and return type as separate decisions. Find a type
 > whose parser enforces the upper bound, then a success type that cannot contain zero.
 
-```rust
-{{#rustdoc_include ../../../examples/10_parse_port.rs:listing}}
+```rust,editable
+{{#include ../../../examples/10_parse_port.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -65,8 +65,8 @@ useful distinction in the error type.
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/10_parse_port.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/10_parse_port.rs:listing}}
 ```
 
 The first operation asks `str::parse` for a `u16`, so the target type decides which

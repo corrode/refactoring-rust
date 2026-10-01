@@ -17,7 +17,7 @@ mathjax-support = false
 # TODO(theme,v2): drop unused themes (coal, ayu, rust) once a custom theme picker lands.
 
 [output.html.playground]
-editable = false
+editable = true
 copyable = true
 copy-js = true
 line-numbers = true

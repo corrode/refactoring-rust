@@ -16,8 +16,8 @@ not to hide failure, but to remove plumbing without weakening the error contract
 > returns, then find the standard-library operation that opens a file and reads all of it
 > into a `String`.
 
-```rust
-{{#rustdoc_include ../../../examples/09_error_handling.rs:listing}}
+```rust,editable
+{{#include ../../../examples/09_error_handling.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -70,8 +70,8 @@ the error value instead.
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/09_error_handling.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/09_error_handling.rs:listing}}
 ```
 
 `fs::read_to_string(path)` opens the file, reads all bytes as UTF-8 text, and returns the

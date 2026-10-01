@@ -14,8 +14,8 @@ ignore each missing entry. The starter gets the right answer with a mutable tota
 > Treat the loop as an aggregation over optional values. Preserve the existing results for
 > `None`, an empty input vector, and a vector with no present values.
 
-```rust
-{{#rustdoc_include ../../../examples/07_optional_values.rs:listing}}
+```rust,editable
+{{#include ../../../examples/07_optional_values.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -62,8 +62,8 @@ API change.
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/07_optional_values.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/07_optional_values.rs:listing}}
 ```
 
 `into_iter()` consumes the vector and yields each `Option<i32>` by value, just as the
@@ -88,7 +88,7 @@ still pass.
 
 `filter_map` can perform the same zero-or-one-value conversion with an identity closure:
 
-```rust
+```rust,editable
 pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
     options.into_iter().filter_map(|option| option).sum()
 }
@@ -100,7 +100,7 @@ already nested containers and the closure makes no additional decision.
 
 If callers should retain the vector, a borrowed interface changes the iterator types:
 
-```rust
+```rust,editable
 pub fn sum_options(options: &[Option<i32>]) -> i32 {
     options.iter().flatten().copied().sum()
 }

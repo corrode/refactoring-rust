@@ -15,8 +15,8 @@ more from callers than the predicate needs.
 > Imagine this function appears in a pull request. Review it against the tests, which
 > define the current contract for empty input and for a non-ASCII uppercase letter.
 
-```rust
-{{#rustdoc_include ../../../examples/01_starts_with_uppercase.rs:listing}}
+```rust,editable
+{{#include ../../../examples/01_starts_with_uppercase.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -61,8 +61,8 @@ to inspect.
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/01_starts_with_uppercase.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/01_starts_with_uppercase.rs:listing}}
 ```
 
 The borrowed signature accepts string literals, borrowed `String` values, and other
@@ -89,7 +89,7 @@ Walking through `char` values preserves the behaviour covered by the test.
 `str::starts_with` can take a character predicate, so this version expresses the same
 contract even more directly:
 
-```rust
+```rust,editable
 pub fn starts_with_uppercase(s: &str) -> bool {
     s.starts_with(char::is_uppercase)
 }

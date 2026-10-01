@@ -151,7 +151,7 @@ focus.
 
 The starter:
 
-```rust
+```rust,editable
 pub fn is_yes(s: String) -> bool {
     if s == "y" {
         return true;
@@ -171,7 +171,7 @@ pub fn is_yes(s: String) -> bool {
 
 A possible refactor:
 
-```rust
+```rust,editable
 pub fn is_yes(s: &str) -> bool {
     matches!(s.to_ascii_lowercase().as_str(), "y" | "yes")
 }

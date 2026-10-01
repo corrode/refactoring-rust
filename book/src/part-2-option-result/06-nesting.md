@@ -16,8 +16,8 @@ creates an owned result.
 > cases: absent input, empty input, whitespace-only input, and non-empty text surrounded
 > by whitespace.
 
-```rust
-{{#rustdoc_include ../../../examples/06_nesting.rs:listing}}
+```rust,editable
+{{#include ../../../examples/06_nesting.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -63,8 +63,8 @@ result.
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/06_nesting.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/06_nesting.rs:listing}}
 ```
 
 Read the chain as three stages, in order:
@@ -94,7 +94,7 @@ a value without introducing another nested branch.
 A combinator chain is not the only clear answer. You can remove the nesting while keeping
 each decision explicit:
 
-```rust
+```rust,editable
 pub fn shout(s: Option<&str>) -> Option<String> {
     let Some(s) = s else {
         return None;

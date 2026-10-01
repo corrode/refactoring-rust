@@ -15,8 +15,8 @@ even though the traversal itself can skip the odd values.
 > include zero and exclude the upper bound. Then decide whether `evens` should have to
 > construct the complete result before it returns.
 
-```rust
-{{#rustdoc_include ../../../examples/03_even_numbers.rs:listing}}
+```rust,editable
+{{#include ../../../examples/03_even_numbers.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -64,8 +64,8 @@ values to consume and whether to collect them.
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/03_even_numbers.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/03_even_numbers.rs:listing}}
 ```
 
 `0..max` already has the tested boundaries: it starts at zero, excludes `max`, and is
@@ -97,7 +97,7 @@ the full result.
 If callers rely on an owned collection, you can remove the manual loop without changing
 the API:
 
-```rust
+```rust,editable
 pub fn evens(max: u32) -> Vec<u32> {
     (0..max).step_by(2).collect()
 }
@@ -109,7 +109,7 @@ exercise's lazy-result requirement.
 
 A lazy filter is also correct:
 
-```rust
+```rust,editable
 pub fn evens(max: u32) -> impl Iterator<Item = u32> {
     (0..max).filter(|n| n % 2 == 0)
 }

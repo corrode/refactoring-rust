@@ -18,8 +18,8 @@ is useful, but only after we settle which behaviour belongs to the contract.
 > Review the four functions together. Name the operation in each loop, then check where
 > an accumulator's initial value can change the answer.
 
-```rust
-{{#rustdoc_include ../../../examples/14_room_occupancy.rs:listing}}
+```rust,editable
+{{#include ../../../examples/14_room_occupancy.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -65,8 +65,8 @@ accident of the accumulator.
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/14_room_occupancy.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/14_room_occupancy.rs:listing}}
 ```
 
 The two totals translate directly. Borrow the rooms, map each room to the number the
@@ -96,7 +96,7 @@ Free functions are a good fit for four isolated calculations. If the same room s
 keeps passing through a larger API, a `Rooms` newtype can keep those operations beside
 the data they summarize:
 
-```rust
+```rust,editable
 {{#include ../../../solutions/14_room_occupancy_alt.rs:rooms}}
 ```
 

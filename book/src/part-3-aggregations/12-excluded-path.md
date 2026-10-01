@@ -19,8 +19,8 @@ system.
 > current behaviour first. Then check whether the parameter types express a distinction
 > this function uses.
 
-```rust
-{{#rustdoc_include ../../../examples/12_excluded_path.rs:listing}}
+```rust,editable
+{{#include ../../../examples/12_excluded_path.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -66,8 +66,8 @@ to see it.
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/12_excluded_path.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/12_excluded_path.rs:listing}}
 ```
 
 `let ... else` handles `None` before the search starts. Past that statement,
@@ -109,7 +109,7 @@ receives the optional view it needs, without access to the owning wrapper.
 If absence and emptiness mean the same thing, remove `Option` and put the candidate path
 first:
 
-```rust
+```rust,editable
 # use std::collections::HashSet;
 # use std::path::{Path, PathBuf};
 {{#include ../../../solutions/12_excluded_path_alt.rs:plain_function}}
@@ -121,7 +121,7 @@ The set can still justify itself by deduplicating configured prefixes.
 
 You can also stop exposing the storage and give the policy its own type:
 
-```rust
+```rust,editable
 # use std::collections::HashSet;
 # use std::path::{Path, PathBuf};
 {{#include ../../../solutions/12_excluded_path_alt.rs:excluder}}

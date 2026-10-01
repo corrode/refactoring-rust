@@ -16,8 +16,8 @@ fails. Any cleanup has to preserve that difference.
 > collect-all validation, validator order, and the requirement that every validator
 > runs.
 
-```rust
-{{#rustdoc_include ../../../examples/08_parse_ints.rs:listing}}
+```rust,editable
+{{#include ../../../examples/08_parse_ints.rs:listing}}
 ```
 
 > **TRY THIS**
@@ -72,8 +72,8 @@ better. In an iterator pipeline, `filter_map` can consume that `Option` directly
 <details>
 <summary>Show a possible solution</summary>
 
-```rust
-{{#rustdoc_include ../../../solutions/08_parse_ints.rs:listing}}
+```rust,editable
+{{#include ../../../solutions/08_parse_ints.rs:listing}}
 ```
 
 The new `parse_values` takes a borrowed slice. `values.iter()` visits each `String` by
