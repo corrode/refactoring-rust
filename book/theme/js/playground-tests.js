@@ -13,21 +13,44 @@
         return window.ace ? window.ace.edit(code).getValue() : code.textContent;
     }
 
-    function testsFor(playground) {
+    function attachedTestCandidates(playground) {
         const tests = playground.nextElementSibling;
         if (!tests || !tests.classList.contains('playground-tests')) {
-            return null;
+            return [];
         }
-        return tests.textContent.trim();
+
+        const candidates = [tests.textContent.trim()];
+        const fallback = tests.nextElementSibling;
+        if (fallback?.classList.contains('playground-tests-fallback')) {
+            candidates.push(fallback.textContent.trim());
+        }
+        return candidates;
     }
 
-    function fallbackTestsFor(playground) {
-        const tests = playground.nextElementSibling;
-        const fallback = tests?.nextElementSibling;
-        if (!fallback || !fallback.classList.contains('playground-tests-fallback')) {
-            return null;
+    function testCandidates(playground, code) {
+        const attached = attachedTestCandidates(playground);
+        if (attached.length > 0) {
+            return attached;
         }
-        return fallback.textContent.trim();
+
+        const functionNames = Array.from(
+            code.matchAll(/\b(?:pub\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)/g),
+            match => match[1],
+        );
+        if (functionNames.length === 0) {
+            return [];
+        }
+
+        const candidates = Array.from(document.querySelectorAll(
+            'script.playground-tests, script.playground-tests-fallback',
+        ))
+            .map(tests => tests.textContent.trim())
+            .filter(tests => functionNames.some(name => {
+                const call = new RegExp(`\\b${name}\\s*\\(`);
+                return call.test(tests);
+            }));
+
+        return Array.from(new Set(candidates));
     }
 
     function editionFor(playground) {
@@ -88,10 +111,8 @@
             return;
         }
 
-        const tests = testsFor(playground);
-        const fallbackTests = fallbackTestsFor(playground);
-        const runsTests = tests !== null;
-        const source = runsTests ? `${code}\n\n${tests}\n` : code;
+        const candidates = testCandidates(playground, code);
+        const runsTests = candidates.length > 0;
         const result = resultBlock(playground);
         const button = playground.querySelector('.play-button');
         const controller = new AbortController();
@@ -104,30 +125,46 @@
         }
 
         try {
-            const primaryOutput = await runOnPlayground(
-                source,
-                playground,
-                runsTests,
-                controller.signal,
-            );
-            let output = primaryOutput;
+            const outputs = [];
 
-            if (!primaryOutput.success && fallbackTests !== null) {
-                result.textContent = 'Trying tests for the refactored API...';
-                output = await runOnPlayground(
-                    `${code}\n\n${fallbackTests}\n`,
+            if (runsTests) {
+                for (const [index, tests] of candidates.entries()) {
+                    if (index > 0) {
+                        result.textContent = 'Trying tests for a compatible API...';
+                    }
+                    const output = await runOnPlayground(
+                        `${code}\n\n${tests}\n`,
+                        playground,
+                        true,
+                        controller.signal,
+                    );
+                    outputs.push(output);
+                    if (output.success) {
+                        break;
+                    }
+                }
+            } else {
+                outputs.push(await runOnPlayground(
+                    code,
                     playground,
-                    true,
+                    false,
                     controller.signal,
-                );
+                ));
             }
 
+            const output = outputs[outputs.length - 1];
             let text = outputText(output);
-            if (!primaryOutput.success && !output.success && fallbackTests !== null) {
-                text = `Current API tests:\n${outputText(primaryOutput)}\n\nRefactored API tests:\n${text}`;
+            if (!output.success && outputs.length > 1) {
+                text = outputs
+                    .map((attempt, index) => `Test set ${index + 1}:\n${outputText(attempt)}`)
+                    .join('\n\n');
             }
 
-            result.textContent = text || (runsTests ? 'Tests passed.' : 'Code compiles.');
+            if (output.success && runsTests) {
+                result.textContent = text ? `Tests passed.\n\n${text}` : 'Tests passed.';
+            } else {
+                result.textContent = text || 'Code compiles.';
+            }
             result.classList.toggle('result-no-output', output.success && text === '');
         } catch (error) {
             const message = error.name === 'AbortError' ? 'request timed out' : error.message;
@@ -160,7 +197,7 @@
             return;
         }
 
-        const runsTests = testsFor(playground) !== null;
+        const runsTests = testCandidates(playground, editableCode(playground)).length > 0;
         button.title = runsTests ? 'Run tests' : 'Check code';
         button.setAttribute('aria-label', button.title);
     });
