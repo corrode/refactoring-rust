@@ -1,6 +1,5 @@
 // ANCHOR: listing
-//! Classify a number as "prime", "square", "nothing", or "something else".
-
+/// Classify a number as "prime", "square", "nothing", or "something else".
 pub fn describe(value: Option<u32>) -> &'static str {
     match value {
         Some(2) | Some(3) | Some(5) | Some(7) => "prime",

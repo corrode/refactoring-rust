@@ -1,7 +1,6 @@
-//! Clean up a log line by trimming whitespace, collapsing runs of
-//! internal whitespace, and removing a leading `[INFO]`, `[WARN]`, or
-//! `[ERROR]` tag.
-
+/// Clean up a log line by trimming whitespace, collapsing runs of
+/// internal whitespace, and removing a leading `[INFO]`, `[WARN]`, or
+/// `[ERROR]` tag.
 pub fn trim_log_line(line: &str) -> String {
     let mut s = String::new();
     let mut started = false;

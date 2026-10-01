@@ -1,11 +1,10 @@
 // ANCHOR: listing
-//! Classify a number as "prime", "square", "nothing", or "something else".
-//!
-//! Solution highlights:
-//! - Or-patterns nest inside `Some(_)` since Rust 1.53.
-//! - The wildcard `_` still catches every other `Some(n)`.
-//! - Each arm states the shared `Some` constructor once.
-
+/// Classify a number as "prime", "square", "nothing", or "something else".
+///
+/// Solution highlights:
+/// - Or-patterns nest inside `Some(_)` since Rust 1.53.
+/// - The wildcard `_` still catches every other `Some(n)`.
+/// - Each arm states the shared `Some` constructor once.
 pub fn describe(value: Option<u32>) -> &'static str {
     match value {
         Some(2 | 3 | 5 | 7) => "prime",

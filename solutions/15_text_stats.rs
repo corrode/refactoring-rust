@@ -1,11 +1,3 @@
-//! Compute summary statistics for the words in a piece of text.
-//!
-//! Solution highlights:
-//! - Map values are occurrence counts, so summing them gives the total.
-//! - Every map key is unique, so the map length gives the unique-word count.
-//! - Word lengths are weighted by their occurrence counts.
-//! - Empty input has an explicit average of zero.
-
 use std::collections::HashMap;
 
 pub fn count_words(text: &str) -> HashMap<String, usize> {
@@ -16,6 +8,13 @@ pub fn count_words(text: &str) -> HashMap<String, usize> {
     counts
 }
 
+/// Compute summary statistics for the words in a piece of text.
+///
+/// Solution highlights:
+/// - Map values are occurrence counts, so summing them gives the total.
+/// - Every map key is unique, so the map length gives the unique-word count.
+/// - Word lengths are weighted by their occurrence counts.
+/// - Empty input has an explicit average of zero.
 pub fn text_stats(text: &str) -> (usize, usize, f64) {
     let counts = count_words(text);
     let total_words: usize = counts.values().sum();

@@ -1,8 +1,7 @@
 // ANCHOR: listing
-//! Does this path point to a Rust source file?
-
 use std::path::Path;
 
+/// Does this path point to a Rust source file?
 pub fn is_rust_source_file(path: &Path) -> bool {
     match path.extension() {
         Some(ext) => match ext.to_str() {

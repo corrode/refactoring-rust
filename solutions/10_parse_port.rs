@@ -1,11 +1,4 @@
 // ANCHOR: listing
-//! Parse a TCP port string into a `NonZeroU16`.
-//!
-//! Solution highlights:
-//! - Parsing directly as `u16` removes the manual upper-bound check.
-//! - `NonZeroU16` makes "port 0" unrepresentable in the success type.
-//! - A small `enum` tells the caller *why* parsing failed instead of swallowing it.
-
 use std::num::NonZeroU16;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -14,6 +7,12 @@ pub enum InvalidPort {
     Zero,
 }
 
+/// Parse a TCP port string into a `NonZeroU16`.
+///
+/// Solution highlights:
+/// - Parsing directly as `u16` removes the manual upper-bound check.
+/// - `NonZeroU16` makes "port 0" unrepresentable in the success type.
+/// - A small `enum` tells the caller *why* parsing failed instead of swallowing it.
 pub fn parse_port(s: &str) -> Result<NonZeroU16, InvalidPort> {
     let n: u16 = s.parse().map_err(|_| InvalidPort::Invalid)?;
     NonZeroU16::new(n).ok_or(InvalidPort::Zero)

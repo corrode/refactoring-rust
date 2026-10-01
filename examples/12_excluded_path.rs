@@ -1,10 +1,9 @@
 // ANCHOR: listing
-//! Does `path` start with any of the excluded prefixes?
-//! `None` means no exclusions are configured (so nothing is excluded).
-
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
+/// Does `path` start with any of the excluded prefixes?
+/// `None` means no exclusions are configured (so nothing is excluded).
 pub fn is_excluded(excluded: &Option<HashSet<PathBuf>>, path: &Path) -> bool {
     if let Some(excluded) = excluded {
         for prefix in excluded {

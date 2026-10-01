@@ -1,15 +1,14 @@
-//! Sort a slice of integers with quicksort.
-//!
-//! Solution highlights:
-//! - A slice pattern (`[pivot, rest @ ..]`) splits head from tail and
-//!   handles the empty base case in the same `let ... else`.
-//! - `Iterator::partition` splits the rest into "<= pivot" and "> pivot"
-//!   in one pass, so the recursion reads like the textbook definition.
-//!
-//! This is the clearest quicksort, not the fastest: it allocates and
-//! never sorts in place. Clarity is the point of the exercise. When you
-//! actually need to sort, reach for `slice::sort` / `sort_unstable`.
-
+/// Sort a slice of integers with quicksort.
+///
+/// Solution highlights:
+/// - A slice pattern (`[pivot, rest @ ..]`) splits head from tail and
+///   handles the empty base case in the same `let ... else`.
+/// - `Iterator::partition` splits the rest into "<= pivot" and "> pivot"
+///   in one pass, so the recursion reads like the textbook definition.
+///
+/// This is the clearest quicksort, not the fastest: it allocates and
+/// never sorts in place. Clarity is the point of the exercise. When you
+/// actually need to sort, reach for `slice::sort` / `sort_unstable`.
 pub fn quicksort(input: &[i32]) -> Vec<i32> {
     let [pivot, rest @ ..] = input else {
         return Vec::new();

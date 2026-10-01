@@ -1,11 +1,10 @@
-//! Collapse consecutive duplicate values, keeping one per run.
-//!
-//! Solution highlights:
-//! - `Vec::dedup` removes consecutive equal elements in place.
-//! - It touches only *adjacent* duplicates, which is exactly the spec:
-//!   values separated by a different element are left alone.
-//! - For a lazy, iterator-based equivalent, reach for `Itertools::dedup`.
-
+/// Collapse consecutive duplicate values, keeping one per run.
+///
+/// Solution highlights:
+/// - `Vec::dedup` removes consecutive equal elements in place.
+/// - It touches only *adjacent* duplicates, which is exactly the spec:
+///   values separated by a different element are left alone.
+/// - For a lazy, iterator-based equivalent, reach for `Itertools::dedup`.
 pub fn dedup_runs(mut values: Vec<i32>) -> Vec<i32> {
     values.dedup();
     values

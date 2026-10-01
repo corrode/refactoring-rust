@@ -1,11 +1,10 @@
-//! Clean up a log line: trim, collapse internal whitespace, strip
-//! a leading `[INFO]` / `[WARN]` / `[ERROR]` tag.
-//!
-//! Solution highlights:
-//! - `trim()` replaces both the start-skipping and end-popping loops.
-//! - `strip_prefix` returns `Option<&str>` — exactly the "matched and here's the rest" shape.
-//! - `split_whitespace()` + `join(" ")` collapses any run of whitespace into single spaces.
-
+/// Clean up a log line: trim, collapse internal whitespace, strip
+/// a leading `[INFO]` / `[WARN]` / `[ERROR]` tag.
+///
+/// Solution highlights:
+/// - `trim()` replaces both the start-skipping and end-popping loops.
+/// - `strip_prefix` returns `Option<&str>` — exactly the "matched and here's the rest" shape.
+/// - `split_whitespace()` + `join(" ")` collapses any run of whitespace into single spaces.
 pub fn trim_log_line(line: &str) -> String {
     let trimmed = line.trim();
     let without_tag = ["[INFO]", "[WARN]", "[ERROR]"]

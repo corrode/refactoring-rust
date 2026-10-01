@@ -1,11 +1,10 @@
 // ANCHOR: listing
-//! Return the even numbers below `max` as a lazy iterator.
-//!
-//! Solution highlights:
-//! - `impl Iterator<Item = u32>` returns the iterator without allocating.
-//! - `step_by(2)` says exactly what we mean: walk in steps of two.
-//! - Callers stay in control: they can `take`, `map`, `sum`, or `collect`.
-
+/// Return the even numbers below `max` as a lazy iterator.
+///
+/// Solution highlights:
+/// - `impl Iterator<Item = u32>` returns the iterator without allocating.
+/// - `step_by(2)` says exactly what we mean: walk in steps of two.
+/// - Callers stay in control: they can `take`, `map`, `sum`, or `collect`.
 pub fn evens(max: u32) -> impl Iterator<Item = u32> {
     (0..max).step_by(2)
 }

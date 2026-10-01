@@ -1,11 +1,10 @@
-//! Sort a slice of integers with quicksort.
-//!
-//! This version works, but it's a mouthful: it copies into a `Vec`,
-//! then juggles indices through a hand-written Lomuto partition with a
-//! mutating helper. The algorithm is in there somewhere, buried under
-//! bookkeeping. Rewrite it so it reads the way you'd explain quicksort
-//! on a whiteboard. (You have free rein to change the signature.)
-
+/// Sort a slice of integers with quicksort.
+///
+/// This version works, but it's a mouthful: it copies into a `Vec`,
+/// then juggles indices through a hand-written Lomuto partition with a
+/// mutating helper. The algorithm is in there somewhere, buried under
+/// bookkeeping. Rewrite it so it reads the way you'd explain quicksort
+/// on a whiteboard. (You have free rein to change the signature.)
 pub fn quicksort(input: &[i32]) -> Vec<i32> {
     let mut values = input.to_vec();
     let len = values.len();

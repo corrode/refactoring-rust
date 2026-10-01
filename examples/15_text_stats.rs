@@ -1,8 +1,3 @@
-//! Compute summary statistics for the words in a piece of text.
-//!
-//! The tests pass, but they only use words that occur once. Add a repeated-word
-//! test before deciding whether the implementation matches the contract.
-
 use std::collections::HashMap;
 
 pub fn count_words(text: &str) -> HashMap<String, usize> {
@@ -13,6 +8,10 @@ pub fn count_words(text: &str) -> HashMap<String, usize> {
     counts
 }
 
+/// Compute summary statistics for the words in a piece of text.
+///
+/// The tests pass, but they only use words that occur once. Add a repeated-word
+/// test before deciding whether the implementation matches the contract.
 pub fn text_stats(text: &str) -> (usize, usize, f64) {
     let counts = count_words(text);
     let total_words = counts.values().count();

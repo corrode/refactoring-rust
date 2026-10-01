@@ -1,6 +1,5 @@
 // ANCHOR: listing
-//! Does this string start with an uppercase letter?
-
+/// Does this string start with an uppercase letter?
 pub fn starts_with_uppercase(s: String) -> bool {
     if s.len() == 0 {
         return false;

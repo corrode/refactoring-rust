@@ -1,11 +1,10 @@
-//! Validate that a string looks like an IBAN.
-//!
-//! Rules:
-//! - First two characters: ASCII letters (country code).
-//! - Next two characters: ASCII digits (check digits).
-//! - Remaining characters: ASCII alphanumerics.
-//! - Total length must match the expected length for the country.
-
+/// Validate that a string looks like an IBAN.
+///
+/// Rules:
+/// - First two characters: ASCII letters (country code).
+/// - Next two characters: ASCII digits (check digits).
+/// - Remaining characters: ASCII alphanumerics.
+/// - Total length must match the expected length for the country.
 pub fn is_valid_iban(s: &str) -> bool {
     let chars: Vec<char> = s.chars().collect();
     if chars.len() < 4 {

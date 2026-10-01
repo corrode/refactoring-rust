@@ -1,7 +1,6 @@
-//! Parse an SRT timestamp like `"00:01:23,456"` into a `Duration`.
-
 use core::time::Duration;
 
+/// Parse an SRT timestamp like `"00:01:23,456"` into a `Duration`.
 pub fn parse_srt_timestamp(s: &str) -> Option<Duration> {
     let parts: Vec<&str> = s.split(':').collect();
     if parts.len() != 3 {

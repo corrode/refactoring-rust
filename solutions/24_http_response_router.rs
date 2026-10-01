@@ -1,11 +1,3 @@
-//! Decide what to do with an HTTP response based on its status code.
-//!
-//! Solution highlights:
-//! - Split "what class is this status?" from "what do we do?" with a `StatusClass` enum.
-//! - `classify` is the only place that knows the numeric ranges.
-//! - `handle_response` becomes a flat `match` — one arm per policy decision.
-//! - Adding a new class or special-case status now changes exactly one place.
-
 pub struct Response {
     pub status: u16,
     pub body: Vec<u8>,
@@ -39,6 +31,13 @@ impl StatusClass {
     }
 }
 
+/// Decide what to do with an HTTP response based on its status code.
+///
+/// Solution highlights:
+/// - Split "what class is this status?" from "what do we do?" with a `StatusClass` enum.
+/// - `classify` is the only place that knows the numeric ranges.
+/// - `handle_response` becomes a flat `match` — one arm per policy decision.
+/// - Adding a new class or special-case status now changes exactly one place.
 pub fn handle_response(resp: Response) -> Action {
     use StatusClass::*;
     match StatusClass::classify(resp.status) {

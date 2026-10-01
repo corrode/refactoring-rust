@@ -1,51 +1,3 @@
-//! Parse a `.env` file into key/value pairs, with real error reporting.
-//!
-//! Solution highlights:
-//! - A character-level state machine drives the parse; every byte is handled
-//!   in exactly one place, so quoting rules and comment-stripping can't drift.
-//! - Quoted values preserve `#` and `=` verbatim; bare values stop at `#`
-//!   and trim their trailing whitespace.
-//! - Errors carry the line number, so callers can locate bad input.
-//!
-//! State diagram (transitions on the next character):
-//!
-//!     LineStart ──┬─ ws ──→ LineStart
-//!                 ├─ '#' ──→ InComment
-//!                 ├─ '\n' ──→ LineStart (line++)
-//!                 ├─ '='  ──→ ERROR EmptyKey
-//!                 └─ any  ──→ InKey
-//!
-//!     InKey     ──┬─ '='  ──→ BeforeValue
-//!                 ├─ '\n' ──→ ERROR MissingEquals
-//!                 ├─ ws   ──→ AfterKey
-//!                 └─ any  ──→ InKey
-//!
-//!     AfterKey  ──┬─ '='  ──→ BeforeValue
-//!                 ├─ ws   ──→ AfterKey
-//!                 └─ else ──→ ERROR MissingEquals
-//!
-//!     BeforeValue ─┬─ '"'  ──→ InQuotedValue
-//!                  ├─ '#' / '\n' / EOF ──→ commit empty, …
-//!                  ├─ ws   ──→ BeforeValue
-//!                  └─ any  ──→ InBareValue
-//!
-//!     InBareValue ─┬─ '\n' / '#' / EOF ──→ commit (trim_end)
-//!                  └─ any  ──→ InBareValue
-//!
-//!     InQuotedValue ┬─ '"'  ──→ AfterQuotedValue
-//!                   ├─ '\\' ──→ InQuotedEscape
-//!                   ├─ EOF  ──→ ERROR UnterminatedQuote
-//!                   └─ any  ──→ InQuotedValue
-//!
-//!     InQuotedEscape ─ any ──→ InQuotedValue (decode \n \t \r else literal)
-//!
-//!     AfterQuotedValue ┬─ '\n' / '#' / EOF ──→ commit
-//!                      ├─ ws   ──→ AfterQuotedValue
-//!                      └─ else ──→ ERROR TrailingGarbage
-//!
-//!     InComment ──┬─ '\n' ──→ LineStart
-//!                 └─ any  ──→ InComment
-
 use std::collections::HashMap;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -75,6 +27,53 @@ enum State {
     InComment,
 }
 
+/// Parse a `.env` file into key/value pairs, with real error reporting.
+///
+/// Solution highlights:
+/// - A character-level state machine drives the parse; every byte is handled
+///   in exactly one place, so quoting rules and comment-stripping can't drift.
+/// - Quoted values preserve `#` and `=` verbatim; bare values stop at `#`
+///   and trim their trailing whitespace.
+/// - Errors carry the line number, so callers can locate bad input.
+///
+/// State diagram (transitions on the next character):
+///
+///     LineStart ──┬─ ws ──→ LineStart
+///                 ├─ '#' ──→ InComment
+///                 ├─ '\n' ──→ LineStart (line++)
+///                 ├─ '='  ──→ ERROR EmptyKey
+///                 └─ any  ──→ InKey
+///
+///     InKey     ──┬─ '='  ──→ BeforeValue
+///                 ├─ '\n' ──→ ERROR MissingEquals
+///                 ├─ ws   ──→ AfterKey
+///                 └─ any  ──→ InKey
+///
+///     AfterKey  ──┬─ '='  ──→ BeforeValue
+///                 ├─ ws   ──→ AfterKey
+///                 └─ else ──→ ERROR MissingEquals
+///
+///     BeforeValue ─┬─ '"'  ──→ InQuotedValue
+///                  ├─ '#' / '\n' / EOF ──→ commit empty, …
+///                  ├─ ws   ──→ BeforeValue
+///                  └─ any  ──→ InBareValue
+///
+///     InBareValue ─┬─ '\n' / '#' / EOF ──→ commit (trim_end)
+///                  └─ any  ──→ InBareValue
+///
+///     InQuotedValue ┬─ '"'  ──→ AfterQuotedValue
+///                   ├─ '\\' ──→ InQuotedEscape
+///                   ├─ EOF  ──→ ERROR UnterminatedQuote
+///                   └─ any  ──→ InQuotedValue
+///
+///     InQuotedEscape ─ any ──→ InQuotedValue (decode \n \t \r else literal)
+///
+///     AfterQuotedValue ┬─ '\n' / '#' / EOF ──→ commit
+///                      ├─ ws   ──→ AfterQuotedValue
+///                      └─ else ──→ ERROR TrailingGarbage
+///
+///     InComment ──┬─ '\n' ──→ LineStart
+///                 └─ any  ──→ InComment
 pub fn parse_env(content: &str) -> Result<HashMap<String, String>, ParseError> {
     let mut out = HashMap::new();
     let mut state = State::LineStart;

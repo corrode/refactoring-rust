@@ -1,6 +1,5 @@
 // ANCHOR: listing
-//! Sum all `Some` values in the vector. Ignore `None` entries.
-
+/// Sum all `Some` values in the vector. Ignore `None` entries.
 pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
     let mut sum = 0;
     for option in options {

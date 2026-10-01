@@ -1,14 +1,13 @@
 // ANCHOR: listing
-//! Read the entire contents of a file into a `String`.
-//!
-//! Solution highlights:
-//! - `match … Err(e) => return Err(e)` is literally what `?` expands to.
-//! - `std::fs::read_to_string` opens, reads, and closes the file for us.
-//! - The function is now small enough that it almost stops needing to exist.
-
 use std::fs;
 use std::io;
 
+/// Read the entire contents of a file into a `String`.
+///
+/// Solution highlights:
+/// - `match … Err(e) => return Err(e)` is literally what `?` expands to.
+/// - `std::fs::read_to_string` opens, reads, and closes the file for us.
+/// - The function is now small enough that it almost stops needing to exist.
 pub fn read_file_contents(path: &str) -> io::Result<String> {
     fs::read_to_string(path)
 }

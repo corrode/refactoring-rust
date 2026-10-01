@@ -1,6 +1,5 @@
 // ANCHOR: listing
-//! Truncate a string to at most `max_bytes` bytes.
-
+/// Truncate a string to at most `max_bytes` bytes.
 pub fn truncate(s: &str, max_bytes: usize) -> String {
     let mut owned = s.to_string();
     owned.truncate(max_bytes);

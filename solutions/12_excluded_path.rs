@@ -1,15 +1,14 @@
 // ANCHOR: listing
-//! Does `path` start with any of the excluded prefixes?
-//!
-//! Solution highlights:
-//! - `let ... else` handles the "no exclusions" case first and avoids nesting.
-//! - `iter().any(...)` asks directly whether any element matches.
-//! - Even better, if the API allows it: take `&HashSet<PathBuf>` and let the
-//!   empty set carry the "nothing excluded" meaning.
-
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
+/// Does `path` start with any of the excluded prefixes?
+///
+/// Solution highlights:
+/// - `let ... else` handles the "no exclusions" case first and avoids nesting.
+/// - `iter().any(...)` asks directly whether any element matches.
+/// - Even better, if the API allows it: take `&HashSet<PathBuf>` and let the
+///   empty set carry the "nothing excluded" meaning.
 pub fn is_excluded(excluded: &Option<HashSet<PathBuf>>, path: &Path) -> bool {
     let Some(excluded) = excluded else {
         return false;
