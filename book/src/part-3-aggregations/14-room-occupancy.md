@@ -2,18 +2,18 @@
 
 ## The problem
 
-A booking report wants four facts about its rooms: adult and child totals, the largest
-adult count in one room, and a flat list of child ages. The starter uses a small loop
-for each answer. Replacing those loops with `sum`, `max`, and `flat_map` looks like a
-mechanical cleanup. One accumulator puts the brakes on that approach because its
-initial value affects inputs the tests never cover.
+A booking report needs four facts about its rooms: the total numbers of adults and
+children, the largest adult count in one room, and a flat list of child ages. The
+starter computes each result with a small loop. You can replace those loops with
+`sum`, `max`, and `flat_map`, but one accumulator needs closer inspection. Its initial
+value changes the result for inputs the tests never cover.
 
 ## Starter code
 
 > **EXERCISE**
 >
-> Review the four functions together. Look for the operation each loop performs, then
-> check whether the accumulator's initial value affects the result.
+> Review the four functions together. Identify the operation performed by each loop,
+> then check whether an accumulator's initial value can affect the answer.
 
 ```rust
 {{#include ../../../examples/14_room_occupancy.rs}}
@@ -27,7 +27,7 @@ initial value affects inputs the tests never cover.
 > cargo test --example 14_room_occupancy
 > ```
 >
-> Keep each public signature and the order returned by `child_ages`.
+> Keep every public signature and preserve the order returned by `child_ages`.
 
 ## Review
 
@@ -41,69 +41,74 @@ initial value affects inputs the tests never cover.
 > - Why does `children.len()` need a conversion before adding it to `i32`?
 > - Does `child_ages` preserve both room order and the order within each room?
 
-Four short loops would be fine here. Their repetition is still useful: it lets us put
-familiar aggregate names next to the handwritten versions. `adults_total` and
-`children_total` are sums. `max_adults_in_a_room` asks for a maximum. `child_ages`
-turns a sequence of sequences into one sequence.
+There is nothing wrong with four short loops here. Their repetition gives us a useful
+comparison between handwritten accumulation and Rust's iterator vocabulary.
+`adults_total` and `children_total` compute sums. `max_adults_in_a_room` finds a
+maximum. `child_ages` turns a sequence of sequences into one sequence.
 
-`children_total` is easy to misread. It counts entries in each child vector; it does
-not add the ages stored there. The implementation gets that right. A name such as
-`child_count` would make the distinction easier to spot, although renaming a public
-function would affect callers and sits outside this refactor.
+The name `children_total` can send you in the wrong direction. The function counts
+entries in each child vector; it does not add the ages stored in that vector. The
+implementation is correct. A name such as `child_count` would state the intent more
+directly, but renaming a public function would affect callers and falls outside this
+refactor.
 
-`max_adults_in_a_room` needs more care. Its zero initializer serves as the first
-candidate and as the answer when there are no rooms. It also wins against every
-negative value. Negative occupancy makes little domain sense, but the public `i32`
-field allows it. Before changing the loop, we need to know whether zero is a promised
-result or an accident of the implementation.
+The maximum deserves more scrutiny. In the starter, zero is both the first candidate
+and the answer when there are no rooms. It also beats every negative value. Negative
+occupancy makes little domain sense, yet the public `i32` field allows it. Before you
+replace the loop, ask whether returning zero is part of the contract or an accident of
+the implementation.
 
 ## A possible solution
+
+<details>
+<summary>Show a possible solution</summary>
 
 ```rust
 {{#include ../../../solutions/14_room_occupancy.rs}}
 ```
 
 The two totals translate almost word for word. We borrow the rooms, map each room to
-the number we want, and sum those numbers. For children, that number is
-`children.len()`. Since `Vec::len` is constant time, the function visits rooms rather
-than individual children. The `as i32` conversion remains and deserves a separate
-look.
+the number we need, then sum those numbers. For children, the number is
+`children.len()`. Because `Vec::len` takes constant time, the function visits rooms
+rather than individual children. The `as i32` conversion remains, and we'll return to
+its risks below.
 
-`Iterator::max` returns `Option<i32>` because an iterator may be empty. The fallback
-keeps the starter's result for an empty input. It does not preserve the
-all-negative case. Given `[-3, -1]`, the starter returns `0` and the solution returns
-`-1`.
+`Iterator::max` returns `Option<i32>` because an iterator can be empty. The fallback
+preserves the starter's answer for an empty input. Does it preserve every result? No.
+Given `[-3, -1]`, the starter returns `0`, while the solution returns `-1`.
 
 I would accept the canonical version only if negative occupancy is invalid and that
 rule is enforced or documented nearby. Otherwise, `fold(0, i32::max)` is the honest
-refactor because it preserves the starter's behaviour. The tests leave both readings
-open, which is why green tests cannot settle this review.
+refactor because it preserves the starter's behaviour. The tests support either
+interpretation, so a green test run cannot settle this review for us.
 
-`child_ages` has a cleaner translation. `flat_map` gives each room an iterator over its
-ages and presents the inner iterators as one sequence. `copied` changes each `&i32`
-into an `i32`; `collect` builds the result. Room order and the order inside each room
-stay intact.
+`child_ages` has a more direct translation. `flat_map` gives each room an iterator over
+its ages and presents all those inner iterators as one sequence. `copied` turns each
+`&i32` into an `i32`, then `collect` builds the result. Room order and the order within
+each room remain intact.
+
+</details>
 
 ## Alternative approaches
 
-Free functions work well while these are isolated calculations. Once the same room
-slice travels through a larger API, a `Rooms` newtype can put the operations next to
-the data they summarize:
+Free functions fit these isolated calculations well. If the same room slice starts
+moving through a larger API, a `Rooms` newtype can keep the operations beside the data
+they summarize:
 
 ```rust
 {{#include ../../../solutions/14_room_occupancy_alt.rs:rooms}}
 ```
 
-Callers now write `rooms.adults_total()` instead of passing the same slice to several
-helpers. The storage choice is private, so the type could later validate construction
-or cache a summary.
+Callers can write `rooms.adults_total()` instead of passing the same slice to several
+helpers. Because the storage is private, the type could later validate construction or
+cache a summary.
 
-None of that happens automatically. This constructor still accepts negative counts
-and ages, and the methods retain the `usize as i32` conversion. The newtype supplies a
-boundary. Its constructors and field visibility decide whether the boundary enforces
-any rules.
+The wrapper does not enforce those rules by itself. This constructor still accepts
+negative counts and ages, and the methods keep the `usize as i32` conversion. A newtype
+gives you a boundary. Its constructors and field visibility determine whether that
+boundary rejects invalid data.
 
-The alternative is a separate runnable example:
+Run the alternative as a separate example:
 
 ```sh
 cargo test --example 14_room_occupancy_alt
@@ -113,8 +118,8 @@ cargo test --example 14_room_occupancy_alt
 
 > **EDGE CASE**
 >
-> The exercise keeps its types small so we can focus on aggregation. Production code
-> needs decisions the current interface avoids.
+> The exercise uses small types so we can focus on aggregation. Production code still
+> needs explicit decisions about ranges, invalid values, and empty input.
 
 - `adults_total` can overflow `i32`.
 - Converting `children.len()` with `as i32` can truncate a value larger than
@@ -125,10 +130,11 @@ cargo test --example 14_room_occupancy_alt
 - `child_ages` always allocates and copies every age, even if a caller only needs the
   first match.
 
-Changing counts to unsigned integers would reject negative values, but it would not
-solve overflow or define the empty maximum. Returning `Option<i32>` from the maximum
-would preserve the distinction between no rooms and a real value, at the cost of
-making every caller handle absence.
+Would unsigned integers fix the model? They would reject negative values, but they
+would not prevent overflow or define the result of an empty maximum. Returning
+`Option<i32>` from the maximum would preserve the difference between no rooms and a
+real value. The trade-off is visible at every call site, where callers must now handle
+absence.
 
 ## Trade-offs
 
@@ -143,12 +149,12 @@ making every caller handle absence.
 | Readability | wins | `sum`, `max`, and `flat_map` name the aggregate operations and remove mutable bookkeeping. |
 | API design | neutral | The four free-function signatures do not change, including the zero default and eager `Vec<i32>` result. |
 | Performance | neutral | Both versions perform the same asymptotic work and allocate only the returned age vector. |
-| Flexibility | wins | Filters and transformations can be added to the iterator pipelines without introducing more accumulator state. |
+| Flexibility | wins | You can add filters and transformations to the iterator pipelines without introducing more accumulator state. |
 | Error reporting | neutral | Neither version reports invalid values, overflow, or a narrowing conversion. |
 
-Iterator vocabulary matters to this score. A long chain can be harder to debug than a
-loop. Here the chains stay short, and each adapter names one step we already identified
-in the handwritten code.
+Your team's familiarity with iterators affects the readability score. A long chain can
+be harder to debug than a loop. These chains stay short, and each adapter names one
+step we already found in the handwritten code.
 
 ## Quiz
 

@@ -1,12 +1,12 @@
 # Part I. Warm-ups
 
-These first four reviews are small enough to hold in your head at once. That leaves
-room to practise the book's method: read the contract, ask what the code requires from
-its callers, name the cost of a proposed change, and check the cases the current tests
-miss. The goal is not to compress each function into the fewest tokens. It is to make
-the implementation and interface say what they mean.
+These four reviews are small enough to keep in your head. That gives you room to
+practise the method you'll use throughout the book: read the contract, check what the
+code asks from its callers, name the cost of each change, and look for cases the tests
+miss. Your goal isn't the shortest function. You want an implementation and interface
+that tell the truth.
 
-We start with borrowing and `Option`, move through nested patterns and lazy iterator
-APIs, then finish with a UTF-8 boundary bug hidden by green tests. The next part builds
-on the same review habits with fallible operations, where preserving error information
+You'll start with borrowing and `Option`, then move through nested patterns and lazy
+iterators. The final warm-up hides a UTF-8 boundary bug behind green tests. Part II
+uses the same review habits for fallible code, where preserving error information
 becomes part of the contract.

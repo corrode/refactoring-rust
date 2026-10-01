@@ -2,18 +2,19 @@
 
 ## The problem
 
-Small predicate functions often collect more machinery than they need. This one only
-has to inspect the first character of a string, yet its signature takes ownership and
-its body manages the empty case, extracts a character, and converts a boolean back
-into a boolean. Each step works. Together, they obscure the question the function is
-meant to answer.
+A small predicate can end up doing far more work than its question requires. This one
+only needs to inspect the first character of a string. Instead, it takes ownership,
+handles empty input by hand, extracts a character, and turns a boolean into the same
+boolean through another branch. Every step works, but the machinery gets between you
+and the question: does this string start with an uppercase character?
 
 ## Starter code
 
 > **EXERCISE**
 >
-> Review this function as if it appeared in a pull request. The tests define the
-> current contract, including the empty string and a non-ASCII uppercase letter.
+> Review this function as if you found it in a pull request. The tests define the
+> current contract, including the expected results for empty input and a non-ASCII
+> uppercase letter.
 
 ```rust
 {{#include ../../../examples/01_starts_with_uppercase.rs}}
@@ -28,7 +29,7 @@ meant to answer.
 > cargo test --example 01_starts_with_uppercase
 > ```
 >
-> Stop here until you have a version you would approve.
+> Stop when you have a version you would approve in review.
 
 ## Review
 
@@ -36,52 +37,58 @@ meant to answer.
 >
 > - Does the function need to own the string?
 > - Is `chars().nth(0)` the most direct way to ask for the first character?
-> - What makes the `unwrap` safe, and can the type returned by the iterator express
->   the empty case instead?
-> - Does comparing a boolean with `true` add information?
+> - Why is the `unwrap` safe, and can the iterator's return type represent the empty
+>   case instead?
+> - Does comparing a boolean with `true` tell you anything new?
 > - What should the function return for `""`?
 
-The signature is the first concern. The function reads from `s` but never stores or
-modifies it. Taking a `String` transfers ownership to the function, so a caller that
-needs the string afterwards must clone it or change the surrounding code. A borrowed
-`&str` asks for no more than the function needs.
+Start with the signature. The function reads `s`, but it never stores or modifies it.
+Taking a `String` transfers ownership, so callers that still need the string must clone
+it or rearrange their code. A borrowed `&str` asks for exactly what the function needs:
+read access to some text.
 
-The empty check and the `unwrap` form a pair. `s.len() == 0` proves that a character
-exists, then `unwrap` relies on that proof several lines later. The proof is valid,
-but we don't need to split the operation across a branch and a panic-capable method.
-`chars().next()` returns an `Option<char>`: `None` for an empty string and `Some` for
-the first Unicode scalar value.
+Next, look at how the function handles an empty string. The `s.len() == 0` check proves
+that a character exists before `unwrap` relies on that fact several lines later. The
+proof is valid, but the code splits one operation across a branch and a panic-capable
+method. `chars().next()` keeps the two cases together by returning `Option<char>`:
+`None` for an empty string and `Some` for the first Unicode scalar value.
 
-The final `if` repeats the value of `first.is_uppercase()`. Returning the boolean
-expression gives the same result without asking us to follow two branches.
+The final `if` returns the value of `first.is_uppercase()` through two more branches.
+Returning that boolean expression directly gives the same result and leaves less code
+to trace.
 
 ## A possible solution
+
+<details>
+<summary>Show a possible solution</summary>
 
 ```rust
 {{#include ../../../solutions/01_starts_with_uppercase.rs}}
 ```
 
 The new signature accepts string literals, borrowed `String` values, and other string
-slices without taking ownership. Inside the function, `next()` states that we want
-the first item rather than an item at an arbitrary position.
+slices without taking ownership. In the body, `next()` says that we want the first item,
+not an item at an arbitrary position.
 
-`is_some_and` combines the two remaining questions:
+`is_some_and` answers the two remaining questions in sequence:
 
 1. Is there a first character?
-2. If so, is it uppercase?
+2. If there is, is it uppercase?
 
-For an empty string, `next()` returns `None` and `is_some_and` returns `false`. For a
-non-empty string, the predicate runs on the first `char`. The branch and the `unwrap`
-disappear because `Option` already represents both cases.
+When the input is empty, `next()` returns `None`, so `is_some_and` returns `false`.
+Otherwise, it runs the predicate on the first `char`. We no longer need a separate
+branch or an `unwrap` because `Option` already represents both cases.
 
-The Unicode test matters here. Byte indexing would be a tempting shortcut, but the
-first byte of `"Über"` is not the character `Ü`. Iterating over `char` values preserves
-the tested behaviour.
+The Unicode test protects a detail you could easily lose during this refactor. Byte
+indexing may look like a shortcut, but the first byte of `"Über"` is not the character
+`Ü`. Iterating over `char` values preserves the tested behaviour.
+
+</details>
 
 ## Alternative approaches
 
-`str::starts_with` can take a character predicate, so the function can be written even
-more directly:
+`str::starts_with` also accepts a character predicate, which makes an even more direct
+version possible:
 
 ```rust
 pub fn starts_with_uppercase(s: &str) -> bool {
@@ -89,10 +96,10 @@ pub fn starts_with_uppercase(s: &str) -> bool {
 }
 ```
 
-This reads well once the predicate form of `starts_with` is familiar. The
-`chars().next().is_some_and(...)` version exposes the intermediate `Option`, which is
-useful in this early chapter because the empty-input behaviour remains visible. Both
-versions satisfy the contract.
+This version reads well once you know the predicate form of `starts_with`. The
+`chars().next().is_some_and(...)` version leaves the intermediate `Option` visible,
+which is useful this early in the book because you can see how empty input becomes
+`false`. Both versions satisfy the contract.
 
 ## Trade-offs
 
@@ -110,10 +117,10 @@ versions satisfy the contract.
 | Flexibility | wins | The borrowed parameter accepts both string slices and borrowed `String` values, while the starter requires an owned `String`. |
 | Error reporting | N/A | Empty input is a normal `false` result under the stated contract, so neither version has an error to report. |
 
-The only possible stumble is familiarity. `is_some_and` compresses a branch into a
-method that some teams will not know yet. That cost is small here because the method
-name describes the condition and the tests pin down the empty case. If a team finds
-the chain hard to scan, a `match` on `s.chars().next()` is still a sound refactor.
+The main cost is familiarity. `is_some_and` replaces a branch with a method some teams
+won't know yet. I think that cost is small here: the name describes the condition, and
+the tests pin down what happens for empty input. If your team finds the chain hard to
+scan, a `match` on `s.chars().next()` is still a sound refactor.
 
 ## Quiz
 
@@ -127,8 +134,8 @@ fn starts_with_uppercase(s: &String) -> bool
 fn starts_with_uppercase(s: &str) -> bool
 ```
 
-*Answer:* `&str`. It accepts string slices and borrowed `String` values while asking
-for neither ownership nor a specific owned-string container.
+*Answer:* `&str`. It accepts string slices and borrowed `String` values without asking
+for ownership or a specific owned-string container.
 
 ### 2. Should a review require replacing the starter with the one-line solution?
 
@@ -146,7 +153,7 @@ correctness regressions. This goes beyond style preference.
 
 > **FOLLOW-UP**
 >
-> - When should an empty input be `false`, and when should it return `Option<bool>` or
+> - When should empty input produce `false`, and when should it return `Option<bool>` or
 >   an error?
 > - Which predicates in your codebase take ownership even though they only inspect
 >   their input?

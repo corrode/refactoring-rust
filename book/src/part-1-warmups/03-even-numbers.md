@@ -2,19 +2,19 @@
 
 ## The problem
 
-A helper returns every even integer below an upper bound. The starter computes the
-right values, but it also decides that every caller must wait for a complete `Vec`.
-That work is wasted when a caller only wants a prefix, a sum, or another iterator
-operation. The loop also visits every integer and tests a property that the traversal
-can encode directly.
+A helper returns every even integer below an upper bound. The starter gets the values
+right, but it also makes every caller wait for a complete `Vec`. If you only need a
+prefix, a sum, or the next step in an iterator chain, most of that work is wasted. The
+loop has another cost: it visits every integer, then tests a property we can encode in
+the traversal itself.
 
 ## Starter code
 
 > **EXERCISE**
 >
-> Review the implementation and its return type separately. Preserve the sequence,
-> including zero and the exclusive upper bound, then decide whether the function
-> should construct the complete result before returning.
+> Review the implementation and its return type separately. Keep the sequence intact,
+> including zero and the exclusive upper bound. Then decide whether `evens` should
+> construct the complete result before it returns.
 
 ```rust
 {{#include ../../../examples/03_even_numbers.rs}}
@@ -22,71 +22,76 @@ can encode directly.
 
 > **TRY THIS**
 >
-> Run the starter tests, then refactor `examples/03_even_numbers.rs`. The exercise
-> allows the signature to change.
+> Run the starter tests, then refactor `examples/03_even_numbers.rs`. You may change the
+> function signature in this exercise.
 >
 > ```sh
 > cargo test --example 03_even_numbers
 > ```
 >
-> Check what existing callers would need to change if the return type stops being
-> `Vec<u32>`.
+> As you work, check what existing callers would need to change if the return type were
+> no longer `Vec<u32>`.
 
 ## Review
 
 > **REVIEW**
 >
 > - Does `evens` need to allocate and fill a complete `Vec` before returning?
-> - What happens when a caller only wants the first three values?
+> - What happens when you only want the first three values?
 > - Can a range replace the manual counter and loop condition?
 > - Can the traversal produce only even values instead of testing every integer?
-> - Which parts of the contract are established by the tests: start, bound, order, or
->   storage type?
+> - Which parts of the contract do the tests establish: start, bound, order, or storage
+>   type?
 > - What do callers gain and lose if the function returns an iterator?
 
-The tests establish an ascending sequence that starts at zero and excludes `max`.
-`evens(0)` is empty, and an odd bound includes the preceding even value. They do not
-require the function to return a particular collection type.
+Start with the behavior the tests pin down. The sequence is ascending, begins at zero,
+and excludes `max`. `evens(0)` is empty. An odd bound includes the even value just below
+it. None of those tests require a particular collection type.
 
-The loop spells out a half-open range by hand: start at zero, continue while `n < max`,
-and increment after each iteration. It then discards every odd value. Since the first
-candidate is zero, stepping by two can produce the desired sequence without a parity
-check.
+The loop writes a half-open range by hand: initialize a counter at zero, continue while
+`n < max`, then increment after each pass. It also throws away every odd value. Because
+zero is the first candidate, a stride of two can generate the required sequence without
+a parity check.
 
-The return type is the larger decision. A `Vec` gives callers owned storage, indexing,
-and repeated traversal. It also commits the function to generating and allocating the
-complete result. An iterator lets the caller decide how much work to perform and
-whether to collect the values at all.
+The return type calls for more thought. A `Vec` gives you owned storage, indexing, and
+repeated traversal. In return, `evens` must generate and allocate the entire result even
+when you need only part of it. An iterator moves that choice to the caller. You decide
+how much work to perform and whether to collect the values at all.
 
 ## A possible solution
+
+<details>
+<summary>Show a possible solution</summary>
 
 ```rust
 {{#include ../../../solutions/03_even_numbers.rs}}
 ```
 
-`0..max` preserves every tested boundary: it starts at zero, excludes `max`, and is
-empty when `max` is zero. `step_by(2)` turns that range into the required arithmetic
-progression. No mutable counter or parity branch remains.
+`0..max` keeps every tested boundary: it starts at zero, excludes `max`, and is empty
+when `max` is zero. Adding `step_by(2)` turns the range into the required arithmetic
+progression. The mutable counter and parity branch disappear.
 
-The return type promises an `Iterator<Item = u32>` while keeping the concrete
-`StepBy<Range<u32>>` type private. We can change the internal adapters later as long
-as they still produce owned `u32` values.
+The return type promises an `Iterator<Item = u32>` without exposing the concrete
+`StepBy<Range<u32>>` type. That leaves us free to change the internal adapters later,
+as long as they still produce owned `u32` values.
 
-Evaluation now happens when a caller consumes the iterator. `take(3)` requests three
-values. `sum` can reduce the sequence without a temporary collection.
-`collect::<Vec<_>>()` remains available when a caller needs owned storage.
+Work now happens as the caller consumes the iterator. `take(3)` requests three values.
+`sum` reduces the sequence without a temporary collection. When you do need owned
+storage, `collect::<Vec<_>>()` is still available.
 
-That API change is visible. The solution tests call `collect` before comparing a full
+This is a visible API change. The solution tests call `collect` before comparing a full
 sequence and use `count` for the empty case. Existing callers that index, store, or
-traverse the old `Vec` more than once would also need changes.
+traverse the old `Vec` more than once would need changes too.
 
-The solution adds a `stays_lazy` test with `u32::MAX` as the bound and consumes only
-three values. The test does not measure allocation. It does establish that a caller
-can stop after a small prefix instead of constructing the full result.
+The solution also adds a `stays_lazy` test. It passes `u32::MAX` as the bound, then
+consumes only three values. This test does not measure allocation. It establishes that
+a caller can stop after a small prefix instead of constructing the full result.
+
+</details>
 
 ## Alternative approaches
 
-We can remove the manual loop while keeping the eager API:
+You can remove the manual loop and keep the eager API:
 
 ```rust
 pub fn evens(max: u32) -> Vec<u32> {
@@ -94,11 +99,11 @@ pub fn evens(max: u32) -> Vec<u32> {
 }
 ```
 
-This is the safer refactor when callers rely on an owned collection. It improves the
+This is the safer refactor when callers depend on an owned collection. It improves the
 implementation without changing the interface, but it does not meet the exercise's
 request for a lazy result.
 
-A lazy filter is also valid:
+A lazy filter is valid too:
 
 ```rust
 pub fn evens(max: u32) -> impl Iterator<Item = u32> {
@@ -106,9 +111,9 @@ pub fn evens(max: u32) -> impl Iterator<Item = u32> {
 }
 ```
 
-`filter` reads naturally when selection depends on an irregular predicate. Here the
-accepted values form a fixed progression, so `step_by(2)` states the rule more
-directly and never visits the odd candidates.
+`filter` reads well when selection depends on an irregular predicate. Here, the accepted
+values form a fixed progression. I prefer `step_by(2)` because it states that rule
+directly and skips the odd candidates.
 
 ## Trade-offs
 
@@ -126,9 +131,9 @@ directly and never visits the odd candidates.
 | Flexibility | wins | Callers can stop early or compose the result with `take`, `map`, `sum`, and `collect`. |
 | Error reporting | N/A | Every `u32` bound defines a valid finite sequence. |
 
-An iterator is not a universal upgrade over `Vec`. Owned storage is a useful contract
-when callers need it. The scores favour the iterator here because laziness is part of
-the exercise and callers can still opt into collection.
+An iterator is not always an upgrade over `Vec`. Owned storage is a useful contract when
+callers need it. The iterator wins these comparisons because laziness is part of this
+exercise, and callers can still choose to collect the sequence.
 
 ## Quiz
 
@@ -156,9 +161,9 @@ one adds evidence for early termination.
 >
 > - Do the real call sites need an owned collection, or do they consume each value
 >   once?
-> - Which callers become simpler with `take`, `map`, `sum`, or direct iteration?
-> - Which callers need an explicit `collect`, and is moving that choice outward useful
->   for them?
+> - Which callers become easier to read with `take`, `map`, `sum`, or direct iteration?
+> - Which callers need an explicit `collect`, and does moving that choice outward help
+>   them?
 > - Is a helper named `evens` clearer than writing `(0..max).step_by(2)` at its call
 >   sites?
 > - Would you make the API change in the same pull request as the loop cleanup?

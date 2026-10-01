@@ -1,24 +1,23 @@
 # Writing style for Refactoring Rust
 
-> **Status:** living document. Updated during Phase 2 against the
-> reference trio (chapters 01, 14, 12); frozen by the start of Phase 3.
+> **Status:** living document. Established from the reference trio
+> (chapters 01, 14, 12) and updated as the book grows.
 > See `book/PLAN.md` §7 for the rationale.
 
 ## Voice
 
-- **Default to "we"** for narration:
-  *"We'd reach for `&str` here because the function only reads the
-  string."*
-- **Use "I"** sparingly, only for genuinely contested opinions you want
-  to own personally:
-  *"I'll admit I find `is_some_and` slightly noisier than
-  `map_or(false, …)`, but the predicate reads in order of evaluation."*
-- **Use "you"** in:
-  - *Review* prompts
-  - *Follow-up questions*
-  - explicit instructions ("Try replacing the `Vec` with an iterator
-    and see what breaks")
-- **Never** "the reader," "one," or passive-voice avoidance of pronouns.
+- **Use "you" naturally** when walking through code, naming a choice, or explaining
+  what a caller sees: *"If you pass a borrowed `String`, this function reads it without
+  taking ownership."*
+- **Use "I" for judgement and reassurance**, especially when reasonable reviewers may
+  disagree: *"I'd keep the loop if your team doesn't use `is_some_and` yet."*
+- **Use "we" only for genuinely shared work**, not as the default narrator: *"Before we
+  refactor, we need to settle what an empty input means."*
+- Anticipate likely questions and answer them where they arise. *"Does this allocate?
+  No. `any` borrows each prefix and stops at the first match."*
+- Write from the reader's perspective. Prefer the consequence they care about over a
+  detached description of the code.
+- Do not write "the reader," "one," or avoid pronouns through passive voice.
 
 ## Tone
 
@@ -26,16 +25,22 @@
   solution, the previous chapter, or your past self. **Required** to
   flag when you do, and why.
 - Contractions are on.
-- **Never use em-dashes (—).** Replace with commas, parentheses,
+- Do not use em dashes (`U+2014`). Replace them with commas, parentheses,
   colons, or a period and a new sentence, depending on what the dash
-  was actually doing. Em-dashes are a tell for AI-generated prose and
-  for unedited drafts. The book uses neither.
+  was doing. Em dashes are a tell for AI-generated prose and unedited
+  drafts. This book does not use them.
 - En-dashes (–) are fine for numeric ranges (`chapters 01–04`) and
   nothing else.
 - No exclamation marks outside of code.
 - Don't apologise for opinions. Justify them.
 - Don't hedge with "arguably," "perhaps," "maybe." Either say it or
   don't.
+- Be empathetic without performing friendliness. Acknowledge when an API is unfamiliar,
+  a distinction is easy to miss, or two answers are both reasonable. Then explain the
+  deciding factor.
+- Respect the reader's time. Lead with the useful fact, cut repeated transitions, and
+  vary sentence length. Keep enough explanation for the reasoning to stand on its own.
+- Prefer ordinary verbs such as "is," "has," "does," and "uses" over inflated phrasing.
 
 ## Word choices to avoid
 
@@ -66,7 +71,7 @@
 
 ## Structure
 
-Every chapter follows the 7-section spine from `PLAN.md` §3:
+Every chapter follows the 8-section spine from `PLAN.md` §3:
 
 1. The problem
 2. Starter code
@@ -108,6 +113,31 @@ Standard labels:
 - `FOLLOW-UP`: open-ended prompts
 - `CONCEPT`: concepts recap entries
 
+## Hidden solutions
+
+Keep each canonical solution and its walkthrough collapsed by default. Readers should
+have a clear chance to try the exercise before seeing an answer. Use this form:
+
+````markdown
+## A possible solution
+
+<details>
+<summary>Show a possible solution</summary>
+
+```rust
+{{#include ../../../solutions/NN_name.rs}}
+```
+
+Walk through the code here.
+
+</details>
+````
+
+Leave *Alternative approaches*, *Edge cases and production concerns*, *Trade-offs*,
+*Quiz*, and later sections outside the disclosure. The native `details` element keeps
+the summary keyboard accessible, and mdBook still renders included code as a Playground
+block.
+
 ## Code blocks
 
 - **Starter listings:** `{{#include ../../../examples/NN_name.rs}}` from a chapter
@@ -145,7 +175,7 @@ of the six axes with one of:
 - **N/A**: axis doesn't apply (use sparingly; usually means we should
   reconsider whether the axis really doesn't apply)
 
-Always include a one-sentence justification. Never just the label.
+Include a one-sentence justification rather than only the label.
 
 ## Quizzes
 
