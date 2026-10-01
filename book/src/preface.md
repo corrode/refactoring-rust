@@ -4,20 +4,21 @@ Most Rust books teach you how to write valid Rust. This book starts later: the c
 compiles, the tests pass, and a reviewer still leaves a comment.
 
 Rust has excellent introductions. *The Book*, *Rustlings*, *100 Exercises to Learn
-Rust*, and others teach the language better than I could. I recommend them. But in
-workshops and code reviews, I kept seeing the same gap. Once several implementations are
-correct, how do you choose the one you want to maintain?
+Rust*, and others teach the language better than I could. Use them when you want to
+learn ownership, syntax, or the standard library. This book is about the question that
+comes next: once several implementations are correct, how do you choose the one you
+want to maintain?
 
 Why should this function take `&str` instead of `String`? Why does an error disappear
 two layers down? Is that tuple carrying a domain concept that needs a name?
 
-The answers come from experience with interfaces, callers, and edge cases. We often
-call that experience *taste*. The word is vague, but the skill is concrete. You can
-learn the questions behind it.
+We often call the instinct behind these questions *taste*. That makes it sound more
+mysterious than it is. A large part of taste is accumulated evidence: interfaces that
+aged well, shortcuts that confused callers, and edge cases that returned as bugs. You
+cannot compress years of context into twenty-seven exercises. You can make the questions
+visible and practise asking them.
 
-The usual advice is to read a lot of code and work with senior engineers. That works,
-but it takes time and assumes your team has experienced Rust reviewers available. This
-book tries to shorten that feedback loop.
+That is the modest promise of this book.
 
 ## How it works
 
@@ -29,15 +30,16 @@ find in a real pull request. Before you see a possible solution, you'll ask:
 - Which cases are missing?
 - What would a refactor improve, and what would it cost?
 
-The possible solution stays hidden until you choose to open it. Treat it like a review
-comment: consider it, challenge it, and decide whether it fits your context. A shorter
-implementation can obscure an unfamiliar invariant. A stricter type can burden every
-caller. An iterator can avoid an allocation while making debugging harder for the team
-that owns the code.
+Then you can open the solution and compare. I call it *a possible solution* for a
+reason. A shorter implementation can obscure an unfamiliar invariant. A stricter type
+can burden every caller. An iterator can avoid an allocation while making debugging
+harder for the team that owns the code. Sometimes the plain loop is the right answer.
+You don't get points for using the most combinators.
 
 Every solution is examined through the same six lenses: type-safety, readability, API
-design, performance, flexibility, and error reporting. The scores make the reasoning
-explicit. They do not turn review into arithmetic.
+design, performance, flexibility, and error reporting. A scorecard cannot review code
+for you. It can force a vague preference into words, which gives your team something to
+discuss.
 
 You'll also meet green tests that protect the wrong behaviour or miss the input that
 matters. The edge-case sections follow those loose threads into production. The quizzes
@@ -69,4 +71,5 @@ review or teaching with attribution. The reasoning behind that split is in
 Thanks to everyone who challenged an early workshop solution. Many of those objections
 now appear in the trade-off sections.
 
-Let's look at some Rust.
+Start with the first function. Decide what you would say in review before you open the
+answer.
