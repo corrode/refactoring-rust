@@ -56,7 +56,7 @@ reader will learn across its chapters.
 
 ## 3. Per-chapter anatomy
 
-A fixed **7-section spine** every chapter follows, plus **3 optional
+A fixed **8-section spine** every chapter follows, plus **3 optional
 sections** included only when there's something real to say.
 
 **Spine (always present):**
@@ -69,11 +69,12 @@ sections** included only when there's something real to say.
    as prompts to the *reader*. (Renamed from "Observations", also update
    the slides under TODO item #1 in `TODO.md`.)
 4. **A possible solution**: the canonical solution from `solutions/`,
-   walked through.
+   walked through inside a native `details` element that is collapsed by default.
 5. **Trade-offs**: scored against the fixed axes (see §4). Always the same
    axes; same order.
-6. **Follow-up questions**: open-ended prompts for the reader / their team.
-7. **Concepts recap**: named ideas this chapter introduced
+6. **Quiz**: 2–4 judgement questions, followed by their answers.
+7. **Follow-up questions**: open-ended prompts for the reader / their team.
+8. **Concepts recap**: named ideas this chapter introduced
    (e.g. *newtype*, *let-else*, *is_some_and*), each linked to the Concept
    index so they resolve to every other chapter that touches them.
 
@@ -87,7 +88,7 @@ sections** included only when there's something real to say.
 - **Further reading**: RFCs, std docs, blog posts, related crates.
   Skipped if no good external resource exists.
 
-**Quizzes** sit between Trade-offs and Follow-ups. See §6.
+See §6 for the quiz format and question style.
 
 ---
 
@@ -173,23 +174,24 @@ The book is physically incapable of shipping broken code.
 
 ## 7. Voice and tone
 
-**Senior-engineer-reviewing-with-you voice** (first-person plural for
-narration, first-person singular for contested opinions), with **light
-direct address** in Review and Follow-up sections.
+**Senior-engineer-reviewing-with-you voice**, written from the reader's
+perspective. Direct address belongs throughout the explanation when it
+makes a consequence or decision easier to understand.
 
-Style rules (full version goes in `book/STYLE.md`):
+Style rules (the full version lives in `book/STYLE.md`):
 
-- Default to **we** for narration ("we'd reach for `&str` here because…").
-- Use **I** sparingly, only for genuinely contested opinions
-  ("I'll admit I find `is_some_and` slightly noisier than
-  `map_or(false, …)`, but…").
-- Use **you** only in Review prompts, Follow-up questions, and explicit
-  instructions ("Try replacing the `Vec` with an iterator and see what
-  breaks").
-- Never **the reader** / **one** / passive-voice avoidance of pronouns.
-- Allowed to disagree with Clippy, with the canonical solution, and with
-  past chapters. **Required** to flag when doing so.
-- Contractions on; em-dashes on; no exclamation marks except in code.
+- Use **you** naturally when walking through code, naming a choice, or
+  explaining what a caller sees.
+- Use **I** for judgement and reassurance, especially when reasonable
+  reviewers may disagree.
+- Use **we** only for work that the author and reader are doing together.
+- Answer likely questions where they arise instead of postponing them.
+- Do not write **the reader** / **one** or avoid pronouns through passive
+  voice.
+- Disagreement with Clippy, the canonical solution, or earlier chapters is
+  welcome when the reason is explicit.
+- Contractions are on. Em dashes are out. Exclamation marks appear only in
+  code.
 
 ---
 
@@ -374,8 +376,8 @@ screenshots.
 - **Spot the smell.** Some questions use a *related but different* snippet
   to test transfer of the chapter's idea, not pattern-matching on the
   chapter's exact code.
-- **2–4 questions per chapter.** Never zero (every chapter has a quiz);
-  never more than four (quizzes are a checkpoint, not the experience).
+- **2–4 questions per chapter.** Every chapter has a quiz, capped at four
+  questions so it remains a checkpoint rather than the main experience.
 - **No "what does this print"** unless the surprise is genuinely the
   point.
 
