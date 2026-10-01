@@ -38,7 +38,7 @@ heading-split-level = 3
 enable = true
 
 [rust]
-edition = "2021"
+edition = "2024"
 
 # TODO(plugins): pick & wire up the quiz plugin during Phase 0.
 #   - mdbook-quiz (Brown's, heavier, batteries-included)
