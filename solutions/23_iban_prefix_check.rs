@@ -4,7 +4,7 @@
 /// - `match` with `|` arms maps country -> length declaratively.
 /// - `as_bytes()` indexing is O(1) and avoids allocating a `Vec<char>`.
 /// - One `bytes().all(...)` replaces the per-index loop; the four explicit
-///   checks pin down the prefix shape.
+///   checks pin down the prefix layout.
 pub fn is_valid_iban(s: &str) -> bool {
     let expected = match s.get(0..2) {
         Some("DE") | Some("GB") => 22,

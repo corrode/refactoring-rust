@@ -4,6 +4,7 @@
 // Exercise listings need the opposite: visible code plus hidden tests, run with `cargo test`.
 (() => {
     const playgroundUrl = 'https://play.rust-lang.org/execute';
+    const activeRuns = new WeakMap();
 
     function editableCode(playground) {
         const code = playground.querySelector('code');
@@ -14,8 +15,10 @@
     }
 
     function attachedTestCandidates(playground) {
-        const tests = playground.nextElementSibling;
-        if (!tests || !tests.classList.contains('playground-tests')) {
+        const tests = [playground, playground.parentElement]
+            .map(element => element?.nextElementSibling)
+            .find(element => element?.classList.contains('playground-tests'));
+        if (!tests) {
             return [];
         }
 
@@ -25,6 +28,41 @@
             candidates.push(fallback.textContent.trim());
         }
         return candidates;
+    }
+
+    function chapterTestScripts(playground) {
+        const main = playground.closest('main');
+        if (!main) {
+            return [];
+        }
+
+        let section = playground;
+        while (section.parentElement && section.parentElement !== main) {
+            section = section.parentElement;
+        }
+
+        let heading = section;
+        while (heading && heading.tagName !== 'H1') {
+            heading = heading.previousElementSibling;
+        }
+        if (!heading) {
+            return [];
+        }
+
+        const scripts = [];
+        for (
+            let element = heading.nextElementSibling;
+            element && element.tagName !== 'H1';
+            element = element.nextElementSibling
+        ) {
+            if (element.matches('script.playground-tests, script.playground-tests-fallback')) {
+                scripts.push(element);
+            }
+            scripts.push(...element.querySelectorAll(
+                'script.playground-tests, script.playground-tests-fallback',
+            ));
+        }
+        return scripts;
     }
 
     function testCandidates(playground, code) {
@@ -41,9 +79,7 @@
             return [];
         }
 
-        const candidates = Array.from(document.querySelectorAll(
-            'script.playground-tests, script.playground-tests-fallback',
-        ))
+        const candidates = chapterTestScripts(playground)
             .map(tests => tests.textContent.trim())
             .filter(tests => functionNames.some(name => {
                 const call = new RegExp(`\\b${name}\\s*\\(`);
@@ -100,12 +136,16 @@
     }
 
     function outputText(output) {
-        return output.success
-            ? output.stdout.trim()
-            : [output.stderr, output.stdout].filter(Boolean).join('\n').trim();
+        const streams = output.success
+            ? [output.stdout, output.stderr]
+            : [output.stderr, output.stdout];
+        return streams.filter(Boolean).join('\n').trim();
     }
 
     async function execute(playground) {
+        if (activeRuns.has(playground)) {
+            return;
+        }
         const code = editableCode(playground);
         if (code === null) {
             return;
@@ -117,6 +157,7 @@
         const button = playground.querySelector('.play-button');
         const controller = new AbortController();
         const timeout = window.setTimeout(() => controller.abort(), 20_000);
+        activeRuns.set(playground, controller);
 
         result.textContent = runsTests ? 'Running tests...' : 'Checking code...';
         result.classList.remove('result-no-output');
@@ -172,8 +213,11 @@
             result.classList.remove('result-no-output');
         } finally {
             window.clearTimeout(timeout);
-            if (button) {
-                button.disabled = false;
+            if (activeRuns.get(playground) === controller) {
+                activeRuns.delete(playground);
+                if (button) {
+                    button.disabled = false;
+                }
             }
         }
     }

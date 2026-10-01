@@ -9,7 +9,7 @@ src = "src"
 default-theme = "navy"
 preferred-dark-theme = "navy"
 git-repository-url = "https://github.com/corrode/refactoring"
-edit-url-template = "https://github.com/corrode/refactoring/edit/book/book/{path}"
+edit-url-template = "https://github.com/corrode/refactoring/edit/main/book/{path}"
 site-url = "/"
 additional-css = ["theme/css/corrode.css"]
 additional-js = ["theme/js/playground-tests.js"]
@@ -38,7 +38,7 @@ heading-split-level = 3
 enable = true
 
 [rust]
-edition = "2021"
+edition = "2024"
 
 # TODO(plugins): pick & wire up the quiz plugin during Phase 0.
 #   - mdbook-quiz (Brown's, heavier, batteries-included)

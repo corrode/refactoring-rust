@@ -36,7 +36,7 @@ impl StatusClass {
 /// Solution highlights:
 /// - Split "what class is this status?" from "what do we do?" with a `StatusClass` enum.
 /// - `classify` is the only place that knows the numeric ranges.
-/// - `handle_response` becomes a flat `match` — one arm per policy decision.
+/// - `handle_response` becomes a flat `match` with one arm per policy decision.
 /// - Adding a new class or special-case status now changes exactly one place.
 pub fn handle_response(resp: Response) -> Action {
     use StatusClass::*;

@@ -158,15 +158,15 @@ pre,
 }
 
 /* Code blocks: tighter than mdBook's default, flat surface. */
-.navy pre,
-.navy pre code {
+.navy pre {
     background: var(--corrode-code-bg);
     border: 1px solid var(--corrode-code-border);
     border-radius: 4px;
+    padding: 0.9em 1em;
 }
 
-.navy pre {
-    padding: 0.9em 1em;
+.navy pre code {
+    background: var(--corrode-code-bg);
 }
 
 /* Inline code: subtle pill, warm accent, no aggressive box. */
@@ -205,11 +205,15 @@ pre,
  */
 
 .light {
+    --corrode-fg: #1a1a1a;
+    --corrode-surface: #f3f4f6;
+    --corrode-surface-2: #e8eaed;
+    --corrode-rule: #d0d4da;
     --links: #2a6fb3;
     --inline-code-color: #b65a18;
     --sidebar-active: #2a6fb3;
-    --quote-bg: #f3f4f6;
-    --quote-border: #f3f4f6;
+    --quote-bg: var(--corrode-surface);
+    --quote-border: var(--corrode-surface);
 }
 
 .light .sidebar .chapter li.chapter-item a {

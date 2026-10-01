@@ -3,7 +3,7 @@
 ///
 /// Solution highlights:
 /// - `trim()` replaces both the start-skipping and end-popping loops.
-/// - `strip_prefix` returns `Option<&str>` — exactly the "matched and here's the rest" shape.
+/// - `strip_prefix` returns `Option<&str>` to represent a match and the remaining text.
 /// - `split_whitespace()` + `join(" ")` collapses any run of whitespace into single spaces.
 pub fn trim_log_line(line: &str) -> String {
     let trimmed = line.trim();

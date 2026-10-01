@@ -7,7 +7,7 @@ help: ## Show this help message
 
 .PHONY: test
 test: ## Run all tests (starters + solutions)
-	cargo test --examples
+	cargo test --examples --all-features
 
 .PHONY: dev
 dev: ## Start the Slidev dev server
