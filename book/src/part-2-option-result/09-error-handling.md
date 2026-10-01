@@ -20,6 +20,14 @@ not to hide failure, but to remove plumbing without weakening the error contract
 {{#include ../../../examples/09_error_handling.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/09_error_handling.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/09_error_handling.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the starter tests, then refactor `examples/09_error_handling.rs` without changing
@@ -73,6 +81,10 @@ the error value instead.
 ```rust,editable
 {{#include ../../../solutions/09_error_handling.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/09_error_handling.rs:tests}}
+</script>
 
 `fs::read_to_string(path)` opens the file, reads all bytes as UTF-8 text, and returns the
 resulting `String`. Its internal file handle closes when it is dropped. The helper already

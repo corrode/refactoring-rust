@@ -32,6 +32,7 @@ pub fn child_ages(rooms: &[RoomOccupancy]) -> Vec<i32> {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -69,3 +70,4 @@ mod tests {
         assert_eq!(child_ages(&sample()), vec![3, 6]);
     }
 }
+// ANCHOR_END: tests

@@ -11,6 +11,7 @@ pub fn evens(max: u32) -> impl Iterator<Item = u32> {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,3 +39,4 @@ mod tests {
         assert_eq!(first_three, vec![0, 2, 4]);
     }
 }
+// ANCHOR_END: tests

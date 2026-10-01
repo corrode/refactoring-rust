@@ -19,6 +19,14 @@ even though the traversal itself can skip the odd values.
 {{#include ../../../examples/03_even_numbers.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/03_even_numbers.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/03_even_numbers.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the starter tests, then refactor `examples/03_even_numbers.rs`. You may change the
@@ -67,6 +75,10 @@ values to consume and whether to collect them.
 ```rust,editable
 {{#include ../../../solutions/03_even_numbers.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/03_even_numbers.rs:tests}}
+</script>
 
 `0..max` already has the tested boundaries: it starts at zero, excludes `max`, and is
 empty when `max` is zero. `step_by(2)` turns that range into the required arithmetic

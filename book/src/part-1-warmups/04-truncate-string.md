@@ -18,6 +18,14 @@ passes that invalid boundary to `String::truncate`.
 {{#include ../../../examples/04_truncate_string.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/04_truncate_string.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/04_truncate_string.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Start with the green starter suite:
@@ -78,6 +86,10 @@ reinforces the byte-based contract; it does not define that contract by itself.
 ```rust,editable
 {{#include ../../../solutions/04_truncate_string.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/04_truncate_string.rs:tests}}
+</script>
 
 The byte-cap implementation does four things:
 

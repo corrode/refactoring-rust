@@ -18,6 +18,14 @@ ignore each missing entry. The starter gets the right answer with a mutable tota
 {{#include ../../../examples/07_optional_values.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/07_optional_values.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/07_optional_values.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the starter tests, then refactor `examples/07_optional_values.rs` without changing
@@ -65,6 +73,10 @@ API change.
 ```rust,editable
 {{#include ../../../solutions/07_optional_values.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/07_optional_values.rs:tests}}
+</script>
 
 `into_iter()` consumes the vector and yields each `Option<i32>` by value, just as the
 starter loop does.

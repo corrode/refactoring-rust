@@ -18,6 +18,14 @@ alternatives where the values differ.
 {{#include ../../../examples/02_better_match.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/02_better_match.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/02_better_match.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the starter tests. Then refactor `examples/02_better_match.rs` without changing
@@ -64,6 +72,10 @@ prime, but this function still returns `"something else"`.
 ```rust,editable
 {{#include ../../../solutions/02_better_match.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/02_better_match.rs:tests}}
+</script>
 
 `Some(2 | 3 | 5 | 7)` applies one constructor pattern to four possible payloads. The
 next arm does the same for its four values. Since `None` and the fallback are unchanged,

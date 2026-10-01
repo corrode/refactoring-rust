@@ -20,6 +20,14 @@ creates an owned result.
 {{#include ../../../examples/06_nesting.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/06_nesting.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/06_nesting.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the starter tests, then refactor `examples/06_nesting.rs` without changing its
@@ -66,6 +74,10 @@ result.
 ```rust,editable
 {{#include ../../../solutions/06_nesting.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/06_nesting.rs:tests}}
+</script>
 
 Read the chain as three stages, in order:
 

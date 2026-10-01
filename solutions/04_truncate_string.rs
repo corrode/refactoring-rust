@@ -19,6 +19,7 @@ pub fn truncate_chars(s: &str, num_chars: usize) -> String {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -43,3 +44,4 @@ mod tests {
         assert_eq!(truncate("café", 4), "caf");
     }
 }
+// ANCHOR_END: tests

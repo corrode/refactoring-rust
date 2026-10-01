@@ -20,6 +20,14 @@ directly with a string literal.
 {{#include ../../../examples/05_path.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/05_path.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/05_path.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the starter tests, then refactor `examples/05_path.rs` without changing its
@@ -71,6 +79,10 @@ filesystem.
 ```rust,editable
 {{#include ../../../solutions/05_path.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/05_path.rs:tests}}
+</script>
 
 The function now states the two parts of its decision directly:
 

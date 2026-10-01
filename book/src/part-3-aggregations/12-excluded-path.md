@@ -23,6 +23,14 @@ system.
 {{#include ../../../examples/12_excluded_path.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/12_excluded_path.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/12_excluded_path.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the tests, then refactor `examples/12_excluded_path.rs`:
@@ -69,6 +77,10 @@ to see it.
 ```rust,editable
 {{#include ../../../solutions/12_excluded_path.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/12_excluded_path.rs:tests}}
+</script>
 
 `let ... else` handles `None` before the search starts. Past that statement,
 `excluded` is a borrowed `HashSet<PathBuf>`, so the main operation no longer lives

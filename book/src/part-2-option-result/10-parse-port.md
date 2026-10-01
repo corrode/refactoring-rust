@@ -19,6 +19,14 @@ those facts in the function's interface.
 {{#include ../../../examples/10_parse_port.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/10_parse_port.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/10_parse_port.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the starter tests, then refactor `examples/10_parse_port.rs`. You may strengthen
@@ -68,6 +76,10 @@ useful distinction in the error type.
 ```rust,editable
 {{#include ../../../solutions/10_parse_port.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/10_parse_port.rs:tests}}
+</script>
 
 The first operation asks `str::parse` for a `u16`, so the target type decides which
 numbers fit. Malformed text, negative input, and values above 65535 all make

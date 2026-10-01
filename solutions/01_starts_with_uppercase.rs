@@ -16,6 +16,7 @@ pub fn starts_with_uppercase(s: &str) -> bool {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -40,3 +41,4 @@ mod tests {
         assert!(starts_with_uppercase("Über"));
     }
 }
+// ANCHOR_END: tests

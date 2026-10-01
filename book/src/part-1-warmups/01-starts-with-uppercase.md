@@ -19,6 +19,14 @@ more from callers than the predicate needs.
 {{#include ../../../examples/01_starts_with_uppercase.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/01_starts_with_uppercase.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/01_starts_with_uppercase.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the starter tests. Then refactor `examples/01_starts_with_uppercase.rs` while
@@ -64,6 +72,10 @@ to inspect.
 ```rust,editable
 {{#include ../../../solutions/01_starts_with_uppercase.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/01_starts_with_uppercase.rs:tests}}
+</script>
 
 The borrowed signature accepts string literals, borrowed `String` values, and other
 string slices without taking ownership. Inside the function, `next()` asks for the first

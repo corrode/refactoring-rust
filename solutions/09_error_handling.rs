@@ -14,6 +14,7 @@ pub fn read_file_contents(path: &str) -> io::Result<String> {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -40,3 +41,4 @@ mod tests {
         assert_eq!(err.kind(), io::ErrorKind::NotFound);
     }
 }
+// ANCHOR_END: tests

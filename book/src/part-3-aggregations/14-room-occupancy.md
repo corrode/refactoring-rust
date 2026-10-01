@@ -22,6 +22,14 @@ is useful, but only after we settle which behaviour belongs to the contract.
 {{#include ../../../examples/14_room_occupancy.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/14_room_occupancy.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/14_room_occupancy.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the starter tests, then refactor `examples/14_room_occupancy.rs`:
@@ -68,6 +76,10 @@ accident of the accumulator.
 ```rust,editable
 {{#include ../../../solutions/14_room_occupancy.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/14_room_occupancy.rs:tests}}
+</script>
 
 The two totals translate directly. Borrow the rooms, map each room to the number the
 report needs, then sum those numbers. For children, that number is `children.len()`.

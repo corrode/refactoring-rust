@@ -128,6 +128,10 @@ have a clear chance to try the exercise before seeing an answer. Use this form:
 {{#include ../../../solutions/NN_name.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/NN_name.rs:tests}}
+</script>
+
 Walk through the code here.
 
 </details>
@@ -144,9 +148,14 @@ block.
   a chapter under `book/src/part-*`.
 - **Canonical solutions:** `{{#include ../../../solutions/NN_name.rs:listing}}` from
   the same location. Put the code readers should see between `// ANCHOR: listing` and
-  `// ANCHOR_END: listing`. Keep tests outside that region. The book omits the tests,
-  while Cargo still compiles the complete file. Include paths are relative to the
-  Markdown file, so front-matter pages need a different number of parent traversals.
+  `// ANCHOR_END: listing`. Put the test module between `// ANCHOR: tests` and
+  `// ANCHOR_END: tests`, then include it in an adjacent inert
+  `<script class="playground-tests">` element. The editor hides that element, while the
+  Run button sends its contents to the Rust Playground with the edited code. Starter
+  blocks also include the solution tests as `playground-tests-fallback`, so an intended
+  signature change can switch to the updated test API. Cargo and the slides still use
+  the complete source file. Include paths are relative to the Markdown file, so
+  front-matter pages need a different number of parent traversals.
 - **Alternative solutions worth keeping runnable:** add a real file
   `solutions/NN_name_alt.rs` (and a matching `[[example]]` entry in
   `Cargo.toml`), then `{{#include}}` it.

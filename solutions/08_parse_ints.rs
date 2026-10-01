@@ -29,6 +29,7 @@ pub fn collect_errors(validators: &[&dyn Validator], input: &str) -> Vec<String>
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -83,3 +84,4 @@ mod tests {
         assert_eq!(calls.get(), 1);
     }
 }
+// ANCHOR_END: tests

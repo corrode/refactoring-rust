@@ -8,6 +8,7 @@ pub fn truncate(s: &str, max_bytes: usize) -> String {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -27,3 +28,4 @@ mod tests {
         assert_eq!(truncate("café", 5), "café");
     }
 }
+// ANCHOR_END: tests

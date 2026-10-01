@@ -11,6 +11,7 @@ pub fn describe(value: Option<u32>) -> &'static str {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -35,3 +36,4 @@ mod tests {
         assert_eq!(describe(Some(11)), "something else");
     }
 }
+// ANCHOR_END: tests

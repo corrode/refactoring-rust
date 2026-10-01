@@ -16,6 +16,7 @@ pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,3 +39,4 @@ mod tests {
         assert_eq!(sum_options(values), 0);
     }
 }
+// ANCHOR_END: tests

@@ -16,6 +16,7 @@ pub fn shout(s: Option<&str>) -> Option<String> {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -40,3 +41,4 @@ mod tests {
         assert_eq!(shout(Some("   ")), None);
     }
 }
+// ANCHOR_END: tests

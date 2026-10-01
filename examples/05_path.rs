@@ -14,6 +14,7 @@ pub fn is_rust_source_file(path: &Path) -> bool {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -43,3 +44,4 @@ mod tests {
         assert!(!is_rust_source_file(Path::new(".rs")));
     }
 }
+// ANCHOR_END: tests

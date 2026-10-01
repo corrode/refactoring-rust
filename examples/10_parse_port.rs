@@ -10,6 +10,7 @@ pub fn parse_port(s: &str) -> Option<u16> {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -39,3 +40,4 @@ mod tests {
         assert_eq!(parse_port("nope"), None);
     }
 }
+// ANCHOR_END: tests

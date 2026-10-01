@@ -20,6 +20,7 @@ pub fn parse_port(s: &str) -> Result<NonZeroU16, InvalidPort> {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -49,3 +50,4 @@ mod tests {
         assert_eq!(parse_port("nope"), Err(InvalidPort::Invalid));
     }
 }
+// ANCHOR_END: tests

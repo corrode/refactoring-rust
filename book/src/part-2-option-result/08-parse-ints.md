@@ -20,6 +20,14 @@ fails. Any cleanup has to preserve that difference.
 {{#include ../../../examples/08_parse_ints.rs:listing}}
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/08_parse_ints.rs:tests}}
+</script>
+
+<script type="text/plain" class="playground-tests-fallback">
+{{#include ../../../solutions/08_parse_ints.rs:tests}}
+</script>
+
 > **TRY THIS**
 >
 > Run the starter tests, then refactor `examples/08_parse_ints.rs`:
@@ -75,6 +83,10 @@ better. In an iterator pipeline, `filter_map` can consume that `Option` directly
 ```rust,editable
 {{#include ../../../solutions/08_parse_ints.rs:listing}}
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/08_parse_ints.rs:tests}}
+</script>
 
 The new `parse_values` takes a borrowed slice. `values.iter()` visits each `String` by
 reference, and method resolution lets `parse` read the underlying `str`. Neither the

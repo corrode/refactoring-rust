@@ -18,6 +18,7 @@ pub fn is_excluded(excluded: &Option<HashSet<PathBuf>>, path: &Path) -> bool {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -47,3 +48,4 @@ mod tests {
         assert!(!is_excluded(&ex, Path::new("/tmp/foo")));
     }
 }
+// ANCHOR_END: tests

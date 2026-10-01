@@ -18,6 +18,7 @@ pub fn evens(max: u32) -> Vec<u32> {
 
 // ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -37,3 +38,4 @@ mod tests {
         assert_eq!(evens(7), vec![0, 2, 4, 6]);
     }
 }
+// ANCHOR_END: tests
