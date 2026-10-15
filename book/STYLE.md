@@ -88,9 +88,9 @@ a failing input. Put those discoveries in Discussion or behind an optional hint.
 3. Discussion
 4. A possible solution
 5. Trade-offs (six fixed axes; same order every time)
-6. Quiz
+6. Quiz (optional)
 7. Follow-up questions
-8. Concepts recap
+8. Important Concepts
 
 Optional, included only when there's something real to say:
 
@@ -101,7 +101,7 @@ Optional, included only when there's something real to say:
 ## Spine sections as callouts
 
 Prompt-oriented spine sections open with a labelled blockquote. Use badges for
-*Code to refactor*, *Discussion*, *Trade-offs*, *Follow-up questions*, and *Concepts recap*.
+*Code to refactor*, *Discussion*, *Trade-offs*, *Follow-up questions*, and *Important Concepts*.
 *A possible solution* and *Quiz* do not need badges because their headings already
 name the content. The CSS in `theme/css/corrode.css` styles the leading `**LABEL**`
 as a small-caps badge.
@@ -121,7 +121,7 @@ Standard labels:
 - `TRADE-OFF`: the per-chapter scoring section
 - `EDGE CASE`: production concerns
 - `FOLLOW-UP`: open-ended prompts
-- `CONCEPT`: concepts recap entries
+- `CONCEPT`: important concepts entries
 
 ## Hidden solutions
 
@@ -180,7 +180,7 @@ block.
 
 ## Cross-references
 
-- Link Concepts recap entries to the appendix Cheatsheet with
+- Link Important Concepts entries to the appendix Cheatsheet with
   `[newtype](../appendix/concept-index.md#newtype)` style anchors.
 - Link forward and backward between chapters generously
   (`see [ch. 13](../part-3-aggregations/13-excluded-path.md)`). The
@@ -201,8 +201,12 @@ Include a one-sentence justification rather than only the label.
 
 ## Quizzes
 
-- 2–4 questions per chapter, placed between *Trade-offs* and
-  *Follow-up questions*.
+- Optional. Include a quiz only when it adds a new application or decision.
+  Omit the heading and section when no question earns its place.
+- Remove questions answered by repeating the preceding explanation, obvious
+  yes/no questions, and generic questions about team preferences.
+- There is no minimum question count. Put any retained questions between
+  *Trade-offs* and *Follow-up questions*.
 - **Judgement** style, not recall. See `PLAN.md` §13.
 - Never "what does this print" unless the surprise is the point.
 - Until the quiz plugin is chosen, use numbered `###` question headings followed by

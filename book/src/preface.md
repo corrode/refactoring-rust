@@ -35,8 +35,7 @@ criteria help you explain a preference and discuss it with your team.
 
 Some exercises have passing tests that protect the wrong behaviour or miss an
 important input. The edge-case sections discuss those gaps and other production
-concerns. The quizzes ask you to choose between reasonable alternatives, and
-the concept index connects ideas across chapters.
+concerns. The concept index connects ideas across chapters.
 
 ## Is this book for you?
 

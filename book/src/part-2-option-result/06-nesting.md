@@ -147,33 +147,6 @@ conversion is the normalization your domain intends.
 Longer chains can make intermediate types and failure points harder to inspect.
 Use named locals and explicit branches when individual steps need more explanation.
 
-## Quiz
-
-### 1. Should `to_uppercase` run before the empty check to keep all transformations together?
-
-*Answer:* No. Trimming and the empty check work on borrowed `&str` values. Uppercasing
-first would create a `String` even for empty text, only to discard it. An empty `String`
-need not allocate, but the conversion is unnecessary. Keep it after filtering unless
-the contract requires another order.
-
-### 2. Should a review reject the explicit version because combinators are more idiomatic?
-
-*Answer:* No. Explicit control flow is easier to extend when failure paths need logging,
-different errors, or more involved decisions. Both versions are correct. The combinator
-chain fits this function because it expresses three short steps in execution order.
-
-### 3. Should `shout` return `Result<String, Error>` instead of `Option<String>`?
-
-*Answer:* Only when callers must respond differently to absent and empty input, or when
-either state counts as a domain error. The tests require both cases to return the same
-`None`, so `Option` matches the current contract.
-
-### 4. Can callers assume the uppercase result has the same length as the trimmed input?
-
-*Answer:* No. Unicode case conversion can expand text, including the conversion from `ß`
-to `SS`. That is why `to_uppercase` returns an allocated `String`. The input length is not
-a guarantee about the output length.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -186,7 +159,7 @@ a guarantee about the output length.
 > - Is Unicode default uppercasing appropriate for how the result will be compared or
 >   displayed?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

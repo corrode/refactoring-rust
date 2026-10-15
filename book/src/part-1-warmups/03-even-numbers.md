@@ -138,26 +138,6 @@ each candidate.
 Returning an iterator meets this exercise's lazy-result requirement. It does not
 provide the indexing or repeated traversal that callers get from a `Vec`.
 
-## Quiz
-
-### 1. Should a review always require replacing a returned `Vec` with an iterator?
-
-*Answer:* No. Return an iterator when callers benefit from incremental consumption,
-composition, or avoiding mandatory allocation. Keep a `Vec` when callers need owned
-storage, indexing, or repeated traversal.
-
-### 2. Does replacing the loop with `filter` complete this refactor?
-
-*Answer:* It depends on the return type. Returning the filter makes the API lazy.
-Collecting it inside `evens` remains eager. For this sequence, `step_by(2)` expresses the
-fixed progression more directly.
-
-### 3. What does the solution-only `stays_lazy` test add?
-
-*Answer:* It checks that a caller can request a small prefix from a sequence with an
-enormous upper bound. The shared tests establish the values after full consumption. This
-test adds evidence that consumption can stop early.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -171,7 +151,7 @@ test adds evidence that consumption can stop early.
 >   site?
 > - Would you make the API change in the same pull request as the loop cleanup?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

@@ -12,9 +12,9 @@
 > 3. Discussion
 > 4. A possible solution
 > 5. Trade-offs (six axes)
-> 6. Quiz (after Trade-offs, before Follow-ups)
+> 6. Quiz (optional; only if it adds a new application)
 > 7. Follow-up questions
-> 8. Concepts recap
+> 8. Important Concepts
 >
 > Optional: Alternative approaches, Edge cases & production concerns,
 > Further reading.

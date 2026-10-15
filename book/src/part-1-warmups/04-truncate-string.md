@@ -187,30 +187,6 @@ The main improvement is the correctness fix: a limit inside a UTF-8 character no
 causes a panic. None of the six axes records that directly, so the failing test remains
 important alongside these scores.
 
-## Quiz
-
-### 1. The starter already tests `"café"`. Is another Unicode test warranted?
-
-*Answer:* Yes. The existing limit is five, both the full byte length and a valid boundary.
-A limit of four reaches the untested position inside `é`.
-
-### 2. What should `truncate("café", 4)` return?
-
-*Answer:* Under an “at most four bytes” contract, `"caf"`. No valid UTF-8 prefix occupies
-exactly four bytes. Under a four-scalar-value contract, `"café"`. The name `max_bytes`
-supports the first interpretation.
-
-### 3. Should a non-boundary limit return an error?
-
-*Answer:* Not for the stated maximum-byte contract. Backing up gives the caller a valid
-prefix within the limit. An error is appropriate when the caller requires an exact byte
-length or needs to know that the boundary moved.
-
-### 4. Can `s.chars().take(max_bytes).collect()` replace the canonical solution?
-
-*Answer:* No. That expression treats the argument as a Unicode scalar count. A selected
-scalar may occupy more than one byte, so the result can exceed the byte limit.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -222,7 +198,7 @@ scalar may occupy more than one byte, so the result can exceed the byte limit.
 > - Is Rust 1.91 an acceptable minimum compiler for the project?
 > - When should an impossible exact byte length return `Option`, `Result`, or raw bytes?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

@@ -70,9 +70,10 @@ and exercise prompt already provide enough information.
    walked through inside a native `details` element that is collapsed by default.
 5. **Trade-offs**: scored against the fixed axes (see §4). Always the same
    axes; same order.
-6. **Quiz**: 2–4 judgement questions, followed by their answers.
+6. **Quiz (optional)**: a new application or decision that the preceding text
+   has not already answered. Omit the section when no such question is useful.
 7. **Follow-up questions**: open-ended prompts for the reader / their team.
-8. **Concepts recap**: named ideas this chapter introduced
+8. **Important Concepts**: named ideas this chapter introduced
    (e.g. *newtype*, *let-else*, *is_some_and*), each linked to the Concept
    index so they resolve to every other chapter that touches them.
 
@@ -150,8 +151,9 @@ The book is physically incapable of shipping broken code.
 
 **mdBook + judgement-style quizzes + Rust Playground integration.**
 
-- **Quizzes:** one per chapter, 2–4 questions, placed after Trade-offs and
-  before Follow-up questions. Question style is **judgement**, not recall:
+- **Quizzes (optional):** only when a new application or decision adds value.
+  Place them after Trade-offs and before Follow-up questions. Do not repeat
+  points already covered in the chapter. Question style is **judgement**, not recall:
   - "Which of these signatures best expresses the invariant?"
   - "Which axis does change X improve at the cost of which other axis?"
   - "Spot the smell in this related snippet."
@@ -212,7 +214,7 @@ Style rules (the full version lives in `book/STYLE.md`):
 
 6. **Concept index**: curated, not auto-generated. Every named concept
    listed with the chapters that introduce and reuse it. Doubles as the
-   target of every chapter's Concepts recap section. Surfaces in the top
+   target of every chapter's Important Concepts section. Surfaces in the top
    nav as **"Cheatsheet"** (friendlier label).
 7. **Trade-off matrix appendix**: one big table; rows are exercises,
    columns are the six axes, cells summarize how each canonical solution
@@ -374,8 +376,9 @@ screenshots.
 - **Spot the smell.** Some questions use a *related but different* snippet
   to test transfer of the chapter's idea, not pattern-matching on the
   chapter's exact code.
-- **2–4 questions per chapter.** Every chapter has a quiz, capped at four
-  questions so it remains a checkpoint rather than the main experience.
+- **Optional, with no minimum count.** Omit quizzes that repeat the explanation
+  or ask obvious questions. Keep a question only when it requires applying the
+  idea to a new situation or making a decision not already discussed.
 - **No "what does this print"** unless the surprise is genuinely the
   point.
 
@@ -440,7 +443,7 @@ their structure. No separate format spec document.
 
 ### Phase 4, Back matter (~3 days)
 
-- Concept index (aggregated from per-chapter Concepts recap).
+- Concept index (aggregated from per-chapter Important Concepts).
 - Trade-off matrix (aggregated from per-chapter Trade-offs).
 - Further reading (consolidated).
 - Contributing, Acknowledgements.

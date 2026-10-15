@@ -118,33 +118,6 @@ If `is_some_and` is unfamiliar to your team, an explicit `match` on `s.chars().n
 handles the same cases without `unwrap`. Choose the version your team finds easier to
 read.
 
-## Quiz
-
-### 1. Which signature best fits a read-only predicate?
-
-Consider these options:
-
-```rust,ignore
-fn starts_with_uppercase(s: String) -> bool
-fn starts_with_uppercase(s: &String) -> bool
-fn starts_with_uppercase(s: &str) -> bool
-```
-
-*Answer:* `&str`. It accepts slices and borrowed `String` values without requiring
-ownership or tying the function to one owned string container.
-
-### 2. Should a review insist on the one-line solution?
-
-*Answer:* No. Borrowing removes unnecessary ownership, but the body need not be one
-line. A direct `match` preserves the same contract without `is_some_and`. Choose based
-on which version is clearer to the team.
-
-### 3. A teammate suggests `s.as_bytes()[0].is_ascii_uppercase()`. What would change?
-
-*Answer:* It can panic on an empty string, and it replaces Unicode uppercase characters
-with ASCII uppercase bytes as the contract. The existing tests catch both correctness
-regressions. This is not a matter of style.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -155,7 +128,7 @@ regressions. This is not a matter of style.
 > - For small `Option` checks, does your team find an explicit `match` or a combinator
 >   such as `is_some_and` easier to review? What makes the difference?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

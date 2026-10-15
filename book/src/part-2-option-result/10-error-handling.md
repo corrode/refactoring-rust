@@ -149,33 +149,6 @@ Use the shorter implementation when the requirement is to read a whole text file
 If you need custom opening options, streaming, or limits, use separate open and read
 steps to control those operations.
 
-## Quiz
-
-### 1. Is replacing both `match` expressions with `?` enough?
-
-*Answer:* Stop there if the function needs the `File` or buffer between the two fallible
-operations. If its complete job is to read a whole text file, use `fs::read_to_string`.
-It expresses the same operation with less state to inspect.
-
-### 2. Should the production function use `unwrap` because the tests do?
-
-*Answer:* No. The test helper uses `unwrap` so broken setup fails the test, and the
-assertions use it only after selecting the expected branch. The production function must
-return I/O failures because missing, unreadable, and invalid text files are recoverable
-conditions for its caller.
-
-### 3. Should every file-reading helper accept `impl AsRef<Path>`?
-
-*Answer:* No. Use it when several path-like input types help real callers, or when native
-non-UTF-8 paths matter. Keep `&str` when paths enter the API as text and a generic
-parameter would broaden the interface without meeting a requirement.
-
-### 4. Is `read_to_string` suitable for a file with unknown encoding?
-
-*Answer:* Not on its own. It succeeds only when the bytes are valid UTF-8. Use `fs::read`
-when arbitrary bytes are valid, then decode them according to an explicit encoding
-policy.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -188,7 +161,7 @@ policy.
 > - Which manual error-propagation blocks in your codebase could become one standard-library
 >   operation?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

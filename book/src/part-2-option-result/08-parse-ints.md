@@ -147,32 +147,6 @@ Understanding the shorter `parse_values` body requires knowing how `collect` han
 policy. `collect_errors` needs a different iterator chain because it must continue after
 an error. Shortening either function must not change when it stops.
 
-## Quiz
-
-### 1. Should `parse_values` accept `Vec<String>` because it returns an owned `Vec<i32>`?
-
-*Answer:* No. Owning the output does not require owning the input. Parsing reads each
-string and creates new integers. `&[String]` states that requirement and lets the caller
-keep the strings.
-
-### 2. Can `collect_errors` map `Validator::check` and use `collect::<Result<Vec<_>, _>>()`?
-
-*Answer:* No. Collecting into `Result` stops at the first `Err`. The contract requires
-every validator to run and every error to remain in validator order, so
-`filter_map(Result::err)` followed by `collect::<Vec<_>>()` is the right policy.
-
-### 3. Should `parse_values` return the integers parsed before the first error?
-
-*Answer:* Not with its current signature and contract. `Result<Vec<i32>, ParseIntError>`
-represents complete success or one failure. It has nowhere to put a partial vector. Add a
-partial-result type only when callers have a real use for incomplete output.
-
-### 4. Is replacing `is_err()` and `err().expect(...)` only a style change?
-
-*Answer:* No. It removes a repeated variant check and a panic-capable assertion. The
-starter's `expect` is logically safe, but `filter_map` consumes the `Option` from `err()`
-directly and expresses the collect-all policy more clearly.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -185,7 +159,7 @@ directly and expresses the collect-all policy more clearly.
 >   part of the contract?
 > - Should validation errors remain strings, or do callers need structured data?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

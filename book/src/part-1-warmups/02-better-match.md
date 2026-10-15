@@ -119,25 +119,6 @@ That would be a separate API change, not part of this pattern refactor.
 Nested or-patterns remove repetition, but they can take longer to read if the syntax
 is unfamiliar. Keeping the expanded form is reasonable when the team finds it clearer.
 
-## Quiz
-
-### 1. Should code review require the nested form?
-
-*Answer:* No. The starter is correct. The nested form removes repeated constructors,
-but the choice depends on which version the team finds easier to read.
-
-### 2. Should the fallback stay `_`, or change to `Some(_)`?
-
-*Answer:* They behave identically here because an earlier arm handles `None`.
-`Some(_)` names the intended remaining case more precisely, and removing the `None` arm
-by accident would then produce a compiler error.
-
-### 3. Would adding more literals make this function recognize every prime and square?
-
-*Answer:* No practical list would cover the full `u32` range. The `Some(11)` test
-shows that the current function recognizes a fixed set. General classification needs
-arithmetic checks and broader tests.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -149,7 +130,7 @@ arithmetic checks and broader tests.
 > - When should a small fixed set stay in a pattern, and when should it become data or
 >   an algorithm?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

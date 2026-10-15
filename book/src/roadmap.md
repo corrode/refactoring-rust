@@ -7,8 +7,7 @@ stands on its own, while each part develops one group of related ideas.
 ## Part I. Warm-ups (chapters 01–04)
 
 These four short refactors are mostly changes Clippy could find. Use them to
-learn the chapter format: *Discussion / Trade-offs / Quiz / Follow-up / Concepts
-recap*.
+learn the chapter format: *Discussion / Trade-offs / Follow-up / Important Concepts*.
 
 You'll work with `&str` and `String`, `is_empty`, `chars().next()` instead of
 `chars().nth(0)`, `matches!`, lazy `impl Iterator` returns instead of `Vec`, char

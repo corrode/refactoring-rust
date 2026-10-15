@@ -151,35 +151,6 @@ return type and an explicit encoding policy.
 An explicit `match` may be easier to read if `is_some_and` is unfamiliar. Either form
 can remove the unnecessary `to_str` conversion.
 
-## Quiz
-
-### 1. Should this predicate keep `to_str` because Rust source is UTF-8 text?
-
-*Answer:* No. This function never reads the source file; it only checks the extension.
-Comparing the `OsStr` with `"rs"` answers that question without requiring the entire path
-component to be valid UTF-8. Keep the conversion only when later work needs `&str` or
-when invalid encoding must be reported as its own outcome.
-
-### 2. A caller needs to accept both `.rs` and `.RS`. Is `eq_ignore_ascii_case` on `&str` the right next step?
-
-*Answer:* Not until you decide what a non-UTF-8 extension means. Converting with `to_str`
-makes ASCII-insensitive comparison possible, but it also creates a conversion-failure
-case. The policy or interface must say whether that case is an error or another
-non-match.
-
-### 3. Can a `true` result be used as proof that compilation can read a regular file?
-
-*Answer:* No. A true result says something only about path syntax. The path can be
-missing, can refer to a directory, or can become invalid before it is used. Filesystem
-checks require I/O and error handling, and even those checks cannot eliminate every
-race.
-
-### 4. Which implementation should a review require: `is_some_and`, `map_or`, or `match`?
-
-*Answer:* If the contract is exact extension equality, require the unnecessary UTF-8
-conversion to go. The remaining choice is about team readability. `is_some_and`,
-`map_or`, and `match` can all preserve the tested behaviour.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -191,7 +162,7 @@ conversion to go. The remaining choice is about team readability. `is_some_and`,
 > - Would your team understand `is_some_and`, `map_or(false, ...)`, or an explicit `match`
 >   fastest?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

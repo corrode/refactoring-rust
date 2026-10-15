@@ -148,31 +148,6 @@ Iterator familiarity affects the readability score. A long chain can be harder t
 than a loop, especially on a team that rarely uses iterator methods. These chains are
 short, and each method names an operation already present in the loops.
 
-## Quiz
-
-### 1. Does `max().unwrap_or(0)` preserve the starter's behaviour?
-
-*Answer:* It preserves the empty-slice result, but changes the result for an all-negative
-input. Approve it only after establishing that negative adult counts are invalid. Use
-`fold(0, i32::max)` when you need to retain the starter's full behaviour.
-
-### 2. Should `children_total` flatten every child vector and call `count()`?
-
-*Answer:* No. Summing `children.len()` visits each room and reads a constant-time
-length. Flattening and counting visits every child. The current approach produces the
-same result with less work.
-
-### 3. Should `child_ages` return `Vec<i32>` or an iterator?
-
-*Answer:* Keep `Vec<i32>` when callers need an owned snapshot or repeated traversal.
-Return `impl Iterator<Item = i32> + '_` when callers usually consume the ages once and
-would benefit from lazy filtering or early termination. That decision changes the API.
-
-### 4. Does `Rooms(Vec<RoomOccupancy>)` enforce valid occupancy data?
-
-*Answer:* No. It groups the operations and provides a place for validation. It enforces
-rules only when construction is controlled and invalid values are rejected.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -184,7 +159,7 @@ rules only when construction is controlled and invalid values are rejected.
 > - Is the order returned by `child_ages` part of the public contract?
 > - Which collection helpers in your codebase belong on a missing domain type?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

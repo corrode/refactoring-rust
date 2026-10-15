@@ -192,36 +192,6 @@ A loop may be easier to inspect in a debugger, especially if your team is unfami
 with iterator methods. Here, the iterator expression is short: `any` names the check
 and preserves the early exit.
 
-## Quiz
-
-### 1. Which plain-function signature best matches the current tests?
-
-```rust,ignore
-fn is_excluded(excluded: &Option<HashSet<PathBuf>>, path: &Path) -> bool
-fn is_excluded(path: &Path, excluded: &HashSet<PathBuf>) -> bool
-fn is_excluded(path: &Path, excluded: Option<&HashSet<PathBuf>>) -> bool
-```
-
-*Answer:* The second signature has the fewest states when absence and emptiness mean the
-same thing. Use the third when absence must remain observable. The first makes the
-function borrow an owning wrapper that it does not otherwise need.
-
-### 2. Can `excluded.contains(path)` replace the call to `any`?
-
-*Answer:* No. `contains` asks whether the full path is an element of the set. This
-function needs `/tmp` to match `/tmp/foo.log`, so it must compare prefixes.
-
-### 3. Should `Excluder` require at least one prefix?
-
-*Answer:* Only when the domain says that running without exclusions is invalid. The
-current tests treat “exclude nothing” as a valid state, so a mandatory non-empty
-collection would remove supported behaviour.
-
-### 4. Is this predicate enough for a filesystem security boundary?
-
-*Answer:* No. It compares lexical path components. It does not resolve symbolic links,
-`..`, mount changes, or races between checking and using a path.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -234,7 +204,7 @@ collection would remove supported behaviour.
 > - If prefix matching becomes a hot path, which data structure could avoid inspecting
 >   every rule?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

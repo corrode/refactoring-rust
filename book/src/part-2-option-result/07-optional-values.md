@@ -142,26 +142,6 @@ the domain limits.
 The iterator version is easier to read when your team knows `flatten` and `sum`.
 The explicit loop remains a valid choice if those methods are unfamiliar.
 
-## Quiz
-
-### 1. Should `None` be converted to `0` before summing?
-
-*Answer:* It can be, but doing so creates an item for a value that is absent. Treating
-`None` as zero elements produces the same total and matches the requirement to ignore
-missing values. The distinction matters when later operations do more
-than addition.
-
-### 2. Should this refactor change the parameter to `&[Option<i32>]`?
-
-*Answer:* Only after inspecting the callers. Borrowing fits a read-only calculation and
-leaves the vector available, but it changes the API. The canonical solution keeps that
-ownership decision separate from the iterator cleanup.
-
-### 3. Does `sum()` solve the overflow problem?
-
-*Answer:* No. `sum()` uses ordinary `i32` addition, so it carries the same overflow risk
-as the starter. Use checked arithmetic or a wider type when the domain requires either.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -174,7 +154,7 @@ as the starter. Use checked arithmetic or a wider type when the domain requires 
 > - For optional values, does your team find `flatten` clearer than an explicit
 >   `filter_map`?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

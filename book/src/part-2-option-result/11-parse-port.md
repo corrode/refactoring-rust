@@ -134,32 +134,6 @@ needed, call `.get()`. This is useful when other functions also require non-zero
 If every caller immediately extracts the integer and ignores the error distinction,
 the application may not need the stronger interface.
 
-## Quiz
-
-### 1. Should the parser keep `i32` because it makes the range check explicit?
-
-*Answer:* No, unless negative intermediate values mean something elsewhere in the
-operation. Parsing as `u16` lets the destination type's parser enforce its bounds and
-removes the cast. The tests still state the accepted range at the behaviour boundary.
-
-### 2. Should `InvalidPort` have separate `Syntax` and `OutOfRange` variants?
-
-*Answer:* Add them only when a caller can respond differently, for example by showing a
-more specific validation message. The current design deliberately maps both causes to
-`Invalid` and keeps only zero separate.
-
-### 3. Is `Result<u16, InvalidPort>` as strong as the canonical return type?
-
-*Answer:* No. It can report `Zero`, but its successful `u16` still permits zero at the
-type level. `NonZeroU16` lets downstream functions require and preserve the invariant
-without checking it again.
-
-### 4. Should every TCP port API reject zero?
-
-*Answer:* No. Reject zero when the value identifies a concrete non-zero port, such as a
-remote destination. Accept it when the surrounding operation treats zero as a request
-for an automatically assigned local port. The type must follow the domain rule.
-
 ## Follow-up questions
 
 > **FOLLOW-UP**
@@ -172,7 +146,7 @@ for an automatically assigned local port. The type must follow the domain rule.
 > - Which manual range checks in your codebase could become direct parsing or construction
 >   of the destination type?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

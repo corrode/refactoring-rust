@@ -9,7 +9,7 @@ those in the chapter. Choose one of the four modes below.
 Allow five to twenty minutes for your first attempt at each exercise, plus
 time to read the explanation and answer the questions.
 
-1. Read *The problem*.
+1. Read *The problem*, if the chapter has an introduction.
 2. Read the code to refactor carefully, as if it were a pull request on GitHub.
 3. **Stop reading the chapter.** Write down what you'd say in a review, then
    refactor the code in your editor. Spend five to twenty minutes, depending on
@@ -18,8 +18,7 @@ time to read the explanation and answer the questions.
    notice? Which ones did either of you miss?
 5. Open *A possible solution* and compare it with your version.
 6. Read *Trade-offs* and decide whether you agree with the scores.
-7. Do the quiz.
-8. Choose a *Follow-up question* to investigate or discuss with someone else.
+7. Choose a *Follow-up question* to investigate or discuss with someone else.
 
 For more practice, return to the starter after reading the chapter and refactor
 it again without referring to the solution.
