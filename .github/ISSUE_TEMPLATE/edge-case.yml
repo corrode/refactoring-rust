@@ -1,0 +1,23 @@
+name: Suggest an Edge case
+description: Production concerns that aren't covered.
+title: "[edge-case] ch. NN: <one-line summary>"
+labels: ["edge-case", "book"]
+body:
+  - type: input
+    id: chapter
+    attributes:
+      label: Chapter
+    validations:
+      required: true
+  - type: textarea
+    id: case
+    attributes:
+      label: The edge case
+      description: What input / load / environment breaks the canonical solution?
+    validations:
+      required: true
+  - type: textarea
+    id: mitigation
+    attributes:
+      label: Suggested mitigation
+      description: Optional. How would you handle it?

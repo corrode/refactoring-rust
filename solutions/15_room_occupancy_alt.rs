@@ -1,5 +1,6 @@
 //! Put room-wide aggregates on a domain type.
 
+// ANCHOR: rooms
 #[derive(Debug, PartialEq, Eq)]
 pub struct RoomOccupancy {
     pub adults: i32,
@@ -33,6 +34,7 @@ impl Rooms {
             .collect()
     }
 }
+// ANCHOR_END: rooms
 
 #[cfg(test)]
 mod tests {

@@ -1,0 +1,18 @@
+name: Found a typo or bug
+description: Typo in prose, broken link, broken {{#include}}, broken doctest, broken CSS.
+title: "[bug] <one-line summary>"
+labels: ["bug"]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Where?
+      description: URL, file path, or chapter.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What's wrong?
+    validations:
+      required: true

@@ -1,5 +1,5 @@
-//! Parse a TCP port string into a `u16`.
-
+// ANCHOR: listing
+/// Parse a TCP port string into a `u16`.
 pub fn parse_port(s: &str) -> Option<u16> {
     let n: i32 = s.parse().ok()?;
     if n < 1 || n > 65535 {
@@ -8,6 +8,9 @@ pub fn parse_port(s: &str) -> Option<u16> {
     Some(n as u16)
 }
 
+// ANCHOR_END: listing
+
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -37,3 +40,4 @@ mod tests {
         assert_eq!(parse_port("nope"), None);
     }
 }
+// ANCHOR_END: tests

@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Based on Advent of Code 2015, Day 1: Not Quite Lisp.
 //! <https://adventofcode.com/2015/day/1>
 //!
@@ -18,7 +19,9 @@ pub fn floor(instructions: &str) -> Result<i64, String> {
     }
     Ok(floor)
 }
+// ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -78,3 +81,4 @@ mod tests {
         }
     }
 }
+// ANCHOR_END: tests

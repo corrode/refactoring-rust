@@ -1,3 +1,4 @@
+// ANCHOR: listing
 //! Start on floor zero. `(` takes you up one floor; `)` takes you down.
 //! Return the final floor, or an error for the first invalid instruction.
 //!
@@ -13,7 +14,9 @@ pub fn floor(instructions: &str) -> Result<i64, String> {
             c => Err(format!("Invalid instruction: {c}")),
         })
 }
+// ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -73,3 +76,4 @@ mod tests {
         }
     }
 }
+// ANCHOR_END: tests

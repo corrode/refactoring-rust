@@ -1,0 +1,24 @@
+name: Suggest an alternative solution
+description: A different valid approach worth showing or linking from a chapter.
+title: "[alt-solution] ch. NN: <one-line summary>"
+labels: ["alt-solution", "book"]
+body:
+  - type: input
+    id: chapter
+    attributes:
+      label: Chapter
+    validations:
+      required: true
+  - type: textarea
+    id: code
+    attributes:
+      label: The alternative
+      description: Code block, ideally compilable. Or link a draft PR adding `solutions/NN_name_alt.rs`.
+      render: rust
+    validations:
+      required: true
+  - type: textarea
+    id: tradeoff
+    attributes:
+      label: How does it compare on the six axes?
+      description: Type-safety, Readability, API design, Performance, Flexibility, Error reporting.

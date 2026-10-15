@@ -1,3 +1,4 @@
+// ANCHOR: listing
 /// Truncate a string to at most `max_bytes` bytes, respecting char boundaries.
 ///
 /// Solution highlights:
@@ -16,7 +17,9 @@ pub fn truncate_chars(s: &str, num_chars: usize) -> String {
 // - char-count semantics: `s.chars().take(n).collect()`
 // `floor_char_boundary` is stable since Rust 1.91.
 
+// ANCHOR_END: listing
 
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -41,3 +44,4 @@ mod tests {
         assert_eq!(truncate("café", 4), "caf");
     }
 }
+// ANCHOR_END: tests

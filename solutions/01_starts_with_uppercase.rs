@@ -1,10 +1,10 @@
-//! Does this string start with an uppercase letter?
-//!
-//! Solution highlights:
-//! - Take `&str` (read-only check, no need to own the string).
-//! - `chars().next()` returns `Option<char>` -> handles empty for free.
-//! - `is_some_and` collapses "exists and matches predicate" into one call.
-
+// ANCHOR: listing
+/// Does this string start with an uppercase letter?
+///
+/// Solution highlights:
+/// - Take `&str` (read-only check, no need to own the string).
+/// - `chars().next()` returns `Option<char>` -> handles empty for free.
+/// - `is_some_and` collapses "exists and matches predicate" into one call.
 pub fn starts_with_uppercase(s: &str) -> bool {
     s.chars().next().is_some_and(char::is_uppercase)
 }
@@ -14,6 +14,9 @@ pub fn starts_with_uppercase(s: &str) -> bool {
 //     s.starts_with(char::is_uppercase)
 // }
 
+// ANCHOR_END: listing
+
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,3 +41,4 @@ mod tests {
         assert!(starts_with_uppercase("Über"));
     }
 }
+// ANCHOR_END: tests

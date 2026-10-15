@@ -1,10 +1,10 @@
-//! Sum all `Some` values in the vector. Ignore `None` entries.
-//!
-//! Solution highlights:
-//! - `Option<T>` is an iterator of 0 or 1 element; `flatten` drops the empties.
-//! - `sum` infers its result type from the return type.
-//! - No mutable state, no `match`.
-
+// ANCHOR: listing
+/// Sum all `Some` values in the vector. Ignore `None` entries.
+///
+/// Solution highlights:
+/// - `Option<T>` is an iterator of 0 or 1 element; `flatten` drops the empties.
+/// - `sum` infers its result type from the return type.
+/// - No mutable state, no `match`.
 pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
     options.into_iter().flatten().sum()
 }
@@ -14,6 +14,9 @@ pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
 //     options.into_iter().filter_map(|x| x).sum()
 // }
 
+// ANCHOR_END: listing
+
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -36,3 +39,4 @@ mod tests {
         assert_eq!(sum_options(values), 0);
     }
 }
+// ANCHOR_END: tests

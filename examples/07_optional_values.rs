@@ -1,5 +1,5 @@
-//! Sum all `Some` values in the vector. Ignore `None` entries.
-
+// ANCHOR: listing
+/// Sum all `Some` values in the vector. Ignore `None` entries.
 pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
     let mut sum = 0;
     for option in options {
@@ -11,6 +11,9 @@ pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
     sum
 }
 
+// ANCHOR_END: listing
+
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -33,3 +36,4 @@ mod tests {
         assert_eq!(sum_options(values), 0);
     }
 }
+// ANCHOR_END: tests

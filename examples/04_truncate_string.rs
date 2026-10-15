@@ -1,11 +1,14 @@
-//! Truncate a string to at most `max_bytes` bytes.
-
+// ANCHOR: listing
+/// Truncate a string to at most `max_bytes` bytes.
 pub fn truncate(s: &str, max_bytes: usize) -> String {
     let mut owned = s.to_string();
     owned.truncate(max_bytes);
     owned
 }
 
+// ANCHOR_END: listing
+
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -25,3 +28,4 @@ mod tests {
         assert_eq!(truncate("café", 5), "café");
     }
 }
+// ANCHOR_END: tests

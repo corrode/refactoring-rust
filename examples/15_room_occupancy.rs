@@ -1,6 +1,7 @@
+// ANCHOR: listing
 //! Compute totals across a list of room occupancies. Notice the
-//! repetition between the helpers - every one of them follows the same
-//! shape.
+//! repetition between the helpers: every one of them follows the same
+//! aggregation pattern.
 
 pub struct RoomOccupancy {
     pub adults: i32,
@@ -43,6 +44,9 @@ pub fn child_ages(rooms: &[RoomOccupancy]) -> Vec<i32> {
     ages
 }
 
+// ANCHOR_END: listing
+
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -80,3 +84,4 @@ mod tests {
         assert_eq!(child_ages(&sample()), vec![3, 6]);
     }
 }
+// ANCHOR_END: tests

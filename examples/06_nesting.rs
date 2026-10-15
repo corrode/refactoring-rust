@@ -1,6 +1,6 @@
-//! If the input is `Some` and not empty after trimming, return the
-//! uppercased trimmed text. Otherwise return `None`.
-
+// ANCHOR: listing
+/// If the input is `Some` and not empty after trimming, return the
+/// uppercased trimmed text. Otherwise return `None`.
 pub fn shout(s: Option<&str>) -> Option<String> {
     if let Some(s) = s {
         let trimmed = s.trim();
@@ -14,6 +14,9 @@ pub fn shout(s: Option<&str>) -> Option<String> {
     }
 }
 
+// ANCHOR_END: listing
+
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,3 +41,4 @@ mod tests {
         assert_eq!(shout(Some("   ")), None);
     }
 }
+// ANCHOR_END: tests

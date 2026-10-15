@@ -1,6 +1,5 @@
-//! Return the words from `words` that are not in `dict`. The check
-//! is case-insensitive.
-
+/// Return the words from `words` that are not in `dict`. The check
+/// is case-insensitive.
 pub fn spell_check(words: &Vec<String>, dict: &Vec<String>) -> Vec<String> {
     let mut misspelled = Vec::new();
     for word in words {

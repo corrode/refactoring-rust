@@ -1,5 +1,3 @@
-//! Decide what to do with an HTTP response based on its status code.
-
 pub struct Response {
     pub status: u16,
     pub body: Vec<u8>,
@@ -11,6 +9,7 @@ pub enum Action {
     Fail(String),
 }
 
+/// Decide what to do with an HTTP response based on its status code.
 pub fn handle_response(resp: Response) -> Action {
     if resp.status >= 100 && resp.status < 200 {
         println!("informational: {}", resp.status);

@@ -3,10 +3,13 @@
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
+// ANCHOR: plain_function
 pub fn is_excluded(path: &Path, excluded: &HashSet<PathBuf>) -> bool {
     excluded.iter().any(|prefix| path.starts_with(prefix))
 }
+// ANCHOR_END: plain_function
 
+// ANCHOR: excluder
 #[derive(Debug, Default)]
 pub struct Excluder {
     prefixes: HashSet<PathBuf>,
@@ -23,6 +26,7 @@ impl Excluder {
         self.prefixes.iter().any(|prefix| path.starts_with(prefix))
     }
 }
+// ANCHOR_END: excluder
 
 #[cfg(test)]
 mod tests {

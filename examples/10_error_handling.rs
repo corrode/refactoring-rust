@@ -1,8 +1,8 @@
-//! Read the entire contents of a file into a `String`.
-
+// ANCHOR: listing
 use std::fs::File;
 use std::io::{self, Read};
 
+/// Read the entire contents of a file into a `String`.
 pub fn read_file_contents(path: &str) -> io::Result<String> {
     let mut file = match File::open(path) {
         Ok(file) => file,
@@ -15,6 +15,9 @@ pub fn read_file_contents(path: &str) -> io::Result<String> {
     }
 }
 
+// ANCHOR_END: listing
+
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -40,3 +43,4 @@ mod tests {
         assert_eq!(err.kind(), io::ErrorKind::NotFound);
     }
 }
+// ANCHOR_END: tests

@@ -1,0 +1,24 @@
+name: Suggest a Review question
+description: A question a thoughtful reviewer would ask on a chapter that we missed.
+title: "[review] ch. NN: <one-line summary>"
+labels: ["review", "book"]
+body:
+  - type: input
+    id: chapter
+    attributes:
+      label: Chapter
+      description: Which chapter? (e.g. `14 · error_handling`)
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Your suggested question
+      description: Write it as you would in the Review callout.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why does this question matter?
+      description: What would a junior teammate learn by being asked it?

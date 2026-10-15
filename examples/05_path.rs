@@ -1,7 +1,7 @@
-//! Does this path point to a Rust source file?
-
+// ANCHOR: listing
 use std::path::Path;
 
+/// Does this path point to a Rust source file?
 pub fn is_rust_source_file(path: &Path) -> bool {
     match path.extension() {
         Some(ext) => match ext.to_str() {
@@ -12,6 +12,9 @@ pub fn is_rust_source_file(path: &Path) -> bool {
     }
 }
 
+// ANCHOR_END: listing
+
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -41,3 +44,4 @@ mod tests {
         assert!(!is_rust_source_file(Path::new(".rs")));
     }
 }
+// ANCHOR_END: tests

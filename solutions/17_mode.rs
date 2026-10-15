@@ -1,12 +1,11 @@
-//! Find the value that occurs most often in the input.
-//!
-//! Solution highlights:
-//! - `HashMap::entry(...).or_insert(0)` is the canonical counting idiom.
-//! - `max_by_key` replaces the hand-rolled tracking - no temporaries, no double seeding.
-//! - The empty-input case is now a single, honest `expect`.
-
 use std::collections::HashMap;
 
+/// Find the value that occurs most often in the input.
+///
+/// Solution highlights:
+/// - `HashMap::entry(...).or_insert(0)` is the canonical counting idiom.
+/// - `max_by_key` replaces the hand-rolled tracking - no temporaries, no double seeding.
+/// - The empty-input case is now a single, honest `expect`.
 pub fn most_common(numbers: &[i32]) -> i32 {
     let mut occurrences: HashMap<i32, i32> = HashMap::new();
     for &x in numbers {

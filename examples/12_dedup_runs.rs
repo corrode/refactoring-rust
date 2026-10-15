@@ -1,12 +1,11 @@
-//! Collapse consecutive duplicate values, keeping one per run.
-//!
-//! `[1, 2, 4, 5, 5, 5, 5, 25, 5]` becomes `[1, 2, 4, 5, 25, 5]`.
-//! Only *adjacent* duplicates collapse, so the trailing `5` survives
-//! because a `25` sits between it and the earlier run of fives.
-//!
-//! This works, but it hand-rolls something the standard library
-//! already does in one call. Can you make it shorter?
-
+/// Collapse consecutive duplicate values, keeping one per run.
+///
+/// `[1, 2, 4, 5, 5, 5, 5, 25, 5]` becomes `[1, 2, 4, 5, 25, 5]`.
+/// Only *adjacent* duplicates collapse, so the trailing `5` survives
+/// because a `25` sits between it and the earlier run of fives.
+///
+/// This works, but it hand-rolls something the standard library
+/// already does in one call. Can you make it shorter?
 pub fn dedup_runs(values: Vec<i32>) -> Vec<i32> {
     let mut result = Vec::new();
     let mut i = 0;

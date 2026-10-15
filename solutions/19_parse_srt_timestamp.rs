@@ -1,10 +1,3 @@
-//! Parse an SRT timestamp like `"00:01:23,456"` into a `Duration`.
-//!
-//! Solution highlights:
-//! - `split_once` returns `Option<(&str, &str)>` (no allocation).
-//! - `?` propagates both the format error and the numeric error via `From`.
-//! - Every failure mode is now reported to the caller.
-
 use core::time::Duration;
 use std::num::ParseIntError;
 
@@ -20,6 +13,12 @@ impl From<ParseIntError> for ParseError {
     }
 }
 
+/// Parse an SRT timestamp like `"00:01:23,456"` into a `Duration`.
+///
+/// Solution highlights:
+/// - `split_once` returns `Option<(&str, &str)>` (no allocation).
+/// - `?` propagates both the format error and the numeric error via `From`.
+/// - Every failure mode is now reported to the caller.
 pub fn parse_srt_timestamp(s: &str) -> Result<Duration, ParseError> {
     let (h, rest) = s.split_once(':').ok_or(ParseError::BadFormat)?;
     let (m, rest) = rest.split_once(':').ok_or(ParseError::BadFormat)?;

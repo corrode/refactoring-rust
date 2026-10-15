@@ -1,7 +1,6 @@
-//! Find the value that occurs most often in the input.
-
 use std::collections::HashMap;
 
+/// Find the value that occurs most often in the input.
 pub fn most_common(numbers: &[i32]) -> i32 {
     let mut occurrences: HashMap<i32, i32> = HashMap::new();
     for &x in numbers {

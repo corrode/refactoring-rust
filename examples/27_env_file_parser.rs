@@ -1,15 +1,14 @@
-//! Parse a `.env` file into key/value pairs.
-//!
-//! Supports `KEY=value` lines, blank lines, and `#` comments. Quoted
-//! values get their surrounding double quotes stripped.
-//!
-//! The starter handles the easy lines and silently mangles the rest:
-//! values containing `=`, quoted values containing `#`, escape
-//! sequences, and multi-line quoted values. There is no error type at
-//! all, so callers can't tell a parse failure from a missing key.
-
 use std::collections::HashMap;
 
+/// Parse a `.env` file into key/value pairs.
+///
+/// Supports `KEY=value` lines, blank lines, and `#` comments. Quoted
+/// values get their surrounding double quotes stripped.
+///
+/// The starter handles the easy lines and silently mangles the rest:
+/// values containing `=`, quoted values containing `#`, escape
+/// sequences, and multi-line quoted values. There is no error type at
+/// all, so callers can't tell a parse failure from a missing key.
 pub fn parse_env(content: &str) -> HashMap<String, String> {
     let mut result = HashMap::new();
     for line in content.lines() {

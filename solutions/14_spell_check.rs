@@ -1,12 +1,11 @@
-//! Return the words from `words` that are not in `dict` (case-insensitive).
-//!
-//! Solution highlights:
-//! - The caller builds the `HashSet` once (lowercased) and reuses it -- O(n) lookups.
-//! - `&[&str]` and `Vec<&'a str>` avoid the per-word `clone`.
-//! - `to_ascii_lowercase` is cheaper than `to_lowercase` and right for ASCII input.
-
 use std::collections::HashSet;
 
+/// Return the words from `words` that are not in `dict` (case-insensitive).
+///
+/// Solution highlights:
+/// - The caller builds the `HashSet` once (lowercased) and reuses it -- O(n) lookups.
+/// - `&[&str]` and `Vec<&'a str>` avoid the per-word `clone`.
+/// - `to_ascii_lowercase` is cheaper than `to_lowercase` and right for ASCII input.
 pub fn spell_check<'a>(words: &[&'a str], dict: &HashSet<String>) -> Vec<&'a str> {
     words
         .iter()

@@ -1,0 +1,71 @@
+name: book
+
+on:
+  push:
+    branches: [main, book, book-draft-review]
+  pull_request:
+    branches: [main, book]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: book-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MDBOOK_VERSION: "0.5.4"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+
+      - name: Test examples + solutions
+        run: cargo test --examples --all-features
+
+      - name: Install mdBook
+        run: |
+          mkdir -p "$HOME/.local/bin"
+          curl --fail --silent --show-error --location "https://github.com/rust-lang/mdBook/releases/download/v${MDBOOK_VERSION}/mdbook-v${MDBOOK_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar -xz -C "$HOME/.local/bin"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      # TODO(plugins): install mdbook-quiz and mdbook-mermaid here once
+      # they're added to book.toml.
+
+      - name: Test inline rust blocks
+        working-directory: book
+        run: mdbook test
+
+      - name: Build the book
+        working-directory: book
+        run: mdbook build
+
+      - name: Check draft notices
+        run: |
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          # toc.html is mdBook's sidebar iframe, not a reader-facing page.
+          pages = [p for p in Path("book/book").rglob("*.html") if p.name != "toc.html"]
+          assert pages, "No rendered pages found"
+          missing = [str(p) for p in pages if 'class="draft-notice"' not in p.read_text()]
+          assert not missing, f"Missing draft notice: {missing}"
+          print(f"Draft notice present on all {len(pages)} reader-facing pages")
+          PYTHON
+
+      - name: Upload review copy
+        uses: actions/upload-artifact@v4
+        with:
+          name: book-draft
+          path: book/book
+          if-no-files-found: error
+          retention-days: 14
