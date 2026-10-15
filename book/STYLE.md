@@ -76,9 +76,12 @@
 
 ## Structure
 
-Every chapter follows the 8-section spine from `PLAN.md` §3:
+Use the section order from `PLAN.md` §3. An introduction is optional: keep it
+only when it adds useful context beyond the exercise prompt and starter code.
+Do not describe the same behavior in all three places or preview the solution
+in the introduction. Short exercises can start with **Starter code**.
 
-1. The problem
+1. The problem (optional)
 2. Starter code
 3. Review
 4. A possible solution

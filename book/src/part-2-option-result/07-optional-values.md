@@ -1,11 +1,5 @@
 # 07 · `optional_values`
 
-## The problem
-
-`sum_options` adds the present integers in a `Vec<Option<i32>>` and ignores `None`.
-The starter uses a loop, a mutable total, and a `match` with an empty `None` branch.
-`flatten` and `sum` can express the same calculation.
-
 ## Starter code
 
 > **EXERCISE**

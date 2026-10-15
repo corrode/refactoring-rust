@@ -2,9 +2,9 @@
 
 ## The problem
 
-`is_rust_source_file` checks whether a `Path` has the extension `"rs"`. The starter uses
-nested matches to handle missing and non-UTF-8 extensions. Direct comparison with
-`OsStr` removes the UTF-8 conversion and one level of branching.
+File paths are not always valid UTF-8. Rust therefore returns an `OsStr` from
+`Path::extension`, rather than a `str`. Consider whether checking a fixed extension
+requires converting it to text.
 
 ## Starter code
 

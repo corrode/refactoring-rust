@@ -2,17 +2,15 @@
 
 ## The problem
 
-Four functions calculate adult and child totals, find the largest adult count in a
-room, and collect child ages into a single list. Each uses a loop. Iterator methods can
-express these operations directly, but replacing the maximum loop can change its result
-for negative counts.
+The maximum loop starts at zero, so it returns zero even when every adult count
+is negative. Decide whether to preserve that behavior or reject negative counts
+before replacing the loop.
 
 ## Starter code
 
 > **EXERCISE**
 >
-> Review the four functions together. Name the operation in each loop, then check where
-> an accumulator's initial value can change the answer.
+> Refactor one function at a time and run its tests after each change.
 
 ```rust,editable
 {{#include ../../../examples/15_room_occupancy.rs:listing}}

@@ -1,13 +1,5 @@
 # 02 · `better_match`
 
-## The problem
-
-`describe` returns `"prime"` for `Some(2)`, `Some(3)`, `Some(5)`, and `Some(7)`, and
-`"square"` for `Some(0)`, `Some(1)`, `Some(4)`, and `Some(9)`. It returns `"nothing"`
-for `None` and `"something else"` for every other value. The first two match arms repeat
-`Some` for each number. Nested or-patterns can remove that repetition without changing
-which values match.
-
 ## Starter code
 
 > **EXERCISE**

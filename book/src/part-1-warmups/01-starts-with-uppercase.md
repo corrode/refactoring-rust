@@ -1,12 +1,5 @@
 # 01 · `starts_with_uppercase`
 
-## The problem
-
-`starts_with_uppercase` returns `true` if the first Unicode scalar value is uppercase
-and `false` otherwise, including for an empty string. The function only reads the input,
-but it takes ownership of a `String`. It also uses a separate empty-string check, an
-`unwrap`, and an unnecessary boolean comparison.
-
 ## Starter code
 
 > **EXERCISE**

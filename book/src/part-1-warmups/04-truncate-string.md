@@ -2,17 +2,16 @@
 
 ## The problem
 
-`truncate` should return the longest prefix that fits within `max_bytes` bytes and
-remains valid UTF-8. The starter copies the input and calls `String::truncate` at the
-requested byte index. It panics when that index splits a multi-byte character, as in
-`truncate("café", 4)`.
+A byte limit can split a UTF-8 character. For example, `truncate("café", 4)`
+panics in the starter because `é` occupies two bytes. The result may need to be
+shorter than the limit to remain valid UTF-8.
 
 ## Starter code
 
 > **EXERCISE**
 >
-> Review the implementation and its tests against the contract. The result must use “at
-> most `max_bytes` bytes,” which means it may be shorter than the requested limit.
+> Add a test for a limit inside a multi-byte character, then fix the function without
+> changing its signature.
 
 ```rust,editable
 {{#include ../../../examples/04_truncate_string.rs:listing}}

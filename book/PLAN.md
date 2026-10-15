@@ -56,13 +56,12 @@ reader will learn across its chapters.
 
 ## 3. Per-chapter anatomy
 
-A fixed **8-section spine** every chapter follows, plus **3 optional
-sections** included only when there's something real to say.
+Use the following section order. Omit **The problem** when the starter code
+and exercise prompt already provide enough information.
 
-**Spine (always present):**
-
-1. **The problem**: one paragraph framing, where you'd plausibly meet this
-   in real code.
+1. **The problem (optional)**: context or a constraint that helps approach the
+   exercise. Do not repeat the function description, paraphrase the code, or
+   give away the solution. Start with **Starter code** when no introduction is needed.
 2. **Starter code**: `{{#include}}` from `examples/NN_*.rs`. Includes an
    inline "Try it yourself" callout with the `cargo` invocations.
 3. **Review**: the questions a thoughtful reviewer would ask, framed

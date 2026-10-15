@@ -2,10 +2,9 @@
 
 ## The problem
 
-`parse_port` must accept port numbers from 1 through 65535 and reject zero, malformed
-text, and out-of-range values. The starter returns `None` for every failure and uses
-`u16` for success, even though that type permits zero. Refactor it to enforce the valid
-range through types and distinguish zero from other invalid input.
+This exercise accepts ports from 1 through 65535. Returning `u16` does not express
+the nonzero requirement, and returning `None` for every failure hides its cause
+from the caller.
 
 ## Starter code
 

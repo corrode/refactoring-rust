@@ -1,11 +1,5 @@
 # 06 · `nesting`
 
-## The problem
-
-`shout` trims an optional string, returns `None` if it is absent or empty after trimming,
-and otherwise returns the text in uppercase. The starter nests the empty check inside
-the presence check. `Option` methods can express these steps without nesting.
-
 ## Starter code
 
 > **EXERCISE**

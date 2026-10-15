@@ -2,17 +2,16 @@
 
 ## The problem
 
-`parse_values` parses strings into integers and returns the first error if parsing fails.
-`collect_errors` runs every validator and returns all error messages in validator order.
-Refactor both loops while preserving these different error-handling policies.
+These loops need different error policies. Parsing stops at the first failure;
+validation must run every check and collect all errors. The same iterator refactor
+will not work for both.
 
 ## Starter code
 
 > **EXERCISE**
 >
-> Treat the two loops as separate error-handling policies. Preserve fail-fast parsing,
-> collect-all validation, validator order, and the requirement that every validator
-> runs.
+> Refactor both loops. Keep validator errors in input order, and check whether either
+> function needs to own its input.
 
 ```rust,editable
 {{#include ../../../examples/08_parse_ints.rs:listing}}

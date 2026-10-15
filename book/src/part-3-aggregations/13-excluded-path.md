@@ -1,11 +1,5 @@
 # 13 · `excluded_path`
 
-## The problem
-
-`is_excluded` checks whether a path starts with any prefix in an optional set. It returns
-`false` when the set is absent or empty. The exercise separates two changes: simplifying
-the prefix check and deciding whether the function needs an optional parameter.
-
 ## Starter code
 
 > **EXERCISE**

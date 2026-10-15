@@ -1,12 +1,5 @@
 # 10 · `error_handling`
 
-## The problem
-
-`read_file_contents` must read a whole UTF-8 text file into a `String` and return any
-I/O error to the caller. The starter opens the file, creates a buffer, and handles each
-error with a `match`. Replace these steps with a standard-library function without
-changing the signature or error handling.
-
 ## Starter code
 
 > **EXERCISE**

@@ -1,19 +1,11 @@
 # 03 · `even_numbers`
 
-## The problem
-
-`evens` returns the even numbers from zero up to, but not including, `max`, in ascending
-order. It returns an empty sequence when `max` is zero. The starter checks every integer
-and builds a complete `Vec`, even when the caller only needs the first few values. This
-exercise changes it to return a lazy iterator.
-
 ## Starter code
 
 > **EXERCISE**
 >
-> Preserve the sequence while changing how callers receive it. For a nonzero bound,
-> the sequence must still start at zero and exclude `max`. Return the values lazily
-> instead of building a complete collection inside `evens`.
+> You may change the return type. Add a test that consumes only the first few values
+> of a large range.
 
 ```rust,editable
 {{#include ../../../examples/03_even_numbers.rs:listing}}
