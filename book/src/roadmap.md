@@ -6,13 +6,13 @@ stands on its own, while each part develops one group of related ideas.
 
 ## Part I. Warm-ups (chapters 01–04)
 
-These four short refactors are mostly changes Clippy could find. The code isn't
-the hard part. The point is to learn the book's rhythm: *Review / Trade-offs /
-Quiz / Follow-up / Concepts recap*.
+These four short refactors are mostly changes Clippy could find. Use them to
+learn the chapter format: *Review / Trade-offs / Quiz / Follow-up / Concepts
+recap*.
 
 You'll work with `&str` and `String`, `is_empty`, `chars().next()` instead of
 `chars().nth(0)`, `matches!`, lazy `impl Iterator` returns instead of `Vec`, char
-boundaries, and the rule that `if x { true } else { false }` is always wrong.
+boundaries, and replacing `if x { true } else { false }` with `x`.
 If you've written Rust for a few months, part I should take less than an hour.
 
 ## Part II. `Option`, `Result`, `?` (chapters 05–11)
@@ -20,39 +20,38 @@ If you've written Rust for a few months, part I should take less than an hour.
 This part moves from knowing the syntax to choosing idiomatic control flow. It
 covers deeply nested `if let`, combinators such as `is_some_and`, `map`,
 `and_then`, and `filter_map`, and the cases where a loop is clearer. You'll see
-how the standard library handles iterators of `Result`, how `?` turns a page of
-`match` into a line, and why fail-fast parsing differs from validation that must
-run every rule and collect every error.
+how the standard library handles iterators of `Result`, how `?` replaces repeated
+`match` expressions for error propagation, and why fail-fast parsing differs
+from validation that must run every rule and collect every error.
 
 By the end, you should be able to read a complicated `Option` or `Result`
 pipeline and write one a teammate can follow. Give chapter 10 extra time: its short
-final implementation hides several decisions about interfaces and error contracts.
+final implementation involves several decisions about interfaces and error contracts.
 
 ## Part III. Aggregations & counting (chapters 12–17)
 
-Here the work becomes everyday iterator code: collapsing runs with `dedup`,
-checking membership with a `HashSet`, rolling structs into totals, defining
+This part covers common iterator tasks: collapsing runs with `dedup`,
+checking membership with a `HashSet`, summing fields across structs, defining
 occurrence-weighted text statistics, and computing modes with the `entry` API.
-These patterns make later Rust code shorter and easier to maintain.
+You'll compare these methods with explicit loops.
 
-This part also introduces the **newtype** pattern where it earns its keep, and
-shows when a small `struct` with methods is a better home than a free function
-that takes `&[T]`.
+This part also introduces the **newtype** pattern and shows when a small
+`struct` with methods is more useful than a free function that takes `&[T]`.
 
 Chapter 12 (`dedup_runs`) is an optional bonus exercise. Skip it when time is
 short.
 
 ## Part IV. Strings, parsing & iterators (chapters 18–23)
 
-Part IV asks how far the standard library can take you before you write another
-loop. You'll clean up log lines with `split_whitespace` and `strip_prefix`, parse
-a timestamp without `unwrap`, implement `Iterator` for your own type, drive a
-small transformer from an `enum`, and remove a sentinel from a command pipeline
+Part IV covers standard library methods and custom iterators. You'll clean up
+log lines with `split_whitespace` and `strip_prefix`, parse
+a timestamp without `unwrap`, implement `Iterator` for your own type, control a
+small transformer with an `enum`, and remove a sentinel from a command pipeline
 by choosing its identity value. You'll also turn free functions into a fluent
 extension trait and reduce a verbose quicksort to its textbook definition.
 
-Chapter 20 is the payoff: once your type implements `Iterator`, adaptors such as
-`take`, `map`, `zip`, and `collect` work with it for free. Chapter 23
+In chapter 20, implementing `Iterator` makes methods such as `take`, `map`,
+`zip`, and `collect` available to your type. Chapter 23
 (`quicksort`) is an optional bonus exercise. Skip it when time is short.
 
 ## Part V. Domain modeling (chapters 24–26)
@@ -69,9 +68,9 @@ start here.
 ## Part VI. Capstone (chapters 27–28)
 
 The final two refactors combine most of the earlier work. Chapter 27 is a
-parser. Chapter 28 is a small `redis`-style server. Both stop where production
-work begins: tests still worth writing, edge cases a colleague should flag, and
-design decisions that compilation alone can't settle.
+parser. Chapter 28 is a small `redis`-style server. Both include production
+concerns to investigate: additional tests, edge cases, and design decisions
+that compilation alone can't settle.
 
 The capstones introduce no new concepts. They show how the rest of the book's
 techniques interact in larger code.
@@ -85,7 +84,7 @@ techniques interact in larger code.
 - **Workshop:** two full days, using the slides for delivery and the book as the
   reference afterward.
 
-## And then
+## Reference material
 
 After the final chapter, the back matter gives you three ways to revisit the
 book:
@@ -97,5 +96,4 @@ book:
 - [Further reading](appendix/further-reading.md) collects and deduplicates every
   external resource cited in the book.
 
-Then return to the chapter that best matches the next pull request in front of
-you.
+Use these references to find chapters relevant to your own code reviews.

@@ -2,9 +2,9 @@
 
 ## The problem
 
-A config loader may return no exclusion setting or an empty set of directory prefixes. By
-the time that data reaches the file scanner, both states mean "scan every path." Yet the
-helper's signature carries the distinction all the way into the prefix check.
+`is_excluded` checks whether a path starts with any prefix in an optional set. It returns
+`false` when the set is absent or empty. The exercise separates two changes: simplifying
+the prefix check and deciding whether the function needs an optional parameter.
 
 ## Starter code
 
@@ -49,20 +49,17 @@ helper's signature carries the distinction all the way into the prefix check.
 > - Does `Path::starts_with` compare raw strings, path components, or filesystem
 >   locations?
 
-Ignore the nesting for a moment. The `if let`, `for`, and inner `if` ask one question:
-does any prefix match? The loop already stops at the first match. `Iterator::any` names
-that operation and short-circuits in the same place.
+The nested `if let`, `for`, and `if` check whether any prefix matches. The loop stops
+at the first match. `Iterator::any` expresses the same check and stops at the same point.
 
-The outer `if let` handles another ordinary case: there is no collection to search. An
-early return gets that case out of the way and leaves the matching code at the main
-indentation level. That is a worthwhile control-flow cleanup, but it says nothing yet
-about whether `Option` belongs in the interface.
+The outer `if let` handles the case where there is no collection to search. Returning
+early for `None` removes one level of nesting from the matching code. This simplifies
+control flow without changing the parameter type.
 
-For that, look at the tests. Both `None` and `Some(HashSet::new())` produce `false`. If
-callers attach no further meaning to the distinction, the empty collection already says
-“exclude nothing.” Configuration loading or merging may still need to tell “missing”
-from “present but empty.” Keep that information there until another layer has a reason
-to see it.
+The tests return `false` for both `None` and `Some(HashSet::new())`. If callers don't
+need to distinguish them, an empty collection can represent “exclude nothing.”
+Configuration loading or merging may still need to distinguish “missing” from “present
+but empty.” Keep that distinction in the layers that need it; the prefix check does not.
 
 ## A possible solution
 
@@ -77,18 +74,17 @@ to see it.
 {{#include ../../../solutions/13_excluded_path.rs:tests}}
 </script>
 
-`let ... else` handles `None` before the search starts. Past that statement,
-`excluded` is a borrowed `HashSet<PathBuf>`, so the main operation no longer lives
-inside another branch.
+`let ... else` returns for `None` before the search starts. After that statement,
+`excluded` is a borrowed `HashSet<PathBuf>`, and the prefix check needs no enclosing
+branch.
 
-The final expression asks whether any prefix satisfies `path.starts_with(prefix)`.
-`any` stops polling after the first `true`, just as the starter returns from its loop.
+The final expression checks whether any prefix satisfies `path.starts_with(prefix)`.
+`any` stops at the first `true`, just as the starter returns from its loop.
 The refactor allocates nothing, and its worst case is still a linear scan through all
 prefixes.
 
-The signature has not changed. That restraint matters. We can improve the local control
-flow without making callers and tests move with it. Whether the parameter types should
-change is an API decision, not a prerequisite for using `let ... else` and `any`.
+The signature stays the same, so callers and tests need no changes. Changing the
+parameter types is a separate API decision. Neither `let ... else` nor `any` requires it.
 
 </details>
 
@@ -111,7 +107,8 @@ pub fn is_excluded(
 ```
 
 A caller with an `Option<HashSet<PathBuf>>` can pass `excluded.as_ref()`. The function
-receives the optional view it needs, without access to the owning wrapper.
+receives an optional reference to the set rather than a reference to the original
+`Option`.
 
 If absence and emptiness mean the same thing, remove `Option` and put the candidate path
 first:
@@ -122,11 +119,11 @@ first:
 {{#include ../../../solutions/13_excluded_path_alt.rs:plain_function}}
 ```
 
-This is the smallest interface that fits the tested behaviour. It still exposes
-`HashSet`, although hashing cannot speed up a query that inspects entries one by one.
-The set can still justify itself by deduplicating configured prefixes.
+This signature removes the distinction between absent and empty exclusions. It still
+exposes `HashSet`, although this prefix search checks entries one by one rather than
+using hash lookups. The set does prevent duplicate prefixes.
 
-You can also stop exposing the storage and give the policy its own type:
+A dedicated type can hide the collection and provide the exclusion check as a method:
 
 ```rust,editable
 # use std::collections::HashSet;
@@ -134,10 +131,10 @@ You can also stop exposing the storage and give the policy its own type:
 {{#include ../../../solutions/13_excluded_path_alt.rs:excluder}}
 ```
 
-`Excluder` gives the path policy one home. Normalisation and validation can live there
-when the domain requires them, and the type can use a different index later without
-changing its callers. Its default value excludes nothing, so it retains a valid state
-from the current tests.
+`Excluder` groups the exclusion rules and the matching method. It can also normalize
+and validate prefixes if needed. Keeping storage private lets the implementation use a
+different index later without changing callers. Its default value excludes nothing,
+which preserves a valid state from the current tests.
 
 Run both alternatives with:
 
@@ -145,10 +142,9 @@ Run both alternatives with:
 cargo test --example 13_excluded_path_alt
 ```
 
-An extension trait supports a different call style: `path.is_excluded(&prefixes)`.
-That convenience has a cost. A local policy method now appears on the standard-library
-`Path` type, and callers using method syntax must have the trait in scope. The
-implementation must still do a prefix check:
+An extension trait allows the call `path.is_excluded(&prefixes)`. This adds a
+project-specific method to the standard-library `Path` type. Callers using method syntax
+must import the trait. The implementation must still check prefixes:
 
 ```rust,ignore
 impl Excludable for Path {
@@ -158,8 +154,8 @@ impl Excludable for Path {
 }
 ```
 
-Why not use `excluded.contains(self)`? Set membership checks for an exact path. It would
-stop `/tmp` from matching `/tmp/foo.log`.
+`excluded.contains(self)` checks for an exact path, not a prefix. It would stop `/tmp`
+from matching `/tmp/foo.log`.
 
 A non-empty `Excluder` is another possible invariant, but it contradicts the current
 requirement that an empty rule set is valid. Add that restriction only when the domain
@@ -200,9 +196,9 @@ every call site remember them.
 | Flexibility | neutral | The concrete optional container remains part of the interface; only the implementation changes. |
 | Error reporting | N/A | Missing rules and non-matching paths are still ordinary `false` results under the current contract. |
 
-A team that is new to iterator predicates may find a loop easier to inspect in a
-debugger. That is a fair objection to long adapter chains. This one stays short, names
-the operation, and keeps the early exit. I would take the readability win here.
+A loop may be easier to inspect in a debugger, especially if your team is unfamiliar
+with iterator methods. Here, the iterator expression is short: `any` names the check
+and preserves the early exit.
 
 ## Quiz
 
@@ -253,7 +249,7 @@ collection would remove supported behaviour.
 > - [`let ... else`](../appendix/concept-index.md#let-else): handle a non-matching case
 >   early and keep the main path unindented.
 > - [`Iterator::any`](../appendix/concept-index.md#iterator-any): express an
->   existential test with short-circuit evaluation.
+>   check for at least one match and stop when found.
 > - [Optional borrows](../appendix/concept-index.md#optional-borrows): use `Option<&T>`
 >   when a function needs an optional view rather than a borrowed owning wrapper.
 > - [Empty collections as identity values](../appendix/concept-index.md#empty-collections):

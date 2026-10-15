@@ -2,9 +2,10 @@
 
 ## The problem
 
-A booking report needs totals, a maximum, and a flat list of child ages. Four helpers grew
-around those requests, one loop at a time. Now a pull request proposes replacing every
-loop with an iterator method, and one change makes you pause.
+Four functions calculate adult and child totals, find the largest adult count in a
+room, and collect child ages into a single list. Each uses a loop. Iterator methods can
+express these operations directly, but replacing the maximum loop can change its result
+for negative counts.
 
 ## Starter code
 
@@ -47,21 +48,18 @@ loop with an iterator method, and one change makes you pause.
 > - Why does `children.len()` need a conversion before you can add it to an `i32`?
 > - Does `child_ages` preserve both room order and the order within each room?
 
-Four short loops are not a problem by themselves. Their repetition gives us a clean
-comparison between handwritten accumulation and Rust's iterator vocabulary.
-`adults_total` and `children_total` calculate sums. `max_adults_in_a_room` finds a
-maximum. `child_ages` turns a sequence of sequences into one sequence.
+Each loop performs a common operation. `adults_total` and `children_total` calculate
+sums. `max_adults_in_a_room` finds a maximum, with zero as its initial value.
+`child_ages` combines the child-age lists from all rooms into one list.
 
-`children_total` is easy to misread. It counts entries in each child vector; it does not
-add the ages stored there. The implementation is correct. `child_count` would state the
-intent more directly, but this refactor must keep the public signatures, and a rename
-would affect callers.
+`children_total` counts entries in each child vector; it does not add the ages stored
+there. `child_count` would make that distinction clearer, but this refactor must keep
+the public signatures. Renaming the function would affect callers.
 
-The maximum is where the code pushes back. In the starter, zero is the first candidate
-and the answer for an empty room list. It also wins against every negative value.
-Negative occupancy makes little sense for the domain, but the public `i32` field permits
-it. Before replacing the loop, decide whether zero is part of the contract or an
-accident of the accumulator.
+The maximum loop starts at zero, so it returns zero for both an empty room list and a
+list containing only negative counts. Negative occupancy is not a valid room count,
+but the public `i32` field allows it. Before replacing the loop, decide whether to
+preserve this result or change the function's contract.
 
 ## A possible solution
 
@@ -76,45 +74,43 @@ accident of the accumulator.
 {{#include ../../../solutions/15_room_occupancy.rs:tests}}
 </script>
 
-The two totals translate directly. Borrow the rooms, map each room to the number the
-report needs, then sum those numbers. For children, that number is `children.len()`.
-`Vec::len` takes constant time, so this function visits rooms rather than individual
-children. The `as i32` conversion is still there. We will examine its risk below.
+The two totals use `map` to select a number from each borrowed room, then `sum` to add
+those numbers. For children, the number is `children.len()`. `Vec::len` takes constant
+time, so `children_total` visits rooms rather than individual children. The `as i32`
+conversion remains, along with its risk of truncation, discussed below.
 
 `Iterator::max` returns `Option<i32>` because the iterator may be empty. The fallback
 keeps the starter's answer for an empty input. It does not preserve every result. For
 `[-3, -1]`, the starter returns `0`, while the solution returns `-1`.
 
-I would accept the canonical version only when negative occupancy is invalid and that
-rule is enforced or documented nearby. Otherwise, `fold(0, i32::max)` is the honest
-refactor because it retains the starter's behaviour. Both interpretations pass the
-current tests. A green test run cannot make the domain decision for us.
+Use the canonical version only if the contract rules out negative occupancy. Enforce
+that rule or document the requirement for callers. To preserve the starter's behaviour
+for every `i32` value, use `fold(0, i32::max)` instead. Both versions pass the current
+tests, which do not cover all-negative input.
 
-`child_ages` has no such ambiguity. `flat_map` gives each room an iterator over its ages
-and exposes those inner iterators as one sequence. `copied` turns each `&i32` into an
-`i32`, and `collect` builds the result. Room order and the order within each room remain
-unchanged.
+In `child_ages`, `flat_map` iterates over each room's ages in turn, producing one
+sequence. `copied` turns each `&i32` into an `i32`, and `collect` builds the result.
+Room order and the order within each room remain unchanged.
 
 </details>
 
 ## Alternative approaches
 
-Free functions are a good fit for four isolated calculations. If the same room slice
-keeps passing through a larger API, a `Rooms` newtype can keep those operations beside
-the data they summarize:
+Free functions work well for independent calculations. If several parts of an API use
+the same room collection, a `Rooms` newtype can group the data and its operations:
 
 ```rust,editable
 {{#include ../../../solutions/15_room_occupancy_alt.rs:rooms}}
 ```
 
 Callers can write `rooms.adults_total()` instead of passing the same slice to several
-helpers. Private storage also leaves room for controlled construction or a cached
-summary later.
+helpers. Private storage also allows the type to validate data during construction or
+cache a summary later.
 
 The wrapper does not reject invalid values on its own. This constructor still accepts
-negative counts and ages, and its methods retain the `usize as i32` conversion. A
-newtype gives you a boundary. The constructors and field visibility decide whether that
-boundary rejects invalid data.
+negative counts and ages, and its methods retain the `usize as i32` conversion. To
+enforce valid data, the type needs constructors that check values and private fields
+that prevent callers from bypassing those checks.
 
 Run the alternative as a separate example:
 
@@ -126,8 +122,8 @@ cargo test --example 15_room_occupancy_alt
 
 > **EDGE CASE**
 >
-> The exercise uses small types so the aggregation stays visible. Production code still
-> needs explicit rules for numeric ranges, invalid values, and empty input.
+> The exercise focuses on aggregation. Production code also needs explicit rules for
+> numeric ranges, invalid values, and empty input.
 
 - `adults_total` can overflow `i32`.
 - Converting `children.len()` with `as i32` can truncate a value larger than
@@ -138,10 +134,9 @@ cargo test --example 15_room_occupancy_alt
 - `child_ages` always allocates and copies every age, even when a caller only needs the
   first match.
 
-Would unsigned integers fix the model? They would rule out negative values, but they
-would not prevent overflow or define the maximum of an empty collection. Returning
-`Option<i32>` from the maximum keeps “no rooms” distinct from a real value. That choice
-is visible at every call site because callers must handle absence.
+Unsigned integers rule out negative values, but they do not prevent overflow or define
+the maximum of an empty collection. Returning `Option<i32>` from the maximum keeps
+“no rooms” distinct from a real value. Callers must then handle the absence of a maximum.
 
 ## Trade-offs
 
@@ -160,9 +155,8 @@ is visible at every call site because callers must handle absence.
 | Error reporting | neutral | Neither version reports invalid values, overflow, or a narrowing conversion. |
 
 Iterator familiarity affects the readability score. A long chain can be harder to debug
-than a loop, especially on a team that rarely uses adapters. These chains are short,
-and each adapter names an operation already present in the handwritten code. I would
-use them here.
+than a loop, especially on a team that rarely uses iterator methods. These chains are
+short, and each method names an operation already present in the loops.
 
 ## Quiz
 
@@ -213,6 +207,6 @@ rules only when construction is controlled and invalid values are rejected.
 > - [`copied`](../appendix/concept-index.md#iterator-copied): convert borrowed `Copy`
 >   values into owned values.
 > - [Accumulator identity values](../appendix/concept-index.md#accumulator-identity-values):
->   an initial value can affect both empty input and valid-looking edge cases.
+>   an initial value can affect the result for both empty and non-empty input.
 > - [Newtypes](../appendix/concept-index.md#newtype): give a domain value its own
->   methods and a boundary for future invariants.
+>   methods and a place to enforce validation rules.

@@ -2,17 +2,18 @@
 
 ## The problem
 
-A colleague asks for the first three even numbers below a limit. The existing helper can
-produce them, although its interface was designed for callers that want the whole list.
-How much work does this request actually require?
+`evens` returns the even numbers from zero up to, but not including, `max`, in ascending
+order. It returns an empty sequence when `max` is zero. The starter checks every integer
+and builds a complete `Vec`, even when the caller only needs the first few values. This
+exercise changes it to return a lazy iterator.
 
 ## Starter code
 
 > **EXERCISE**
 >
-> Treat the sequence and the return type as separate decisions. The sequence must still
-> include zero and exclude the upper bound. Then decide whether `evens` should have to
-> construct the complete result before it returns.
+> Preserve the sequence while changing how callers receive it. For a nonzero bound,
+> the sequence must still start at zero and exclude `max`. Return the values lazily
+> instead of building a complete collection inside `evens`.
 
 ```rust,editable
 {{#include ../../../examples/03_even_numbers.rs:listing}}
@@ -50,21 +51,20 @@ How much work does this request actually require?
 >   type?
 > - What do callers gain and lose when the function returns an iterator?
 
-First, keep the behavior that the tests establish. The sequence is ascending, starts at
-zero, and excludes `max`. `evens(0)` is empty. If the bound is odd, the sequence includes
-the even value immediately below it. The tests say nothing about how those values must be
-stored.
+The tests check the values and their order: `evens(10)` produces `[0, 2, 4, 6, 8]`,
+`evens(0)` is empty, and `evens(7)` includes 6. The starter tests compare the result
+directly with a `Vec`, so they need to change when the function returns an iterator.
+The expected values stay the same.
 
 The loop is a half-open range written out by hand: start a counter at zero, keep going
 while `n < max`, and increment it after each pass. It then discards every odd candidate.
 Because zero is the first value, a stride of two expresses the same sequence without a
 parity check.
 
-Changing the traversal is the easy part. The return type is the consequential choice. A
-`Vec` gives callers owned storage, indexing, and repeated traversal. It also forces
-`evens` to generate and allocate the complete result, even when a caller needs only a
-prefix. An iterator puts that decision at the call site: the caller chooses how many
-values to consume and whether to collect them.
+Changing the return type affects callers. A `Vec` provides owned storage, indexing,
+and repeated traversal, but `evens` must generate the complete result before returning.
+An iterator lets the caller choose how many values to consume and whether to collect
+them.
 
 ## A possible solution
 
@@ -79,22 +79,21 @@ values to consume and whether to collect them.
 {{#include ../../../solutions/03_even_numbers.rs:tests}}
 </script>
 
-`0..max` already has the tested boundaries: it starts at zero, excludes `max`, and is
-empty when `max` is zero. `step_by(2)` turns that range into the required arithmetic
-progression. There is no counter to update and no parity branch to take.
+`0..max` has the required bounds and is empty when `max` is zero. `step_by(2)` yields
+every other value, starting with zero. This removes the manual counter and parity check.
 
-The return type exposes the useful promise, `Iterator<Item = u32>`, while keeping the
-concrete `StepBy<Range<u32>>` type private. The internal adapter chain may change later as
-long as it still yields owned `u32` values.
+The return type, `impl Iterator<Item = u32>`, hides the concrete
+`StepBy<Range<u32>>` type. The implementation can use different adapters later as long
+as it preserves the promised sequence and public trait guarantees.
 
-Nothing happens until the caller consumes the iterator. `take(3)` asks for three values.
-`sum` reduces the sequence without building a temporary collection. A caller that needs
-owned storage can still use `collect::<Vec<_>>()`.
+Calling `evens` creates the iterator without generating the full sequence. `take(3)`
+limits a later traversal to at most three values; it does not consume them by itself.
+`sum` consumes the sequence without building a temporary collection. A caller that
+needs owned storage can use `collect::<Vec<_>>()`.
 
-That flexibility is not free. This is a visible API change. The solution tests must call
-`collect` before comparing a complete sequence, and they use `count` for the empty case.
-Existing callers that index the result, store it, or traverse it more than once also need
-to change.
+The solution tests call `collect` before comparing a complete sequence and use `count`
+for the empty case. Callers that rely on a `Vec` for indexing, storage, or repeated
+traversal also need to collect the iterator or change how they use the result.
 
 The solution adds a `stays_lazy` test for the property the shared tests cannot establish.
 It uses `u32::MAX` as the bound and consumes only three values. This is not an allocation
@@ -126,9 +125,9 @@ pub fn evens(max: u32) -> impl Iterator<Item = u32> {
 }
 ```
 
-`filter` is a good fit when selection depends on an irregular predicate. These accepted
-values form a fixed progression instead. I'd use `step_by(2)` here because it states that
-rule and never visits the odd candidates.
+`filter` is useful when a predicate determines which values to keep. Here the values
+are evenly spaced, so `step_by(2)` states the rule directly without a parity test for
+each candidate.
 
 ## Trade-offs
 
@@ -146,9 +145,8 @@ rule and never visits the odd candidates.
 | Flexibility | wins | Callers can stop early or compose the result with `take`, `map`, `sum`, and `collect`. |
 | Error reporting | N/A | Every `u32` bound defines a valid finite sequence. |
 
-An iterator is not a better `Vec`. Owned storage is the right contract when callers need
-it. The iterator wins here because laziness is an explicit requirement, and callers that
-need storage can still collect the sequence.
+Returning an iterator meets this exercise's lazy-result requirement. It does not
+provide the indexing or repeated traversal that callers get from a `Vec`.
 
 ## Quiz
 
@@ -188,12 +186,12 @@ test adds evidence that consumption can stop early.
 > **CONCEPT**
 >
 > - [Half-open ranges](../appendix/concept-index.md#half-open-ranges): `0..max`
->   includes zero and excludes the upper bound.
+>   excludes the upper bound and starts at zero unless the range is empty.
 > - [Lazy iterators](../appendix/concept-index.md#lazy-iterators): produce values as
 >   consumers request them instead of storing the full result first.
 > - [Return-position `impl Trait`](../appendix/concept-index.md#return-position-impl-trait):
 >   promise iterator behaviour while keeping the concrete adapter type private.
 > - [`Iterator::step_by`](../appendix/concept-index.md#iterator-step-by): traverse a
 >   sequence at a fixed stride.
-> - [Iterator consumers](../appendix/concept-index.md#iterator-consumers): choose
->   `take`, `sum`, `collect`, or another operation according to the caller's needs.
+> - [Iterator consumers](../appendix/concept-index.md#iterator-consumers): `sum` and
+>   `collect` consume an iterator; adapters such as `take` limit later consumption.

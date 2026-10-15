@@ -2,8 +2,10 @@
 
 ## The problem
 
-The bug report is only one line: `truncate("café", 4)` panics. ASCII input worked, so the
-byte limit looked harmless until it landed in the middle of `é`.
+`truncate` should return the longest prefix that fits within `max_bytes` bytes and
+remains valid UTF-8. The starter copies the input and calls `String::truncate` at the
+requested byte index. It panics when that index splits a multi-byte character, as in
+`truncate("café", 4)`.
 
 ## Starter code
 
@@ -26,7 +28,7 @@ byte limit looked harmless until it landed in the middle of `é`.
 
 > **TRY THIS**
 >
-> Start with the green starter suite:
+> Run the existing starter tests, which pass:
 >
 > ```sh
 > cargo test --example 04_truncate_string
@@ -62,19 +64,18 @@ byte limit looked harmless until it landed in the middle of `é`.
 
 `"café"` occupies five bytes. `c`, `a`, and `f` each use one byte; `é` uses two. The valid
 boundaries are therefore 0, 1, 2, 3, and 5. Index 4 lands inside the encoding of `é`.
-`String::truncate` takes a byte length, but it panics unless that length is also a valid
-character boundary.
+`String::truncate` takes a byte length. If the length is less than the current string
+length, it must be a character boundary or the method panics. A length at or above the
+current length leaves the string unchanged.
 
 The existing Unicode test uses a limit of five. It proves that the function accepts the
 complete non-ASCII string, but it never asks the implementation to cut through a
-multi-byte value. Unicode input alone does not reach the bug. The limit has to land inside
-the encoding.
+multi-byte character. To expose the bug, the test needs a limit inside the encoding.
 
-The exercise contract settles another possible disagreement: the result must use at most
-`max_bytes` bytes. Under that contract, `"caf"` is the longest valid prefix. A different
-contract, “first four Unicode scalar values,” would return `"café"`, which takes five
-bytes. Both policies can be useful, but they are different APIs. The parameter name
-reinforces the byte-based contract; it does not define that contract by itself.
+The limit counts bytes, not characters. With a four-byte limit, `"caf"` is the longest
+valid prefix. Taking the first four Unicode scalar values would instead return
+`"café"`, which uses five bytes. The name `max_bytes` states the unit, but the contract
+also needs to say what happens when the limit splits a character.
 
 ## A possible solution
 
@@ -95,15 +96,15 @@ The byte-cap implementation does four things:
 2. `floor_char_boundary` finds the greatest valid UTF-8 boundary at or below that
    candidate.
 3. Slicing through the boundary preserves valid UTF-8.
-4. `to_string` allocates and copies the returned prefix.
+4. `to_string` copies the prefix into an owned `String`, allocating if it is nonempty.
 
 For `"café"` with a limit of four, the candidate is 4 and the preceding boundary is 3, so
 the result is `"caf"`. A limit beyond the input length returns the complete string. Zero
 and empty input both return an empty string.
 
-This gives every valid `&str` and `usize` a result. A limit inside a multi-byte encoding is
-ordinary input under this contract. Backing up to the previous boundary satisfies the
-byte cap, so a panic or error would make the API stricter than the requirement.
+Every valid `&str` and `usize` has a result under this contract. A limit inside a
+multi-byte encoding does not need an error: the preceding boundary gives a valid prefix
+within the byte limit.
 
 There is one compatibility limit: `floor_char_boundary` has been stable since Rust 1.91.
 If the project supports an older compiler, use the manual alternative below.
@@ -161,10 +162,10 @@ A byte cap cannot always be filled exactly. No valid prefix of `"café"` occupie
 bytes. If the caller requires exactly four bytes, the return type should represent
 failure, or the API should operate on bytes rather than promise valid text.
 
-The function always allocates because it returns `String`. Returning a borrowed `&str`
-would avoid that allocation, but the prefix would borrow from the input. Callers would
-then have to accept the new lifetime and interface. Make that change only when the call
-sites benefit from it.
+A nonempty result requires an allocation because the function returns an owned
+`String`. An empty result does not. Returning `&str` would avoid copying and allocating,
+but the result could not outlive the input. Make that API change only when callers
+benefit from it.
 
 ## Trade-offs
 
@@ -182,9 +183,9 @@ sites benefit from it.
 | Flexibility | neutral | The function still implements one byte-cap policy and returns an owned string. |
 | Error reporting | N/A | Every input has a valid result under the “at most” contract. An exact-length contract would need a failure case. |
 
-Removing the panic is a correctness fix, but the six axes do not express that result
-neatly. That is a useful limit of the rubric. A scorecard can focus review judgement; it
-cannot replace the characterization test that exposes the failure.
+The main improvement is the correctness fix: a limit inside a UTF-8 character no longer
+causes a panic. None of the six axes records that directly, so the failing test remains
+important alongside these scores.
 
 ## Quiz
 

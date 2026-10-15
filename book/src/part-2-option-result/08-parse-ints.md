@@ -2,9 +2,9 @@
 
 ## The problem
 
-Two cleanup tickets look almost identical: each asks you to replace a loop over fallible
-work. Before applying the same refactor twice, you check what each caller expects after
-the first failure.
+`parse_values` parses strings into integers and returns the first error if parsing fails.
+`collect_errors` runs every validator and returns all error messages in validator order.
+Refactor both loops while preserving these different error-handling policies.
 
 ## Starter code
 
@@ -49,29 +49,29 @@ the first failure.
 > - Must `collect_errors` retain validator order?
 > - What work is repeated by `is_err()` followed by `err().expect(...)`?
 
-Start with ownership. `parse_values` reads each string, but never needs its allocation.
-`String::parse` works through the string's `str` contents. A `&[String]` is enough, and
-that narrower parameter lets the caller use the original strings afterward.
+`parse_values` only needs to read each string. The `parse` method works on the string's
+`str` contents, so the function can take `&[String]` instead of owning the vector. This
+lets the caller use the original strings afterward.
 
-The more interesting part is what `collect` means here. Mapping `parse` over
+Mapping `parse` over
 `values.iter()` produces `Result<i32, ParseIntError>` items. The standard library has a
 specialised `FromIterator` implementation for this case. Collecting into
 `Result<Vec<i32>, ParseIntError>` adds each `Ok` value to the vector, then returns the
 first `Err` without consuming the rest of the iterator.
 
-That is exactly the policy `parse_values` needs. It also rules out partial output. The
-function may build a successful prefix internally, but that vector is dropped after an
-error. Its return type has room for the complete vector or one error, not both.
+This preserves the fail-fast policy of `parse_values`. It also rules out partial output.
+The function may collect some integers before parsing fails, but it drops that vector on
+error. Its return type holds either the complete vector or one error, not both.
 
-Now compare that with `collect_errors`. Its test places a successful `CountedAccept`
+`collect_errors` has different requirements. Its test places a successful `CountedAccept`
 validator between two rejecting validators. The expected call count shows that work must
 continue after the first rejection. The expected vector shows that errors must stay in
 validator order. `collect::<Result<_, _>>()` and `?` would both stop too early.
 
-There is a smaller smell in the starter too. It asks the same `Result` which variant it
-contains twice. `is_err()` checks for `Err`, then `err()` turns the result into an
-`Option<String>`, and `expect` asserts the fact we just checked. A single match would be
-better. In an iterator pipeline, `filter_map` can consume that `Option` directly.
+The starter also checks the same `Result` variant twice. `is_err()` checks for `Err`,
+then `err()` turns the result into an `Option<String>`, and `expect` relies on the earlier
+check. A single match avoids this repetition. In an iterator chain, `filter_map` can
+consume that `Option` directly.
 
 ## A possible solution
 
@@ -90,18 +90,18 @@ The new `parse_values` takes a borrowed slice. `values.iter()` visits each `Stri
 reference, and method resolution lets `parse` read the underlying `str`. Neither the
 vector nor any of its strings is consumed.
 
-The return type does useful work for the otherwise terse iterator chain. It tells `parse`
-that successful values are `i32`, and it tells `collect` to build
+The return type determines the types in the iterator chain. It tells `parse` that
+successful values are `i32`, and it tells `collect` to build
 `Result<Vec<i32>, ParseIntError>`. The first parse error ends collection. If every parse
 succeeds, the function returns the integers in input order. Empty input becomes
 `Ok(vec![])`.
 
-`collect_errors` makes a deliberately different choice. It does not collect its
-`Result` values into another `Result`. Instead, `filter_map` runs each validator and
+`collect_errors` does not collect its `Result` values into another `Result`.
+Instead, `filter_map` runs each validator and
 passes its result to `Result::err`. `Ok(())` becomes `None`; `Err(message)` becomes
 `Some(message)`. Only the messages continue through the pipeline.
 
-The final `collect` has to drain that entire iterator, so every validator runs. Traversal
+The final `collect` consumes the entire iterator, so every validator runs. Traversal
 order is preserved, which keeps the returned messages in validator order. This also
 removes the repeated variant check and the `expect`: `filter_map` discards `None` and
 keeps the value inside `Some`.
@@ -112,19 +112,18 @@ keeps the value inside `Some`.
 
 > **EDGE CASE**
 >
-> Fail-fast parsing and collect-all validation answer different questions. Pick the
-> return type and iterator consumer that match the required failure policy. Similar loops
-> do not necessarily have the same stopping condition.
+> Choose the return type and iterator consumer to match the required error policy.
+> Fail-fast parsing stops at the first error; collect-all validation runs every check.
 
 `parse_values` returns only a `ParseIntError`. The caller does not learn which input
-failed, what its index was, or how much of the prefix parsed successfully. That contract
-is fine when the only useful question is whether the whole batch is valid. If callers
+failed, what its index was, or how many values parsed successfully before it. That is
+enough when you only need to know whether the whole batch is valid. If callers
 need to mark a bad field or resume work, return an error with the index and source text,
 or introduce an explicit partial-result type.
 
 The parser also follows Rust's integer syntax. Leading and trailing whitespace are
-rejected, as are values outside the `i32` range. Normalising either case is a domain
-decision, not a parsing cleanup.
+rejected, as are values outside the `i32` range. Accepting whitespace or handling
+out-of-range values differently would change the parsing policy, not just the implementation.
 
 `collect_errors` allocates every returned `String` because the trait asks validators for
 owned error messages. As the validation system grows, a structured error can carry a
@@ -147,11 +146,10 @@ text.
 | Flexibility | wins | The caller can reuse borrowed input, and further transformations do not require manual accumulator state. |
 | Error reporting | neutral | Parsing still returns only the first `ParseIntError`, while validation still returns every string message in order. |
 
-The `parse_values` body is short, but it relies on a `collect` implementation that isn't
-self-evident the first time you meet it. I'd keep it. The return type makes the policy
-visible, and fail-fast collection is common Rust vocabulary. The more important lesson
-is the contrast with `collect_errors`: saving lines is never a reason to change when the
-work stops.
+Understanding the shorter `parse_values` body requires knowing how `collect` handles
+`Result` items. This is a common Rust pattern, and the return type states the fail-fast
+policy. `collect_errors` needs a different iterator chain because it must continue after
+an error. Shortening either function must not change when it stops.
 
 ## Quiz
 

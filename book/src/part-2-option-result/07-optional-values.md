@@ -2,9 +2,9 @@
 
 ## The problem
 
-A sensor sends a batch of optional readings. Some slots are missing, but the report still
-needs one total. The loop works through each slot with a `match`, even though a missing
-reading contributes nothing.
+`sum_options` adds the present integers in a `Vec<Option<i32>>` and ignores `None`.
+The starter uses a loop, a mutable total, and a `match` with an empty `None` branch.
+`flatten` and `sum` can express the same calculation.
 
 ## Starter code
 
@@ -49,20 +49,16 @@ reading contributes nothing.
 >   sequence of values?
 > - Does `sum` alter the integer-overflow risk of the original loop?
 
-Each `Option<i32>` in the loop represents one number or no number. Converting an
-`Option<T>` into an iterator uses the same interpretation: `Some(value)` yields that
-value once, while `None` yields nothing. Join those tiny iterators and a normal sum can
-do the remaining work.
+An `Option<T>` implements `IntoIterator`: `Some(value)` yields one value, while `None`
+yields none. `flatten` uses this to produce an iterator over the present integers.
 
-The tests also pin down the identity value. An empty sequence sums to zero. After absent
+The tests require an empty sequence to sum to zero. After absent
 entries are removed, both an empty vector and a vector containing only `None` produce an
 empty sequence, so both return `0`.
 
-Ownership is part of the current interface too. `sum_options` takes
-`Vec<Option<i32>>` by value, and the `for` loop consumes it. Using `into_iter()` preserves
-that behaviour. It does not prove the function must own the vector. A borrowed slice may
-be a better interface when callers need the collection afterward, but that is a separate
-API change.
+`sum_options` takes `Vec<Option<i32>>` by value, and the `for` loop consumes it.
+`into_iter()` preserves that ownership behavior. Borrowing a slice would let callers
+keep the vector, but that is a separate API change.
 
 ## A possible solution
 
@@ -80,7 +76,7 @@ API change.
 `into_iter()` consumes the vector and yields each `Option<i32>` by value, just as the
 starter loop does.
 
-Next, `flatten()` uses the iterator implementation of each option:
+Next, `flatten()` uses each option's `IntoIterator` implementation:
 
 - `Some(value)` contributes one `i32`.
 - `None` contributes zero `i32` values.
@@ -106,8 +102,7 @@ pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
 ```
 
 The closure returns each option unchanged. `filter_map` extracts the value from `Some`
-and drops `None`. This is correct. I still prefer `flatten` here because the items are
-already nested containers and the closure makes no additional decision.
+and drops `None`. `flatten` does the same without an identity closure.
 
 If callers should retain the vector, a borrowed interface changes the iterator types:
 
@@ -152,10 +147,8 @@ the domain limits.
 | Flexibility | neutral | The public interface does not change; only the internal expression of the aggregation does. |
 | Error reporting | neutral | Neither version reports overflow or distinguishes empty input from input containing only `None`. |
 
-The one-line body earns its place through vocabulary, not brevity. It works when your
-team reads `flatten` as “zero or one value from each option” and `sum` as the intended
-reduction. If those methods are unfamiliar, the starter loop is still correct and makes
-a reasonable intermediate step.
+The iterator version is easier to read when your team knows `flatten` and `sum`.
+The explicit loop remains a valid choice if those methods are unfamiliar.
 
 ## Quiz
 
@@ -163,7 +156,7 @@ a reasonable intermediate step.
 
 *Answer:* It can be, but doing so creates an item for a value that is absent. Treating
 `None` as zero elements produces the same total and matches the requirement to ignore
-missing measurements. The distinction starts to matter when later operations do more
+missing values. The distinction matters when later operations do more
 than addition.
 
 ### 2. Should this refactor change the parameter to `&[Option<i32>]`?

@@ -21,6 +21,11 @@
 
 ## Tone
 
+- Keep explanations matter-of-fact. Start with what the function does, what needs
+  changing, and why. Don't invent a colleague, review meeting, or cleanup ticket to
+  introduce an exercise.
+- Use simple words and direct explanations. Keep examples that explain the code;
+  cut stories, metaphors, and repeated summaries that don't help explain it.
 - Allowed, and encouraged, to disagree with Clippy, the canonical
   solution, the previous chapter, or your past self. **Required** to
   flag when you do, and why.

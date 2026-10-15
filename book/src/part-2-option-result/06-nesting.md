@@ -2,10 +2,9 @@
 
 ## The problem
 
-An optional profile field needs three small cleanups before display: trim its whitespace,
-ignore it if nothing remains, then uppercase the text. In the starter, each step adds
-another level of nesting. By the time you reach useful text, the short sequence is hard
-to see.
+`shout` trims an optional string, returns `None` if it is absent or empty after trimming,
+and otherwise returns the text in uppercase. The starter nests the empty check inside
+the presence check. `Option` methods can express these steps without nesting.
 
 ## Starter code
 
@@ -50,20 +49,15 @@ to see.
 > - Where does the function first need to own a `String`?
 > - Would replacing the branches with combinators hide any useful distinction?
 
-Start with the values. The input is `None` or `Some(&str)`. When text is present, `trim`
-returns another `&str` borrowed from the same input. The function rejects that slice if
-it is empty. Only a non-empty slice reaches `to_uppercase`, which creates the `String`
-returned to the caller.
+The input is `None` or `Some(&str)`. When text is present, `trim` returns a borrowed
+subslice without allocating. The function rejects an empty slice. Otherwise,
+`to_uppercase` creates the `String` returned to the caller.
 
 The outer `if let` asks whether a value is present. The inner `if` applies a predicate to
 that value. Both failure paths return `None`. `Option` combinators express the same sequence:
 transform a present value, retain it when a predicate passes, then transform it once
 more.
 
-Does `trim` allocate? No. It returns a subslice, so validation can continue with borrowed
-text. `to_uppercase` returns a `String`, which is where allocation enters. Leaving that
-step until last means absent, empty, and whitespace-only inputs never allocate an owned
-result.
 
 ## A possible solution
 
@@ -85,25 +79,21 @@ Read the chain as three stages, in order:
 2. `filter(|t| !t.is_empty())` retains non-empty text and converts empty text to `None`.
 3. `map(str::to_uppercase)` converts the remaining `&str` into an owned `String`.
 
-A combinator runs only while the option is `Some`. Absent input skips the entire chain.
-Once `filter` rejects a value, the allocating final `map` does not run.
+These methods call their functions or closures only for `Some`. Absent input remains
+`None` through the chain. If `filter` rejects a value, `to_uppercase` is not called.
 
-There is one type detail worth noticing. `filter` borrows the value inside the option to
-test its predicate. That value is already an `&str`, so the closure receives a reference
-to a reference. Method-call auto-dereferencing is why `t.is_empty()` works without
-spelling out the extra layer.
+`filter` borrows the value inside the option to test its predicate. The value is an
+`&str`, so the closure receives `&&str`. Method-call auto-dereferencing lets
+`t.is_empty()` work without an explicit dereference.
 
-This looks like an iterator pipeline, but `Option` is not an `Iterator`. It has its own
-`map` and `filter` methods, and it can also be converted into an iterator containing zero
-or one item. The useful connection is the vocabulary: each stage transforms or rejects
-a value without introducing another nested branch.
+`Option` has its own `map` and `filter` methods; it is not an `Iterator`. It can also
+be converted into an iterator containing zero or one item.
 
 </details>
 
 ## Alternative approaches
 
-A combinator chain is not the only clear answer. You can remove the nesting while keeping
-each decision explicit:
+Early returns also remove the nesting:
 
 ```rust,editable
 pub fn shout(s: Option<&str>) -> Option<String> {
@@ -120,14 +110,13 @@ pub fn shout(s: Option<&str>) -> Option<String> {
 }
 ```
 
-I would choose this form when the failure paths need comments, logging, or distinct
-return values. Named intermediate values can also be easier to review while a team is
-learning the combinators. The canonical chain works well here because every stage is
-short, pure, and appears in the same order as the contract.
+Explicit branches are easier to extend with comments, logging, or distinct return
+values. Named intermediate values can help when the combinators are unfamiliar.
+The canonical chain fits this function because its three steps are short and have no
+side effects.
 
-Do not move `to_uppercase` ahead of `filter`. That would allocate before the function
-knows whether it will discard the trimmed input. It would also give up the useful
-progression from borrowed validation to owned output.
+Keep `to_uppercase` after `filter` so the function checks the borrowed text before
+creating an owned result.
 
 ## Edge cases and production concerns
 
@@ -137,14 +126,12 @@ progression from borrowed validation to owned output.
 > fixed-length transformation that can happen in place.
 
 For example, uppercasing `"straße"` produces `"STRASSE"`. `str::to_uppercase` returns a
-new `String` because the output may require more storage than the input. As in the
-starter, the canonical solution allocates that string only after trimming and filtering
-leave a value to convert.
+new `String` because the output may require more storage than the input.
 
 `trim` removes leading and trailing Unicode whitespace according to Rust's whitespace
 rules. A protocol may define a narrower set, such as ASCII spaces only. In that case,
-`trim` can accept input the protocol rejects. That is a contract decision, not a reason
-to broaden this exercise.
+`trim` can accept input the protocol rejects. Choose the whitespace rule required by
+the contract; this exercise keeps the starter's behavior.
 
 Uppercasing is not locale-aware either. Before using this result for identifiers,
 security checks, or language shown to users, decide whether Unicode's default case
@@ -165,25 +152,23 @@ conversion is the normalization your domain intends.
 | Flexibility | wins | Another transformation or predicate can be added as a stage without another level of control-flow nesting. |
 | Error reporting | neutral | Both versions erase the reason for `None`, so the caller cannot distinguish absent input from empty input. |
 
-The readability win has a limit. A long chain of closures can obscure intermediate types
-and make failure points harder to inspect. Here each operation has one job, and their
-order mirrors the contract. Once that stops being true, use named locals and explicit
-branches.
+Longer chains can make intermediate types and failure points harder to inspect.
+Use named locals and explicit branches when individual steps need more explanation.
 
 ## Quiz
 
 ### 1. Should `to_uppercase` run before the empty check to keep all transformations together?
 
 *Answer:* No. Trimming and the empty check work on borrowed `&str` values. Uppercasing
-first would allocate a `String` that the function may immediately discard. Keep the
-owned transformation after filtering unless the contract requires another order.
+first would create a `String` even for empty text, only to discard it. An empty `String`
+need not allocate, but the conversion is unnecessary. Keep it after filtering unless
+the contract requires another order.
 
 ### 2. Should a review reject the explicit version because combinators are more idiomatic?
 
 *Answer:* No. Explicit control flow is easier to extend when failure paths need logging,
-different errors, or more involved decisions. The combinator chain is a good fit here
-because three short stages follow the contract in order, not because explicit branches
-are unsound.
+different errors, or more involved decisions. Both versions are correct. The combinator
+chain fits this function because it expresses three short steps in execution order.
 
 ### 3. Should `shout` return `Result<String, Error>` instead of `Option<String>`?
 

@@ -2,9 +2,10 @@
 
 ## The problem
 
-A pull request adds a helper that reads a text file into a `String`. Most of its body
-opens the file, manages a buffer, and hands errors back to the caller. The request sounded
-smaller than the implementation.
+`read_file_contents` must read a whole UTF-8 text file into a `String` and return any
+I/O error to the caller. The starter opens the file, creates a buffer, and handles each
+error with a `match`. Replace these steps with a standard-library function without
+changing the signature or error handling.
 
 ## Starter code
 
@@ -60,12 +61,12 @@ file.read_to_string(&mut contents)?;
 Ok(contents)
 ```
 
-That version is useful when you need the `File` handle or want to inspect the buffer
-between steps. This function does neither. Its whole job is “read this file as a string,”
-and `std::fs::read_to_string` already performs that operation. Stopping at `?` would
-remove repetition while leaving unnecessary state behind.
+This version is useful when you need the `File` handle or want to inspect the buffer
+between steps. This function needs neither. `std::fs::read_to_string` already opens a
+file and reads its contents into a string. Using it also removes the local file handle
+and buffer variables.
 
-The tests pin down both sides of the contract. A readable file returns its text. A
+The tests check both success and failure. A readable file returns its text. A
 missing file remains an `io::Error` whose kind is `NotFound`. The test's `unwrap` calls
 serve a different purpose from production error handling: a failed temporary-file write
 or an unexpected read result should fail the test immediately. A production caller needs
@@ -86,30 +87,27 @@ the error value instead.
 
 `fs::read_to_string(path)` opens the file, reads all bytes as UTF-8 text, and returns the
 resulting `String`. Its internal file handle closes when it is dropped. The helper already
-returns `io::Result<String>`, which matches our function's return type, so there is
-nothing to unwrap, convert, or propagate by hand.
+returns `io::Result<String>`, which matches this function's return type. The function can
+return that result directly, without unwrapping or converting it.
 
-No error disappeared in the refactor. If opening or reading fails, the caller still gets
-an `io::Error`. The missing-file test checks this precisely by requiring
-`io::ErrorKind::NotFound`, rather than treating any failure as good enough.
+If opening or reading fails, the caller still gets an `io::Error`. The missing-file test
+requires `io::ErrorKind::NotFound`, not just any error.
 
-The name `read_to_string` also states a real input constraint. This function does not
-accept arbitrary bytes. Invalid UTF-8 makes the read fail. If binary data or an unknown
+`read_to_string` requires valid UTF-8. It does not accept arbitrary bytes: invalid UTF-8
+makes the read fail. If binary data or an unknown
 encoding is valid input, use `fs::read` and return `Vec<u8>` instead.
 
-At this point, the wrapper is small enough to look suspicious. It can still earn its
-place by giving the operation a domain name or providing one location for later policy,
-such as error context or a size limit. If it adds no policy and callers gain nothing from
-the name, calling `fs::read_to_string` directly is a sound choice.
+The wrapper can still be useful if its name describes the operation in application
+terms or if it provides a place to add error context or a size limit later. If neither
+is needed, callers can use `fs::read_to_string` directly.
 
 </details>
 
 ## Alternative approaches
 
-The canonical solution keeps `path: &str` on purpose. This exercise is about the
-implementation, so changing the public interface at the same time would mix two
-decisions. If callers already use native filesystem paths, a path-oriented parameter may
-be the better contract:
+The canonical solution keeps `path: &str` because this exercise changes the
+implementation, not the public interface. If callers use native filesystem paths,
+consider a path parameter as a separate API change:
 
 ```rust,ignore
 use std::path::Path;
@@ -124,7 +122,7 @@ A concrete `&Path` is also reasonable when you want a smaller public interface. 
 choice admits native paths that cannot be represented as UTF-8 text on every platform.
 
 This API change is optional. Keep `&str` when paths enter the surrounding interface as
-text and changing callers buys nothing. Choose `AsRef<Path>` or `&Path` when support for
+text and callers don't need other path types. Choose `AsRef<Path>` or `&Path` when support for
 native paths is part of the contract.
 
 ## Edge cases and production concerns
@@ -132,7 +130,7 @@ native paths is part of the contract.
 > **EDGE CASE**
 >
 > `read_to_string` reads the entire file into memory and requires valid UTF-8. Those are
-> useful guarantees for small text files, but poor defaults for every input.
+> suitable requirements for small text files, but not for every input.
 
 Large or untrusted files may need a size limit or a buffered streaming interface. Binary
 files need a byte-oriented return type. And if callers must distinguish opening,
@@ -156,13 +154,13 @@ I/O error as its source.
 | Flexibility | loses | The helper leaves no point to inspect the file, limit reads, or report progress after opening it. |
 | Error reporting | neutral | Both versions propagate `io::Error`, and callers can still observe a missing file as `NotFound`. |
 
-I'd take the readability win while the requirement remains “read this whole text file.”
-If opening options, streaming, or limits become part of the contract, expand the
-implementation again. A convenience function is useful until you have to fight it.
+Use the shorter implementation when the requirement is to read a whole text file.
+If you need custom opening options, streaming, or limits, use separate open and read
+steps to control those operations.
 
 ## Quiz
 
-### 1. Should a review stop after replacing both `match` expressions with `?`?
+### 1. Is replacing both `match` expressions with `?` enough?
 
 *Answer:* Stop there if the function needs the `File` or buffer between the two fallible
 operations. If its complete job is to read a whole text file, use `fs::read_to_string`.
@@ -191,12 +189,12 @@ policy.
 
 > **FOLLOW-UP**
 >
-> - Does this function add enough policy or vocabulary to justify wrapping
+> - Does this function need its own name or policy rather than calling
 >   `fs::read_to_string`?
 > - Are your application's paths text values, native `Path` values, or both?
 > - Which files can grow large enough that reading them in full would be unsafe?
 > - Where should you add domain context to an `io::Error` without losing its source?
-> - Which manual error-propagation blocks in your codebase conceal one standard-library
+> - Which manual error-propagation blocks in your codebase could become one standard-library
 >   operation?
 
 ## Concepts recap
@@ -208,7 +206,7 @@ policy.
 > - [The `?` operator](../appendix/concept-index.md#question-mark-operator): continue with
 >   a success value or return early with a compatible error.
 > - [Standard-library convenience functions](../appendix/concept-index.md#standard-library-convenience-functions):
->   replace low-level plumbing with an operation that states the complete intent.
+>   replace separate steps with a function that performs the complete operation.
 > - [`io::Result`](../appendix/concept-index.md#io-result): report filesystem and stream
 >   failures with `io::Error`.
 > - [Path parameter types](../appendix/concept-index.md#path-parameter-types): choose

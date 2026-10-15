@@ -2,10 +2,10 @@
 
 ## The problem
 
-A service reads its listening port from a config file. The happy path is obvious, but a
-bad value can mean zero, malformed text, or a number too large for a port. The current
-interface turns every failure into `None`, while its success type can still represent
-zero. What should the interface promise?
+`parse_port` must accept port numbers from 1 through 65535 and reject zero, malformed
+text, and out-of-range values. The starter returns `None` for every failure and uses
+`u16` for success, even though that type permits zero. Refactor it to enforce the valid
+range through types and distinguish zero from other invalid input.
 
 ## Starter code
 
@@ -52,20 +52,18 @@ zero. What should the interface promise?
 
 The starter is correct for the inputs covered by its tests. Parsing an `i32` admits a
 wider range, then `n < 1 || n > 65535` narrows it before `n as u16`. Because every path
-to the cast passes that check, the conversion cannot truncate today. The concern is
-maintenance: the proof and the conversion are separate. A later edit can loosen the
-check and leave the cast untouched.
+to the cast passes that check, the conversion cannot truncate. But its safety depends
+on a separate range check. A later edit could loosen the check without updating the cast.
 
-Parsing a `u16` directly removes that gap. The parser rejects negative numbers, values
+Parsing a `u16` directly avoids the cast. The parser rejects negative numbers, values
 above `u16::MAX`, and malformed text. There is no manual upper-bound check and no cast.
-Zero still parses successfully as a `u16`, so it needs one more step. That is the job of
-`NonZeroU16`.
+Zero still parses successfully as a `u16`. Constructing a `NonZeroU16` adds the check
+that rejects zero.
 
-The return type matters just as much. `Option<u16>` tells a caller whether parsing
-succeeded, but not why it failed. Worse, `Some` carries no type-level promise about zero.
-Any downstream function that relies on a non-zero value must trust convention or check
-again. `Result<NonZeroU16, InvalidPort>` keeps the invariant in the success type and a
-useful distinction in the error type.
+`Option<u16>` tells a caller whether parsing succeeded, but not why it failed. It also
+allows `Some(0)` at the type level. A downstream function that requires a non-zero value
+must trust the parser's checks or check again. `Result<NonZeroU16, InvalidPort>` guarantees
+that successful values are non-zero and distinguishes failure categories.
 
 ## A possible solution
 
@@ -80,13 +78,12 @@ useful distinction in the error type.
 {{#include ../../../solutions/11_parse_port.rs:tests}}
 </script>
 
-The first operation asks `str::parse` for a `u16`, so the target type decides which
-numbers fit. Malformed text, negative input, and values above 65535 all make
+The first operation parses a `u16`, so the parser enforces that type's numeric bounds. Malformed text, negative input, and values above 65535 all make
 `parse::<u16>()` fail. `map_err` translates any of those parser errors into
 `InvalidPort::Invalid`, and `?` returns it to the caller.
 
-That error enum is intentionally modest. `Invalid` combines syntax errors with
-out-of-range numbers. The tests make the consequence concrete: both `"nope"` and
+`Invalid` combines syntax errors with out-of-range numbers. The tests check that both
+`"nope"` and
 `"65536"` produce `Err(InvalidPort::Invalid)`. Callers can reject invalid input, but they
 cannot respond differently to those two causes.
 
@@ -111,19 +108,19 @@ explicit `InvalidPort` values.
 > usually needs a specific non-zero port.
 
 `NonZeroU16` is the right success type only when the domain rejects zero. If this parser
-later backs a bind-address API where zero carries meaning, both `NonZeroU16` and the
-`Zero` error would encode the wrong policy.
+later serves a bind-address API that accepts zero, both `NonZeroU16` and the `Zero`
+error would enforce the wrong policy.
 
-The two error variants are another product decision. A form may need separate messages
+The error variants also depend on the application's requirements. A form may need separate messages
 for “enter digits” and “maximum value is 65535.” This enum cannot support that because
 both failures become `Invalid`. Add variants or retain the parsing error when callers can
 act on the difference. Keep the smaller enum when “invalid port” is enough and only zero
 needs special treatment.
 
-There is also a useful layout property, though it is not the reason for this design.
-Non-zero integer types provide a niche, so `Option<NonZeroU16>` can occupy the same space
-as a `u16`, using zero to represent `None`. This function returns `Result`. We choose
-`NonZeroU16` for the invariant, not for that optimisation.
+Non-zero integer types also provide an unused value, called a niche.
+`Option<NonZeroU16>` can occupy the same space as a `u16`, using zero to represent `None`.
+This function returns `Result`, not `Option`. It uses `NonZeroU16` to guarantee a non-zero
+value, not for that optimisation.
 
 ## Trade-offs
 
@@ -141,10 +138,10 @@ as a `u16`, using zero to represent `None`. This function returns `Result`. We c
 | Flexibility | wins | Callers can handle zero separately from other invalid input and pass the success value onward without checking zero again. |
 | Error reporting | wins | `Result` distinguishes zero from invalid syntax or range, while `Option` collapses every failure into `None`. |
 
-The stronger interface makes callers handle an error enum and, at some boundaries, call
-`.get()` to recover a `u16`. I'd pay that cost when non-zero is a domain rule that matters
-beyond this parser. If every caller immediately extracts the integer and ignores the
-error distinction, the API may be enforcing policy the application does not use.
+The stronger interface requires callers to handle an error enum and, where a `u16` is
+needed, call `.get()`. This is useful when other functions also require non-zero values.
+If every caller immediately extracts the integer and ignores the error distinction,
+the application may not need the stronger interface.
 
 ## Quiz
 
