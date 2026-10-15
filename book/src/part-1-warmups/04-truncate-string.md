@@ -1,17 +1,12 @@
 # 04 · `truncate_string`
 
-## The problem
-
-A byte limit can split a UTF-8 character. For example, `truncate("café", 4)`
-panics in the starter because `é` occupies two bytes. The result may need to be
-shorter than the limit to remain valid UTF-8.
-
 ## Starter code
 
 > **EXERCISE**
 >
-> Add a test for a limit inside a multi-byte character, then fix the function without
-> changing its signature.
+> Check whether the function meets its documented behavior for all inputs. Add tests
+> for cases you think are missing, then make any needed changes without changing the
+> signature.
 
 ```rust,editable
 {{#include ../../../examples/04_truncate_string.rs:listing}}
@@ -33,7 +28,13 @@ shorter than the limit to remain valid UTF-8.
 > cargo test --example 04_truncate_string
 > ```
 >
-> Then add this test to `examples/04_truncate_string.rs`:
+> Look for inputs the existing tests do not cover. Try writing a failing test before
+> changing the implementation.
+
+<details>
+<summary>Hint: a test case to try</summary>
+
+> Try this test in `examples/04_truncate_string.rs`:
 >
 > ```rust,ignore
 > #[test]
@@ -48,6 +49,8 @@ shorter than the limit to remain valid UTF-8.
 > ```sh
 > cargo test --example 04_truncate_string backs_up_to_a_character_boundary
 > ```
+
+</details>
 
 ## Review
 

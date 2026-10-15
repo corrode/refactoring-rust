@@ -80,6 +80,8 @@ Use the section order from `PLAN.md` §3. An introduction is optional: keep it
 only when it adds useful context beyond the exercise prompt and starter code.
 Do not describe the same behavior in all three places or preview the solution
 in the introduction. Short exercises can start with **Starter code**.
+State requirements without identifying the bug, naming the refactor, or supplying
+a failing input. Put those discoveries in Review or behind an optional hint.
 
 1. The problem (optional)
 2. Starter code

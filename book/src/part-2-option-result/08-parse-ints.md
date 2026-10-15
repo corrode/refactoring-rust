@@ -3,8 +3,7 @@
 ## The problem
 
 These loops need different error policies. Parsing stops at the first failure;
-validation must run every check and collect all errors. The same iterator refactor
-will not work for both.
+validation must run every check and collect all errors.
 
 ## Starter code
 

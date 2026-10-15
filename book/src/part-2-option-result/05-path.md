@@ -1,11 +1,5 @@
 # 05 · `path`
 
-## The problem
-
-File paths are not always valid UTF-8. Rust therefore returns an `OsStr` from
-`Path::extension`, rather than a `str`. Consider whether checking a fixed extension
-requires converting it to text.
-
 ## Starter code
 
 > **EXERCISE**

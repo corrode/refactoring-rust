@@ -1,17 +1,11 @@
 # 11 · `parse_port`
 
-## The problem
-
-This exercise accepts ports from 1 through 65535. Returning `u16` does not express
-the nonzero requirement, and returning `None` for every failure hides its cause
-from the caller.
-
 ## Starter code
 
 > **EXERCISE**
 >
-> Review the parsing type, range check, and return type as separate decisions. Find a type
-> whose parser enforces the upper bound, then a success type that cannot contain zero.
+> Accept ports from 1 through 65535. Let callers distinguish zero from other invalid
+> input. You may change the return type.
 
 ```rust,editable
 {{#include ../../../examples/11_parse_port.rs:listing}}

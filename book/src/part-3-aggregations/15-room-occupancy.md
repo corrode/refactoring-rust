@@ -1,11 +1,5 @@
 # 15 · `room_occupancy`
 
-## The problem
-
-The maximum loop starts at zero, so it returns zero even when every adult count
-is negative. Decide whether to preserve that behavior or reject negative counts
-before replacing the loop.
-
 ## Starter code
 
 > **EXERCISE**
