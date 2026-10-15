@@ -54,8 +54,8 @@ empty sequence, so both return `0`.
 `into_iter()` preserves that ownership behavior. Borrowing a slice would let callers
 keep the vector, but that is a separate API change.
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/07_optional_values.rs:listing}}
@@ -81,9 +81,7 @@ Empty input needs no special branch. For `i32`, `Sum` uses zero as the additive 
 so an iterator with no items returns `0`. That is why the `empty` and `all_none` tests
 still pass.
 
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 `filter_map` can perform the same zero-or-one-value conversion with an identity closure:
 
@@ -107,6 +105,8 @@ pub fn sum_options(options: &[Option<i32>]) -> i32 {
 Now `iter()` yields borrowed options, `flatten()` yields `&i32`, and `copied()` turns them
 into the owned `i32` values used by the sum. The borrowed interface gives callers more
 freedom, but it is not the same ownership contract as the starter.
+
+</details>
 
 ## Edge cases and production concerns
 

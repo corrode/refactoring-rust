@@ -79,8 +79,8 @@ valid prefix. Taking the first four Unicode scalar values would instead return
 `"café"`, which uses five bytes. The name `max_bytes` states the unit, but the contract
 also needs to say what happens when the limit splits a character.
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/04_truncate_string.rs:listing}}
@@ -109,9 +109,7 @@ within the byte limit.
 There is one compatibility limit: `floor_char_boundary` has been stable since Rust 1.91.
 If the project supports an older compiler, use the manual alternative below.
 
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 The solution file also includes a helper for a different unit, character count:
 
@@ -145,6 +143,8 @@ pub fn truncate(s: &str, max_bytes: usize) -> String {
 
 The loop implements the same byte-cap policy. It is longer, but the boundary search is
 visible and it works with older stable Rust releases.
+
+</details>
 
 ## Edge cases and production concerns
 

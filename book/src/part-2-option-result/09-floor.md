@@ -16,8 +16,10 @@ Based on [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2
 {{#include ../../../examples/09_floor.rs:tests}}
 </script>
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
+
+### Using `sum`
 
 ```rust,editable
 {{#include ../../../solutions/09_floor.rs:listing}}
@@ -27,12 +29,7 @@ Based on [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2
 {{#include ../../../solutions/09_floor.rs:tests}}
 </script>
 
-</details>
-
-## Alternative: `try_fold`
-
-<details>
-<summary>Show the alternative</summary>
+### Using `try_fold`
 
 ```rust,editable
 {{#include ../../../solutions/09_floor_alt.rs:listing}}

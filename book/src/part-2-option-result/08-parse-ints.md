@@ -71,8 +71,8 @@ then `err()` turns the result into an `Option<String>`, and `expect` relies on t
 check. A single match avoids this repetition. In an iterator chain, `filter_map` can
 consume that `Option` directly.
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/08_parse_ints.rs:listing}}

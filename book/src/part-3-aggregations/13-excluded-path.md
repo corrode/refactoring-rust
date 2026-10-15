@@ -55,8 +55,8 @@ need to distinguish them, an empty collection can represent “exclude nothing.�
 Configuration loading or merging may still need to distinguish “missing” from “present
 but empty.” Keep that distinction in the layers that need it; the prefix check does not.
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/13_excluded_path.rs:listing}}
@@ -78,9 +78,7 @@ prefixes.
 The signature stays the same, so callers and tests need no changes. Changing the
 parameter types is a separate API decision. Neither `let ... else` nor `any` requires it.
 
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 The current signature combines two choices: exclusions may be absent, and the function
 borrows the `Option` that owns the set.
@@ -152,6 +150,8 @@ from matching `/tmp/foo.log`.
 A non-empty `Excluder` is another possible invariant, but it contradicts the current
 requirement that an empty rule set is valid. Add that restriction only when the domain
 requires at least one exclusion.
+
+</details>
 
 ## Edge cases and production concerns
 

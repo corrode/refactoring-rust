@@ -54,8 +54,8 @@ for its first Unicode scalar value.
 `first.is_uppercase()` already returns a boolean. Comparing it with `true` and then
 returning `true` or `false` from an `if` is unnecessary.
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/01_starts_with_uppercase.rs:listing}}
@@ -81,9 +81,7 @@ longer needs a separate branch or an `unwrap`.
 The Unicode test checks that `"Über"` returns `true`. Its first byte is not the
 character `Ü`, so inspecting a `char` rather than a byte preserves this behaviour.
 
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 `str::starts_with` can take a character predicate, so this version expresses the same
 contract even more directly:
@@ -97,6 +95,8 @@ pub fn starts_with_uppercase(s: &str) -> bool {
 Both versions satisfy the contract. The `chars().next().is_some_and(...)` version
 shows the intermediate `Option` and how it handles empty input. The `starts_with`
 version is shorter, but its predicate form may be less familiar.
+
+</details>
 
 ## Trade-offs
 

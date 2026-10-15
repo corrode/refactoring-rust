@@ -66,8 +66,8 @@ and exercise prompt already provide enough information.
    inline "Try it yourself" callout with the `cargo` invocations.
 3. **Discussion**: questions and explanations about the code and the choices
    involved in refactoring it.
-4. **A possible solution**: the canonical solution from `solutions/`,
-   walked through inside a native `details` element that is collapsed by default.
+4. **Solutions**: the main solution and any alternatives, with explanations,
+   inside one native `details` element that is collapsed by default.
 5. **Trade-offs**: scored against the fixed axes (see §4). Always the same
    axes; same order.
 6. **Quiz (optional)**: a new application or decision that the preceding text
@@ -79,8 +79,8 @@ and exercise prompt already provide enough information.
 
 **Optional (only when warranted, never as filler):**
 
-- **Alternative approaches**: other valid solutions. Skipped where the
-  canonical solution is genuinely the only good one.
+- **Alternative approaches**: other valid solutions, included as subheadings
+  inside **Solutions** when they offer a useful comparison.
 - **Edge cases & production concerns**: what we didn't consider; what
   would break under load, weird input, i18n, concurrency. Included for most
   chapters from ~10 onward.

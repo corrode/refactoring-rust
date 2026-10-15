@@ -58,8 +58,8 @@ The `.rs` test checks that a leading dot alone does not create an extension. `Pa
 treats `.rs` as a file stem with no extension. The function checks path syntax without
 accessing the filesystem.
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/05_path.rs:listing}}
@@ -78,9 +78,7 @@ The closure compares `&OsStr` directly with `"rs"`. A non-UTF-8 extension still 
 `false`. The tested results are unchanged: `main.rs` and `src/lib.rs` match;
 `Cargo.toml`, `README`, and `.rs` do not.
 
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 The solution file also includes `map_or`, which is just as valid here:
 
@@ -110,6 +108,8 @@ pub fn is_rust_source_file(path: &Path) -> bool {
 
 This version removes the UTF-8 conversion but leaves the two cases in view. Choosing
 between it and `is_some_and` is mostly about which form your team reads faster.
+
+</details>
 
 ## Edge cases and production concerns
 

@@ -86,7 +86,7 @@ a failing input. Put those discoveries in Discussion or behind an optional hint.
 1. The problem (optional)
 2. Code to refactor
 3. Discussion
-4. A possible solution
+4. Solutions
 5. Trade-offs (six fixed axes; same order every time)
 6. Quiz (optional)
 7. Follow-up questions
@@ -94,7 +94,7 @@ a failing input. Put those discoveries in Discussion or behind an optional hint.
 
 Optional, included only when there's something real to say:
 
-- Alternative approaches
+- Alternative approaches (inside Solutions)
 - Edge cases & production concerns
 - Further reading
 
@@ -102,7 +102,7 @@ Optional, included only when there's something real to say:
 
 Prompt-oriented spine sections open with a labelled blockquote. Use badges for
 *Code to refactor*, *Discussion*, *Trade-offs*, *Follow-up questions*, and *Important Concepts*.
-*A possible solution* and *Quiz* do not need badges because their headings already
+*Solutions* and *Quiz* do not need badges because their headings already
 name the content. The CSS in `theme/css/corrode.css` styles the leading `**LABEL**`
 as a small-caps badge.
 
@@ -125,15 +125,17 @@ Standard labels:
 
 ## Hidden solutions
 
-Keep each canonical solution and its walkthrough collapsed by default. Readers should
+Keep the main solution, alternative implementations, and their explanations together
+in one disclosure, collapsed by default. Use subheadings to distinguish approaches
+inside it; do not nest another disclosure for each alternative. Readers should
 have a clear chance to try the exercise before seeing an answer. Put the heading inside
 the summary so it serves as the disclosure control without a repeated label. The
 `solution` class adds a tinted box, and the decorative icon is hidden from screen
 readers. Do not add a separate Markdown heading above it. Use this form:
 
 ````markdown
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/NN_name.rs:listing}}
@@ -148,7 +150,8 @@ Walk through the code here.
 </details>
 ````
 
-Leave *Alternative approaches*, *Edge cases and production concerns*, *Trade-offs*,
+Put *Alternative approaches* inside the disclosure, under a level-three heading.
+Leave *Edge cases and production concerns*, *Trade-offs*,
 *Quiz*, and later sections outside the disclosure. The native `details` element keeps
 the summary keyboard accessible, and mdBook still renders included code as a Playground
 block.

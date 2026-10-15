@@ -65,8 +65,8 @@ serve a different purpose from production error handling: a failed temporary-fil
 or an unexpected read result should fail the test immediately. A production caller needs
 the error value instead.
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/10_error_handling.rs:listing}}
@@ -92,9 +92,7 @@ The wrapper can still be useful if its name describes the operation in applicati
 terms or if it provides a place to add error context or a size limit later. If neither
 is needed, callers can use `fs::read_to_string` directly.
 
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 The canonical solution keeps `path: &str` because this exercise changes the
 implementation, not the public interface. If callers use native filesystem paths,
@@ -115,6 +113,8 @@ choice admits native paths that cannot be represented as UTF-8 text on every pla
 This API change is optional. Keep `&str` when paths enter the surrounding interface as
 text and callers don't need other path types. Choose `AsRef<Path>` or `&Path` when support for
 native paths is part of the contract.
+
+</details>
 
 ## Edge cases and production concerns
 

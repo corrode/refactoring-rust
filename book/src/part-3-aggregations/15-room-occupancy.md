@@ -53,8 +53,8 @@ list containing only negative counts. Negative occupancy is not a valid room cou
 but the public `i32` field allows it. Before replacing the loop, decide whether to
 preserve this result or change the function's contract.
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/15_room_occupancy.rs:listing}}
@@ -82,9 +82,7 @@ In `child_ages`, `flat_map` iterates over each room's ages in turn, producing on
 sequence. `copied` turns each `&i32` into an `i32`, and `collect` builds the result.
 Room order and the order within each room remain unchanged.
 
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 Free functions work well for independent calculations. If several parts of an API use
 the same room collection, a `Rooms` newtype can group the data and its operations:
@@ -107,6 +105,8 @@ Run the alternative as a separate example:
 ```sh
 cargo test --example 15_room_occupancy_alt
 ```
+
+</details>
 
 ## Edge cases and production concerns
 

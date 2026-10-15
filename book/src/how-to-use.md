@@ -16,7 +16,7 @@ time to read the explanation and answer the questions.
    the size of the chapter.
 4. Read *Discussion*. Compare its questions with yours. Which concerns did you both
    notice? Which ones did either of you miss?
-5. Open *A possible solution* and compare it with your version.
+5. Open *Solutions* and compare it with your version.
 6. Read *Trade-offs* and decide whether you agree with the scores.
 7. Choose a *Follow-up question* to investigate or discuss with someone else.
 

@@ -53,8 +53,8 @@ transform a present value, retain it when a predicate passes, then transform it 
 more.
 
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/06_nesting.rs:listing}}
@@ -81,9 +81,7 @@ These methods call their functions or closures only for `Some`. Absent input rem
 `Option` has its own `map` and `filter` methods; it is not an `Iterator`. It can also
 be converted into an iterator containing zero or one item.
 
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 Early returns also remove the nesting:
 
@@ -109,6 +107,8 @@ side effects.
 
 Keep `to_uppercase` after `filter` so the function checks the borrowed text before
 creating an owned result.
+
+</details>
 
 ## Edge cases and production concerns
 

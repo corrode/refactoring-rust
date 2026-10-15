@@ -58,8 +58,8 @@ and repeated traversal, but `evens` must generate the complete result before ret
 An iterator lets the caller choose how many values to consume and whether to collect
 them.
 
-<details class="solution" id="a-possible-solution">
-<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/03_even_numbers.rs:listing}}
@@ -90,9 +90,7 @@ It uses `u32::MAX` as the bound and consumes only three values. This is not an a
 measurement. It shows that a caller can stop after a small prefix instead of constructing
 the full result.
 
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 If callers rely on an owned collection, you can remove the manual loop without changing
 the API:
@@ -118,6 +116,8 @@ pub fn evens(max: u32) -> impl Iterator<Item = u32> {
 `filter` is useful when a predicate determines which values to keep. Here the values
 are evenly spaced, so `step_by(2)` states the rule directly without a parity test for
 each candidate.
+
+</details>
 
 ## Trade-offs
 
