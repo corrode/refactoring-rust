@@ -79,10 +79,8 @@ valid prefix. Taking the first four Unicode scalar values would instead return
 `"café"`, which uses five bytes. The name `max_bytes` states the unit, but the contract
 also needs to say what happens when the limit splits a character.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/04_truncate_string.rs:listing}}

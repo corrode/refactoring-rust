@@ -55,10 +55,8 @@ The labels apply only to the listed values. The function does not calculate whet
 any given number is prime or square. The `Some(11)` test confirms this: 11 is prime,
 but the function returns `"something else"`.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/02_better_match.rs:listing}}

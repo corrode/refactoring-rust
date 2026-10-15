@@ -65,10 +65,8 @@ serve a different purpose from production error handling: a failed temporary-fil
 or an unexpected read result should fail the test immediately. A production caller needs
 the error value instead.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/10_error_handling.rs:listing}}

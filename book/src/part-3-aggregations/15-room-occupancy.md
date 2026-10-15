@@ -53,10 +53,8 @@ list containing only negative counts. Negative occupancy is not a valid room cou
 but the public `i32` field allows it. Before replacing the loop, decide whether to
 preserve this result or change the function's contract.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/15_room_occupancy.rs:listing}}

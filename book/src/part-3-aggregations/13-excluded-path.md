@@ -55,10 +55,8 @@ need to distinguish them, an empty collection can represent “exclude nothing.�
 Configuration loading or merging may still need to distinguish “missing” from “present
 but empty.” Keep that distinction in the layers that need it; the prefix check does not.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/13_excluded_path.rs:listing}}

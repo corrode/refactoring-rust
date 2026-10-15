@@ -379,3 +379,43 @@ pre,
         border-bottom: 1px solid black;
     }
 }
+
+/* The heading is also the native disclosure control. */
+.content details.solution {
+    margin: 2em 0;
+    padding: 0 1.25rem;
+    border: 1px solid var(--links);
+    border-radius: 0.5rem;
+    background: color-mix(in srgb, var(--links) 8%, var(--bg));
+}
+
+.content details.solution[open] {
+    padding-bottom: 1.25rem;
+}
+
+.content details.solution > summary {
+    padding: 1.25rem 0;
+    cursor: pointer;
+}
+
+.content details.solution > summary::marker {
+    color: var(--links);
+}
+
+.content details.solution > summary:focus-visible {
+    outline: 2px solid var(--links);
+    outline-offset: 4px;
+    border-radius: 0.25rem;
+}
+
+.content details.solution > summary h2 {
+    display: inline;
+    margin: 0;
+    font-size: 1.2em;
+    line-height: 1.5;
+}
+
+.content details.solution[open] > summary {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--links);
+}

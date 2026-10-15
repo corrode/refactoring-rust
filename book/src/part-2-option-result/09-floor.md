@@ -16,10 +16,8 @@ Based on [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2
 {{#include ../../../examples/09_floor.rs:tests}}
 </script>
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/09_floor.rs:listing}}

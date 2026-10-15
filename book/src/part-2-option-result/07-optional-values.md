@@ -54,10 +54,8 @@ empty sequence, so both return `0`.
 `into_iter()` preserves that ownership behavior. Borrowing a slice would let callers
 keep the vector, but that is a separate API change.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/07_optional_values.rs:listing}}

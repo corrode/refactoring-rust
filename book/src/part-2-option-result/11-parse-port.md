@@ -58,10 +58,8 @@ allows `Some(0)` at the type level. A downstream function that requires a non-ze
 must trust the parser's checks or check again. `Result<NonZeroU16, InvalidPort>` guarantees
 that successful values are non-zero and distinguishes failure categories.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/11_parse_port.rs:listing}}

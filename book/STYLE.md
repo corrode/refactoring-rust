@@ -126,13 +126,14 @@ Standard labels:
 ## Hidden solutions
 
 Keep each canonical solution and its walkthrough collapsed by default. Readers should
-have a clear chance to try the exercise before seeing an answer. Use this form:
+have a clear chance to try the exercise before seeing an answer. Put the heading inside
+the summary so it serves as the disclosure control without a repeated label. The
+`solution` class adds a tinted box, and the decorative icon is hidden from screen
+readers. Do not add a separate Markdown heading above it. Use this form:
 
 ````markdown
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/NN_name.rs:listing}}

@@ -58,10 +58,8 @@ and repeated traversal, but `evens` must generate the complete result before ret
 An iterator lets the caller choose how many values to consume and whether to collect
 them.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/03_even_numbers.rs:listing}}

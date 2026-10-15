@@ -54,10 +54,8 @@ for its first Unicode scalar value.
 `first.is_uppercase()` already returns a boolean. Comparing it with `true` and then
 returning `true` or `false` from an `if` is unnecessary.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="a-possible-solution">
+<summary><h2><span aria-hidden="true">💡</span> A possible solution</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/01_starts_with_uppercase.rs:listing}}
