@@ -5,7 +5,7 @@
 These loops need different error policies. Parsing stops at the first failure;
 validation must run every check and collect all errors.
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -35,9 +35,9 @@ validation must run every check and collect all errors.
 > Let `parse_values` borrow its input. Before you change `collect_errors`, explain why
 > another fail-fast pipeline would break its test.
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - Does parsing require `parse_values` to own each `String`?
 > - After mapping `str::parse`, what is the iterator's item type?

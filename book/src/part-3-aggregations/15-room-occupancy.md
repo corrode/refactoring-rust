@@ -1,6 +1,6 @@
 # 15 · `room_occupancy`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -28,9 +28,9 @@
 >
 > Keep every public signature and preserve the order returned by `child_ages`.
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - Which loops compute a sum, which one computes a maximum, and which one joins nested
 >   sequences?

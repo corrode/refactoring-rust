@@ -1,6 +1,6 @@
 # 11 · `parse_port`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -32,9 +32,9 @@
 > Keep the accepted range unchanged. `8080` and `65535` remain valid. Zero, malformed
 > input, and out-of-range input remain invalid.
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - Why parse an `i32` when the final value is a `u16`?
 > - Can the destination integer's parser enforce the upper bound?

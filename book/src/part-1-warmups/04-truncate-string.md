@@ -1,6 +1,6 @@
 # 04 · `truncate_string`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -52,9 +52,9 @@
 
 </details>
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - What does `str::len` count?
 > - Which byte indices are valid boundaries in `"café"`?

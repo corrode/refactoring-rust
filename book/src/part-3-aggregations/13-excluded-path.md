@@ -1,6 +1,6 @@
 # 13 · `excluded_path`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -31,9 +31,9 @@
 > Compare the tests for `None` and an empty `HashSet`. Do they ask for different
 > results?
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - Which distinction does `&Option<HashSet<PathBuf>>` expose to the function?
 > - Do the tests need that distinction to survive?

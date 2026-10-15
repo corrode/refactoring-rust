@@ -1,6 +1,6 @@
 # 06 · `nesting`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -32,9 +32,9 @@
 > Keep trimming and validation on borrowed text. Create the uppercase `String` only after
 > the value survives the empty check.
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - After each successful step, what value exists and what is its type?
 > - Does `str::trim` allocate, or does it return a view into the original input?

@@ -10,11 +10,11 @@ Allow five to twenty minutes for your first attempt at each exercise, plus
 time to read the explanation and answer the questions.
 
 1. Read *The problem*.
-2. Read the starter code carefully, as if it were a pull request on GitHub.
+2. Read the code to refactor carefully, as if it were a pull request on GitHub.
 3. **Stop reading the chapter.** Write down what you'd say in a review, then
    refactor the code in your editor. Spend five to twenty minutes, depending on
    the size of the chapter.
-4. Read *Review*. Compare its questions with yours. Which concerns did you both
+4. Read *Discussion*. Compare its questions with yours. Which concerns did you both
    notice? Which ones did either of you miss?
 5. Open *A possible solution* and compare it with your version.
 6. Read *Trade-offs* and decide whether you agree with the scores.
@@ -27,7 +27,7 @@ it again without referring to the solution.
 ## Pair
 
 Work together at one keyboard. One person writes the refactor; the other asks
-questions and reviews the changes. Use the chapter's *Review* questions as a
+questions and reviews the changes. Use the chapter's *Discussion* questions as a
 starting point and add your own. Discuss disagreements and explain each choice.
 Swap roles every chapter, or every other chapter.
 
@@ -37,7 +37,7 @@ For a group of three to eight people, read one chapter per week. Anyone who
 wants to can bring a refactored version. Keep the meeting to an hour and spend
 it on four things:
 
-1. What each person noticed before reading *Review*.
+1. What each person noticed before reading *Discussion*.
 2. Which solution is closest to the canonical one, which is furthest away, and
    why.
 3. Where the group disagrees with the *Trade-offs* scores.
@@ -54,7 +54,7 @@ If you're running an internal workshop, use the slides in
 session and keep the book nearby as the reference. The chapter
 sections already divide the work:
 
-- Use *Review* to prompt the room.
+- Use *Discussion* to prompt the room.
 - Use *Trade-offs* when the discussion starts treating a preference as a rule.
 - Use *Follow-up questions* for breakout rooms.
 
@@ -103,11 +103,11 @@ The same callouts recur throughout the book:
 
 > **EXERCISE**
 >
-> The starter code. This is what you're refactoring.
+> The task and its constraints.
 
-> **REVIEW**
+> **DISCUSSION**
 >
-> Questions to guide your review of the starter code.
+> Questions and explanations about the code and the choices involved.
 
 > **TRADE-OFF**
 >
@@ -145,7 +145,7 @@ its author is credited in the
 
 ## Where to start
 
-If you can follow the starter code in
+If you can follow the code to refactor in
 [chapter 01](part-1-warmups/01-starts-with-uppercase.md), begin with the
 [Preface](preface.md) and read forward. If not, work through *The Book* or
 *100 Exercises to Learn Rust* first. This book assumes you can read Rust without

@@ -1,6 +1,6 @@
 # 05 · `path`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -32,9 +32,9 @@
 > Check whether the extension exists and equals `"rs"` without first converting it
 > to UTF-8 text.
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - Why does `Path::extension` return `Option<&OsStr>` instead of `Option<&str>`?
 > - Which additional absence case appears when the code calls `OsStr::to_str`?

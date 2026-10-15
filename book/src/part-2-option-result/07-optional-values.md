@@ -1,6 +1,6 @@
 # 07 · `optional_values`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -31,9 +31,9 @@
 > Try to name both operations in the expression: remove absent values, then sum what
 > remains.
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - How many values does each `Some` contribute?
 > - How many values should a `None` contribute?

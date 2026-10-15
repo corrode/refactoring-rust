@@ -77,15 +77,15 @@
 ## Structure
 
 Use the section order from `PLAN.md` §3. An introduction is optional: keep it
-only when it adds useful context beyond the exercise prompt and starter code.
+only when it adds useful context beyond the exercise prompt and code to refactor.
 Do not describe the same behavior in all three places or preview the solution
-in the introduction. Short exercises can start with **Starter code**.
+in the introduction. Short exercises can start with **Code to refactor**.
 State requirements without identifying the bug, naming the refactor, or supplying
-a failing input. Put those discoveries in Review or behind an optional hint.
+a failing input. Put those discoveries in Discussion or behind an optional hint.
 
 1. The problem (optional)
-2. Starter code
-3. Review
+2. Code to refactor
+3. Discussion
 4. A possible solution
 5. Trade-offs (six fixed axes; same order every time)
 6. Quiz
@@ -101,13 +101,13 @@ Optional, included only when there's something real to say:
 ## Spine sections as callouts
 
 Prompt-oriented spine sections open with a labelled blockquote. Use badges for
-*Starter code*, *Review*, *Trade-offs*, *Follow-up questions*, and *Concepts recap*.
+*Code to refactor*, *Discussion*, *Trade-offs*, *Follow-up questions*, and *Concepts recap*.
 *A possible solution* and *Quiz* do not need badges because their headings already
 name the content. The CSS in `theme/css/corrode.css` styles the leading `**LABEL**`
 as a small-caps badge.
 
 ```markdown
-> **REVIEW**
+> **DISCUSSION**
 >
 > - Does the function need to own the string?
 > - What does `chars().nth(0)` do, and is there a more direct way?
@@ -116,7 +116,7 @@ as a small-caps badge.
 Standard labels:
 
 - `EXERCISE`: wraps the starter listing
-- `REVIEW`: the questions a thoughtful reviewer would ask
+- `DISCUSSION`: questions and explanations about the code and refactoring choices
 - `TRY THIS`: an inline call to action
 - `TRADE-OFF`: the per-chapter scoring section
 - `EDGE CASE`: production concerns

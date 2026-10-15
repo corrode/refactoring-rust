@@ -1,6 +1,6 @@
 # 03 · `even_numbers`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -31,9 +31,9 @@
 > While you work, account for the callers. What would they need to change if `evens` no
 > longer returned a `Vec<u32>`?
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - Does `evens` need to allocate and fill a complete `Vec` before returning?
 > - What work happens if you only want the first three values?

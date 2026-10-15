@@ -56,17 +56,16 @@ reader will learn across its chapters.
 
 ## 3. Per-chapter anatomy
 
-Use the following section order. Omit **The problem** when the starter code
+Use the following section order. Omit **The problem** when the code to refactor
 and exercise prompt already provide enough information.
 
 1. **The problem (optional)**: context or a constraint that helps approach the
    exercise. Do not repeat the function description, paraphrase the code, or
-   give away the solution. Start with **Starter code** when no introduction is needed.
-2. **Starter code**: `{{#include}}` from `examples/NN_*.rs`. Includes an
+   give away the solution. Start with **Code to refactor** when no introduction is needed.
+2. **Code to refactor**: `{{#include}}` from `examples/NN_*.rs`. Includes an
    inline "Try it yourself" callout with the `cargo` invocations.
-3. **Review**: the questions a thoughtful reviewer would ask, framed
-   as prompts to the *reader*. (Renamed from "Observations", also update
-   the slides under TODO item #1 in `TODO.md`.)
+3. **Discussion**: questions and explanations about the code and the choices
+   involved in refactoring it.
 4. **A possible solution**: the canonical solution from `solutions/`,
    walked through inside a native `details` element that is collapsed by default.
 5. **Trade-offs**: scored against the fixed axes (see §4). Always the same
@@ -311,7 +310,7 @@ target. Enable deployment and confirm DNS access when the book is ready to publi
   chapters. **File an issue instead**, substantive suggestions are
   credited in Acknowledgements when adopted.
 - **Issue templates** in `.github/ISSUE_TEMPLATE/`:
-  - Suggest a Review question
+  - Suggest a Discussion question
   - Suggest a Trade-off I missed
   - Suggest an Edge case
   - Found a typo / bug
@@ -333,7 +332,7 @@ v1 scope:
 - Search on; sidebar on; prev/next on; stock playground button on `rust`
   blocks.
 - Blockquote-based callouts with a small CSS treatment to differentiate
-  the 8-section spine labels (`EXERCISE`, `REVIEW`, `TRY THIS`,
+  the 8-section spine labels (`EXERCISE`, `DISCUSSION`, `TRY THIS`,
   `TRADE-OFF`, `EDGE CASE`, `FOLLOW-UP`, `CONCEPT`).
 - Light + dark only; kill the other three default themes (coal, ayu,
   rust) unless that creates friction.

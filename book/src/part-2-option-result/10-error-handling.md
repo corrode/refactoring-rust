@@ -1,6 +1,6 @@
 # 10 · `error_handling`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -31,9 +31,9 @@
 >
 > Keep the missing-file test passing, including its `io::ErrorKind::NotFound` check.
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - Are the two `match` expressions incorrect, or just verbose error propagation?
 > - How would the same two operations look with `?`?

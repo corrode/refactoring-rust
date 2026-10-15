@@ -6,7 +6,7 @@ Based on [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2
 >
 > The exercise and solutions are ready; the chapter is not yet written.
 
-## Starter code
+## Code to refactor
 
 ```rust,editable
 {{#include ../../../examples/09_floor.rs:listing}}

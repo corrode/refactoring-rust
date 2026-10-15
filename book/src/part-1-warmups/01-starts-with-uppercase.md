@@ -1,6 +1,6 @@
 # 01 · `starts_with_uppercase`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -30,9 +30,9 @@
 >
 > Choose a version that makes the borrowing requirement and empty-input result clear.
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - Does answering this question require ownership of the string?
 > - Is `chars().nth(0)` the clearest way to request the first character?

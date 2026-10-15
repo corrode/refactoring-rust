@@ -1,6 +1,6 @@
 # 02 · `better_match`
 
-## Starter code
+## Code to refactor
 
 > **EXERCISE**
 >
@@ -30,9 +30,9 @@
 >
 > Write the shared `Some` constructor once in each of the first two arms.
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - What changes across the first two arms, and what stays the same?
 > - Can an enum variant pattern contain an or-pattern?
