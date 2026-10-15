@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 19 · `Fibonacci`
+# 20 · `Fibonacci`
 
 <div class="opacity-80 text-xs mb-4">
 This works. Make it nicer.
@@ -27,7 +27,7 @@ pub fn first_n(n: usize) -> Vec<u64> {
 ```
 
 <div class="absolute top-25 right-12 text-sm opacity-60">
-<code>cargo test --example 19_iterators</code>
+<code>cargo test --example 20_iterators</code>
 </div>
 
 <!--
@@ -41,7 +41,7 @@ The arc: spot the smells -> reach for `Iterator`.
 
 ---
 
-# 19 · Review
+# 20 · Review
 
 <v-clicks at="+0">
 
@@ -56,7 +56,7 @@ The arc: spot the smells -> reach for `Iterator`.
 zoom: 0.85
 ---
 
-# 19 · Possible solution
+# 20 · Possible solution
 
 ```rust
 struct Fibonacci { current: u64, next: u64 }

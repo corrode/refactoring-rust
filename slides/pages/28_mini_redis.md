@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 27 · `mini_redis`
+# 28 · `mini_redis`
 
 <div class="opacity-80 mb-4">
 A tiny Redis-flavored store. Three commands, three data types.
@@ -31,7 +31,7 @@ pub fn handle(db: &mut Db, args: &[&str]) -> String {
 ```
 
 <div class="absolute top-30 right-12 text-sm opacity-60">
-<code>cargo test --example 27_mini_redis</code>
+<code>cargo test --example 28_mini_redis</code>
 </div>
 
 <!--
@@ -58,7 +58,7 @@ a command? what's the type of a response?" Each answer collapses code.
 
 ---
 
-# 27 · Review
+# 28 · Review
 
 <v-clicks at="+0">
 
@@ -73,7 +73,7 @@ a command? what's the type of a response?" Each answer collapses code.
 
 ---
 
-# 27 · Show me the code! 
+# 28 · Show me the code!
 
 Come up with your own solution!
 Take it as far as you'd like.

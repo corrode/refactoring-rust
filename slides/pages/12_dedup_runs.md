@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 11 · `dedup_runs` <span class="opacity-50 text-base">· bonus</span>
+# 12 · `dedup_runs` <span class="opacity-50 text-base">· bonus</span>
 
 <div class="opacity-80 text-xs mb-4">
 This works. Make it nicer.
@@ -24,7 +24,7 @@ pub fn dedup_runs(values: Vec<i32>) -> Vec<i32> {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 11_dedup_runs</code>
+<code>cargo test --example 12_dedup_runs</code>
 </div>
 
 <!--
@@ -34,7 +34,7 @@ The arc: this is exactly what `Vec::dedup` does.
 
 ---
 
-# 11 · Review
+# 12 · Review
 
 <v-clicks at="+0">
 
@@ -46,7 +46,7 @@ The arc: this is exactly what `Vec::dedup` does.
 
 ---
 
-# 11 · Possible solution
+# 12 · Possible solution
 
 ```rust
 pub fn dedup_runs(mut values: Vec<i32>) -> Vec<i32> {

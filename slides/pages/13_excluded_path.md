@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 12 · `is_excluded`
+# 13 · `is_excluded`
 
 <div class="opacity-80 mb-4">
 Does <code>path</code> start with any of the excluded prefixes?
@@ -26,12 +26,12 @@ pub fn is_excluded(excluded: &Option<HashSet<PathBuf>>, path: &Path) -> bool {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 12_excluded_path</code>
+<code>cargo test --example 13_excluded_path</code>
 </div>
 
 <!--
 Discoveries:
-  - `&Option<T>` in the signature is a code smell - usually `Option<&T>` or just `&T`.
+  - `&Option<T>` in the signature is a code smell. Usually `Option<&T>` or just `&T` is enough.
   - The nested `if let` + `for` + `return true` is `iter().any(...)`.
   - `let else` flattens the early-out path nicely.
   - An empty `HashSet` already means "exclude nothing", so the `Option` may be redundant.
@@ -39,11 +39,11 @@ Discoveries:
 
 ---
 
-# 12 · Review
+# 13 · Review
 
 <v-clicks at="+0">
 
-- `&Option<HashSet<…>>` - does the caller really need to distinguish "no config" from "empty config"?
+- Does `&Option<HashSet<…>>` preserve a useful distinction between "no config" and "empty config"?
 - The inner loop is "is there any element that satisfies …". What iterator method is that?
 - Can <code>let … else</code> remove the indentation?
 - Could the signature just take <code>&HashSet&lt;PathBuf&gt;</code>?
@@ -53,7 +53,7 @@ Discoveries:
 
 ---
 
-# 12 · Possible solution
+# 13 · Possible solution
 
 ```rust
 use std::collections::HashSet;
@@ -69,7 +69,7 @@ pub fn is_excluded(excluded: &Option<HashSet<PathBuf>>, path: &Path) -> bool {
 
 - `let … else` handles the "no exclusions" case up front, no nesting.
 - `iter().any(...)` is the idiomatic spelling of "does any element match?"
-- Even better - if the API allows it - make the parameter `&HashSet<PathBuf>` and let the empty set carry the "nothing excluded" meaning.
+- If the API allows it, take `&HashSet<PathBuf>` and let the empty set mean "nothing excluded".
 
 </div>
 <!--

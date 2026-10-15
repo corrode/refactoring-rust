@@ -39,79 +39,83 @@ name = "08_parse_ints"
 crate-type = ["lib"]
 
 [[example]]
-name = "09_error_handling"
+name = "09_floor"
 crate-type = ["lib"]
 
 [[example]]
-name = "10_parse_port"
+name = "10_error_handling"
 crate-type = ["lib"]
 
 [[example]]
-name = "11_dedup_runs"
+name = "11_parse_port"
 crate-type = ["lib"]
 
 [[example]]
-name = "12_excluded_path"
+name = "12_dedup_runs"
 crate-type = ["lib"]
 
 [[example]]
-name = "13_spell_check"
+name = "13_excluded_path"
 crate-type = ["lib"]
 
 [[example]]
-name = "14_room_occupancy"
+name = "14_spell_check"
 crate-type = ["lib"]
 
 [[example]]
-name = "15_highest_and_lowest"
+name = "15_room_occupancy"
 crate-type = ["lib"]
 
 [[example]]
-name = "16_mode"
+name = "16_text_stats"
 crate-type = ["lib"]
 
 [[example]]
-name = "17_trim_log_line"
+name = "17_mode"
 crate-type = ["lib"]
 
 [[example]]
-name = "18_parse_srt_timestamp"
+name = "18_trim_log_line"
 crate-type = ["lib"]
 
 [[example]]
-name = "19_iterators"
+name = "19_parse_srt_timestamp"
 crate-type = ["lib"]
 
 [[example]]
-name = "20_transformer"
+name = "20_iterators"
 crate-type = ["lib"]
 
 [[example]]
-name = "21_fun_strings_ext"
+name = "21_transformer"
 crate-type = ["lib"]
 
 [[example]]
-name = "22_quicksort"
+name = "22_fun_strings_ext"
 crate-type = ["lib"]
 
 [[example]]
-name = "23_iban_prefix_check"
+name = "23_quicksort"
 crate-type = ["lib"]
 
 [[example]]
-name = "24_http_response_router"
+name = "24_iban_prefix_check"
 crate-type = ["lib"]
 
 [[example]]
-name = "25_config_loader"
+name = "25_http_response_router"
 crate-type = ["lib"]
 
 [[example]]
-name = "26_env_file_parser"
+name = "26_config_loader"
 crate-type = ["lib"]
 
 [[example]]
-name = "27_mini_redis"
+name = "27_env_file_parser"
+crate-type = ["lib"]
+
+[[example]]
+name = "28_mini_redis"
 crate-type = ["lib"]
 
 # --- Solutions (parallel to examples/; used as the "after" reference) ---
@@ -157,96 +161,117 @@ path = "solutions/08_parse_ints.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "09_error_handling_solution"
-path = "solutions/09_error_handling.rs"
+name = "09_floor_solution"
+path = "solutions/09_floor.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "10_parse_port_solution"
-path = "solutions/10_parse_port.rs"
+name = "09_floor_alt"
+path = "solutions/09_floor_alt.rs"
+crate-type = ["lib"]
+
+
+[[example]]
+name = "10_error_handling_solution"
+path = "solutions/10_error_handling.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "11_dedup_runs_solution"
-path = "solutions/11_dedup_runs.rs"
+name = "11_parse_port_solution"
+path = "solutions/11_parse_port.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "12_excluded_path_solution"
-path = "solutions/12_excluded_path.rs"
+name = "12_dedup_runs_solution"
+path = "solutions/12_dedup_runs.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "13_spell_check_solution"
-path = "solutions/13_spell_check.rs"
+name = "13_excluded_path_solution"
+path = "solutions/13_excluded_path.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "14_room_occupancy_solution"
-path = "solutions/14_room_occupancy.rs"
+name = "13_excluded_path_alt"
+path = "solutions/13_excluded_path_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "15_highest_and_lowest_solution"
-path = "solutions/15_highest_and_lowest.rs"
+name = "14_spell_check_solution"
+path = "solutions/14_spell_check.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "16_mode_solution"
-path = "solutions/16_mode.rs"
+name = "15_room_occupancy_solution"
+path = "solutions/15_room_occupancy.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "17_trim_log_line_solution"
-path = "solutions/17_trim_log_line.rs"
+name = "15_room_occupancy_alt"
+path = "solutions/15_room_occupancy_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "18_parse_srt_timestamp_solution"
-path = "solutions/18_parse_srt_timestamp.rs"
+name = "16_text_stats_solution"
+path = "solutions/16_text_stats.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "19_iterators_solution"
-path = "solutions/19_iterators.rs"
+name = "17_mode_solution"
+path = "solutions/17_mode.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "20_transformer_solution"
-path = "solutions/20_transformer.rs"
+name = "18_trim_log_line_solution"
+path = "solutions/18_trim_log_line.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "21_fun_strings_ext_solution"
-path = "solutions/21_fun_strings_ext.rs"
+name = "19_parse_srt_timestamp_solution"
+path = "solutions/19_parse_srt_timestamp.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "22_quicksort_solution"
-path = "solutions/22_quicksort.rs"
+name = "20_iterators_solution"
+path = "solutions/20_iterators.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "23_iban_prefix_check_solution"
-path = "solutions/23_iban_prefix_check.rs"
+name = "21_transformer_solution"
+path = "solutions/21_transformer.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "24_http_response_router_solution"
-path = "solutions/24_http_response_router.rs"
+name = "22_fun_strings_ext_solution"
+path = "solutions/22_fun_strings_ext.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "25_config_loader_solution"
-path = "solutions/25_config_loader.rs"
+name = "23_quicksort_solution"
+path = "solutions/23_quicksort.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "26_env_file_parser_solution"
-path = "solutions/26_env_file_parser.rs"
+name = "24_iban_prefix_check_solution"
+path = "solutions/24_iban_prefix_check.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "27_mini_redis_solution"
-path = "solutions/27_mini_redis.rs"
+name = "25_http_response_router_solution"
+path = "solutions/25_http_response_router.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "26_config_loader_solution"
+path = "solutions/26_config_loader.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "27_env_file_parser_solution"
+path = "solutions/27_env_file_parser.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "28_mini_redis_solution"
+path = "solutions/28_mini_redis.rs"
 crate-type = ["lib"]

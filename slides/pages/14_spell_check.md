@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 13 · `spell_check`
+# 14 · `spell_check`
 
 <div class="opacity-80 mb-4">
 Return the words from <code>words</code> that are not in <code>dict</code>
@@ -29,7 +29,7 @@ pub fn spell_check(words: &Vec<String>, dict: &Vec<String>) -> Vec<String> {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 13_spell_check</code>
+<code>cargo test --example 14_spell_check</code>
 </div>
 
 <!--
@@ -43,7 +43,7 @@ Discoveries:
 
 ---
 
-# 13 · Review
+# 14 · Review
 
 <v-clicks at="+0">
 
@@ -60,7 +60,7 @@ Hint: build the lookup set once, outside.
 
 ---
 
-# 13 · Possible solution
+# 14 · Possible solution
 
 ```rust
 use std::collections::HashSet;

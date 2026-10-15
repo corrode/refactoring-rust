@@ -4,7 +4,7 @@ zoom: 0.9
 ---
 
 
-# 21 · `fun_strings`
+# 22 · `fun_strings`
 
 <div class="opacity-80 mb-4">
 A bunch of little string helpers. Notice how call sites read inside-out:
@@ -37,7 +37,7 @@ pub fn spongebob_case(s: &str) -> String {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 21_fun_strings_ext</code>
+<code>cargo test --example 22_fun_strings_ext</code>
 </div>
 
 <!--
@@ -51,7 +51,7 @@ Discoveries:
 
 ---
 
-# 21 · Review
+# 22 · Review
 
 <v-clicks at="+0">
 
@@ -66,7 +66,7 @@ Discoveries:
 zoom: 0.85
 ---
 
-# 21 · Possible solution
+# 22 · Possible solution
 
 ```rust
 pub trait FunStr {

@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 24 · `handle_response`
+# 25 · `handle_response`
 
 <div class="opacity-80 mb-4">
 Decide what to do with an HTTP response based on its status code.
@@ -28,7 +28,7 @@ pub fn handle_response(resp: Response) -> Action {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 24_http_response_router</code>
+<code>cargo test --example 25_http_response_router</code>
 </div>
 
 <!--
@@ -44,7 +44,7 @@ Discoveries:
 
 ---
 
-# 24 · Review
+# 25 · Review
 
 <v-clicks at="+0">
 
@@ -58,7 +58,7 @@ Discoveries:
 
 ---
 
-# 24 · Solution &mdash; classify
+# 25 · Solution &mdash; classify
 
 ```rust
 enum StatusClass { Informational, Success, Redirect, ClientError, ServerError, Unknown }
@@ -87,7 +87,7 @@ impl StatusClass {
 zoom: 0.9
 ---
 
-# 24 · Solution &mdash; dispatch
+# 25 · Solution &mdash; dispatch
 
 ```rust
 pub fn handle_response(resp: Response) -> Action {

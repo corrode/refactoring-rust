@@ -14,9 +14,44 @@ pub fn parse_values(values: Vec<String>) -> Result<Vec<i32>, ParseIntError> {
     Ok(result)
 }
 
+pub trait Validator {
+    fn check(&self, input: &str) -> Result<(), String>;
+}
+
+/// Run every validator and return all errors in validator order.
+pub fn collect_errors(validators: &[&dyn Validator], input: &str) -> Vec<String> {
+    let mut errors = Vec::new();
+    for validator in validators {
+        let result = validator.check(input);
+        if result.is_err() {
+            errors.push(result.err().expect("is_err should always have an error"));
+        }
+    }
+    errors
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::cell::Cell;
+
+    struct CountedAccept<'a>(&'a Cell<usize>);
+
+    impl Validator for CountedAccept<'_> {
+        fn check(&self, _input: &str) -> Result<(), String> {
+            self.0.set(self.0.get() + 1);
+            Ok(())
+        }
+    }
+
+    struct Reject(&'static str);
+
+    impl Validator for Reject {
+        fn check(&self, _input: &str) -> Result<(), String> {
+            Err(self.0.to_string())
+        }
+    }
 
     #[test]
     fn all_valid() {
@@ -33,5 +68,20 @@ mod tests {
     #[test]
     fn empty_input() {
         assert_eq!(parse_values(vec![]), Ok(vec![]));
+    }
+
+    #[test]
+    fn validation_collects_every_error_in_order() {
+        let first = Reject("first error");
+        let calls = Cell::new(0);
+        let valid = CountedAccept(&calls);
+        let second = Reject("second error");
+        let validators: [&dyn Validator; 3] = [&first, &valid, &second];
+
+        assert_eq!(
+            collect_errors(&validators, "input"),
+            vec!["first error", "second error"]
+        );
+        assert_eq!(calls.get(), 1);
     }
 }

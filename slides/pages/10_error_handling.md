@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 09 · `read_file_contents`
+# 10 · `read_file_contents`
 
 <div class="opacity-80 mb-4">
 Read the entire contents of a file into a <code>String</code>.
@@ -26,7 +26,7 @@ pub fn read_file_contents(path: &str) -> io::Result<String> {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 09_error_handling</code>
+<code>cargo test --example 10_error_handling</code>
 </div>
 
 <!--
@@ -38,7 +38,7 @@ Discoveries usually arrive in this order:
 
 ---
 
-# 09 · Review
+# 10 · Review
 
 <v-clicks at="+0">
 
@@ -52,7 +52,7 @@ Discoveries usually arrive in this order:
 
 ---
 
-# 09 · Possible solution
+# 10 · Possible solution
 
 ```rust
 use std::fs;

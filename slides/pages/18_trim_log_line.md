@@ -3,7 +3,7 @@ layout: default
 zoom: 0.8
 ---
 
-# 17 · `trim_log_line`
+# 18 · `trim_log_line`
 
 <div class="opacity-80 mb-4">
 Trim outer whitespace, collapse internal runs of whitespace, strip a leading
@@ -40,7 +40,7 @@ pub fn trim_log_line(line: &str) -> String {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 17_trim_log_line</code>
+<code>cargo test --example 18_trim_log_line</code>
 </div>
 
 <!--
@@ -53,7 +53,7 @@ Discoveries:
 
 ---
 
-# 17 · Review
+# 18 · Review
 
 <v-clicks at="+0">
 
@@ -70,7 +70,7 @@ Hint: <code>trim</code>, <code>strip_prefix</code>, <code>split_whitespace</code
 
 ---
 
-# 17 · Possible solution
+# 18 · Possible solution
 
 ```rust
 pub fn trim_log_line(line: &str) -> String {

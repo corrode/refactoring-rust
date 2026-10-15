@@ -3,7 +3,7 @@ layout: default
 zoom: 0.9
 ---
 
-# 14 · `room_occupancy`
+# 15 · `room_occupancy`
 
 ```rust
 pub fn adults_total(rooms: &[RoomOccupancy]) -> i32 {
@@ -32,7 +32,7 @@ pub fn child_ages(rooms: &[RoomOccupancy]) -> Vec<i32> {
 ```
 
 <div class="absolute top-20 right-12 text-sm opacity-60">
-<code>cargo test --example 14_room_occupancy</code>
+<code>cargo test --example 15_room_occupancy</code>
 </div>
 
 <!--
@@ -47,12 +47,12 @@ Worth pausing on `max_adults`: original returns 0 on empty input;
 
 ---
 
-# 14 · Review
+# 15 · Review
 
 <v-clicks at="+0">
 
-- Every loop has the same shape: read a field, accumulate. What's that pattern in iterator land?
-- For the max, what does `Iterator::max` return - and how is that different from the current behaviour on an empty slice?
+- Every loop repeats the same operation: read a field, accumulate. What's that pattern in iterator land?
+- For the max, what does `Iterator::max` return, and how is that different from the current behaviour on an empty slice?
 - For `child_ages`, the nested loop is exactly what one adapter is named after.
 - Do you need any `mut` locals at all?
 
@@ -61,7 +61,7 @@ Worth pausing on `max_adults`: original returns 0 on empty input;
 
 ---
 
-# 14 · Possible solution
+# 15 · Possible solution
 
 ```rust
 pub fn adults_total(rooms: &[RoomOccupancy]) -> i32 {
@@ -83,7 +83,7 @@ pub fn child_ages(rooms: &[RoomOccupancy]) -> Vec<i32> {
 
 <div v-click class="mt-6 text-base opacity-80">
 
-- Each helper collapses to one chain - the shape is now visible at a glance.
+- Each helper names its aggregate in one iterator chain.
 - `max` returns `Option`, so we restore the original "0 if empty" with `unwrap_or(0)`.
 - `flat_map` + `copied` flattens the nested `&Vec<i32>` into owned values.
 
