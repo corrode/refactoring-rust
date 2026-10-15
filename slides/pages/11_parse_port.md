@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 10 · `parse_port`
+# 11 · `parse_port`
 
 <div class="opacity-80 mb-4">
 Parse a TCP port string into a <code>u16</code>.
@@ -19,7 +19,7 @@ pub fn parse_port(s: &str) -> Option<u16> {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 10_parse_port</code>
+<code>cargo test --example 11_parse_port</code>
 </div>
 
 <!--
@@ -32,7 +32,7 @@ Discoveries:
 
 ---
 
-# 10 · Review
+# 11 · Review
 
 <v-clicks at="+0">
 
@@ -51,7 +51,7 @@ Hint: "Parse, don't validate": push invariants into the type.
 zoom: 0.95
 ---
 
-# 10 · Possible solution
+# 11 · Possible solution
 
 ```rust
 use std::num::NonZeroU16;

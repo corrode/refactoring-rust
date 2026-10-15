@@ -3,7 +3,7 @@ layout: default
 zoom: 0.9
 ---
 
-# 18 · `parse_srt_timestamp`
+# 19 · `parse_srt_timestamp`
 
 <div class="opacity-80 mb-4">
 Parse an SRT timestamp like <code>"00:01:23,456"</code> into a <code>Duration</code>.
@@ -34,7 +34,7 @@ pub fn parse_srt_timestamp(s: &str) -> Option<Duration> {
 ```
 
 <div class="absolute top-20 right-12 text-sm opacity-60">
-<code>cargo test --example 18_parse_srt_timestamp</code>
+<code>cargo test --example 19_parse_srt_timestamp</code>
 </div>
 
 <!--
@@ -47,7 +47,7 @@ Discoveries:
 
 ---
 
-# 18 · Review
+# 19 · Review
 
 <v-clicks at="+0">
 
@@ -63,7 +63,7 @@ Discoveries:
 zoom: 0.75
 ---
 
-# 18 · Possible solution
+# 19 · Possible solution
 
 ```rust
 use core::time::Duration;

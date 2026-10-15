@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 16 · `most_common`
+# 17 · `most_common`
 
 <div class="opacity-80 mb-4">
 Find the value that occurs most often in the input.
@@ -29,7 +29,7 @@ pub fn most_common(numbers: &[i32]) -> i32 {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 16_mode</code>
+<code>cargo test --example 17_mode</code>
 </div>
 
 <!--
@@ -40,7 +40,7 @@ and calls `iter().next()` twice to seed `best`.
 
 ---
 
-# 16 · Review
+# 17 · Review
 
 <v-clicks at="+0">
 
@@ -53,7 +53,7 @@ and calls `iter().next()` twice to seed `best`.
 
 ---
 
-# 16 · Possible solution
+# 17 · Possible solution
 
 ```rust
 pub fn most_common(numbers: &[i32]) -> i32 {

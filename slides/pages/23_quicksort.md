@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 22 · `quicksort` <span class="opacity-50 text-base">· bonus</span>
+# 23 · `quicksort` <span class="opacity-50 text-base">· bonus</span>
 
 <div class="opacity-80 text-xs mb-4">
 This works. Make it nicer.
@@ -33,7 +33,7 @@ fn sort_range(values: &mut [i32], lo: usize, hi: usize) {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 22_quicksort</code>
+<code>cargo test --example 23_quicksort</code>
 </div>
 
 <!--
@@ -43,7 +43,7 @@ is buried. Ask the audience to make it read like the textbook definition.
 
 ---
 
-# 22 · Review
+# 23 · Review
 
 <v-clicks at="+0">
 
@@ -58,7 +58,7 @@ is buried. Ask the audience to make it read like the textbook definition.
 zoom: 0.95
 ---
 
-# 22 · Possible solution
+# 23 · Possible solution
 
 ```rust
 pub fn quicksort(input: &[i32]) -> Vec<i32> {

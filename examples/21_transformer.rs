@@ -29,9 +29,46 @@ pub fn apply_commands(input: Vec<(String, Command)>) -> Vec<String> {
     result
 }
 
+pub trait PipelineCommand {
+    fn run(&self, input: &str) -> String;
+}
+
+/// Feed each command's output into the next command.
+pub fn apply_pipeline(commands: &[Box<dyn PipelineCommand>], input: &str) -> String {
+    if commands.is_empty() {
+        return input.to_string();
+    }
+
+    let mut result = String::new();
+    for command in commands {
+        result = command.run(if result.is_empty() {
+            input
+        } else {
+            result.as_str()
+        });
+    }
+    result
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    struct Append(&'static str);
+
+    impl PipelineCommand for Append {
+        fn run(&self, input: &str) -> String {
+            input.to_string() + self.0
+        }
+    }
+
+    struct Uppercase;
+
+    impl PipelineCommand for Uppercase {
+        fn run(&self, input: &str) -> String {
+            input.to_uppercase()
+        }
+    }
 
     fn sample() -> Vec<(String, Command)> {
         vec![
@@ -62,5 +99,18 @@ mod tests {
     fn append_zero_is_a_noop() {
         let out = apply_commands(vec![("x".into(), Command::Append(0))]);
         assert_eq!(out, vec!["x".to_string()]);
+    }
+
+    #[test]
+    fn pipeline_passes_each_output_to_the_next_command() {
+        let commands: Vec<Box<dyn PipelineCommand>> =
+            vec![Box::new(Append("-next")), Box::new(Uppercase)];
+
+        assert_eq!(apply_pipeline(&commands, "start"), "START-NEXT");
+    }
+
+    #[test]
+    fn empty_pipeline_returns_the_input() {
+        assert_eq!(apply_pipeline(&[], "start"), "start");
     }
 }

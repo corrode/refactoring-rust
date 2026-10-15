@@ -3,7 +3,7 @@ layout: default
 zoom: 0.95
 ---
 
-# 26 · `env_file_parser`
+# 27 · `env_file_parser`
 
 <div class="opacity-80 mb-2 text-sm">
 Parse a <code>.env</code> file into key/value pairs.
@@ -33,7 +33,7 @@ pub fn parse_env(content: &str) -> HashMap<String, String> {
 ```
 
 <div class="absolute top-25 right-12 text-sm opacity-60">
-<code>cargo test --example 26_env_file_parser</code>
+<code>cargo test --example 27_env_file_parser</code>
 </div>
 
 <!--
@@ -54,7 +54,7 @@ Discoveries:
 
 ---
 
-# 26 · Review
+# 27 · Review
 
 <v-clicks at="+0">
 
@@ -71,7 +71,7 @@ Discoveries:
 zoom: 1.0
 ---
 
-# 26 · Possible solution
+# 27 · Possible solution
 
 ```rust
 enum State {
