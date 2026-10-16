@@ -125,22 +125,21 @@ the domain limits.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare the canonical `flatten().sum()` implementation with the starter
-> loop. The borrowed-slice alternative changes the interface and needs a separate review.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | Both versions represent absence with `Option<i32>`, and both can overflow while adding present values. |
-| Readability | wins | `flatten` and `sum` state the two operations without mutable state or an empty `None` branch. |
-| API design | neutral | The function still consumes `Vec<Option<i32>>` and returns an `i32` total without validation. |
-| Performance | neutral | Both versions make one pass, allocate nothing, and add once for each present value. |
-| Flexibility | neutral | The public interface does not change; only the internal expression of the aggregation does. |
-| Error reporting | neutral | Neither version reports overflow or distinguishes empty input from input containing only `None`. |
+| Criterion | Original: loop + `match` | `flatten().sum()` on owned vector | `filter_map` identity + `sum` | Borrowed slice + `flatten().copied().sum()` |
+|---|---|---|---|---|
+| Type-safety | Optional integers; overflow still possible | = Same overflow risk | = Same overflow risk | = Same overflow risk |
+| Readability | Mutable total, explicit absence branch | + Names flattening and summation | + Names filtering and summation | + Names aggregation; explicit copying |
+| API design | Consumes `Vec<Option<i32>>` | = Same consuming signature | = Same consuming signature | + Borrows `&[Option<i32>]` |
+| Performance | One pass; no allocation | = One pass; no allocation | = One pass; no allocation | + Avoids cloning when caller retains input |
+| Flexibility | Requires owned vector | = Still requires owned vector | = Still requires owned vector | + Accepts slices, arrays, borrowed vectors |
+| Error reporting | No overflow error; empty sums zero | = Same unreported overflow and zero | = Same unreported overflow and zero | = Same unreported overflow and zero |
 
-The iterator version is easier to read when your team knows `flatten` and `sum`.
-The explicit loop remains a valid choice if those methods are unfamiliar.
+The borrowed version changes the ownership contract and requires callers to pass a
+reference. Its clone saving applies only when callers would otherwise clone to keep
+the input; the iterator rewrite alone makes no speed guarantee.
 
 ## Follow-up questions
 

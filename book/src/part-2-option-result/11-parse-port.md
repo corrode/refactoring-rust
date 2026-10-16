@@ -115,24 +115,21 @@ value, not for that optimisation.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare the canonical `Result<NonZeroU16, InvalidPort>` interface with
-> the starter's `Option<u16>` interface.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
+| Criterion | Original: `Option<u16>` | `Result<NonZeroU16, InvalidPort>` (main) |
 |---|---|---|
-| Type-safety | wins | `NonZeroU16` excludes zero from successful results, and parsing as `u16` enforces the upper bound before construction. |
-| Readability | wins | The implementation has two named stages, parse a `u16`, then reject zero, with no manual range check or cast. |
-| API design | wins | The signature communicates both the non-zero invariant and the failure categories callers can observe. |
-| Performance | neutral | Both versions parse once, allocate nothing, and perform constant additional work after scanning the input. |
-| Flexibility | wins | Callers can handle zero separately from other invalid input and pass the success value onward without checking zero again. |
-| Error reporting | wins | `Result` distinguishes zero from invalid syntax or range, while `Option` collapses every failure into `None`. |
+| Type-safety | Zero excluded by runtime convention | + Success type excludes zero |
+| Readability | Range check before narrowing cast | + Direct parsing, no cast |
+| API design | Success or undifferentiated absence | + Non-zero success, named failures |
+| Performance | One parse, no allocation | = One parse, no allocation |
+| Flexibility | Callers receive plain integers | + Non-zero values compose downstream |
+| Error reporting | Every failure becomes `None` | + Distinguishes zero from other failures |
 
-The stronger interface requires callers to handle an error enum and, where a `u16` is
-needed, call `.get()`. This is useful when other functions also require non-zero values.
-If every caller immediately extracts the integer and ignores the error distinction,
-the application may not need the stronger interface.
+Callers must handle `InvalidPort` and use `.get()` where a `u16` is needed.
+Syntax and range errors still share `Invalid`. Rejecting zero is an existing domain
+rule, not a correctness fix; this type would be wrong for bind APIs that accept zero.
 
 ## Follow-up questions
 

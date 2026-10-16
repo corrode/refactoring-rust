@@ -128,24 +128,35 @@ text.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare both canonical iterator implementations with their starter
-> loops. The two functions keep their distinct failure policies.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
+### Parsing: `parse_values`
+
+| Criterion | Original: loop + `match` | Borrowed slice + `map().collect()` |
 |---|---|---|
-| Type-safety | neutral | Both versions use `Result` to distinguish successful parses from `ParseIntError` and return owned validation messages. |
-| Readability | wins | Each pipeline states its policy: collect `Result` values to fail fast, or use `filter_map(Result::err)` to keep every error. |
-| API design | wins | `parse_values` borrows the input slice, communicating read-only access while leaving ownership with the caller. |
-| Performance | wins | Parsing and validation remain single passes, and callers can retain their input without cloning it before `parse_values`. |
-| Flexibility | wins | The caller can reuse borrowed input, and further transformations do not require manual accumulator state. |
-| Error reporting | neutral | Parsing still returns only the first `ParseIntError`, while validation still returns every string message in order. |
+| Type-safety | Complete vector or `ParseIntError` | = Same all-or-error result |
+| Readability | Explicit push and early return | + Names parsing and collection |
+| API design | Consumes `Vec<String>` | + Borrows `&[String]` |
+| Performance | Single pass; allocates output vector | + Avoids cloning when caller retains input |
+| Flexibility | Requires owned vector | + Accepts slices, arrays, borrowed vectors |
+| Error reporting | First `ParseIntError`; no input index | = Same error, still no index |
 
-Understanding the shorter `parse_values` body requires knowing how `collect` handles
-`Result` items. This is a common Rust pattern, and the return type states the fail-fast
-policy. `collect_errors` needs a different iterator chain because it must continue after
-an error. Shortening either function must not change when it stops.
+### Validation: `collect_errors`
+
+| Criterion | Original: loop + `is_err` / `expect` | `filter_map` with `.err()` + `collect` |
+|---|---|---|
+| Type-safety | `expect` guarded by `is_err` | = Same `Result` and `Option` types |
+| Readability | Repeated variant checks, mutable accumulator | + Names error selection and collection |
+| API design | Borrows validators and input | = Same borrowed signature |
+| Performance | Every validator runs; stores error strings | = Same calls and owned messages |
+| Flexibility | Heterogeneous validators via trait objects | = Same trait-object interface |
+| Error reporting | All string errors, validator order | = Same messages and order |
+
+Parsing now requires a reference at call sites. Clone savings apply only when callers
+would otherwise clone to retain the input; neither pipeline promises a speed-up.
+`collect` over `Result` stops at the first error, so it cannot replace validation's
+collect-all pipeline.
 
 ## Follow-up questions
 

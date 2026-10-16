@@ -189,18 +189,29 @@ block.
   (`see [ch. 13](../part-3-aggregations/13-excluded-path.md)`). The
   book is a graph, not a list.
 
-## Trade-off scoring vocabulary
+## Trade-off comparisons
 
-In the *Trade-offs* section, score the canonical solution against each
-of the six axes with one of:
+Compare the original and the implementations shown in Solutions side by side.
+Use the six criteria as rows, in their usual order, and name each implementation
+in a column heading. The original column describes the baseline; other cells give
+a relative score and a short reason:
 
-- **wins**: solution improves this axis vs. the starter
-- **loses**: solution regresses this axis
-- **neutral**: no meaningful change
-- **N/A**: axis doesn't apply (use sparingly; usually means we should
-  reconsider whether the axis really doesn't apply)
+- **+**: advantage over the original.
+- **=**: comparable on this criterion.
+- **−**: disadvantage relative to the original.
+- **N/A**: the criterion does not apply.
 
-Include a one-sentence justification rather than only the label.
+Keep the reason in the cell so the comparison stands on its own. Avoid sentences
+that make the table hard to scan. Use short phrases such as “+ Borrows input” or
+“= Same error type,” rather than a score with no explanation.
+
+Include a brief legend. Readability depends on familiarity; performance claims
+must name the affected work, not assume a speed-up. Do not rate different contracts
+as interchangeable. Explain any required qualifications below the table.
+
+Split wide comparisons into smaller tables with the original baseline repeated.
+Use separate tables for functions with different requirements. Do not combine their
+scores or calculate an overall winner.
 
 ## Quizzes
 

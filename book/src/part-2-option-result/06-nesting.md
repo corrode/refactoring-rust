@@ -131,21 +131,20 @@ conversion is the normalization your domain intends.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare the canonical `map`, `filter`, and `map` chain with the starter.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | Both versions accept `Option<&str>` and return `Option<String>`, with the same set of valid states. |
-| Readability | wins | Trimming, rejection, and uppercasing appear in execution order, without nested branches or repeated returns. |
-| API design | neutral | The signature still combines absent input and input that becomes empty after trimming into the same `None`. |
-| Performance | neutral | Both versions trim without allocating and create one uppercase `String` only after a non-empty value survives. |
-| Flexibility | wins | Another transformation or predicate can be added as a stage without another level of control-flow nesting. |
-| Error reporting | neutral | Both versions erase the reason for `None`, so the caller cannot distinguish absent input from empty input. |
+| Criterion | Original: nested `if let` / `if` | `map` → `filter` → `map` | `let-else` + early returns |
+|---|---|---|---|
+| Type-safety | Optional input and output | = Same representable states | = Same representable states |
+| Readability | Nested presence and emptiness checks | + Three named stages, no nesting | + Flat checks, named intermediate |
+| API design | `Option<&str>` → `Option<String>` | = Same borrowed input, owned output | = Same borrowed input, owned output |
+| Performance | Allocates uppercase result after validation | = Same trimming and uppercase allocation | = Same trimming and uppercase allocation |
+| Flexibility | More checks can deepen nesting | + Add stages without nesting | + Add guards without nesting |
+| Error reporting | Missing and empty become `None` | = Same indistinguishable failure reasons | = Same indistinguishable failure reasons |
 
-Longer chains can make intermediate types and failure points harder to inspect.
-Use named locals and explicit branches when individual steps need more explanation.
+Longer chains can hide intermediate types and failure points. Prefer named locals
+and explicit branches when steps need comments or logging.
 
 ## Follow-up questions
 

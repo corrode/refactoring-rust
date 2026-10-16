@@ -4,8 +4,9 @@ A refactor can improve one aspect of code and make another worse. It may
 remove an allocation but hide an error, or prevent an invalid state but add
 work for callers. Review both the benefits and the costs.
 
-Each exercise scores its canonical solution against the same six criteria,
-called axes, in the same order. Use them to compare implementations and explain
+Each exercise compares the original and solution variants against six criteria,
+called axes, in the same order. Each variant has its own column, with a score and
+a short reason for each criterion. Use them to compare implementations and explain
 your decisions. The scores are judgements to examine, not answers to memorise.
 
 ## The six axes
@@ -157,32 +158,26 @@ pub fn is_yes(s: &str) -> bool {
 }
 ```
 
-Scores are relative to the starter. The vocabulary is **wins / loses / neutral /
-N/A**, followed by a sentence that explains the judgement.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
+| Criterion | Original: owned input, exact comparisons | Borrowed input + ASCII lowercase |
 |---|---|---|
-| Type-safety | neutral | Both versions accept any `&str` / `String`. Neither uses a type to distinguish accepted answers. A `Confirmation` enum and a `FromStr` impl could do that, but would add complexity to a CLI flag check. |
-| Readability | wins | One line, one expression, no early returns. A reader sees the full set of accepted answers in one glance. |
-| API design | wins | `&str` is the natural type for a read-only check; `String` forced the caller to allocate or `.clone()` when they had only a borrow. |
-| Performance | loses | `to_ascii_lowercase` allocates a new `String` on every call. The starter does no allocation. For a CLI flag this is irrelevant; in a hot loop it would matter. |
-| Flexibility | loses | The refactor commits to ASCII-only case folding. If we later need general Unicode-aware matching, such as accepting `"SÍ"` as `"sí"`, we'd need another design. The starter is easy to extend with another exact spelling. |
-| Error reporting | N/A | Under this predicate's contract, every string has a `true` or `false` answer. There is no failure case to report. A parser that must distinguish "no" from "invalid input" would need another return type. |
+| Type-safety | Any string; boolean result | = No new type-level invariant |
+| Readability | Four separate branches | + One expression, if `matches!` familiar |
+| API design | Consumes `String` | + Borrows `&str` |
+| Performance | No internal allocation | − Allocates lowercase copy |
+| Flexibility | Can add arbitrary exact spellings | − Applies ASCII folding to every input |
+| Error reporting | Every input yields a boolean | N/A |
 
-When interpreting these scores, consider the following:
+The borrowed parameter removes the need to give up ownership, but lowercasing adds
+an allocation inside the function. Whether this costs more overall depends on whether
+the caller would otherwise need to clone the input.
 
-1. **The refactor loses on two axes.** Improvements to readability and API
-   design come with costs to performance and flexibility.
-2. **The costs depend on the use case.** For a CLI flag, the
-   allocation and ASCII restriction are acceptable. In a parser's hot loop,
-   with user input that may contain non-ASCII text, they aren't. That context
-   calls for another design.
-3. **The `N/A` is genuine.** This predicate has no failure case, so error reporting
-   does not apply. Still, check every `N/A`. It can reveal a question the code should
-   answer.
-4. **Lint suggestions do not replace this assessment.** Even when Clippy
-   suggests a shorter expression or a borrowed parameter, you still need to
-   assess allocation costs, accepted inputs, and future requirements.
+There is also a behavior change that the scores do not capture: the refactor accepts
+mixed-case inputs such as `"Yes"`, while the original does not. Confirm that this is
+intended before treating it as a replacement. Neither version reports invalid input
+separately from a negative answer.
 
 The exercises use the same questions for larger changes.
 

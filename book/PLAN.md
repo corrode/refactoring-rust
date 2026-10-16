@@ -68,8 +68,8 @@ and exercise prompt already provide enough information.
    involved in refactoring it.
 4. **Solutions**: the main solution and any alternatives, with explanations,
    inside one native `details` element that is collapsed by default.
-5. **Trade-offs**: scored against the fixed axes (see §4). Always the same
-   axes; same order.
+5. **Trade-offs**: compare the original and solution variants in columns, with
+   the six criteria as rows (see §4). Give each score a short reason in its cell.
 6. **Quiz (optional)**: a new application or decision that the preceding text
    has not already answered. Omit the section when no such question is useful.
 7. **Follow-up questions**: open-ended prompts for the reader / their team.
@@ -217,8 +217,7 @@ Style rules (the full version lives in `book/STYLE.md`):
    target of every chapter's Important Concepts section. Surfaces in the top
    nav as **"Cheatsheet"** (friendlier label).
 7. **Trade-off matrix appendix**: one big table; rows are exercises,
-   columns are the six axes, cells summarize how each canonical solution
-   scored. The whole-forest view no competitor publishes.
+   columns are the six axes, with one row per exercise and solution variant. The whole-forest view no competitor publishes.
 8. **Further reading**: consolidated, deduplicated bibliography.
 9. **Contributing & errata**: short; points at the issue templates.
 10. **Acknowledgements**: every accepted issue, alternative-solution PR,

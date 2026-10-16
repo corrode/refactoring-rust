@@ -169,23 +169,28 @@ benefit from it.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare the byte-cap implementation using `floor_char_boundary` with
-> the starter. The character-count helper has a different contract.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | Both versions accept `&str` and `usize`; neither parameter type encodes the boundary rule. |
-| Readability | wins | `floor_char_boundary` names the UTF-8 policy directly, though the nested expression needs a short walkthrough. |
-| API design | neutral | The signature and owned return type stay the same, and `max_bytes` already states the intended unit. |
-| Performance | wins | The starter copies the complete input before truncating it; the solution copies only the returned prefix. |
-| Flexibility | neutral | The function still implements one byte-cap policy and returns an owned string. |
-| Error reporting | N/A | Every input has a valid result under the “at most” contract. An exact-length contract would need a failure case. |
+| Criterion | Original: copy then truncate | `floor_char_boundary` | Manual boundary search | `truncate_chars` (scalar cap) |
+|---|---|---|---|---|
+| Type-safety | Boundary rule absent from types | = Boundary checked at runtime | = Boundary checked at runtime | = Limit unit still untyped |
+| Readability | Short; boundary precondition hidden | + Named policy; nested expression needs familiarity | + Explicit policy; more control flow | + Direct scalar count, if adapters familiar |
+| API design | Byte cap; owned result | = Same signature and byte unit | = Same signature and byte unit | − Scalar cap cannot enforce byte budget |
+| Performance | Copies entire input | + Copies less when prefix shorter | + Copies less when prefix shorter | N/A |
+| Flexibility | Byte cap; older stable APIs | − Requires Rust 1.91 | = Byte cap; older stable APIs | − Replaces byte budget with scalar count |
+| Error reporting | Panics inside multi-byte encoding | N/A | N/A | N/A |
 
-The main improvement is the correctness fix: a limit inside a UTF-8 character no longer
-causes a panic. None of the six axes records that directly, so the failing test remains
-important alongside these scores.
+Both byte-cap solutions fix the panic when a limit splits a UTF-8 character; unchanged
+types and signatures do not mean unchanged correctness. Neither needs an error under
+this “at most” policy. An exact byte-length contract would need a failure case.
+Copying only the prefix reduces copied bytes when truncating, not necessarily elapsed
+time; nonempty results still allocate.
+
+`truncate_chars` is valid for a different contract, not a substitute for a byte cap:
+four scalar values from `"café"` occupy five bytes. Its negative scores concern the
+byte-budget requirement, and its performance is not scored against a different unit.
+None of these variants guarantees complete grapheme clusters.
 
 ## Follow-up questions
 

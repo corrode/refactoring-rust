@@ -110,8 +110,8 @@ The same callouts recur throughout the book:
 
 > **TRADE-OFF**
 >
-> The canonical solution scored against the same six axes, in the same order,
-> with a sentence explaining each score.
+> The original and alternatives compared side by side, with a score and a short
+> reason for each criterion.
 
 > **EDGE CASE**
 >

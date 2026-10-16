@@ -173,24 +173,35 @@ every call site remember them.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare the canonical `let ... else` and `any` refactor with the
-> starter. The alternative signatures change the public interface and need a separate
-> review.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | Both versions accept the same optional set, with no additional path invariant in the type system. |
-| Readability | wins | The absence case returns first, and `any` states the matching question without nested control flow. |
-| API design | neutral | The signature still borrows an `Option<HashSet<PathBuf>>`, preserving two states that have the same result here. |
-| Performance | neutral | Both versions allocate nothing, stop at the first match, and inspect every prefix in the worst case. |
-| Flexibility | neutral | The concrete optional container remains part of the interface; only the implementation changes. |
-| Error reporting | N/A | Missing rules and non-matching paths are still ordinary `false` results under the current contract. |
+### Keeping an optional parameter
 
-A loop may be easier to inspect in a debugger, especially if your team is unfamiliar
-with iterator methods. Here, the iterator expression is short: `any` names the check
-and preserves the early exit.
+| Criterion | Original: nested loop | `let ... else` + `any` (main) | `Option<&HashSet<PathBuf>>` |
+| --- | --- | --- | --- |
+| Type-safety | No validated path invariant | = No added path invariant | = No added path invariant |
+| Readability | Nested absence and match checks | + Early return, named search | = Compact, familiarity-dependent combinators |
+| API design | Borrows optional owning set | = Same public signature | + Optional borrow without owning wrapper |
+| Performance | Short-circuiting linear prefix scan | = Same prefix scan | = Same prefix scan |
+| Flexibility | Requires optional `HashSet` | = Same container requirement | + Borrows standalone sets too |
+| Error reporting | Boolean match, no failure channel | N/A | N/A |
+
+### Changing the interface
+
+| Criterion | Original: nested loop | Plain `&HashSet<PathBuf>` | `Excluder` | `Excludable` for `Path` |
+| --- | --- | --- | --- | --- |
+| Type-safety | No validated path invariant | = No added path invariant | = Constructor does not validate | = No added path invariant |
+| Readability | Nested absence and match checks | + No absence branch | + Named rules and operation | = Method syntax, trait import |
+| API design | Borrows optional owning set | + Removes unused absence distinction | + Hides storage behind methods | = Method still exposes set |
+| Performance | Short-circuiting linear prefix scan | = Same prefix scan | = Same scan after construction | = Same prefix scan |
+| Flexibility | Requires optional `HashSet` | + No owning `Option` required | + Storage can change privately | = Still requires `HashSet` |
+| Error reporting | Boolean match, no failure channel | N/A | N/A | N/A |
+
+Readability depends on your team's iterator familiarity; loops remain easier to step
+through. Removing `Option` changes the interface, not path validity. Preserve absence
+in configuration layers that need it. `Excluder::new` collects owned prefixes into a
+set; the scan score excludes construction. None provides filesystem containment guarantees.
 
 ## Follow-up questions
 

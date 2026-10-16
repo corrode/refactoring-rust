@@ -131,23 +131,21 @@ I/O error as its source.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare the canonical `fs::read_to_string` implementation with the
-> starter's explicit open and read steps.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | Both versions return `io::Result<String>` and require the file contents to be valid UTF-8. |
-| Readability | wins | The implementation names the complete operation and removes matches, mutable state, and intermediate bookkeeping. |
-| API design | neutral | The public `&str` parameter and `io::Result<String>` return type stay unchanged. |
-| Performance | neutral | Both versions open the file once and build one `String`; the standard helper does not reduce I/O or allocation work. |
-| Flexibility | loses | The helper leaves no point to inspect the file, limit reads, or report progress after opening it. |
-| Error reporting | neutral | Both versions propagate `io::Error`, and callers can still observe a missing file as `NotFound`. |
+| Criterion | Original: explicit matches | Open/read with `?` | `fs::read_to_string` (main) | Helper with `AsRef<Path>` |
+|---|---|---|---|---|
+| Type-safety | Fallible UTF-8 text result | = Same result guarantees | = Same result guarantees | = Same result guarantees |
+| Readability | Explicit error branches | + Less propagation boilerplate | + Names whole operation | + Names whole operation |
+| API design | Text path, fallible result | = Same public signature | = Same public signature | + Accepts native paths too |
+| Performance | Whole-file read into `String` | = Same read and buffer | = Still reads whole file | = Still reads whole file |
+| Flexibility | Separate open/read steps | = Retains intermediate access | − Hides intermediate steps | + Accepts more path types |
+| Error reporting | Propagates bare `io::Error` | = Preserves I/O errors | = Preserves I/O errors | = Preserves I/O errors |
 
-Use the shorter implementation when the requirement is to read a whole text file.
-If you need custom opening options, streaming, or limits, use separate open and read
-steps to control those operations.
+`AsRef<Path>` broadens accepted paths, not content encodings; it still requires UTF-8
+contents and hides intermediate steps. Use separate steps for limits or streaming.
+None adds error context. The readability scores assume familiarity with `?`.
 
 ## Follow-up questions
 

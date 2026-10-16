@@ -102,22 +102,22 @@ That would be a separate API change, not part of this pattern refactor.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare nested or-patterns with the repeated `Some` patterns in the
-> starter.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
+| Criterion | Original: repeated `Some` | Nested or-patterns |
 |---|---|---|
-| Type-safety | neutral | Both versions match the same `Option<u32>` states and represent the same fixed sets of literals. |
-| Readability | wins | Each arm writes `Some` once and keeps payloads with the same result together. |
-| API design | neutral | The signature, broad `describe` name, string return type, and fallback do not change. |
-| Performance | neutral | Both versions perform one fixed pattern match and allocate nothing. |
-| Flexibility | neutral | Changing either category still requires a source edit in both versions. |
-| Error reporting | N/A | Every `Option<u32>` maps to a label, so the function has no failure case. |
+| Type-safety | Exhaustive match; string labels | = Same states and string labels |
+| Readability | Repeats constructor for each literal | + Less repetition, if nesting familiar |
+| API design | Fixed lookup; wildcard fallback | = Same signature and fallback |
+| Performance | Fixed match; no allocation | = Same matching work; no allocation |
+| Flexibility | Categories require source edits | = Categories still require source edits |
+| Error reporting | Every input maps to a label | N/A |
 
-Nested or-patterns remove repetition, but they can take longer to read if the syntax
-is unfamiliar. Keeping the expanded form is reasonable when the team finds it clearer.
+Keeping the expanded patterns is reasonable if your team finds them easier to scan.
+Neither implementation recognizes primes or squares beyond the listed values. The
+suggested `Some(_)` fallback is a separate change: unlike `_`, it would let the compiler
+catch a missing `None` arm.
 
 ## Follow-up questions
 

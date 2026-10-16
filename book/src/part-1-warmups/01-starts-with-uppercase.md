@@ -100,23 +100,23 @@ version is shorter, but its predicate form may be less familiar.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> The scores compare the possible solution with the starter. Other valid
-> implementations don't change that comparison.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | Both versions accept arbitrary string content and return a `bool`; the refactor adds no type-level invariant. |
-| Readability | wins | The body follows the question in order: get the first character, then test it. Two branches and a repeated boolean disappear. |
-| API design | wins | `&str` says that the function reads the input without taking ownership. |
-| Performance | wins | A caller can borrow text instead of allocating or cloning a `String`; inspecting the first character remains constant time in both versions. |
-| Flexibility | wins | The borrowed parameter accepts string slices and borrowed `String` values, whereas the starter requires an owned `String`. |
-| Error reporting | N/A | Under this contract, empty input is an ordinary `false` result, so neither version has an error to report. |
+| Criterion | Original: owned `String` | `is_some_and` | `starts_with` predicate |
+|---|---|---|---|
+| Type-safety | Arbitrary text; boolean result | = No new type-level invariant | = No new type-level invariant |
+| Readability | Explicit branches; redundant boolean checks | + Fewer branches, if combinators familiar | + Direct question, if predicate form familiar |
+| API design | Takes ownership for read-only check | + Borrows read-only input | + Borrows read-only input |
+| Performance | Ownership may require caller copies | + Avoids copies when borrowing suffices | + Avoids copies when borrowing suffices |
+| Flexibility | Requires owned `String` | + Accepts slices and borrowed strings | + Accepts slices and borrowed strings |
+| Error reporting | Empty input returns `false` | N/A | N/A |
 
-If `is_some_and` is unfamiliar to your team, an explicit `match` on `s.chars().next()`
-handles the same cases without `unwrap`. Choose the version your team finds easier to
-read.
+All three inspect only the first Unicode scalar value. Borrowing avoids a clone when
+callers need to keep their string, not a measured cost in the character check itself.
+If `is_some_and` is unfamiliar, an explicit `match` on `s.chars().next()` remains an
+option; the `starts_with` predicate form also needs familiarity. Empty input is an
+ordinary `false`, not an error.
 
 ## Follow-up questions
 

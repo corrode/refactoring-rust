@@ -130,23 +130,22 @@ the maximum of an empty collection. Returning `Option<i32>` from the maximum kee
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare the canonical iterator implementation with the starter loops.
-> The `Rooms` newtype is a separate API design.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | The types and signatures are unchanged, so negative values and narrowing conversions remain possible. |
-| Readability | wins | `sum`, `max`, and `flat_map` name the aggregate operations and remove mutable bookkeeping. |
-| API design | neutral | The four free-function signatures stay in place, including the zero default and eager `Vec<i32>` result. |
-| Performance | neutral | Both versions do the same asymptotic work and allocate only the returned age vector. |
-| Flexibility | wins | Filters and transformations can join the iterator pipelines without adding accumulator state. |
-| Error reporting | neutral | Neither version reports invalid values, overflow, or a narrowing conversion. |
+| Criterion | Original: free-function loops | Iterator aggregates (main) | `Rooms` methods |
+|---|---|---|---|
+| Type-safety | Signed counts, narrowing casts | = Same types and casts | = No validation, same casts |
+| Readability | Mutable aggregate bookkeeping | + Names each aggregate operation | + Named aggregates grouped as methods |
+| API design | Four borrowed-slice helpers | = Same signatures, changed maximum semantics | + Groups operations, hides storage |
+| Performance | Linear traversals, eager age vector | = Same asymptotic work and copying | = Same traversals; moves input vector |
+| Flexibility | Accepts any room slice | + Composable filters and transformations | − Requires owned vector, not slice |
+| Error reporting | No explicit validation errors | = No added error reporting | = No added error reporting |
 
-Iterator familiarity affects the readability score. A long chain can be harder to debug
-than a loop, especially on a team that rarely uses iterator methods. These chains are
-short, and each method names an operation already present in the loops.
+The readability gains assume iterator familiarity. Both shown solutions return `-1`
+for adult counts `[-3, -1]`, where the original returns `0`: a contract change, not
+stronger type safety. Use `fold(0, i32::max)` to preserve that behaviour. `Rooms`
+provides a place for future validation, but currently accepts negative values.
 
 ## Follow-up questions
 

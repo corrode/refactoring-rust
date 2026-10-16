@@ -29,7 +29,7 @@ an invariant harder to understand. A stricter type can add work for callers.
 An iterator can avoid an allocation while making debugging harder for the team.
 Sometimes a loop is the better choice.
 
-Every solution is assessed against the same six criteria: type-safety,
+The original and solution variants are compared against the same six criteria: type-safety,
 readability, API design, performance, flexibility, and error reporting. These
 criteria help you explain a preference and discuss it with your team.
 

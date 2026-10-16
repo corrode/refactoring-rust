@@ -56,8 +56,8 @@ State these costs when suggesting a change, and leave the choice with the
 author when both versions are reasonable. The review then records why the
 team kept the loop or chose the fold.
 
-Each exercise's *Trade-offs* section follows this approach. It scores the
-canonical solution against type-safety, readability, API design, performance,
+Each exercise's *Trade-offs* section follows this approach. It compares the
+original and solution variants across type-safety, readability, API design, performance,
 flexibility, and error reporting. A solution can improve some criteria and
 make others worse. Whether to accept that cost depends on the requirements.
 

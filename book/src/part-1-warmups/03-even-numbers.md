@@ -121,22 +121,23 @@ each candidate.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare the canonical lazy iterator with the eager `Vec` returned by
-> the starter. Fully collecting either version produces the same values.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | Both versions accept any `u32` bound and rely on their implementation to produce the promised sequence. |
-| Readability | wins | The range states the bounds and `step_by(2)` states the progression without mutable bookkeeping. |
-| API design | wins | The return type promises a sequence and leaves collection policy to the caller, which matches the stated lazy requirement. |
-| Performance | wins | The solution works on demand and allocates no result collection unless the caller chooses one. |
-| Flexibility | wins | Callers can stop early or compose the result with `take`, `map`, `sum`, and `collect`. |
-| Error reporting | N/A | Every `u32` bound defines a valid finite sequence. |
+| Criterion | Original: loop → `Vec` | Lazy `step_by` | `step_by` → `Vec` | Lazy `filter` |
+|---|---|---|---|---|
+| Type-safety | Evenness enforced by implementation | = Evenness not encoded in type | = Evenness not encoded in type | = Evenness not encoded in type |
+| Readability | Manual counter and parity check | + Direct stride, if adapter familiar | + Direct stride, if adapters familiar | + Explicit predicate, if adapters familiar |
+| API design | Owned, indexable, reusable collection | + Meets lazy requirement; breaks callers | = Preserves collection API; remains eager | + Meets lazy requirement; breaks callers |
+| Performance | Builds full result before returning | + Avoids unused suffix and collection | = Still eager; timing unmeasured | + Avoids unused suffix and collection |
+| Flexibility | Composition after full generation | + Composition before generation | = Composition after full generation | + Composition before generation |
+| Error reporting | Every bound defines a sequence | N/A | N/A | N/A |
 
-Returning an iterator meets this exercise's lazy-result requirement. It does not
-provide the indexing or repeated traversal that callers get from a `Vec`.
+Both lazy variants give up direct indexing and repeated traversal; callers needing
+those must collect. The `Vec` alternative preserves those capabilities but does not
+meet the exercise's lazy-result requirement. `filter` tests candidate parity, whereas
+`step_by` expresses the stride directly. Avoiding unused work helps partial consumers;
+fully collecting still allocates, and timing differences need measurement.
 
 ## Follow-up questions
 

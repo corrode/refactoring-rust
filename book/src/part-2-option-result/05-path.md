@@ -135,21 +135,20 @@ return type and an explicit encoding policy.
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare the canonical `is_some_and` implementation with the starter.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | Both versions take `&Path` and return `bool`; neither establishes a new invariant or promises anything about the filesystem. |
-| Readability | wins | One predicate replaces two nested matches whose failure branches both return `false`. |
-| API design | neutral | The signature is unchanged, so a caller still cannot learn why a path failed to match. |
-| Performance | neutral | Neither version allocates, and both do work proportional to the short extension; skipping UTF-8 validation is not a meaningful speed-up here. |
-| Flexibility | neutral | Both versions keep the same exact, case-sensitive extension policy. |
-| Error reporting | neutral | Missing, different, and non-UTF-8 extensions all remain `false`. |
+| Criterion | Original: nested matches + `to_str` | `is_some_and` | `map_or(false, …)` | Explicit `match` on extension |
+|---|---|---|---|---|
+| Type-safety | No filesystem guarantees | = No filesystem guarantees | = No filesystem guarantees | = No filesystem guarantees |
+| Readability | Two nested absence checks | + One presence-and-predicate expression | + Explicit default, no nesting | + Two cases, no nesting |
+| API design | `&Path` → `bool` | = Same borrowed predicate | = Same borrowed predicate | = Same borrowed predicate |
+| Performance | No allocation; validates UTF-8 | = No allocation; skips UTF-8 validation | = No allocation; skips UTF-8 validation | = No allocation; skips UTF-8 validation |
+| Flexibility | Exact, case-sensitive extension check | = Same matching policy | = Same matching policy | = Same matching policy |
+| Error reporting | All non-matches become `false` | = No reason for non-match | = No reason for non-match | = No reason for non-match |
 
-An explicit `match` may be easier to read if `is_some_and` is unfamiliar. Either form
-can remove the unnecessary `to_str` conversion.
+Skipping UTF-8 validation is not a measured speed-up. `is_some_and` requires Rust 1.70;
+`map_or` and explicit `match` work on older versions.
 
 ## Follow-up questions
 
