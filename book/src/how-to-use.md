@@ -5,6 +5,7 @@ exercise before reading the solution so you can compare your decisions with
 those in the chapter.
 Start by preserving the function signatures so callers don't need to change.
 The first solution follows that rule; alternatives may change the API and explain what callers gain or lose.
+[Domain modeling](part-5-domain-modeling/README.md) is the exception: there, you can redesign the API from the start and update callers and tests to match.
 Choose one of the four modes below.
 
 ## Solo

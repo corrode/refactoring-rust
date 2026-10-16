@@ -32,7 +32,8 @@ cargo test --examples
 ```
 
 Everything is allowed: `clippy`, `rust-analyzer`, the docs, your neighbor, an LLM. 
-First preserve the API. Explore API redesigns as separate alternatives.
+First preserve the API, then explore alternatives.
+In domain modeling, changing the API is part of the exercise.
 
 </div>
 

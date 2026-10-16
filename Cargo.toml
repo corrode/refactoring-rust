@@ -99,23 +99,27 @@ name = "23_quicksort"
 crate-type = ["lib"]
 
 [[example]]
-name = "24_iban_prefix_check"
+name = "24_rooms"
 crate-type = ["lib"]
 
 [[example]]
-name = "25_http_response_router"
+name = "25_iban_prefix_check"
 crate-type = ["lib"]
 
 [[example]]
-name = "26_config_loader"
+name = "26_http_response_router"
 crate-type = ["lib"]
 
 [[example]]
-name = "27_env_file_parser"
+name = "27_config_loader"
 crate-type = ["lib"]
 
 [[example]]
-name = "28_mini_redis"
+name = "28_env_file_parser"
+crate-type = ["lib"]
+
+[[example]]
+name = "29_mini_redis"
 crate-type = ["lib"]
 
 # --- Solutions (parallel to examples/; used as the "after" reference) ---
@@ -232,11 +236,6 @@ path = "solutions/15_room_occupancy.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "15_room_occupancy_alt"
-path = "solutions/15_room_occupancy_alt.rs"
-crate-type = ["lib"]
-
-[[example]]
 name = "16_text_stats_solution"
 path = "solutions/16_text_stats.rs"
 crate-type = ["lib"]
@@ -292,41 +291,46 @@ path = "solutions/23_quicksort.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "24_iban_prefix_check_solution"
-path = "solutions/24_iban_prefix_check.rs"
+name = "24_rooms_solution"
+path = "solutions/24_rooms.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "25_http_response_router_solution"
-path = "solutions/25_http_response_router.rs"
+name = "25_iban_prefix_check_solution"
+path = "solutions/25_iban_prefix_check.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "26_config_loader_solution"
-path = "solutions/26_config_loader.rs"
+name = "26_http_response_router_solution"
+path = "solutions/26_http_response_router.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "26_config_loader_alt"
-path = "solutions/26_config_loader_alt.rs"
+name = "27_config_loader_solution"
+path = "solutions/27_config_loader.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "27_env_file_parser_solution"
-path = "solutions/27_env_file_parser.rs"
+name = "27_config_loader_alt"
+path = "solutions/27_config_loader_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "27_env_file_parser_alt"
-path = "solutions/27_env_file_parser_alt.rs"
+name = "28_env_file_parser_solution"
+path = "solutions/28_env_file_parser.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "28_mini_redis_solution"
-path = "solutions/28_mini_redis.rs"
+name = "28_env_file_parser_alt"
+path = "solutions/28_env_file_parser_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "28_mini_redis_alt"
-path = "solutions/28_mini_redis_alt.rs"
+name = "29_mini_redis_solution"
+path = "solutions/29_mini_redis.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "29_mini_redis_alt"
+path = "solutions/29_mini_redis_alt.rs"
 crate-type = ["lib"]

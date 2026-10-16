@@ -23,10 +23,13 @@ possible solution, you'll ask:
 - Which cases are missing?
 - What would a refactor improve, and what would it cost?
 
-The first solution keeps the original API, including function signatures and caller-facing types.
+Outside the domain-modeling section, the first solution keeps the original API, including function signatures and caller-facing types.
 That lets you improve the implementation without making callers change their code.
 Where helpful, we then explore alternative APIs and discuss what callers gain or lose.
 For example, borrowing an input or returning an iterator may be worth changing the interface, but we treat that as a separate decision.
+
+In [Domain modeling](part-5-domain-modeling/README.md), designing the API is part of the exercise.
+There, even the first solution can change types and signatures; we'll discuss how callers and tests need to adapt.
 
 Then you can open the solution and compare. It is *a possible solution*, not
 necessarily the best choice for your code. A shorter implementation can make

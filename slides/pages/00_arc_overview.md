@@ -39,8 +39,16 @@
 <div class="flex items-baseline gap-5">
   <div class="text-3xl font-bold opacity-60 w-8">5</div>
   <div>
-    <div class="text-xl"><strong>Domain modeling</strong> <span class="opacity-50 text-base ml-2">24–28</span></div>
+    <div class="text-xl"><strong>Domain modeling</strong> <span class="opacity-50 text-base ml-2">24–27</span></div>
     <div class="opacity-70 text-sm">We delete code by changing types.</div>
+  </div>
+</div>
+
+<div class="flex items-baseline gap-5">
+  <div class="text-3xl font-bold opacity-60 w-8">6</div>
+  <div>
+    <div class="text-xl"><strong>Capstone</strong> <span class="opacity-50 text-base ml-2">28–29</span></div>
+    <div class="opacity-70 text-sm">Two larger bonus problems.</div>
   </div>
 </div>
 

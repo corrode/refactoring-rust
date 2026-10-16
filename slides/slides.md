@@ -297,23 +297,28 @@ layout: section
 # Domain modeling
 
 <div class="text-2xl opacity-80 mt-4">
-The fun part. We delete code by changing types.
+Here you can change the API from the first solution.
+Choose types and methods, then update callers and tests.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 24–26
+Exercises 24–27
 </div>
 
 ---
-src: ./pages/24_iban_prefix_check.md
+src: ./pages/24_rooms.md
 ---
 
 ---
-src: ./pages/25_http_response_router.md
+src: ./pages/25_iban_prefix_check.md
 ---
 
 ---
-src: ./pages/26_config_loader.md
+src: ./pages/26_http_response_router.md
+---
+
+---
+src: ./pages/27_config_loader.md
 ---
 
 ---
@@ -331,15 +336,15 @@ Lastly, two larger bonus problems.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 27–28
+Exercises 28–29
 </div>
 
 ---
-src: ./pages/27_env_file_parser.md
+src: ./pages/28_env_file_parser.md
 ---
 
 ---
-src: ./pages/28_mini_redis.md
+src: ./pages/29_mini_redis.md
 ---
 
 ---

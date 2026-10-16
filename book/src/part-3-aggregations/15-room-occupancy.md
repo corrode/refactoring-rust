@@ -108,27 +108,8 @@ In `child_ages`, `flat_map` visits each room's ages in turn to produce one seque
 `copied` turns each `&i32` into an `i32`, and `collect` builds the result.
 These operations preserve room order and the order of ages within each room.
 
-### Alternative approaches
-
-Free functions work well for independent calculations.
-If several parts of an API use the same room collection, a `Rooms` newtype can group the data and its operations:
-
-```rust,editable
-{{#include ../../../solutions/15_room_occupancy_alt.rs:rooms}}
-```
-
-Callers can write `rooms.adults_total()` instead of passing the same slice to several helpers.
-Private storage gives you a place to add validation during construction or cache a summary later.
-
-Does the wrapper already validate its data?
-No, this constructor still accepts negative counts and ages, and its methods keep the `usize as i32` conversion.
-To enforce valid data, check values in constructors and keep fields private so callers cannot bypass the checks.
-
-Run the alternative as a separate example:
-
-```sh
-cargo test --example 15_room_occupancy_alt
-```
+You might think about grouping the four functions into a struct with methods and you're onto something.
+We will revisit this idea [later](../part-5-domain-modeling/24-rooms.md). 🙃
 
 ### Edge cases and production concerns
 
@@ -152,20 +133,19 @@ Callers must then handle the absence of a maximum.
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
-| Criterion | Original | Iterator aggregates (main) | `Rooms` methods |
-|---|---|---|---|
-| Type-safety | Signed counts, narrowing casts | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same types and casts | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No validation, same casts |
-| Readability | Mutable aggregate bookkeeping | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names each aggregate operation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Named aggregates grouped as methods |
-| API design | Four borrowed-slice helpers | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same signatures, changed maximum semantics | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Groups operations, hides storage |
-| Performance | Linear traversals, eager age vector | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same asymptotic work and copying | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same traversals; moves input vector |
-| Flexibility | Accepts any room slice | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Composable filters and transformations | <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Requires owned vector, not slice |
-| Error reporting | No explicit validation errors | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added error reporting | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added error reporting |
+| Criterion | Original | Iterator aggregates (main) |
+|---|---|---|
+| Type-safety | Signed counts, narrowing casts | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same types and casts |
+| Readability | Mutable aggregate bookkeeping | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names each aggregate operation |
+| API design | Four borrowed-slice helpers | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same signatures, changed maximum semantics |
+| Performance | Linear traversals, eager age vector | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same asymptotic work and copying |
+| Flexibility | Accepts any room slice | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Composable filters and transformations |
+| Error reporting | No explicit validation errors | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added error reporting |
 
 The readability gains assume iterator familiarity.
-Both shown solutions return `-1` for adult counts `[-3, -1]`, where the original returns `0`.
+The iterator solution returns `-1` for adult counts `[-3, -1]`, where the original returns `0`.
 That changes the contract; it does not strengthen type safety.
 Use `fold(0, i32::max)` to preserve the original behaviour.
-`Rooms` gives you a place to add validation, but currently accepts negative values.
 
 </details>
 

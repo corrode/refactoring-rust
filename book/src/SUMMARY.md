@@ -50,15 +50,16 @@
 # Part V. Domain modeling
 
 - [Overview](part-5-domain-modeling/README.md)
-  - [24 · iban_prefix_check](part-5-domain-modeling/24-iban-prefix-check.md)
-  - [25 · http_response_router](part-5-domain-modeling/25-http-response-router.md)
-  - [26 · config_loader](part-5-domain-modeling/26-config-loader.md)
+  - [24 · rooms](part-5-domain-modeling/24-rooms.md)
+  - [25 · iban_prefix_check](part-5-domain-modeling/25-iban-prefix-check.md)
+  - [26 · http_response_router](part-5-domain-modeling/26-http-response-router.md)
+  - [27 · config_loader](part-5-domain-modeling/27-config-loader.md)
 
 # Part VI. Capstone
 
 - [Overview](part-6-capstone/README.md)
-  - [27 · env_file_parser](part-6-capstone/27-env-file-parser.md)
-  - [28 · mini_redis](part-6-capstone/28-mini-redis.md)
+  - [28 · env_file_parser](part-6-capstone/28-env-file-parser.md)
+  - [29 · mini_redis](part-6-capstone/29-mini-redis.md)
 
 ---
 

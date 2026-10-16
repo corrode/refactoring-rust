@@ -3,7 +3,7 @@ layout: default
 zoom: 0.95
 ---
 
-# 27 · `env_file_parser`
+# 28 · `env_file_parser`
 
 <div class="opacity-80 mb-2 text-sm">
 Parse a <code>.env</code> file into key/value pairs.
@@ -33,7 +33,7 @@ pub fn parse_env(content: &str) -> HashMap<String, String> {
 ```
 
 <div class="absolute top-25 right-12 text-sm opacity-60">
-<code>cargo test --example 27_env_file_parser</code>
+<code>cargo test --example 28_env_file_parser</code>
 </div>
 
 <!--
@@ -54,7 +54,7 @@ Discoveries:
 
 ---
 
-# 27 · Review
+# 28 · Review
 
 - What happens to `WITH_EQUALS=a=b=c`? To `WITH_HASH="not # a comment"`?
 - The starter strips `#` before it knows whether it's inside quotes. What does that suggest?
@@ -67,7 +67,7 @@ Discoveries:
 zoom: 1.0
 ---
 
-# 27 · Possible solution
+# 28 · Possible solution
 
 ```rust
 use std::collections::HashMap;
@@ -102,10 +102,10 @@ Duplicate keys still use the last value. Empty keys remain accepted.
 zoom: 1.0
 ---
 
-# 27 · Alternative: a state machine
+# 28 · Alternative: a state machine
 
 ```rust
-// Excerpt from solutions/27_env_file_parser_alt.rs.
+// Excerpt from solutions/28_env_file_parser_alt.rs.
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 enum State {
     LineStart,
@@ -125,7 +125,7 @@ enum State {
 - Invalid input becomes an error rather than a silently skipped line.
 
 <!--
-The complete implementation is in solutions/27_env_file_parser_alt.rs.
+The complete implementation is in solutions/28_env_file_parser_alt.rs.
 State holds the parser position; separate key and value buffers hold the data.
 This changes both the API and accepted input. It is not a drop-in refactor.
 -->

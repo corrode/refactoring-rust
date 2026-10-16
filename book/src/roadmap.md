@@ -1,6 +1,6 @@
 # Roadmap
 
-The book contains twenty-seven exercises in six parts. Read them in order, jump
+The book contains twenty-nine exercises in six parts. Read them in order, jump
 to the topic you need, or use this page to choose where to start. Each chapter
 stands on its own, while each part develops one group of related ideas.
 
@@ -34,8 +34,6 @@ checking membership with a `HashSet`, summing fields across structs, defining
 occurrence-weighted text statistics, and computing modes with the `entry` API.
 You'll compare these methods with explicit loops.
 
-This part also introduces the **newtype** pattern and shows when a small
-`struct` with methods is more useful than a free function that takes `&[T]`.
 
 Chapter 12 (`dedup_runs`) is an optional bonus exercise. Skip it when time is
 short.
@@ -53,21 +51,19 @@ In chapter 20, implementing `Iterator` makes methods such as `take`, `map`,
 `zip`, and `collect` available to your type. Chapter 23
 (`quicksort`) is an optional bonus exercise. Skip it when time is short.
 
-## Part V. Domain modeling (chapters 24–26)
+## Part V. Domain modeling (chapters 24–27)
 
-Part V moves from syntax to data and API design. *Make illegal states
-unrepresentable* runs through three exercises: validating structure with the
-type system in chapter 24, building enum-driven routers that separate decisions
-from side effects in chapter 25, and combining visibility with layered
-configuration through `TryFrom` and `FromStr` in chapter 26.
+Part V moves from syntax to data and API design across four exercises.
+Chapter 24 groups room aggregates on an owned **newtype**, revisiting the iterator functions from chapter 15.
+Chapter 25 validates IBAN prefixes, chapter 26 uses enums to separate routing decisions from side effects, and chapter 27 combines visibility with layered configuration through `TryFrom` and `FromStr`.
 
 If your team's Rust reviews spend more time on types and design than syntax,
 start here.
 
-## Part VI. Capstone (chapters 27–28)
+## Part VI. Capstone (chapters 28–29)
 
-The final two refactors combine most of the earlier work. Chapter 27 is a
-parser. Chapter 28 is a small `redis`-style server. Both include production
+The final two refactors combine most of the earlier work. Chapter 28 is a
+parser. Chapter 29 is a small `redis`-style server. Both include production
 concerns to investigate: additional tests, edge cases, and design decisions
 that compilation alone can't settle.
 
@@ -90,7 +86,7 @@ book:
 
 - The [Cheatsheet](appendix/concept-index.md) lists every named concept and links
   to each chapter that uses it.
-- The [Trade-off matrix](appendix/trade-off-matrix.md) puts all twenty-seven
+- The [Trade-off matrix](appendix/trade-off-matrix.md) puts all twenty-nine
   canonical solutions and their scores side by side.
 - [Further reading](appendix/further-reading.md) collects and deduplicates every
   external resource cited in the book.

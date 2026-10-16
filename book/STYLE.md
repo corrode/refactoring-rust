@@ -95,8 +95,9 @@ There is no separate “The problem” heading or EXERCISE / TRY THIS callout.
 
 Do not identify the bug, name the refactor, or supply a failing input in the
 introduction. Put those discoveries in Discussion or an optional hint. State
-that the first solution preserves the original function signatures.
-Keep API changes in alternative solutions and explain how callers must adapt. Don't promise that code works when the task includes
+that the first solution preserves the original function signatures, except in domain modeling.
+In that section, API design is part of the exercise and the first solution may change the interface.
+Explain how callers and tests must adapt whenever the API changes. Don't promise that code works when the task includes
 finding and fixing a bug.
 
 Use this section order:
@@ -145,9 +146,10 @@ Keep the native disclosure marker and keyboard interaction; no click-handler scr
 
 ## Hidden solutions
 
-Start with a solution that preserves the original function signatures and caller-facing types.
+Outside domain modeling, start with a solution that preserves the original function signatures and caller-facing types.
+Domain-modeling exercises may introduce new types and signatures in the main solution.
 Keep this version in `solutions/NN_name.rs`.
-Put signature-changing designs in `solutions/NN_name_alt.rs` and show them afterward as alternatives.
+Outside domain modeling, put signature-changing designs in `solutions/NN_name_alt.rs` and show them afterward as alternatives.
 Do not weaken the original tests to accommodate the first solution's API.
 When the exercise asks for a bug fix, explain the behaviour change separately from any API redesign.
 
@@ -198,7 +200,8 @@ block.
   `<script class="playground-tests">` element. The editor hides that element, while the
   Run button sends its contents to the Rust Playground with the edited code. Starter
   blocks may include alternative tests as `playground-tests-fallback`, so readers exploring an API change can run that version too.
-  The first solution must still pass the original API's tests; a fallback is not a substitute for compatibility. Cargo and the slides still use
+  Outside domain modeling, the first solution must still pass the original API's tests; a fallback is not a substitute for compatibility.
+    For domain-modeling exercises, attach the redesigned API's tests to the solution and use them as the starter's fallback. Cargo and the slides still use
   the complete source file. Include paths are relative to the Markdown file, so
   front-matter pages need a different number of parent traversals.
 - **Alternative solutions worth keeping runnable:** add a real file

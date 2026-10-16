@@ -21,6 +21,7 @@ something concrete to talk about.
 Start by keeping the function signatures unchanged.
 The first solution in `solutions/NN_name.rs` preserves the original API;
 `solutions/NN_name_alt.rs` can explore a different interface afterward.
+Domain-modeling exercises are the exception: designing a different API is part of the task.
 
 ## The book
 

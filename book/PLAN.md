@@ -46,8 +46,8 @@ dividers**:
 - **Part II, `Option` · `Result` · `?`** (05–11)
 - **Part III, Aggregations & counting** (12–17)
 - **Part IV, Strings, parsing & iterators** (18–23)
-- **Part V, Domain modeling** (24–26)
-- **Part VI, Capstone** (27–28)
+- **Part V, Domain modeling** (24–27)
+- **Part VI, Capstone** (28–29)
 
 Each part has a 1–3 paragraph intro page describing the theme and what the
 reader will learn across its chapters.
@@ -68,6 +68,7 @@ the first chapter's instructions for using the editor and repository.
 3. **Show Solutions**: the main solution, alternatives, and relevant edge cases in one
    collapsed box. Show a signature-preserving refactor first; reserve API changes for alternatives.
    Keep the original caller-facing types in the first solution too.
+   Domain modeling is the exception: the first solution may redesign the API, with caller migration and updated tests explained.
    Use level-three subheadings within it.
    End the disclosure with **Trade-offs** under `### Trade-offs`, with any subheadings at level four or deeper.
    Compare named variants against an **Original** column, with the six criteria as rows and a short reason beside each score.
@@ -113,7 +114,7 @@ scoring problems.
 - **Starter listings:** `{{#include ../../../examples/NN_name.rs}}` from chapters
   under `book/src/part-*`.
 - **Canonical solution listings:** `{{#include ../../../solutions/NN_name.rs}}` from
-  the same location. These preserve the original function signatures.
+  the same location. These preserve the original function signatures except in domain modeling, where API redesign is part of the task.
   Keep API-changing versions in `_alt.rs` files, registered after the main solution in Cargo and shown afterward in the book and slides.
 - **Substantial alternative solutions** (e.g. the `Rooms` newtype, the
   `NonZeroU16` `parse_port`, the alternative `excluded_path` APIs,
@@ -348,7 +349,7 @@ v1 scope:
 
 **Diagrams:** tables everywhere they help; mermaid (~6–10 diagrams across
 the whole book, only where genuinely useful, e.g. state machines in ch. 21
-or type relationships in ch. 28). No hand-drawn illustrations. No
+or type relationships in ch. 29). No hand-drawn illustrations. No
 screenshots.
 
 ---
@@ -394,7 +395,7 @@ their structure. No separate format spec document.
 
 ### Phase 0, Scaffolding (~1 day)
 
-- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 27
+- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 29
   chapter entries (unwritten ones as plain text `- [Title]()`).
 - All part-intro stubs.
 - CI workflow (`cargo test --examples`, `mdbook test`, `mdbook build`,
@@ -426,9 +427,8 @@ their structure. No separate format spec document.
 - Go part-by-part so part intros can be tightened against the chapters
   they introduce.
 - Add real solution files for the remaining alternatives the TODO identifies
-  (`NonZeroU16` for ch. 11 and a lazy iterator for ch. 14). The `Rooms` newtype
-  for ch. 15 and alternative exclusion APIs for ch. 13 were completed with the
-  reference trio.
+  (`NonZeroU16` for ch. 11 and a lazy iterator for ch. 14). The `Rooms` newtype now has its own domain-modeling chapter (24), following the aggregation work in ch. 15.
+  Alternative exclusion APIs remain in ch. 13.
 
 ### Phase 4, Back matter (~3 days)
 

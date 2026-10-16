@@ -45,24 +45,14 @@ Notes:
 
 ---
 
-## 2. Exercise 15 · `room_occupancy`: also show the newtype solution
+## 2. Exercise 24 · `rooms`: standalone domain-modeling exercise (done)
 
-Currently the solution slide only shows the four iterator-chain helpers.
-Add a second solution slide showing a `Rooms` newtype:
-
-```rust
-pub struct Rooms(Vec<RoomOccupancy>);
-
-impl Rooms {
-    pub fn adults_total(&self) -> i32 { ... }
-    pub fn children_total(&self) -> i32 { ... }
-    pub fn max_adults_in_a_room(&self) -> i32 { ... }
-    pub fn child_ages(&self) -> Vec<i32> { ... }
-}
-```
-
-Talking point: now the four helpers become methods on the type, and the
-caller can't accidentally pass an unrelated `&[RoomOccupancy]`.
+Moved the `Rooms` design from exercise 15 into `slides/pages/24_rooms.md`,
+using `solutions/24_rooms.rs` as the main solution.
+Exercise 15 keeps the iterator refactor; exercise 24 changes the API.
+The four helpers become methods that operate on the receiver's collection.
+Callers cannot pass a different slice to each method, but the constructor still
+accepts any `Vec<RoomOccupancy>`; the wrapper does not validate which rooms belong together.
 
 ---
 

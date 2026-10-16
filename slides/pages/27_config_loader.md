@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 26 · `Settings`
+# 27 · `Settings`
 
 <div class="opacity-80 mb-4">
 Make a settings type available to callers without exposing more than they need.
@@ -33,7 +33,7 @@ field makes the accessor redundant and commits the module to this representation
 
 ---
 
-# 26 · Review the public surface
+# 27 · Review the public surface
 
 - Callers need to construct `Settings` and read the port. Do they need direct field access?
 - What future changes become breaking changes once the field is public?
@@ -50,7 +50,7 @@ layout: default
 zoom: 0.85
 ---
 
-# 26 · `config_loader`
+# 27 · `config_loader`
 
 <div class="opacity-80 mb-4">
 Read configuration values out of a <code>HashMap&lt;String, String&gt;</code>.
@@ -82,7 +82,7 @@ pub fn get_max_connections(config: &HashMap<String, String>) -> u32 {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 26_config_loader</code>
+<code>cargo test --example 27_config_loader</code>
 </div>
 
 <!--
@@ -97,7 +97,7 @@ Discoveries:
 
 ---
 
-# 26 · Review
+# 27 · Review
 
 - Each getter re-parses the same map. Should this happen once, or per call?
 - <code>"banana"</code> for <code>MAX_CONNECTIONS</code> silently becomes <code>100</code>. Is that what an operator wants?
@@ -112,7 +112,7 @@ Hint: you can <code>impl TryFrom&lt;&HashMap&lt;String, String&gt;&gt; for Setti
 zoom: 0.75
 ---
 
-# 26 · Possible solution
+# 27 · Possible solution
 
 ```rust
 use std::collections::HashMap;
@@ -141,7 +141,7 @@ The getters keep their signatures and fallback policy without temporary default 
 
 ---
 
-# 26 · Alternative: private representation
+# 27 · Alternative: private representation
 
 ```rust
 pub mod settings {
@@ -172,7 +172,7 @@ pub mod settings {
 zoom: 0.75
 ---
 
-# 26 · Alternative: typed settings
+# 27 · Alternative: typed settings
 
 ```rust
 pub mod settings {
@@ -209,7 +209,7 @@ The type and its operations are public. Its representation remains private.
 zoom: 0.72
 ---
 
-# 26 · Alternative: parse at the boundary
+# 27 · Alternative: parse at the boundary
 
 ```rust
 #[derive(Debug)]
