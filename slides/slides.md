@@ -171,7 +171,7 @@ The idioms that show up in almost every Rust file.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 05–10
+Exercises 05–11
 </div>
 
 ---
@@ -191,11 +191,15 @@ src: ./pages/08_parse_ints.md
 ---
 
 ---
-src: ./pages/09_error_handling.md
+src: ./pages/09_floor.md
 ---
 
 ---
-src: ./pages/10_parse_port.md
+src: ./pages/10_error_handling.md
+---
+
+---
+src: ./pages/11_parse_port.md
 ---
 
 ---
@@ -213,31 +217,31 @@ For-loops with accumulators become iterator chains.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 11–16
+Exercises 12–17
 </div>
 
 ---
-src: ./pages/11_dedup_runs.md
+src: ./pages/12_dedup_runs.md
 ---
 
 ---
-src: ./pages/12_excluded_path.md
+src: ./pages/13_excluded_path.md
 ---
 
 ---
-src: ./pages/13_spell_check.md
+src: ./pages/14_spell_check.md
 ---
 
 ---
-src: ./pages/14_room_occupancy.md
+src: ./pages/15_room_occupancy.md
 ---
 
 ---
-src: ./pages/15_text_stats.md
+src: ./pages/16_text_stats.md
 ---
 
 ---
-src: ./pages/16_mode.md
+src: ./pages/17_mode.md
 ---
 
 ---
@@ -255,31 +259,31 @@ Reach for the standard library before hand-rolling a loop.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 17–22
+Exercises 18–23
 </div>
 
 ---
-src: ./pages/17_trim_log_line.md
+src: ./pages/18_trim_log_line.md
 ---
 
 ---
-src: ./pages/18_parse_srt_timestamp.md
+src: ./pages/19_parse_srt_timestamp.md
 ---
 
 ---
-src: ./pages/19_iterators.md
+src: ./pages/20_iterators.md
 ---
 
 ---
-src: ./pages/20_transformer.md
+src: ./pages/21_transformer.md
 ---
 
 ---
-src: ./pages/21_fun_strings_ext.md
+src: ./pages/22_fun_strings_ext.md
 ---
 
 ---
-src: ./pages/22_quicksort.md
+src: ./pages/23_quicksort.md
 ---
 
 ---
@@ -297,19 +301,19 @@ The fun part. We delete code by changing types.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 23–25
+Exercises 24–26
 </div>
 
 ---
-src: ./pages/23_iban_prefix_check.md
+src: ./pages/24_iban_prefix_check.md
 ---
 
 ---
-src: ./pages/24_http_response_router.md
+src: ./pages/25_http_response_router.md
 ---
 
 ---
-src: ./pages/25_config_loader.md
+src: ./pages/26_config_loader.md
 ---
 
 ---
@@ -327,15 +331,15 @@ Lastly, two larger bonus problems.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 26–27
+Exercises 27–28
 </div>
 
 ---
-src: ./pages/26_env_file_parser.md
+src: ./pages/27_env_file_parser.md
 ---
 
 ---
-src: ./pages/27_mini_redis.md
+src: ./pages/28_mini_redis.md
 ---
 
 ---

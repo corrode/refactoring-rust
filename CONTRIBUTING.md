@@ -53,7 +53,7 @@ use the issue templates at
 `.github/ISSUE_TEMPLATE/` — they correspond to the kinds of feedback
 that genuinely help:
 
-- **Suggest a Review question** — a question a thoughtful reviewer
+- **Suggest a Discussion question** — a question a thoughtful reviewer
   would ask on a chapter that we missed.
 - **Suggest a Trade-off** — an axis or consideration we didn't score.
 - **Suggest an Edge case** — production concerns that aren't covered.

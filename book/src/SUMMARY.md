@@ -23,41 +23,42 @@
   - [06 · nesting](part-2-option-result/06-nesting.md)
   - [07 · optional_values](part-2-option-result/07-optional-values.md)
   - [08 · parse_ints](part-2-option-result/08-parse-ints.md)
-  - [09 · error_handling](part-2-option-result/09-error-handling.md)
-  - [10 · parse_port](part-2-option-result/10-parse-port.md)
+  - [09 · floor](part-2-option-result/09-floor.md)
+  - [10 · error_handling](part-2-option-result/10-error-handling.md)
+  - [11 · parse_port](part-2-option-result/11-parse-port.md)
 
 # Part III. Aggregations & counting
 
 - [Overview](part-3-aggregations/README.md)
-  - [11 · dedup_runs (bonus)](part-3-aggregations/11-dedup-runs.md)
-  - [12 · excluded_path](part-3-aggregations/12-excluded-path.md)
-  - [13 · spell_check](part-3-aggregations/13-spell-check.md)
-  - [14 · room_occupancy](part-3-aggregations/14-room-occupancy.md)
-  - [15 · text_stats](part-3-aggregations/15-text-stats.md)
-  - [16 · mode](part-3-aggregations/16-mode.md)
+  - [12 · dedup_runs (bonus)](part-3-aggregations/12-dedup-runs.md)
+  - [13 · excluded_path](part-3-aggregations/13-excluded-path.md)
+  - [14 · spell_check](part-3-aggregations/14-spell-check.md)
+  - [15 · room_occupancy](part-3-aggregations/15-room-occupancy.md)
+  - [16 · text_stats](part-3-aggregations/16-text-stats.md)
+  - [17 · mode](part-3-aggregations/17-mode.md)
 
 # Part IV. Strings, parsing & iterators
 
 - [Overview](part-4-strings-parsing/README.md)
-  - [17 · trim_log_line](part-4-strings-parsing/17-trim-log-line.md)
-  - [18 · parse_srt_timestamp](part-4-strings-parsing/18-parse-srt-timestamp.md)
-  - [19 · iterators](part-4-strings-parsing/19-iterators.md)
-  - [20 · transformer](part-4-strings-parsing/20-transformer.md)
-  - [21 · fun_strings_ext](part-4-strings-parsing/21-fun-strings-ext.md)
-  - [22 · quicksort (bonus)](part-4-strings-parsing/22-quicksort.md)
+  - [18 · trim_log_line](part-4-strings-parsing/18-trim-log-line.md)
+  - [19 · parse_srt_timestamp](part-4-strings-parsing/19-parse-srt-timestamp.md)
+  - [20 · iterators](part-4-strings-parsing/20-iterators.md)
+  - [21 · transformer](part-4-strings-parsing/21-transformer.md)
+  - [22 · fun_strings_ext](part-4-strings-parsing/22-fun-strings-ext.md)
+  - [23 · quicksort (bonus)](part-4-strings-parsing/23-quicksort.md)
 
 # Part V. Domain modeling
 
 - [Overview](part-5-domain-modeling/README.md)
-  - [23 · iban_prefix_check](part-5-domain-modeling/23-iban-prefix-check.md)
-  - [24 · http_response_router](part-5-domain-modeling/24-http-response-router.md)
-  - [25 · config_loader](part-5-domain-modeling/25-config-loader.md)
+  - [24 · iban_prefix_check](part-5-domain-modeling/24-iban-prefix-check.md)
+  - [25 · http_response_router](part-5-domain-modeling/25-http-response-router.md)
+  - [26 · config_loader](part-5-domain-modeling/26-config-loader.md)
 
 # Part VI. Capstone
 
 - [Overview](part-6-capstone/README.md)
-  - [26 · env_file_parser](part-6-capstone/26-env-file-parser.md)
-  - [27 · mini_redis](part-6-capstone/27-mini-redis.md)
+  - [27 · env_file_parser](part-6-capstone/27-env-file-parser.md)
+  - [28 · mini_redis](part-6-capstone/28-mini-redis.md)
 
 ---
 

@@ -1,12 +1,11 @@
 # Part I. Warm-ups
 
-These four reviews fit in your head, which is exactly why they are useful. With little
-code to track, you can pay attention to the review itself: read the contract, notice what
-the code demands from its callers, account for the cost of each change, and ask which
-cases the tests don't cover. The shortest function isn't the goal. The implementation
-and its interface should say what the code actually does.
+These four exercises cover borrowing, `Option`, nested patterns, lazy iterators, and
+UTF-8 boundaries. Each starts with a small function and its tests. Check what the
+function does, what it requires from callers, and which cases the tests cover before
+changing the implementation.
 
-We begin with borrowing and `Option`, then continue with nested patterns and lazy
-iterators. The last warm-up contains a UTF-8 boundary bug even though its tests pass.
-Part II applies the same habits to fallible code, where the information preserved by an
-error becomes part of the contract.
+The first two exercises simplify code without changing its results. The third changes
+a return type from `Vec` to an iterator, which also requires changes to callers. The
+fourth fixes a UTF-8 boundary panic that the existing tests miss. Part II continues with
+fallible code and the information callers need when an operation fails.

@@ -1,19 +1,24 @@
-# 01 · `starts_with_uppercase`
+# `starts_with_uppercase`
 
-## The problem
+Here's a function that checks whether a string starts with an uppercase letter.
+It works, but it could be prettier.
 
-This function asks one small question: does the string begin with an uppercase
-character? Before it can answer, though, it takes ownership of the string, checks for
-empty input itself, pulls a character from an iterator, and routes a boolean through
-another branch. Each step works. Together, they make the code harder to read and ask
-more from callers than the predicate needs.
 
-## Starter code
+A bunch of notes before we get started:
 
-> **EXERCISE**
->
-> Imagine this function appears in a pull request. Review it against the tests, which
-> define the current contract for empty input and for a non-ASCII uppercase letter.
+- You can click the "Run" button to run the tests.
+- Try to refactor it while preserving its behaviour. That means, don't change
+  the function signature or return value.
+- If you like, you can also use your own development environment to run the
+  tests and refactor the code. To do so, clone the repository and run the tests
+  with `cargo test --example 01_starts_with_uppercase`.
+- Once you're happy with your solution, take a look at the discussion and
+  solution sections for some ideas on how to improve it further.
+
+That's it. Good luck!
+
+## Code to refactor
+
 
 ```rust,editable
 {{#include ../../../examples/01_starts_with_uppercase.rs:listing}}
@@ -27,47 +32,30 @@ more from callers than the predicate needs.
 {{#include ../../../solutions/01_starts_with_uppercase.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests. Then refactor `examples/01_starts_with_uppercase.rs` while
-> preserving its behaviour:
->
-> ```sh
-> cargo test --example 01_starts_with_uppercase
-> ```
->
-> Stop at the version you would approve in a code review.
+## Discussion
 
-## Review
-
-> **REVIEW**
+> **A FEW THINGS TO THINK ABOUT** 
 >
-> - Does answering this question require ownership of the string?
-> - Is `chars().nth(0)` the clearest way to request the first character?
-> - What makes the `unwrap` safe, and can the iterator's return type carry the empty
->   case instead?
+> - Do we need to own the string to check its first character?
+> - Is there another way to get the first character than `chars().nth(0)`?
+> - Is the `unwrap` safe? Do we need it? 
 > - Does comparing a boolean with `true` add information?
-> - What result belongs to `""`?
+> - What should be the return value for an empty string?
 
-The first source of friction is the signature. The function only reads `s`; it neither
-stores nor changes it. Accepting a `String` still transfers ownership, which forces a
-caller that needs the string afterward to clone it or reorganize its code. A borrowed
-`&str` states the narrower requirement: read access to text.
+The function only reads the input; it does not changes it.
+Taking a `String` transfers ownership, so a caller that needs the string afterward must clone it or change its code.
+A borrowed `&str` is enough for read access.
 
-The empty-string check and the `unwrap` are also two halves of the same operation.
-`s.len() == 0` establishes that a character exists before `unwrap` depends on that fact
-a few lines later. The reasoning is valid, but it is spread across a branch and a method
-that can panic. `chars().next()` keeps the cases together in an `Option<char>`: `None`
-for an empty string, `Some` for its first Unicode scalar value.
+What makes `unwrap` safe is the early return for `s.len() == 0`. 
+A nonempty UTF-8 string has at least one character.
+Using `chars().next()` and handling its `Option<char>` avoids the `unwrap`.
+The result is `None` for an empty string and `Some` for its first Unicode scalar value.
 
-Finally, `first.is_uppercase()` already produces the result. Sending that boolean
-through another `if` changes nothing, so returning it directly leaves less control flow
-to inspect.
+`first.is_uppercase()` already returns a boolean. Comparing it with `true` and then
+returning `true` or `false` from an `if` is unnecessary.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/01_starts_with_uppercase.rs:listing}}
@@ -90,13 +78,10 @@ For empty input, `next()` returns `None` and `is_some_and` returns `false`. Othe
 the predicate receives the first `char`. `Option` now carries both cases, so the code no
 longer needs a separate branch or an `unwrap`.
 
-The Unicode test guards a detail that a shorter refactor could still get wrong. Byte
-indexing looks tempting here, but the first byte of `"Über"` is not the character `Ü`.
-Walking through `char` values preserves the behaviour covered by the test.
+The Unicode test checks that `"Über"` returns `true`. Its first byte is not the
+character `Ü`, so inspecting a `char` rather than a byte preserves this behaviour.
 
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 `str::starts_with` can take a character predicate, so this version expresses the same
 contract even more directly:
@@ -107,58 +92,31 @@ pub fn starts_with_uppercase(s: &str) -> bool {
 }
 ```
 
-That reads well if your team knows the predicate form of `starts_with`. At this point in
-the book, I prefer `chars().next().is_some_and(...)` because it keeps the intermediate
-`Option` visible. You can see exactly why empty input becomes `false`. This is a teaching
-preference, not a correctness claim. Both versions satisfy the contract.
+Both versions satisfy the contract. The `chars().next().is_some_and(...)` version
+shows the intermediate `Option` and how it handles empty input. The `starts_with`
+version is shorter, but its predicate form may be less familiar.
+
+</details>
 
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> The scores compare the possible solution with the starter. Other valid
-> implementations don't change that comparison.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | Both versions accept arbitrary string content and return a `bool`; the refactor adds no type-level invariant. |
-| Readability | wins | The body follows the question in order: get the first character, then test it. Two branches and a repeated boolean disappear. |
-| API design | wins | `&str` says that the function reads the input without taking ownership. |
-| Performance | wins | A caller can borrow text instead of allocating or cloning a `String`; inspecting the first character remains constant time in both versions. |
-| Flexibility | wins | The borrowed parameter accepts string slices and borrowed `String` values, whereas the starter requires an owned `String`. |
-| Error reporting | N/A | Under this contract, empty input is an ordinary `false` result, so neither version has an error to report. |
+| Criterion | Original | `is_some_and` | `starts_with` predicate |
+|---|---|---|---|
+| Type-safety | Arbitrary text; boolean result | = No new type-level invariant | = No new type-level invariant |
+| Readability | Explicit branches; redundant boolean checks | + Fewer branches, if combinators familiar | + Direct question, if predicate form familiar |
+| API design | Takes ownership for read-only check | + Borrows read-only input | + Borrows read-only input |
+| Performance | Ownership may require caller copies | + Avoids copies when borrowing suffices | + Avoids copies when borrowing suffices |
+| Flexibility | Requires owned `String` | + Accepts slices and borrowed strings | + Accepts slices and borrowed strings |
+| Error reporting | Empty input returns `false` | N/A | N/A |
 
-The real cost is familiarity. `is_some_and` replaces a branch with a method that some
-teams won't recognize yet. I think the trade is worthwhile here because the name states
-the condition and the tests settle the empty-input case. If the chain slows your team
-down, matching on `s.chars().next()` is an equally sound refactor.
-
-## Quiz
-
-### 1. Which signature best fits a read-only predicate?
-
-Consider these options:
-
-```rust,ignore
-fn starts_with_uppercase(s: String) -> bool
-fn starts_with_uppercase(s: &String) -> bool
-fn starts_with_uppercase(s: &str) -> bool
-```
-
-*Answer:* `&str`. It accepts slices and borrowed `String` values without requiring
-ownership or tying the function to one owned string container.
-
-### 2. Should a review insist on the one-line solution?
-
-*Answer:* Insist on fixing needless ownership when it creates work for real callers.
-Treat the exact body as a recommendation. A direct `match` preserves the same contract
-without `is_some_and`, and a team's familiarity changes what is easiest to read.
-
-### 3. A teammate suggests `s.as_bytes()[0].is_ascii_uppercase()`. What would change?
-
-*Answer:* It can panic on an empty string, and it replaces Unicode uppercase characters
-with ASCII uppercase bytes as the contract. The existing tests catch both correctness
-regressions. This is not a matter of style.
+All three inspect only the first Unicode scalar value. Borrowing avoids a clone when
+callers need to keep their string, not a measured cost in the character check itself.
+If `is_some_and` is unfamiliar, an explicit `match` on `s.chars().next()` remains an
+option; the `starts_with` predicate form also needs familiarity. Empty input is an
+ordinary `false`, not an error.
 
 ## Follow-up questions
 
@@ -170,7 +128,7 @@ regressions. This is not a matter of style.
 > - For small `Option` checks, does your team find an explicit `match` or a combinator
 >   such as `is_some_and` easier to review? What makes the difference?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

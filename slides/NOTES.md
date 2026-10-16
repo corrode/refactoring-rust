@@ -187,7 +187,7 @@ slidev --port 4000
 - Section dividers between phases give a natural breakpoint to look at
   the clock.
 - File numbering matches `examples/NN_name.rs` exactly, so saying
-  "exercise 16" works for both the deck and the codebase.
+  "exercise 17" works for both the deck and the codebase.
 
 ## Things to add later
 

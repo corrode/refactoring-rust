@@ -1,4 +1,4 @@
-name: Suggest a Review question
+name: Suggest a Discussion question
 description: A question a thoughtful reviewer would ask on a chapter that we missed.
 title: "[review] ch. NN: <one-line summary>"
 labels: ["review", "book"]
@@ -14,7 +14,7 @@ body:
     id: question
     attributes:
       label: Your suggested question
-      description: Write it as you would in the Review callout.
+      description: Write it as you would in the Discussion callout.
     validations:
       required: true
   - type: textarea

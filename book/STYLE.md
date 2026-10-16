@@ -1,7 +1,7 @@
 # Writing style for Refactoring Rust
 
 > **Status:** living document. Established from the reference trio
-> (chapters 01, 14, 12) and updated as the book grows.
+> (chapters 01, 15, 13) and updated as the book grows.
 > See `book/PLAN.md` §7 for the rationale.
 
 ## Voice
@@ -21,6 +21,11 @@
 
 ## Tone
 
+- Keep explanations matter-of-fact. Start with what the function does, what needs
+  changing, and why. Don't invent a colleague, review meeting, or cleanup ticket to
+  introduce an exercise.
+- Use simple words and direct explanations. Keep examples that explain the code;
+  cut stories, metaphors, and repeated summaries that don't help explain it.
 - Allowed, and encouraged, to disagree with Clippy, the canonical
   solution, the previous chapter, or your past self. **Required** to
   flag when you do, and why.
@@ -71,58 +76,59 @@
 
 ## Structure
 
-Every chapter follows the 8-section spine from `PLAN.md` §3:
+Use `src/part-1-warmups/01-starts-with-uppercase.md` as the format reference.
+The chapter title is the exercise name in backticks, without its number. Keep
+exercise numbers in filenames, commands, and the table of contents.
 
-1. The problem
-2. Starter code
-3. Review
-4. A possible solution
-5. Trade-offs (six fixed axes; same order every time)
-6. Quiz
-7. Follow-up questions
-8. Concepts recap
+Start with a short introduction that states the task and any constraints. Adapt it
+to the exercise: don't repeat the first chapter's Run-button instructions, cloning
+instructions, or encouragement. Include the local test command where useful.
+There is no separate “The problem” heading or EXERCISE / TRY THIS callout.
 
-Optional, included only when there's something real to say:
+Do not identify the bug, name the refactor, or supply a failing input in the
+introduction. Put those discoveries in Discussion or an optional hint. State
+whether API changes are allowed; preserving results does not necessarily mean
+preserving the signature. Don't promise that code works when the task includes
+finding and fixing a bug.
 
-- Alternative approaches
-- Edge cases & production concerns
-- Further reading
+Use this section order:
 
-## Spine sections as callouts
+1. Code to refactor: editable listing followed by its hidden test scripts.
+2. Discussion: a DISCUSSION callout, followed by explanations.
+3. Solutions: one collapsed box with implementations and explanations.
+4. Trade-offs: comparison matrices with an **Original** baseline column.
+5. Follow-up questions: a FOLLOW-UP callout.
+6. Important Concepts: a CONCEPT callout.
 
-Prompt-oriented spine sections open with a labelled blockquote. Use badges for
-*Starter code*, *Review*, *Trade-offs*, *Follow-up questions*, and *Concepts recap*.
-*A possible solution* and *Quiz* do not need badges because their headings already
-name the content. The CSS in `theme/css/corrode.css` styles the leading `**LABEL**`
-as a small-caps badge.
+Keep alternatives and relevant edge cases inside Solutions as level-three
+subheadings. Preserve useful caveats rather than deleting them to fit the format.
+Unwritten chapters remain marked as drafts; do not add empty sections or invented
+content just to fill the template. A quiz remains optional under the rules below.
 
-```markdown
-> **REVIEW**
->
-> - Does the function need to own the string?
-> - What does `chars().nth(0)` do, and is there a more direct way?
-```
+## Callouts
 
-Standard labels:
+Use these labels where the reference chapter uses them:
 
-- `EXERCISE`: wraps the starter listing
-- `REVIEW`: the questions a thoughtful reviewer would ask
-- `TRY THIS`: an inline call to action
-- `TRADE-OFF`: the per-chapter scoring section
-- `EDGE CASE`: production concerns
-- `FOLLOW-UP`: open-ended prompts
-- `CONCEPT`: concepts recap entries
+- `DISCUSSION`: questions about the code and refactoring choices.
+- `FOLLOW-UP`: questions for further work or team discussion.
+- `CONCEPT`: important concepts and links.
+
+Code to refactor and Trade-offs do not need a callout repeating the heading.
+Within Solutions, an EDGE CASE callout can draw attention to a constraint.
 
 ## Hidden solutions
 
-Keep each canonical solution and its walkthrough collapsed by default. Readers should
-have a clear chance to try the exercise before seeing an answer. Use this form:
+Keep the main solution, alternative implementations, and their explanations together
+in one disclosure, collapsed by default. Use subheadings to distinguish approaches
+inside it; do not nest another disclosure for each alternative. Readers should
+have a clear chance to try the exercise before seeing an answer. Put the heading inside
+the summary so it serves as the disclosure control without a repeated label. The
+`solution` class adds a tinted box, and the decorative icon is hidden from screen
+readers. Do not add a separate Markdown heading above it. Use this form:
 
 ````markdown
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/NN_name.rs:listing}}
@@ -137,7 +143,8 @@ Walk through the code here.
 </details>
 ````
 
-Leave *Alternative approaches*, *Edge cases and production concerns*, *Trade-offs*,
+Put *Alternative approaches* inside the disclosure, under a level-three heading.
+Put relevant *Edge cases and production concerns* inside it too. Leave *Trade-offs*,
 *Quiz*, and later sections outside the disclosure. The native `details` element keeps
 the summary keyboard accessible, and mdBook still renders included code as a Playground
 block.
@@ -169,29 +176,44 @@ block.
 
 ## Cross-references
 
-- Link Concepts recap entries to the appendix Cheatsheet with
+- Link Important Concepts entries to the appendix Cheatsheet with
   `[newtype](../appendix/concept-index.md#newtype)` style anchors.
 - Link forward and backward between chapters generously
-  (`see [ch. 12](../part-3-aggregations/12-excluded-path.md)`). The
+  (`see [ch. 13](../part-3-aggregations/13-excluded-path.md)`). The
   book is a graph, not a list.
 
-## Trade-off scoring vocabulary
+## Trade-off comparisons
 
-In the *Trade-offs* section, score the canonical solution against each
-of the six axes with one of:
+Compare the original and the implementations shown in Solutions side by side.
+Use the six criteria as rows, in their usual order, and name each implementation
+in a column heading. The original column describes the baseline; other cells give
+a relative score and a short reason:
 
-- **wins**: solution improves this axis vs. the starter
-- **loses**: solution regresses this axis
-- **neutral**: no meaningful change
-- **N/A**: axis doesn't apply (use sparingly; usually means we should
-  reconsider whether the axis really doesn't apply)
+- **+**: advantage over the original.
+- **=**: comparable on this criterion.
+- **−**: disadvantage relative to the original.
+- **N/A**: the criterion does not apply.
 
-Include a one-sentence justification rather than only the label.
+Keep the reason in the cell so the comparison stands on its own. Avoid sentences
+that make the table hard to scan. Use short phrases such as “+ Borrows input” or
+“= Same error type,” rather than a score with no explanation.
+
+Include a brief legend. Readability depends on familiarity; performance claims
+must name the affected work, not assume a speed-up. Do not rate different contracts
+as interchangeable. Explain any required qualifications below the table.
+
+Split wide comparisons into smaller tables with the original baseline repeated.
+Use separate tables for functions with different requirements. Do not combine their
+scores or calculate an overall winner.
 
 ## Quizzes
 
-- 2–4 questions per chapter, placed between *Trade-offs* and
-  *Follow-up questions*.
+- Optional. Include a quiz only when it adds a new application or decision.
+  Omit the heading and section when no question earns its place.
+- Remove questions answered by repeating the preceding explanation, obvious
+  yes/no questions, and generic questions about team preferences.
+- There is no minimum question count. Put any retained questions between
+  *Trade-offs* and *Follow-up questions*.
 - **Judgement** style, not recall. See `PLAN.md` §13.
 - Never "what does this print" unless the surprise is the point.
 - Until the quiz plugin is chosen, use numbered `###` question headings followed by

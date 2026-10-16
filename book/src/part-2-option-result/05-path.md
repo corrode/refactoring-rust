@@ -1,20 +1,12 @@
-# 05 · `path`
+# `path`
 
-## The problem
+This function checks whether a path has the extension `rs`. Refactor it while
+preserving its behaviour: keep the check lexical and case-sensitive, including the
+existing results for paths without an extension and for dotfiles.
 
-A source-file classifier has a narrow job: inspect a `Path` and decide whether its
-extension is exactly `"rs"`. The starter makes that job look larger by nesting two
-`Option` checks, one for a missing extension and one for an extension that is not valid
-UTF-8. The second check does not help with exact equality. Rust can compare an `OsStr`
-directly with a string literal.
+Run the local tests with `cargo test --example 05_path`.
 
-## Starter code
-
-> **EXERCISE**
->
-> Read the nested matches alongside the tests. Keep the check lexical and case-sensitive,
-> including the existing results for a path without an extension and for the dotfile
-> `.rs`.
+## Code to refactor
 
 ```rust,editable
 {{#include ../../../examples/05_path.rs:listing}}
@@ -28,21 +20,10 @@ directly with a string literal.
 {{#include ../../../solutions/05_path.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests, then refactor `examples/05_path.rs` without changing its
-> behaviour:
->
-> ```sh
-> cargo test --example 05_path
-> ```
->
-> Express the actual question, “does an extension exist, and is it equal to `rs`?”,
-> without first converting the extension to UTF-8 text.
 
-## Review
+## Discussion
 
-> **REVIEW**
+> **DISCUSSION**
 >
 > - Why does `Path::extension` return `Option<&OsStr>` instead of `Option<&str>`?
 > - Which additional absence case appears when the code calls `OsStr::to_str`?
@@ -51,30 +32,23 @@ directly with a string literal.
 > - Why is `.rs` false while `main.rs` is true?
 > - Is the function looking at the filesystem, or only at the path value?
 
-Follow the values through the starter. `Path::extension` returns `None` when the final
+`Path::extension` returns `None` when the final
 path component has no extension. If an extension exists, the method returns `&OsStr`
 because platform paths are not guaranteed to be valid UTF-8. Calling `to_str` adds a
 second `Option`: the extension is present, but a non-UTF-8 value cannot become `&str`.
 
-Both absence cases end at `false`. No extension means no match. An extension that cannot
-be represented as `&str` also cannot equal the UTF-8 literal `"rs"`. The nested matches
-implement that rule correctly, but they ask you to follow two branches to the same
-answer.
+Both `None` branches return `false`: a missing extension cannot match, and a non-UTF-8
+extension cannot equal `"rs"`.
 
-The conversion is extra work and extra control flow. `OsStr` supports direct comparison
-with `str`, so `ext == "rs"` performs the same exact check while keeping the path data in
-its platform-native representation. It allocates no `String` and needs no separate
-branch for UTF-8 validity.
+`OsStr` supports direct comparison with `str`, so `ext == "rs"` performs the same check
+without a separate UTF-8 validity branch. Neither version allocates a `String`.
 
-One test catches an easy assumption about filenames: a leading dot by itself does not
-create an extension. `Path` treats the final component `.rs` as a file stem with no
-extension. This is a lexical property of the `Path`; the function never touches the
-filesystem.
+The `.rs` test checks that a leading dot alone does not create an extension. `Path`
+treats `.rs` as a file stem with no extension. The function checks path syntax without
+accessing the filesystem.
 
-## A possible solution
-
-<details>
-<summary>Show a possible solution</summary>
+<details class="solution" id="solutions">
+<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/05_path.rs:listing}}
@@ -84,25 +58,16 @@ filesystem.
 {{#include ../../../solutions/05_path.rs:tests}}
 </script>
 
-The function now states the two parts of its decision directly:
-
-1. Did `path.extension()` find an extension?
-2. If so, does that extension equal `"rs"`?
 
 `Option::is_some_and` returns `false` for `None`. For `Some(ext)`, it runs the predicate
 and returns that result. One expression therefore covers both outer branches from the
 starter.
 
-Inside the closure, `&OsStr` is compared with the literal without an intermediate
-conversion. A non-UTF-8 extension remains a non-match, but every present extension no
-longer has to pass through `to_str` before the function can decide.
+The closure compares `&OsStr` directly with `"rs"`. A non-UTF-8 extension still returns
+`false`. The tested results are unchanged: `main.rs` and `src/lib.rs` match;
+`Cargo.toml`, `README`, and `.rs` do not.
 
-The tests still describe path syntax, not filesystem state. `main.rs` and `src/lib.rs`
-match. `Cargo.toml` and `README` do not. Under `Path`'s rules, `.rs` has no extension.
-
-</details>
-
-## Alternative approaches
+### Alternative approaches
 
 The solution file also includes `map_or`, which is just as valid here:
 
@@ -113,11 +78,10 @@ pub fn is_rust_source_file(path: &Path) -> bool {
 }
 ```
 
-`map_or(false, predicate)` reads as “return `false` when absent, otherwise map the
-extension to a boolean.” `is_some_and(predicate)` reads as “the value is present and
-passes this predicate.” I prefer `is_some_and` for a predicate because the method name
-matches the question being asked. `map_or` is still a good choice if your team already
-uses it consistently or supports a Rust version that predates `is_some_and`.
+`map_or(false, predicate)` returns `false` for `None` and applies the predicate to
+`Some`. `is_some_and` expresses this presence-and-predicate check directly. Use
+`map_or` if your team finds it clearer or supports a Rust version that predates
+`is_some_and`.
 
 An explicit `match` is sound too:
 
@@ -134,7 +98,7 @@ pub fn is_rust_source_file(path: &Path) -> bool {
 This version removes the UTF-8 conversion but leaves the two cases in view. Choosing
 between it and `is_some_and` is mostly about which form your team reads faster.
 
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -156,54 +120,24 @@ a yes-or-no classifier. If the caller must tell “not Rust” apart from “the
 cannot be represented as UTF-8,” a `bool` is too small. The function needs a richer
 return type and an explicit encoding policy.
 
+</details>
+
 ## Trade-offs
 
-> **TRADE-OFF**
->
-> These scores compare the canonical `is_some_and` implementation with the starter.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
-|---|---|---|
-| Type-safety | neutral | Both versions take `&Path` and return `bool`; neither establishes a new invariant or promises anything about the filesystem. |
-| Readability | wins | One predicate replaces two nested matches whose failure branches both return `false`. |
-| API design | neutral | The signature is unchanged, so a caller still cannot learn why a path failed to match. |
-| Performance | neutral | Neither version allocates, and both do work proportional to the short extension; skipping UTF-8 validation is not a meaningful speed-up here. |
-| Flexibility | neutral | Both versions keep the same exact, case-sensitive extension policy. |
-| Error reporting | neutral | Missing, different, and non-UTF-8 extensions all remain `false`. |
+| Criterion | Original | `is_some_and` | `map_or(false, …)` | Explicit `match` on extension |
+|---|---|---|---|---|
+| Type-safety | No filesystem guarantees | = No filesystem guarantees | = No filesystem guarantees | = No filesystem guarantees |
+| Readability | Two nested absence checks | + One presence-and-predicate expression | + Explicit default, no nesting | + Two cases, no nesting |
+| API design | `&Path` → `bool` | = Same borrowed predicate | = Same borrowed predicate | = Same borrowed predicate |
+| Performance | No allocation; validates UTF-8 | = No allocation; skips UTF-8 validation | = No allocation; skips UTF-8 validation | = No allocation; skips UTF-8 validation |
+| Flexibility | Exact, case-sensitive extension check | = Same matching policy | = Same matching policy | = Same matching policy |
+| Error reporting | All non-matches become `false` | = No reason for non-match | = No reason for non-match | = No reason for non-match |
 
-The real cost is familiarity. Someone who has not met `is_some_and` may understand the
-explicit `match` sooner. I would still remove `to_str`, because it creates a case the
-comparison does not need. Turning the remaining two branches into a combinator is the
-smaller judgement call.
-
-## Quiz
-
-### 1. Should this predicate keep `to_str` because Rust source is UTF-8 text?
-
-*Answer:* No. This function never reads the source file; it only checks the extension.
-Comparing the `OsStr` with `"rs"` answers that question without requiring the entire path
-component to be valid UTF-8. Keep the conversion only when later work needs `&str` or
-when invalid encoding must be reported as its own outcome.
-
-### 2. A caller needs to accept both `.rs` and `.RS`. Is `eq_ignore_ascii_case` on `&str` the right next step?
-
-*Answer:* Not until you decide what a non-UTF-8 extension means. Converting with `to_str`
-makes ASCII-insensitive comparison possible, but it also creates a conversion-failure
-case. The policy or interface must say whether that case is an error or another
-non-match.
-
-### 3. Can a `true` result be used as proof that compilation can read a regular file?
-
-*Answer:* No. A true result says something only about path syntax. The path can be
-missing, can refer to a directory, or can become invalid before it is used. Filesystem
-checks require I/O and error handling, and even those checks cannot eliminate every
-race.
-
-### 4. Which implementation should a review require: `is_some_and`, `map_or`, or `match`?
-
-*Answer:* If the contract is exact extension equality, require the unnecessary UTF-8
-conversion to go. The remaining choice is about team readability. `is_some_and`,
-`map_or`, and `match` can all preserve the tested behaviour.
+Skipping UTF-8 validation is not a measured speed-up. `is_some_and` requires Rust 1.70;
+`map_or` and explicit `match` work on older versions.
 
 ## Follow-up questions
 
@@ -216,7 +150,7 @@ conversion to go. The remaining choice is about team readability. `is_some_and`,
 > - Would your team understand `is_some_and`, `map_or(false, ...)`, or an explicit `match`
 >   fastest?
 
-## Concepts recap
+## Important Concepts
 
 > **CONCEPT**
 >

@@ -1,32 +1,28 @@
 # The trade-off axes
 
-A refactor can look cleaner and still make the code worse for its callers. It
-can remove an allocation while hiding an error. It can prevent one invalid
-state while burdening every ordinary call with a new type. If a review only
-names the improvement, it hasn't finished the job.
+A refactor can improve one aspect of code and make another worse. It may
+remove an allocation but hide an error, or prevent an invalid state but add
+work for callers. Review both the benefits and the costs.
 
-Every chapter in this book therefore scores its canonical solution against the
-same six axes, in the same order, with the same vocabulary. The fixed rubric
-matters. If each example invents its own framing, every discussion can sound
-deep while teaching nothing reusable. By chapter 14, you'll have applied these
-questions thirteen times. The aim isn't to memorise our scores. It's to make the
-questions part of how you review code.
+Each exercise compares the original and solution variants against six criteria,
+called axes, in the same order. Each variant has its own column, with a score and
+a short reason for each criterion. Use them to compare implementations and explain
+your decisions. The scores are judgements to examine, not answers to memorise.
 
 ## The six axes
 
 ### 1. Type-safety
 
-> Does the invariant live in the type system, or do we rely on
+> Does the type system enforce the invariant, or does the code rely on
 > convention and runtime checks?
 
-This is the classic Rust win, and the axis we'll reach for most often. A
-function that takes a `NonZeroU16` can't receive zero through Rust's safe API.
+A function that takes a `NonZeroU16` can't receive zero through Rust's safe API.
 Construction checks a runtime value once, then the type carries that guarantee to every
 later call. A function that takes a `u16` and uses `assert!` can still be correct, but
 its caller has to inspect the implementation to learn about the restriction. Only the
 first version preserves the invariant in the type system.
 
-That move has a cost. You need to invent or find a type for the invariant, and
+This has a cost. You need to define or find a type for the invariant, and
 callers need to know how to construct it. If the condition is cheap to check at
 runtime and a new type would spread complexity through the API, a runtime check
 and a good test can be the better design. The book uses both approaches and
@@ -34,14 +30,12 @@ explains the choice each time.
 
 ### 2. Readability
 
-> Would a teammate reading this in six months understand it without
-> context, and how much context, exactly?
+> Can a teammate understand this code without knowing why it was written?
+> What other context do they need?
 
-"Readable" often means "familiar to me." That's too vague for a review. Picture
-an engineer who joins the team a year from now, has read the standard library
-docs once, and is debugging a production incident at 11pm. Can they understand
-the function by itself? Do they need its tests? Or do they have to read three
-modules before the code makes sense?
+Familiarity affects readability. Be specific about what makes the code easier
+or harder to understand. Can someone follow the function on its own, or do
+they need to read its tests and several related modules?
 
 The answer depends on the team. Engineers who use iterator chains every day may
 find `s.split_whitespace().filter_map(...).collect()` immediately clear. A team
@@ -49,9 +43,8 @@ that mostly writes loops may not. The axis still holds: a refactor changes how
 much context someone needs, and the review should say whether that amount went
 up or down.
 
-Clippy's lints often make readability suggestions for a typical Rust
-programmer. They're usually right. They're sometimes wrong, especially when a
-recommended pipeline would be clearer as two statements. This book follows
+Clippy's readability suggestions are useful, but a recommended iterator chain
+can be clearer as two statements. This book follows
 Clippy by default and marks the places where it disagrees. See
 [how to run a code review](how-to-run-a-code-review.md).
 
@@ -75,21 +68,15 @@ This axis covers:
 - **Return type.** Does the return type carry the right amount of information?
   Is it `Option` when it should be `Result`? Is it `Vec<T>` when it should be
   `impl Iterator<Item = T>`?
-- **Newtypes.** Do domain concepts have their own types, or are they smeared
-  into primitives?
-
-This axis tends to move more than any other across the book. A two-line
-signature change can make the next six improvements possible.
+- **Newtypes.** Do domain concepts have their own types, or do they use primitive
+  types that don't distinguish them?
 
 ### 4. Performance
 
-> What are the allocations, copies, branches, and asymptotic costs,
-> honestly?
+> What allocations, copies, branches, and asymptotic costs does this code have?
 
-We score performance even when it doesn't decide the refactor. Especially then.
-Naming the cost every time makes the rare hot path easier to recognise. A team
-that always waves away an allocation loses the habit of noticing when
-allocations become the bottleneck.
+Assess performance even when it doesn't decide the refactor. An allocation
+that is acceptable in an occasional call may be costly in a hot path.
 
 Within this book, performance usually means:
 
@@ -108,20 +95,17 @@ for the call sites we know about*.
 > How easy is this to extend, compose, or generalise when the
 > requirements change?
 
-This is the axis the canonical solution loses on most often. That's
-intentional. `fn count_words(s: &str) -> usize` is rigid in a useful way:
+A narrow interface can be useful. `fn count_words(s: &str) -> usize`
 it does one thing and is hard to misuse. Generalising it to `fn count<T, P:
 Fn(&T) -> bool>(items: &[T], pred: P) -> usize` improves flexibility, but the broader
 name, signature, and type parameters make the interface harder to understand and use.
 
-Rust makes premature abstraction tempting. A `Strategy` trait with one
-implementation, a generic parameter used with one type, or a trait object added
-in case the backend changes later all ask today's code to pay for a hypothetical
-future. Write the rigid version first. Generalise when a second concrete use
-case arrives.
+A `Strategy` trait with one implementation, a generic parameter used with one
+type, or a trait object added for a possible backend change can add complexity
+without a current need. Start with the specific version and generalise when
+another concrete use case justifies it.
 
-An honest score says when a solution gives up flexibility on purpose and why
-that restriction is useful.
+If a solution reduces flexibility, explain why that restriction is useful.
 
 ### 6. Error reporting
 
@@ -137,17 +121,14 @@ file. A CLI using that parser needs enough detail to print a useful message. An
 internal function with one call site, where failure can only be logged and
 ignored, can carry less.
 
-Error reporting deserves its own axis because it often degrades quietly. A
+Assess error reporting separately because a refactor can lose information. A
 function starts with an informative error type, then an intermediate layer adds
-`.map_err(|_| MyError::Generic)` because propagation is inconvenient. Repeat
-that a few times and the caller can no longer act on the error. Scoring this
-separately forces us to notice the loss.
+`.map_err(|_| MyError::Generic)` because propagation is inconvenient. The caller may then lack the information it needs to handle the error.
 
 ## A worked example
 
-Let's apply all six axes to a small refactor: a function that decides whether a
-string means "yes." The example is deliberately small so the scoring stays in
-focus.
+This function checks whether a string means "yes." Compare the starter and
+refactor using all six axes.
 
 The starter:
 
@@ -177,50 +158,38 @@ pub fn is_yes(s: &str) -> bool {
 }
 ```
 
-Scores are relative to the starter. The vocabulary is **wins / loses / neutral /
-N/A**, followed by a sentence that explains the judgement.
+Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+**N/A** not applicable. Readability depends on familiarity.
 
-| Axis | Score | Why |
+| Criterion | Original: owned input, exact comparisons | Borrowed input + ASCII lowercase |
 |---|---|---|
-| Type-safety | neutral | Both versions accept any `&str` / `String`. Neither encodes the "yes-ness" of the input in a type. We could, with a `Confirmation` enum and a `FromStr` impl, but for a CLI flag check that's overkill. |
-| Readability | wins | One line, one expression, no early returns. A reader sees the full set of accepted answers in one glance. |
-| API design | wins | `&str` is the natural type for a read-only check; `String` forced the caller to allocate or `.clone()` when they had only a borrow. |
-| Performance | loses | `to_ascii_lowercase` allocates a new `String` on every call. The starter does no allocation. For a CLI flag this is irrelevant; in a hot loop it would matter. |
-| Flexibility | loses | The refactor commits to ASCII-only case folding. If we later need general Unicode-aware matching, such as accepting `"SÍ"` as `"sí"`, we'd need another design. The starter is easy to extend with another exact spelling. |
-| Error reporting | N/A | Under this predicate's contract, every string has a `true` or `false` answer. There is no failure case to report. A parser that must distinguish "no" from "invalid input" would need another return type. |
+| Type-safety | Any string; boolean result | = No new type-level invariant |
+| Readability | Four separate branches | + One expression, if `matches!` familiar |
+| API design | Consumes `String` | + Borrows `&str` |
+| Performance | No internal allocation | − Allocates lowercase copy |
+| Flexibility | Can add arbitrary exact spellings | − Applies ASCII folding to every input |
+| Error reporting | Every input yields a boolean | N/A |
 
-Four details matter here:
+The borrowed parameter removes the need to give up ownership, but lowercasing adds
+an allocation inside the function. Whether this costs more overall depends on whether
+the caller would otherwise need to clone the input.
 
-1. **The refactor loses on two axes.** That's normal. If every refactor wins
-   everywhere, the scoring is too generous.
-2. **The losses aren't automatic deal-breakers.** For a CLI flag, the
-   allocation and ASCII restriction are acceptable. In a parser's hot loop,
-   with user input that may contain non-ASCII text, they aren't. That context
-   calls for another design.
-3. **The `N/A` is genuine.** This predicate has no failure case, so error reporting
-   does not apply. Still, check every `N/A`. It can reveal a question the code should
-   answer.
-4. **Clippy didn't decide the score.** It would suggest `matches!` and `&str`,
-   but it wouldn't warn about the allocation or the lost flexibility. The
-   rubric catches what the lint cannot.
+There is also a behavior change that the scores do not capture: the refactor accepts
+mixed-case inputs such as `"Yes"`, while the original does not. Confirm that this is
+intended before treating it as a replacement. Neither version reports invalid input
+separately from a negative answer.
 
-The next twenty-seven examples use the same method. The decisions get harder as
-the code grows, but the questions don't change.
+The exercises use the same questions for larger changes.
 
 ## On the limits of the rubric
 
-Six axes are enough for a useful shared vocabulary without pretending to cover
-every concern. Five missed important costs. Seven split concerns too finely. The
-reference chapters, 01, 14, and 12, didn't expose another axis the rubric kept
-avoiding, so the list stops here.
-
-Some chapters still need an extra question. Compile time is real. Binary size
-matters on embedded targets. Concurrency safety matters when a function lives
-behind an `Arc`. We discuss these concerns where they affect the decision, but
-scoring them in every chapter would dilute the signal.
+These six axes provide a common set of questions, but they don't cover every
+concern. Compile time, binary size on embedded targets, and concurrency safety
+may also affect a decision. Discuss these when they matter rather than adding
+a score to every chapter.
 
 > **CONCEPT**
 >
-> When the rubric can't settle a trade-off, ask: *what would change about the
-> team's life if we merged this version instead of the other one?* If the honest
-> answer is "nothing meaningful," pick the simpler version and move on.
+> If the scores don't resolve a choice, compare the practical consequences for
+> callers and maintainers. If there is no meaningful difference, choose the
+> simpler version.

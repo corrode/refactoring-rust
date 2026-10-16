@@ -43,11 +43,11 @@ Proposed parts, **confirmed against `slides/slides.md` phase
 dividers**:
 
 - **Part I, Warm-ups** (01–04)
-- **Part II, `Option` · `Result` · `?`** (05–10)
-- **Part III, Aggregations & counting** (11–16)
-- **Part IV, Strings, parsing & iterators** (17–22)
-- **Part V, Domain modeling** (23–25)
-- **Part VI, Capstone** (26–27)
+- **Part II, `Option` · `Result` · `?`** (05–11)
+- **Part III, Aggregations & counting** (12–17)
+- **Part IV, Strings, parsing & iterators** (18–23)
+- **Part V, Domain modeling** (24–26)
+- **Part VI, Capstone** (27–28)
 
 Each part has a 1–3 paragraph intro page describing the theme and what the
 reader will learn across its chapters.
@@ -56,39 +56,24 @@ reader will learn across its chapters.
 
 ## 3. Per-chapter anatomy
 
-A fixed **8-section spine** every chapter follows, plus **3 optional
-sections** included only when there's something real to say.
+Use `src/part-1-warmups/01-starts-with-uppercase.md` as the format reference.
+Start with an unnumbered exercise-name title and a short task-specific introduction.
+State constraints without giving away the diagnosis or solution. Avoid repeating
+the first chapter's instructions for using the editor and repository.
 
-**Spine (always present):**
+1. **Code to refactor**: an editable include from `examples/`, followed by hidden
+   tests. No EXERCISE or TRY THIS callout.
+2. **Discussion**: questions in a DISCUSSION callout, followed by explanations.
+3. **Solutions**: the main solution, alternatives, and relevant edge cases in one
+   collapsed box. Use level-three subheadings within it.
+4. **Trade-offs**: compare named variants against an **Original** column, with the
+   six criteria as rows and a short reason beside each score.
+5. **Follow-up questions**: questions for further work or team discussion.
+6. **Important Concepts**: named concepts with links to the concept index.
 
-1. **The problem**: one paragraph framing, where you'd plausibly meet this
-   in real code.
-2. **Starter code**: `{{#include}}` from `examples/NN_*.rs`. Includes an
-   inline "Try it yourself" callout with the `cargo` invocations.
-3. **Review**: the questions a thoughtful reviewer would ask, framed
-   as prompts to the *reader*. (Renamed from "Observations", also update
-   the slides under TODO item #1 in `TODO.md`.)
-4. **A possible solution**: the canonical solution from `solutions/`,
-   walked through inside a native `details` element that is collapsed by default.
-5. **Trade-offs**: scored against the fixed axes (see §4). Always the same
-   axes; same order.
-6. **Quiz**: 2–4 judgement questions, followed by their answers.
-7. **Follow-up questions**: open-ended prompts for the reader / their team.
-8. **Concepts recap**: named ideas this chapter introduced
-   (e.g. *newtype*, *let-else*, *is_some_and*), each linked to the Concept
-   index so they resolve to every other chapter that touches them.
-
-**Optional (only when warranted, never as filler):**
-
-- **Alternative approaches**: other valid solutions. Skipped where the
-  canonical solution is genuinely the only good one.
-- **Edge cases & production concerns**: what we didn't consider; what
-  would break under load, weird input, i18n, concurrency. Included for most
-  chapters from ~10 onward.
-- **Further reading**: RFCs, std docs, blog posts, related crates.
-  Skipped if no good external resource exists.
-
-See §6 for the quiz format and question style.
+Preserve useful technical details when applying this format. Unwritten chapters
+stay marked as drafts. Quizzes are optional and must meet the criteria in §13;
+never add one merely to fill a section. Further reading is optional too.
 
 ---
 
@@ -152,8 +137,9 @@ The book is physically incapable of shipping broken code.
 
 **mdBook + judgement-style quizzes + Rust Playground integration.**
 
-- **Quizzes:** one per chapter, 2–4 questions, placed after Trade-offs and
-  before Follow-up questions. Question style is **judgement**, not recall:
+- **Quizzes (optional):** only when a new application or decision adds value.
+  Place them after Trade-offs and before Follow-up questions. Do not repeat
+  points already covered in the chapter. Question style is **judgement**, not recall:
   - "Which of these signatures best expresses the invariant?"
   - "Which axis does change X improve at the cost of which other axis?"
   - "Spot the smell in this related snippet."
@@ -214,11 +200,10 @@ Style rules (the full version lives in `book/STYLE.md`):
 
 6. **Concept index**: curated, not auto-generated. Every named concept
    listed with the chapters that introduce and reuse it. Doubles as the
-   target of every chapter's Concepts recap section. Surfaces in the top
+   target of every chapter's Important Concepts section. Surfaces in the top
    nav as **"Cheatsheet"** (friendlier label).
 7. **Trade-off matrix appendix**: one big table; rows are exercises,
-   columns are the six axes, cells summarize how each canonical solution
-   scored. The whole-forest view no competitor publishes.
+   columns are the six axes, with one row per exercise and solution variant. The whole-forest view no competitor publishes.
 8. **Further reading**: consolidated, deduplicated bibliography.
 9. **Contributing & errata**: short; points at the issue templates.
 10. **Acknowledgements**: every accepted issue, alternative-solution PR,
@@ -312,7 +297,7 @@ launch.
   chapters. **File an issue instead**, substantive suggestions are
   credited in Acknowledgements when adopted.
 - **Issue templates** in `.github/ISSUE_TEMPLATE/`:
-  - Suggest a Review question
+  - Suggest a Discussion question
   - Suggest a Trade-off I missed
   - Suggest an Edge case
   - Found a typo / bug
@@ -334,8 +319,7 @@ v1 scope:
 - Search on; sidebar on; prev/next on; stock playground button on `rust`
   blocks.
 - Blockquote-based callouts with a small CSS treatment to differentiate
-  the 7-section spine labels (`EXERCISE`, `REVIEW`, `TRY THIS`,
-  `TRADE-OFF`, `EDGE CASE`, `FOLLOW-UP`, `CONCEPT`).
+  the callout labels (`DISCUSSION`, `EDGE CASE`, `FOLLOW-UP`, `CONCEPT`).
 - Light + dark only; kill the other three default themes (coal, ayu,
   rust) unless that creates friction.
 
@@ -358,8 +342,8 @@ v1 scope:
 - Corrode logo + favicon (probably exist in `slides/public/`).
 
 **Diagrams:** tables everywhere they help; mermaid (~6–10 diagrams across
-the whole book, only where genuinely useful, e.g. state machines in ch. 20
-or type relationships in ch. 27). No hand-drawn illustrations. No
+the whole book, only where genuinely useful, e.g. state machines in ch. 21
+or type relationships in ch. 28). No hand-drawn illustrations. No
 screenshots.
 
 ---
@@ -376,8 +360,9 @@ screenshots.
 - **Spot the smell.** Some questions use a *related but different* snippet
   to test transfer of the chapter's idea, not pattern-matching on the
   chapter's exact code.
-- **2–4 questions per chapter.** Every chapter has a quiz, capped at four
-  questions so it remains a checkpoint rather than the main experience.
+- **Optional, with no minimum count.** Omit quizzes that repeat the explanation
+  or ask obvious questions. Keep a question only when it requires applying the
+  idea to a new situation or making a decision not already discussed.
 - **No "what does this print"** unless the surprise is genuinely the
   point.
 
@@ -392,11 +377,11 @@ The front matter must be written **before** the reference trio so the
 six trade-off axes and the meta-position on code review are committed to
 prose before any chapter operationalizes them.
 
-The reference trio is **ch. 01, ch. 14, ch. 12**:
+The reference trio is **ch. 01, ch. 15, ch. 13**:
 - **01** tests "does the format collapse on a trivial exercise?"
-- **14** tests whether the format handles repeated aggregations, a semantic edge
+- **15** tests whether the format handles repeated aggregations, a semantic edge
   case, and a domain-newtype alternative.
-- **12** tests whether *Alternative approaches* can handle a multi-signature API
+- **13** tests whether *Alternative approaches* can handle a multi-signature API
   design space.
 
 Once the trio is locked, *they are the format spec.* New chapters follow
@@ -426,8 +411,8 @@ their structure. No separate format spec document.
 ### Phase 2, Format lock / reference trio (~4 days)
 
 - Chapter 01 (`starts_with_uppercase`)
-- Chapter 14 (`room_occupancy`)
-- Chapter 12 (`excluded_path`)
+- Chapter 15 (`room_occupancy`)
+- Chapter 13 (`excluded_path`)
 - Iterate on `STYLE.md` until it reflects what the trio actually does.
 
 ### Phase 3, Bulk write (~12 days)
@@ -436,13 +421,13 @@ their structure. No separate format spec document.
 - Go part-by-part so part intros can be tightened against the chapters
   they introduce.
 - Add real solution files for the remaining alternatives the TODO identifies
-  (`NonZeroU16` for ch. 10 and a lazy iterator for ch. 13). The `Rooms` newtype
-  for ch. 14 and alternative exclusion APIs for ch. 12 were completed with the
+  (`NonZeroU16` for ch. 11 and a lazy iterator for ch. 14). The `Rooms` newtype
+  for ch. 15 and alternative exclusion APIs for ch. 13 were completed with the
   reference trio.
 
 ### Phase 4, Back matter (~3 days)
 
-- Concept index (aggregated from per-chapter Concepts recap).
+- Concept index (aggregated from per-chapter Important Concepts).
 - Trade-off matrix (aggregated from per-chapter Trade-offs).
 - Further reading (consolidated).
 - Contributing, Acknowledgements.
