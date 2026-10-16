@@ -26,7 +26,7 @@ Run the tests with `cargo test --example 10_error_handling`.
 <details class="discussion-question">
 <summary>Are the two <code>match</code> expressions wrong?</summary>
 
-The manual propagation is correct.
+No, both matches return errors correctly.
 When `File::open` returns `Err(e)`, the function returns that same error.
 The second `match` does the same for `read_to_string`.
 
@@ -35,7 +35,8 @@ The second `match` does the same for `read_to_string`.
 <details class="discussion-question">
 <summary>How would this look with <code>?</code>?</summary>
 
-Since the function already returns `io::Error`, `?` can express both early returns without changing which errors reach the caller:
+Use `?` after each fallible call to return early on an error.
+The function already returns `io::Error`, so the same errors reach the caller:
 
 ```rust,ignore
 let mut file = File::open(path)?;
@@ -49,16 +50,16 @@ Ok(contents)
 <details class="discussion-question">
 <summary>Do we need to keep the <code>File</code> handle?</summary>
 
-The separate steps are useful when you need the `File` handle or want to inspect the buffer between steps.
-This function needs neither.
+No, this function only needs the contents.
+Keep the separate steps when you need the `File` handle or want to inspect the buffer between steps.
 
 </details>
 
 <details class="discussion-question">
 <summary>Can the standard library do the whole job?</summary>
 
-`std::fs::read_to_string` already opens a file and reads its contents into a string.
-Using it also removes the local file handle and buffer variables.
+Yes, `std::fs::read_to_string` opens the file and reads its contents into a string.
+You no longer need local variables for the file handle and buffer.
 
 </details>
 
@@ -74,11 +75,9 @@ That would be a separate change to the public signature.
 <details class="discussion-question">
 <summary>Why do the tests use <code>unwrap</code>?</summary>
 
-The tests check both success and failure.
-A readable file returns its text.
-A missing file remains an `io::Error` whose kind is `NotFound`.
-The test's `unwrap` calls serve a different purpose from production error handling: a failed temporary-file write or an unexpected read result should fail the test immediately.
-A production caller needs the error value instead.
+A failed temporary-file write or an unexpected read result should fail the test immediately, so the tests use `unwrap`.
+Production callers need the error value instead of a panic.
+The tests check both outcomes: a readable file returns its text, and a missing file returns an `io::Error` whose kind is `NotFound`.
 
 </details>
 
@@ -94,9 +93,9 @@ A production caller needs the error value instead.
 </script>
 
 `fs::read_to_string(path)` opens the file, reads all bytes as UTF-8 text, and returns the resulting `String`.
-Its internal file handle closes when it is dropped.
-The helper already returns `io::Result<String>`, which matches this function's return type.
-The function can return that result directly, without unwrapping or converting it.
+Dropping its internal file handle closes the file.
+The helper already returns `io::Result<String>`, so return that result directly.
+There is nothing to unwrap or convert.
 
 If opening or reading fails, the caller still gets an `io::Error`.
 The missing-file test requires `io::ErrorKind::NotFound`, not just any error.
@@ -105,8 +104,8 @@ The missing-file test requires `io::ErrorKind::NotFound`, not just any error.
 It does not accept arbitrary bytes: invalid UTF-8 makes the read fail.
 If binary data or an unknown encoding is valid input, use `fs::read` and return `Vec<u8>` instead.
 
-The wrapper can still be useful if its name describes the operation in application terms or if it provides a place to add error context or a size limit later.
-If neither is needed, callers can use `fs::read_to_string` directly.
+Keep the wrapper if its name describes an application operation or you need a place to add error context or a size limit later.
+Otherwise, call `fs::read_to_string` directly.
 
 ### Alternative approaches
 
@@ -122,8 +121,8 @@ pub fn read_file_contents(path: impl AsRef<Path>) -> std::io::Result<String> {
 ```
 
 `AsRef<Path>` accepts common path-like values, including references to strings and paths.
-A concrete `&Path` is also reasonable when you want a smaller public interface.
-Either choice admits native paths that cannot be represented as UTF-8 text on every platform.
+Use a concrete `&Path` if you want a smaller public interface.
+Both choices accept native paths, including paths that some platforms cannot represent as UTF-8 text.
 
 This API change is optional.
 Keep `&str` when paths enter the surrounding interface as text and callers don't need other path types.
@@ -138,8 +137,9 @@ Choose `AsRef<Path>` or `&Path` when support for native paths is part of the con
 
 Large or untrusted files may need a size limit or a buffered streaming interface.
 Binary files need a byte-oriented return type.
-And if callers must distinguish opening, reading, decoding, or policy failures, a bare `io::Error` may lack the domain context they need.
-A surrounding error type can add that context while preserving the low-level I/O error as its source.
+Do callers need to distinguish opening, reading, decoding, or policy failures?
+A bare `io::Error` may not give them enough domain context.
+Add that context in a surrounding error type and keep the low-level I/O error as its source.
 
 ### Trade-offs
 
@@ -155,20 +155,24 @@ Readability depends on familiarity.
 | Flexibility | Separate open/read steps | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Retains intermediate access | <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Hides intermediate steps | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Accepts more path types |
 | Error reporting | Propagates bare `io::Error` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Preserves I/O errors | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Preserves I/O errors | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Preserves I/O errors |
 
-`AsRef<Path>` broadens accepted paths, not content encodings; it still requires UTF-8 contents and hides intermediate steps.
-Use separate steps for limits or streaming.
-None adds error context.
+The `AsRef<Path>` helper accepts more path types, not more content encodings.
+It still requires UTF-8 contents and hides the intermediate steps.
+Keep separate steps when you need limits or streaming.
+None of these versions adds error context.
 The readability scores assume familiarity with `?`.
 
 </details>
 
 ## Takeaways For Our Own Codebase
 
-> - Does this function need its own name or policy rather than calling `fs::read_to_string`?
-> - Are your application's paths text values, native `Path` values, or both?
-> - Which files can grow large enough that reading them in full would be unsafe?
-> - Where should you add domain context to an `io::Error` without losing its source?
-> - Which manual error-propagation blocks in your codebase could become one standard-library operation?
+> - Does your file-reading wrapper name an application operation or enforce a policy?
+>   If not, could callers use `fs::read_to_string` directly?
+> - Do callers need text paths, native `Path` values, or both?
+>   Choose the parameter type to match.
+> - Which files need a size limit or streaming rather than a whole-file read?
+> - Where do callers need domain context around an `io::Error`?
+>   Preserve the original error as its source.
+> - Look for manual error propagation that `?` or a standard-library function could replace.
 
 ## References
 

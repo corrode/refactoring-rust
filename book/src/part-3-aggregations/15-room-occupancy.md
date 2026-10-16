@@ -2,7 +2,8 @@
 
 These functions calculate adult and child totals, find the largest adult count in a room, and collect child ages.
 Refactor one function at a time, keeping every public signature and the order returned by `child_ages`.
-Check behaviour for empty input and the full range of values the field types allow before deciding to change any results.
+Check what each function returns for empty input and for the full range of values its field types allow.
+Decide explicitly whether any result should change.
 
 Run the tests after each change with `cargo test --example 15_room_occupancy`.
 
@@ -26,7 +27,6 @@ Run the tests after each change with `cargo test --example 15_room_occupancy`.
 <details class="discussion-question">
 <summary>What does each loop calculate?</summary>
 
-Each loop performs a common operation.
 `adults_total` and `children_total` calculate sums.
 `max_adults_in_a_room` finds a maximum, with zero as its initial value.
 `child_ages` combines the child-age lists from all rooms into one list.
@@ -36,7 +36,8 @@ Each loop performs a common operation.
 <details class="discussion-question">
 <summary>Does <code>children_total</code> add ages or count children?</summary>
 
-`children_total` counts entries in each child vector; it does not add the ages stored there.
+It counts children by counting entries in each child vector.
+It does not add their ages.
 `child_count` would make that distinction clearer, but this refactor must keep the public signatures.
 Renaming the function would affect callers.
 
@@ -45,7 +46,7 @@ Renaming the function would affect callers.
 <details class="discussion-question">
 <summary>What is the maximum for an empty room list?</summary>
 
-The maximum loop starts at zero, so it returns zero for an empty room list.
+Zero, because the loop starts at zero and has no entries to visit.
 That makes “no rooms” indistinguishable from a room with zero adults.
 
 </details>
@@ -53,8 +54,8 @@ That makes “no rooms” indistinguishable from a room with zero adults.
 <details class="discussion-question">
 <summary>What if every adult count is negative?</summary>
 
-The loop also returns zero for a list containing only negative counts.
-Negative occupancy is not a valid room count, but the public `i32` field allows it.
+It still returns zero: no negative count can replace the initial value.
+Negative occupancy is not a valid room count, but callers can put negative values in the public `i32` field.
 Before replacing the loop, decide whether to preserve this result or change the function's contract.
 
 </details>
@@ -64,7 +65,8 @@ Before replacing the loop, decide whether to preserve this result or change the 
 
 `children.len()` returns `usize`, while the total is an `i32`.
 Rust does not implicitly convert between those integer types for addition.
-The existing `as i32` conversion can truncate a value larger than `i32::MAX`; replacing the loop does not remove that risk.
+The existing `as i32` conversion can truncate a value larger than `i32::MAX`.
+Replacing the loop does not remove that risk.
 
 </details>
 
@@ -72,8 +74,8 @@ The existing `as i32` conversion can truncate a value larger than `i32::MAX`; re
 <summary>Does <code>child_ages</code> preserve order?</summary>
 
 Yes, it visits rooms in order and keeps the order of ages within each room.
-`flat_map` can combine the child-age lists in that same order.
-The refactor must preserve both.
+Keep both orders when you refactor.
+`flat_map` can combine the child-age lists without changing either.
 
 </details>
 
@@ -88,14 +90,13 @@ The refactor must preserve both.
 {{#include ../../../solutions/15_room_occupancy.rs:tests}}
 </script>
 
-The two totals use `map` to select a number from each borrowed room, then `sum` to add those numbers.
-For children, the number is `children.len()`.
+Use `map` to select a number from each borrowed room and `sum` to add the numbers.
+For the child total, select `children.len()`, not the ages.
 `Vec::len` takes constant time, so `children_total` visits rooms rather than individual children.
 The `as i32` conversion remains, along with its risk of truncation, discussed below.
 
 `Iterator::max` returns `Option<i32>` because the iterator may be empty.
-The fallback keeps the starter's answer for an empty input.
-It does not preserve every result.
+The fallback preserves zero for empty input, but what about negative counts?
 For `[-3, -1]`, the starter returns `0`, while the solution returns `-1`.
 
 Use the canonical version only if the contract rules out negative occupancy.
@@ -103,9 +104,9 @@ Enforce that rule or document the requirement for callers.
 To preserve the starter's behaviour for every `i32` value, use `fold(0, i32::max)` instead.
 Both versions pass the current tests, which do not cover all-negative input.
 
-In `child_ages`, `flat_map` iterates over each room's ages in turn, producing one sequence.
+In `child_ages`, `flat_map` visits each room's ages in turn to produce one sequence.
 `copied` turns each `&i32` into an `i32`, and `collect` builds the result.
-Room order and the order within each room remain unchanged.
+These operations preserve room order and the order of ages within each room.
 
 ### Alternative approaches
 
@@ -117,11 +118,11 @@ If several parts of an API use the same room collection, a `Rooms` newtype can g
 ```
 
 Callers can write `rooms.adults_total()` instead of passing the same slice to several helpers.
-Private storage also allows the type to validate data during construction or cache a summary later.
+Private storage gives you a place to add validation during construction or cache a summary later.
 
-The wrapper does not reject invalid values on its own.
-This constructor still accepts negative counts and ages, and its methods retain the `usize as i32` conversion.
-To enforce valid data, the type needs constructors that check values and private fields that prevent callers from bypassing those checks.
+Does the wrapper already validate its data?
+No, this constructor still accepts negative counts and ages, and its methods keep the `usize as i32` conversion.
+To enforce valid data, check values in constructors and keep fields private so callers cannot bypass the checks.
 
 Run the alternative as a separate example:
 
@@ -142,8 +143,8 @@ cargo test --example 15_room_occupancy_alt
 - Returning zero for an empty maximum makes “no rooms” indistinguishable from a room with zero adults.
 - `child_ages` always allocates and copies every age, even when a caller only needs the first match.
 
-Unsigned integers rule out negative values, but they do not prevent overflow or define the maximum of an empty collection.
-Returning `Option<i32>` from the maximum keeps “no rooms” distinct from a real value.
+Use unsigned integers to rule out negative values, but don't expect them to prevent overflow or define the maximum of an empty collection.
+To distinguish “no rooms” from a real maximum, return `Option<i32>`.
 Callers must then handle the absence of a maximum.
 
 ### Trade-offs
@@ -161,19 +162,24 @@ Readability depends on familiarity.
 | Error reporting | No explicit validation errors | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added error reporting | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added error reporting |
 
 The readability gains assume iterator familiarity.
-Both shown solutions return `-1` for adult counts `[-3, -1]`, where the original returns `0`: a contract change, not stronger type safety.
-Use `fold(0, i32::max)` to preserve that behaviour.
-`Rooms` provides a place for future validation, but currently accepts negative values.
+Both shown solutions return `-1` for adult counts `[-3, -1]`, where the original returns `0`.
+That changes the contract; it does not strengthen type safety.
+Use `fold(0, i32::max)` to preserve the original behaviour.
+`Rooms` gives you a place to add validation, but currently accepts negative values.
 
 </details>
 
 ## Takeaways For Our Own Codebase
 
 > - Should an empty collection have a maximum of zero, or should the function return `Option<i32>`?
-> - Which integer types fit the domain rules for adult counts and child ages?
-> - If callers usually need all four results, should one pass produce a `RoomSummary`?
-> - Is the order returned by `child_ages` part of the public contract?
-> - Which collection helpers in your codebase belong on a missing domain type?
+>   Test empty input and values below the loop's initial accumulator before replacing it.
+> - Choose integer types that fit the allowed adult counts and child ages.
+>   Check narrowing conversions and overflow separately.
+> - If callers usually need all four results, could one pass produce a `RoomSummary`?
+> - Does your API promise a particular order for collected values?
+>   Keep tests for that order when replacing loops with iterators.
+> - Which helpers repeatedly operate on the same collection?
+>   Would a domain type give them a useful home?
 
 ## References
 

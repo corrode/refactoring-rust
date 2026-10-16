@@ -2,7 +2,7 @@
 
 This function checks whether a path starts with any configured exclusion prefix.
 Refactor it while preserving its signature and behaviour: absent or empty exclusions return `false`.
-Afterward, consider interface changes separately from the implementation.
+Then consider whether you would change the interface as a separate step.
 
 Run the tests with `cargo test --example 13_excluded_path`.
 
@@ -34,8 +34,8 @@ The function borrows the `Option` that owns the set.
 <details class="discussion-question">
 <summary>Does the prefix check need that distinction?</summary>
 
-The tests return `false` for both `None` and `Some(HashSet::new())`.
-If callers don't need to distinguish them, an empty collection can represent “exclude nothing.”
+No, the function returns `false` for both `None` and `Some(HashSet::new())`, as the tests confirm.
+If callers don't need the distinction either, use an empty collection to mean “exclude nothing.”
 Configuration loading or merging may still need to distinguish “missing” from “present but empty.”
 Keep that distinction in the layers that need it; the prefix check does not.
 
@@ -44,25 +44,25 @@ Keep that distinction in the layers that need it; the prefix check does not.
 <details class="discussion-question">
 <summary>Which iterator method finds any matching prefix?</summary>
 
-The nested `if let`, `for`, and `if` check whether any prefix matches.
-The loop stops at the first match.
-`Iterator::any` expresses the same check and stops at the same point.
+`Iterator::any` checks for at least one match and stops as soon as it finds one.
+The nested `if let`, `for`, and `if` perform the same check.
+Replacing the loop with `any` preserves that early exit.
 
 </details>
 
 <details class="discussion-question">
 <summary>Can we handle absence before searching?</summary>
 
-The outer `if let` handles the case where there is no collection to search.
-Returning early for `None` removes one level of nesting from the matching code.
-This simplifies control flow without changing the parameter type.
+Yes, return early for `None` before searching the collection.
+The outer `if let` currently handles absence by nesting the search inside a branch.
+An early return removes that nesting without changing the parameter type.
 
 </details>
 
 <details class="discussion-question">
 <summary>Does <code>HashSet</code> speed up this prefix search?</summary>
 
-This search checks entries one by one rather than using hash lookups.
+No, this search checks entries one by one rather than using hash lookups.
 Its worst case is still a linear scan through all prefixes.
 The set does prevent duplicate prefixes, but `contains` would check for an exact path, not a prefix.
 
@@ -90,10 +90,10 @@ A prefix match alone cannot prove filesystem containment.
 </script>
 
 `let ... else` returns for `None` before the search starts.
-After that statement, `excluded` is a borrowed `HashSet<PathBuf>`, and the prefix check needs no enclosing branch.
+After that statement, `excluded` is a borrowed `HashSet<PathBuf>`, so you can check prefixes without another enclosing branch.
 
-The final expression checks whether any prefix satisfies `path.starts_with(prefix)`.
-`any` stops at the first `true`, just as the starter returns from its loop.
+`any` calls `path.starts_with(prefix)` for each prefix until one returns `true`.
+It then stops, just as the starter returns from its loop.
 The refactor allocates nothing, and its worst case is still a linear scan through all prefixes.
 
 The signature stays the same, so callers and tests need no changes.
@@ -102,7 +102,8 @@ Neither `let ... else` nor `any` requires it.
 
 ### Alternative approaches
 
-The current signature combines two choices: exclusions may be absent, and the function borrows the `Option` that owns the set.
+Do you need optional exclusions, a borrowed owning `Option`, or both?
+The current signature requires both.
 
 If absence means something in the domain, accept an optional borrow instead:
 
@@ -132,7 +133,7 @@ This signature removes the distinction between absent and empty exclusions.
 It still exposes `HashSet`, although this prefix search checks entries one by one rather than using hash lookups.
 The set does prevent duplicate prefixes.
 
-A dedicated type can hide the collection and provide the exclusion check as a method:
+To hide the collection from callers, give it a dedicated type with an exclusion-checking method:
 
 ```rust,editable
 # use std::collections::HashSet;
@@ -140,10 +141,10 @@ A dedicated type can hide the collection and provide the exclusion check as a me
 {{#include ../../../solutions/13_excluded_path_alt.rs:excluder}}
 ```
 
-`Excluder` groups the exclusion rules and the matching method.
-It can also normalize and validate prefixes if needed.
-Keeping storage private lets the implementation use a different index later without changing callers.
-Its default value excludes nothing, which preserves a valid state from the current tests.
+`Excluder` keeps the exclusion rules and the matching method together.
+You can add prefix normalization and validation here if needed.
+Private storage lets you switch to a different index later without changing callers.
+The default value excludes nothing, just as the current tests require for an empty set.
 
 Run both alternatives with:
 
@@ -151,9 +152,8 @@ Run both alternatives with:
 cargo test --example 13_excluded_path_alt
 ```
 
-An extension trait allows the call `path.is_excluded(&prefixes)`.
-This adds a project-specific method to the standard-library `Path` type.
-Callers using method syntax must import the trait.
+If you prefer `path.is_excluded(&prefixes)`, an extension trait can add that project-specific method to the standard-library `Path` type.
+Callers must import the trait to use method syntax.
 The implementation must still check prefixes:
 
 ```rust,ignore
@@ -181,8 +181,8 @@ For example, `/tmp/file` starts with `/tmp`, but `/tmpfile` does not.
 The method does not resolve `..`, follow symbolic links, canonicalize relative paths, or protect against filesystem races.
 If this predicate guards a security boundary, it also needs a documented normalization and filesystem policy.
 
-An empty prefix needs an explicit rule because it can match every path.
-Absolute and relative prefixes also need a defined relationship before you mix them.
+Decide whether to allow an empty prefix: it can match every path.
+Define how absolute and relative prefixes should interact before mixing them.
 Put those rules in configuration validation or a domain type such as `Excluder`, rather than making every call site remember them.
 
 ### Trade-offs
@@ -212,11 +212,13 @@ Readability depends on familiarity.
 | Flexibility | Requires optional `HashSet` | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> No owning `Option` required | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Storage can change privately | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Still requires `HashSet` |
 | Error reporting | Boolean match, no failure channel | N/A | N/A | N/A |
 
-Readability depends on your team's iterator familiarity; loops remain easier to step through.
+Choose based on your team's familiarity with iterators.
+Loops remain easier to step through.
 Removing `Option` changes the interface, not path validity.
 Preserve absence in configuration layers that need it.
-`Excluder::new` collects owned prefixes into a set; the scan score excludes construction.
-None provides filesystem containment guarantees.
+`Excluder::new` collects owned prefixes into a set.
+The performance comparison covers the scan, not construction.
+None of these versions guarantees filesystem containment.
 
 </details>
 
@@ -224,9 +226,10 @@ None provides filesystem containment guarantees.
 
 > - Does your configuration layer distinguish “missing” from “configured but empty”?
 >   Which layer needs that information?
-> - Would callers read more naturally with the candidate path first?
-> - Does uniqueness justify exposing `HashSet`, or should the storage stay private?
-> - Which normalization rules belong in an `Excluder` constructor?
+> - Read a few call sites with the candidate path first.
+>   Does that order make the call clearer?
+> - Do callers need `HashSet`'s uniqueness guarantee, or could you keep the storage private?
+> - Decide how to handle empty, absolute, and relative prefixes in configuration validation or an `Excluder` constructor.
 > - If prefix matching becomes a hot path, which data structure could avoid inspecting every rule?
 
 ## References

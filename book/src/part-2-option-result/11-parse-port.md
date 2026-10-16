@@ -1,6 +1,7 @@
 # `parse_port`
 
-Refactor this port parser to accept ports from 1 through 65535 and let callers distinguish zero from other invalid input.
+This parser accepts ports from 1 through 65535.
+Refactor it so callers can distinguish zero from other invalid input.
 Keep the accepted range unchanged: zero, malformed text, and out-of-range numbers remain invalid.
 You may change the return type and update the tests to check the information exposed by the new interface.
 
@@ -26,17 +27,17 @@ Run the tests with `cargo test --example 11_parse_port`.
 <details class="discussion-question">
 <summary>Why parse an <code>i32</code> for a <code>u16</code> result?</summary>
 
-The starter is correct for the inputs covered by its tests.
-Parsing an `i32` admits a wider range, then `n < 1 || n > 65535` narrows it before `n as u16`.
-Parsing a `u16` directly avoids the cast.
+There is no need for the wider type here.
+The starter parses an `i32`, then checks `n < 1 || n > 65535` before converting with `n as u16`.
+That works for the inputs covered by its tests, but parsing a `u16` directly avoids the cast.
 
 </details>
 
 <details class="discussion-question">
 <summary>Can the parser check the upper bound?</summary>
 
-The `u16` parser rejects negative numbers, values above `u16::MAX`, and malformed text.
-There is no manual upper-bound check and no cast.
+Yes, the `u16` parser rejects values above `u16::MAX`, along with negative numbers and malformed text.
+You don't need a manual upper-bound check or a cast.
 Zero still parses successfully as a `u16`.
 Constructing a `NonZeroU16` adds the check that rejects zero.
 
@@ -45,8 +46,8 @@ Constructing a `NonZeroU16` adds the check that rejects zero.
 <details class="discussion-question">
 <summary>Is <code>as u16</code> safe here?</summary>
 
-Because every path to the cast passes the range check, the conversion cannot truncate.
-But its safety depends on a separate range check.
+Yes, every path to the cast passes the range check, so the conversion cannot truncate.
+But the cast relies on that separate check.
 A later edit could loosen the check without updating the cast.
 
 </details>
@@ -54,8 +55,8 @@ A later edit could loosen the check without updating the cast.
 <details class="discussion-question">
 <summary>Does <code>Some(port)</code> rule out zero?</summary>
 
-`Option<u16>` allows `Some(0)` at the type level.
-A downstream function that requires a non-zero value must trust the parser's checks or check again.
+No, `Option<u16>` allows `Some(0)`.
+If a downstream function requires a non-zero value, it must trust the parser's checks or check again.
 `Result<NonZeroU16, InvalidPort>` guarantees that successful values are non-zero and distinguishes failure categories.
 
 </details>
@@ -63,7 +64,7 @@ A downstream function that requires a non-zero value must trust the parser's che
 <details class="discussion-question">
 <summary>Does <code>None</code> tell us why parsing failed?</summary>
 
-`Option<u16>` tells a caller whether parsing succeeded, but not why it failed.
+No, `Option<u16>` only tells you whether parsing succeeded.
 Zero, malformed text, and out-of-range numbers all become `None`.
 
 </details>
@@ -71,8 +72,8 @@ Zero, malformed text, and out-of-range numbers all become `None`.
 <details class="discussion-question">
 <summary>Which failures need separate variants?</summary>
 
-This exercise asks callers to distinguish zero from other invalid input.
-`InvalidPort::Zero` and `InvalidPort::Invalid` provide that distinction.
+Zero needs its own variant because callers must distinguish it from other invalid input.
+Use `InvalidPort::Zero` for zero and `InvalidPort::Invalid` for the remaining failures.
 Malformed text and out-of-range numbers still share `Invalid`.
 Add variants or retain the parsing error when callers need to act on that difference.
 
@@ -89,7 +90,7 @@ Add variants or retain the parsing error when callers need to act on that differ
 {{#include ../../../solutions/11_parse_port.rs:tests}}
 </script>
 
-The first operation parses a `u16`, so the parser enforces that type's numeric bounds.
+Parse directly into `u16` to let the parser check the numeric bounds.
 Malformed text, negative input, and values above 65535 all make `parse::<u16>()` fail.
 `map_err` translates any of those parser errors into `InvalidPort::Invalid`, and `?` returns it to the caller.
 
@@ -99,8 +100,8 @@ Callers can reject invalid input, but they cannot respond differently to those t
 
 Once parsing succeeds, zero is the only invalid `u16`.
 `NonZeroU16::new(n)` returns `None` for zero and `Some(NonZeroU16)` for every other value.
-`ok_or` translates that absence into `Err(InvalidPort::Zero)`.
-A successful result can no longer contain zero through Rust's safe API.
+`ok_or` turns `None` into `Err(InvalidPort::Zero)`.
+Rust's safe API prevents a successful result from containing zero.
 
 The tests construct expected values with `NonZeroU16::new(8080).unwrap()`.
 Those literals are known to be non-zero, and writing the wrong literal should fail the test immediately.
@@ -118,9 +119,8 @@ Both failure stages become explicit `InvalidPort` values.
 `NonZeroU16` is the right success type only when the domain rejects zero.
 If this parser later serves a bind-address API that accepts zero, both `NonZeroU16` and the `Zero` error would enforce the wrong policy.
 
-The error variants also depend on the application's requirements.
-A form may need separate messages for “enter digits” and “maximum value is 65535.”
-This enum cannot support that because both failures become `Invalid`.
+Does a form need separate messages for “enter digits” and “maximum value is 65535”?
+This enum cannot distinguish them because both failures become `Invalid`.
 Add variants or retain the parsing error when callers can act on the difference.
 Keep the smaller enum when “invalid port” is enough and only zero needs special treatment.
 
@@ -145,17 +145,19 @@ Readability depends on familiarity.
 
 Callers must handle `InvalidPort` and use `.get()` where a `u16` is needed.
 Syntax and range errors still share `Invalid`.
-Rejecting zero is an existing domain rule, not a correctness fix; this type would be wrong for bind APIs that accept zero.
+The original already rejects zero, so the new type enforces an existing domain rule rather than fixing a bug.
+Don't use it for bind APIs that accept zero.
 
 </details>
 
 ## Takeaways For Our Own Codebase
 
 > - Which callers need to distinguish malformed input from an out-of-range number?
+>   Keep enough error information for them to act on that difference.
 > - Does zero mean “invalid,” “not configured,” or “choose a port” in your application?
-> - Should downstream functions accept `NonZeroU16` so the invariant survives beyond parsing?
-> - What happens to exhaustive matches when you add a variant to a public error enum?
-> - Which manual range checks in your codebase could become direct parsing or construction of the destination type?
+> - Could downstream functions accept `NonZeroU16` instead of checking for zero again?
+> - Before adding a public error variant, check which callers match the enum exhaustively.
+> - Look for manual range checks you could replace by parsing or constructing the destination type directly.
 
 ## References
 

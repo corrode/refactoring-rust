@@ -1,10 +1,7 @@
 # `even_numbers`
 
-`evens` produces the even numbers below an upper bound.
-Refactor it so callers can consume just a few values without generating the entire sequence first.
-You may change the signature to provide a lazy API, but preserve the values and their order.
-Adapt the tests and callers as needed, and add a test that consumes only the first few values of a large range.
-Run them with `cargo test --example 03_even_numbers`.
+In this exercise, the task is to return a sequence of even numbers below a given upper bound. For example, `evens(10)` should produce the sequence `[0, 2, 4, 6, 8]`.
+
 
 ## Code to refactor
 
@@ -26,8 +23,8 @@ Run them with `cargo test --example 03_even_numbers`.
 <details class="discussion-question">
 <summary>Does <code>evens</code> need to allocate and fill a complete <code>Vec</code> before returning?</summary>
 
-Not if it returns a lazy iterator instead.
-The caller can consume values as needed without storing the complete sequence first.
+No, it can return a lazy iterator instead.
+You can then consume values as you need them without storing the complete sequence first.
 
 </details>
 
@@ -42,7 +39,7 @@ With a lazy iterator, the caller can stop after three values without generating 
 <details class="discussion-question">
 <summary>Can a range replace the counter and loop condition?</summary>
 
-Yes, the loop is a half-open range written out by hand: start a counter at zero, keep going while `n < max`, and increment it after each pass.
+Yes, `0..max` replaces all three steps: start at zero, keep going while `n < max`, and increment after each pass.
 `0..max` expresses those same bounds, including the empty range when `max` is zero.
 
 </details>
@@ -50,7 +47,7 @@ Yes, the loop is a half-open range written out by hand: start a counter at zero,
 <details class="discussion-question">
 <summary>Can the traversal generate only even values instead of testing every integer?</summary>
 
-Yes, because zero is the first value, a stride of two expresses the same sequence without a parity check.
+Yes, start at zero and advance by two.
 `step_by(2)` yields every other value instead of testing and discarding odd candidates.
 
 </details>
@@ -68,9 +65,10 @@ The expected values stay the same.
 <details class="discussion-question">
 <summary>What do callers gain and lose when the function returns an iterator?</summary>
 
-An iterator lets the caller choose how many values to consume and whether to collect them.
-A `Vec` provides owned storage, indexing, and repeated traversal, but `evens` must generate the complete result before returning.
-Callers that still need those capabilities must collect the iterator or change how they use the result.
+You choose how many values to consume and whether to collect them.
+But you lose the owned storage, indexing, and repeated traversal that a `Vec` provides.
+To keep those capabilities, collect the iterator or change how you use the result.
+Returning a `Vec` makes `evens` generate the complete result before returning.
 
 </details>
 
@@ -90,7 +88,7 @@ Callers that still need those capabilities must collect the iterator or change h
 This removes the manual counter and parity check.
 
 The return type, `impl Iterator<Item = u32>`, hides the concrete `StepBy<Range<u32>>` type.
-The implementation can use different adapters later as long as it preserves the promised sequence and public trait guarantees.
+You can change the adapters later as long as you preserve the promised sequence and public trait guarantees.
 
 Calling `evens` creates the iterator without generating the full sequence.
 `take(3)` limits a later traversal to at most three values; it does not consume them by itself.
@@ -100,10 +98,10 @@ A caller that needs owned storage can use `collect::<Vec<_>>()`.
 The solution tests call `collect` before comparing a complete sequence and use `count` for the empty case.
 Callers that rely on a `Vec` for indexing, storage, or repeated traversal also need to collect the iterator or change how they use the result.
 
-The solution adds a `stays_lazy` test for the property the shared tests cannot establish.
-It uses `u32::MAX` as the bound and consumes only three values.
-This is not an allocation measurement.
-It shows that a caller can stop after a small prefix instead of constructing the full result.
+Do the shared tests prove that the result is lazy?
+No, so the solution adds `stays_lazy`: it uses `u32::MAX` as the bound and consumes only three values.
+The test shows that you can stop after a small prefix instead of constructing the full result.
+It does not measure allocations.
 
 ### Alternative approaches
 
@@ -115,8 +113,8 @@ pub fn evens(max: u32) -> Vec<u32> {
 }
 ```
 
-This is the safer refactor when the `Vec` is part of the contract.
-It improves the implementation and leaves callers alone.
+Use this version when you need to preserve the `Vec` contract.
+It removes the manual loop without making callers change.
 It remains eager, so it does not satisfy this exercise's lazy-result requirement.
 
 A lazy filter is also correct:
@@ -153,11 +151,11 @@ Avoiding unused work helps partial consumers; fully collecting still allocates, 
 
 ## Takeaways For Our Own Codebase
 
-> - Do the real call sites need an owned collection, or do they consume each value only once?
-> - Which callers read better with `take`, `map`, `sum`, or direct iteration?
-> - Which callers need an explicit `collect`, and is moving that choice outward useful for them?
+> - Check the call sites before changing a collection return type: do they need owned storage, or do they consume each value only once?
+> - Try `take`, `map`, `sum`, or direct iteration where callers don't need a collection.
+> - Identify callers that still need `collect` and decide whether moving that choice to them helps.
 > - Is a helper named `evens` clearer than writing `(0..max).step_by(2)` at each call site?
-> - Would you make the API change in the same pull request as the loop cleanup?
+> - Can you separate the loop cleanup from the API change so reviewers can assess each on its own?
 
 ## References
 

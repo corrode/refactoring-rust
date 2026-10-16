@@ -1,8 +1,9 @@
 # `path`
 
 This function checks whether a path has the extension `rs`.
-Refactor it without changing its signature or results.
-Keep the check case-sensitive and based only on the path's syntax, including the existing results for paths without an extension and for dotfiles.
+Can you simplify it without changing its signature or results?
+Keep the check case-sensitive and inspect only the path's syntax.
+Preserve the existing results for paths without an extension and for dotfiles.
 
 Run the local tests with `cargo test --example 05_path`.
 
@@ -26,23 +27,24 @@ Run the local tests with `cargo test --example 05_path`.
 <details class="discussion-question">
 <summary>Why does <code>Path::extension</code> return <code>Option&lt;&amp;OsStr&gt;</code> instead of <code>Option&lt;&amp;str&gt;</code>?</summary>
 
+Platform paths aren't guaranteed to be valid UTF-8, so an extension needs `&OsStr`, not `&str`.
 `Path::extension` returns `None` when the final path component has no extension.
-If an extension exists, the method returns `&OsStr` because platform paths aren't guaranteed to be valid UTF-8.
 
 </details>
 
 <details class="discussion-question">
 <summary>When does <code>OsStr::to_str</code> return <code>None</code>?</summary>
 
-Calling `to_str` adds a second `Option`: the extension is present, but a non-UTF-8 value cannot become `&str`.
-In that case, `to_str` returns `None`.
+When the extension isn't valid UTF-8.
+The extension exists, but `to_str` can't represent it as `&str`, so the conversion adds a second `Option` to handle.
 
 </details>
 
 <details class="discussion-question">
 <summary>Do we need to convert the extension to compare it with <code>"rs"</code>?</summary>
 
-`OsStr` supports direct comparison with `str`, so `ext == "rs"` performs the same check without a separate UTF-8 validity branch.
+No, `OsStr` supports direct comparison with `str`.
+Write `ext == "rs"` to make the same check without a separate UTF-8 validity branch.
 Neither version allocates a `String`.
 
 </details>
@@ -85,15 +87,15 @@ It doesn't check whether the path exists or points to a regular file.
 
 `Option::is_some_and` returns `false` for `None`.
 For `Some(ext)`, it runs the predicate and returns that result.
-One expression therefore covers both outer branches from the starter.
+That replaces both outer branches from the starter with one expression.
 
 The closure compares `&OsStr` directly with `"rs"`.
 A non-UTF-8 extension still returns `false`.
-The tested results are unchanged: `main.rs` and `src/lib.rs` match; `Cargo.toml`, `README`, and `.rs` do not.
+The tests still give the same results: `main.rs` and `src/lib.rs` match; `Cargo.toml`, `README`, and `.rs` do not.
 
 ### Alternative approaches
 
-The solution file also includes `map_or`, which is just as valid here:
+You can also use `map_or`, as the solution file shows:
 
 ```rust,editable
 # use std::path::Path;
@@ -118,8 +120,8 @@ pub fn is_rust_source_file(path: &Path) -> bool {
 }
 ```
 
-This version removes the UTF-8 conversion but leaves the two cases in view.
-Choosing between it and `is_some_and` is mostly about which form your team reads faster.
+This version removes the UTF-8 conversion but keeps both cases explicit.
+Choose it over `is_some_and` if your team reads it faster.
 
 ### Edge cases and production concerns
 
@@ -132,16 +134,16 @@ A directory called `generated.rs` can return `true`.
 So can a path to a file that does not exist.
 If the contract requires an existing regular file, check filesystem metadata separately.
 That check performs I/O, can fail, and leaves races between inspection and later use.
-Hiding it inside this small lexical predicate would require a different interface and documentation.
+If you add that check to this function, change its interface and documentation to account for the I/O, failures, and races.
 
 The comparison is exact and case-sensitive, so `lib.RS` does not match.
 The dotfile `.rs` has no extension, while `.config.rs` has the extension `rs`.
 For `lib.rs.bak`, the extension is `bak`.
 
-A non-UTF-8 extension compares unequal to `"rs"`, producing `false`.
-That policy works for a yes-or-no classifier.
-If the caller must tell “not Rust” apart from “the extension cannot be represented as UTF-8,” a `bool` is too small.
-The function needs a richer return type and an explicit encoding policy.
+A non-UTF-8 extension doesn't equal `"rs"`, so the function returns `false`.
+That's enough if you only need a yes-or-no classifier.
+Do you need to distinguish “not Rust” from “the extension isn't valid UTF-8”?
+Then replace `bool` with a richer return type and document how you handle encoding.
 
 ### Trade-offs
 
@@ -157,18 +159,18 @@ Readability depends on familiarity.
 | Flexibility | Exact, case-sensitive extension check | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same matching policy | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same matching policy | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same matching policy |
 | Error reporting | All non-matches become `false` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No reason for non-match | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No reason for non-match | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No reason for non-match |
 
-Skipping UTF-8 validation is not a measured speed-up.
+Skipping UTF-8 validation doesn't establish a speed-up; you'd need to measure that.
 `is_some_and` requires Rust 1.70; `map_or` and explicit `match` work on older versions.
 
 </details>
 
 ## Takeaways For Our Own Codebase
 
-> - Should your application compare extensions case-sensitively on every platform?
+> - Decide whether extension checks should be case-sensitive on every platform, and test that policy.
 > - Is a non-UTF-8 extension just a non-match, or does the caller need an error?
-> - Does the function name promise more than a lexical extension check can deliver?
-> - Which call site, if any, owns the checks for existence and file type?
-> - Would your team understand `is_some_and`, `map_or(false, ...)`, or an explicit `match` fastest?
+> - Check your function names: do they promise to identify a file when they only inspect an extension?
+> - If you need existence and file-type checks, choose which call site handles the I/O and its failures.
+> - Choose `is_some_and`, `map_or(false, ...)`, or an explicit `match` based on what your team reads fastest and which Rust versions you support.
 
 ## References
 

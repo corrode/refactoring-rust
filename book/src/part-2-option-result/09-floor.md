@@ -1,15 +1,17 @@
 # `floor`
 
-Follow the instructions to find the final floor, starting at zero.
+This function follows a sequence of instructions to find the final floor, starting at zero.
 `(` moves up one floor and `)` moves down one.
-Refactor the loop while preserving the signature, result, and error for the first invalid instruction.
+Can you express the calculation more directly?
+Keep the signature, result, and error for the first invalid instruction unchanged.
 
 This exercise comes from [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2015/day/1).
 Run its tests with `cargo test --example 09_floor`.
 
 > **TODO**
 >
-> The exercise and solutions are ready; the discussion and remaining sections still need writing.
+> The exercise and solutions are ready.
+> The discussion and remaining sections still need writing.
 
 ## Code to refactor
 

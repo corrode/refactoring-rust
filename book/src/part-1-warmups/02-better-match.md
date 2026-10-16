@@ -104,9 +104,7 @@ Readability depends on familiarity.
 | Flexibility | Categories require source edits | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Categories still require source edits |
 | Error reporting | Every input maps to a label | N/A |
 
-Keeping the expanded patterns is reasonable if your team finds them easier to scan.
-Neither implementation recognizes primes or squares beyond the listed values.
-The suggested `Some(_)` fallback is a separate change: unlike `_`, it would let the compiler catch a missing `None` arm.
+Note that keeping the expanded patterns is reasonable if your team finds them easier to scan.
 
 </details>
 

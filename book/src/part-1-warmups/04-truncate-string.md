@@ -1,8 +1,9 @@
 # `truncate_string`
 
 This function limits a string to a byte budget.
-Check whether it meets its documented behaviour for all inputs, not just those covered by the existing tests.
-Add tests for missing cases, then refactor it and fix any behaviour that violates the contract without changing the signature.
+Does it meet its documented behaviour for all inputs, or do the tests miss something?
+Add tests for the missing cases, then refactor the function and fix any behaviour that violates the contract.
+Keep the signature unchanged.
 Run the tests with `cargo test --example 04_truncate_string`.
 
 ## Code to refactor
@@ -41,9 +42,9 @@ Index 4 lands inside the encoding of `é`.
 <details class="discussion-question">
 <summary>Why does the existing Unicode test miss the dangerous case?</summary>
 
-The existing Unicode test uses a limit of five.
-It proves that the function accepts the complete non-ASCII string, but it never asks the implementation to cut through a multi-byte character.
-To expose the bug, the test needs a limit inside the encoding.
+Its limit of five keeps the whole string.
+That proves the function accepts the complete non-ASCII string, but doesn't test what happens when the limit falls inside a multi-byte character.
+Add a test with a limit inside the encoding to expose the bug.
 
 > Try this test in `examples/04_truncate_string.rs`:
 >
@@ -66,8 +67,7 @@ To expose the bug, the test needs a limit inside the encoding.
 <details class="discussion-question">
 <summary>What precondition does <code>String::truncate</code> place on its argument?</summary>
 
-`String::truncate` takes a byte length.
-If the length is less than the current string length, it must be a character boundary or the method panics.
+If you pass a byte length shorter than the string, it must fall on a character boundary or `String::truncate` panics.
 A length at or above the current length leaves the string unchanged.
 
 </details>
@@ -75,8 +75,8 @@ A length at or above the current length leaves the string unchanged.
 <details class="discussion-question">
 <summary>If four bytes would split <code>é</code>, should the function panic, return an error, or use the longest valid prefix below the limit?</summary>
 
-Under this byte-budget contract, it should return the longest valid prefix within the limit: `"caf"`.
-A limit inside a character does not require a panic or an error because a shorter valid prefix is available.
+Return `"caf"`, the longest valid prefix within the byte budget.
+There's no need to panic or return an error: the shorter prefix meets the contract.
 
 </details>
 
@@ -85,7 +85,7 @@ A limit inside a character does not require a panic or an error because a shorte
 
 The limit counts bytes.
 Taking the first four Unicode scalar values would return `"café"`, which uses five bytes and exceeds a four-byte budget.
-The name `max_bytes` states the unit, but the contract also needs to say what happens when the limit splits a character.
+Name the unit with `max_bytes`, but also document what happens when the limit splits a character.
 
 </details>
 
@@ -100,7 +100,7 @@ The name `max_bytes` states the unit, but the contract also needs to say what ha
 {{#include ../../../solutions/04_truncate_string.rs:tests}}
 </script>
 
-The byte-cap implementation does four things:
+Find a valid boundary before copying the prefix:
 
 1. `s.len().min(max_bytes)` clamps the candidate index to the input length.
 2. `floor_char_boundary` finds the greatest valid UTF-8 boundary at or below that candidate.
@@ -111,11 +111,11 @@ For `"café"` with a limit of four, the candidate is 4 and the preceding boundar
 A limit beyond the input length returns the complete string.
 Zero and empty input both return an empty string.
 
-Every valid `&str` and `usize` has a result under this contract.
-A limit inside a multi-byte encoding does not need an error: the preceding boundary gives a valid prefix within the byte limit.
+Can any valid `&str` and `usize` fail under this contract?
+No, even a limit inside a multi-byte encoding has a valid prefix at the preceding boundary.
 
-There is one compatibility limit: `floor_char_boundary` has been stable since Rust 1.91.
-If the project supports an older compiler, use the manual alternative below.
+`floor_char_boundary` requires Rust 1.91, when it became stable.
+If your project supports an older compiler, use the manual alternative below.
 
 ### Alternative approaches
 
@@ -127,7 +127,7 @@ pub fn truncate_chars(s: &str, num_chars: usize) -> String {
 }
 ```
 
-This is correct when the limit counts Unicode scalar values.
+Use this helper when your limit counts Unicode scalar values, not bytes.
 It does not enforce a byte budget.
 Four scalar values from `"café"` occupy five bytes.
 A Rust `char` can also be only part of a user-perceived symbol, so a grapheme limit needs yet another contract.
@@ -149,8 +149,8 @@ pub fn truncate(s: &str, max_bytes: usize) -> String {
 }
 ```
 
-The loop implements the same byte-cap policy.
-It is longer, but the boundary search is visible and it works with older stable Rust releases.
+The loop backs up until it finds a character boundary, preserving the same byte-cap policy.
+You write more code, but you can see the boundary search and use older stable Rust releases.
 
 ### Edge cases and production concerns
 
@@ -163,9 +163,9 @@ Emoji with modifiers, flags, and letters followed by combining marks can span se
 `floor_char_boundary` may split such a sequence while still returning valid UTF-8.
 If the result goes straight into a user interface, use a grapheme-aware library and a function name that states the unit.
 
-A byte cap cannot always be filled exactly.
-No valid prefix of `"café"` occupies four bytes.
-If the caller requires exactly four bytes, the return type should represent failure, or the API should operate on bytes rather than promise valid text.
+Can you always fill the byte budget exactly?
+No, there is no valid four-byte prefix of `"café"`.
+If your caller requires exactly four bytes, represent failure in the return type or operate on bytes rather than promise valid text.
 
 A nonempty result requires an allocation because the function returns an owned `String`.
 An empty result does not.
@@ -186,8 +186,8 @@ Readability depends on familiarity.
 | Flexibility | Byte cap; older stable APIs | <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Requires Rust 1.91 | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Byte cap; older stable APIs | <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Replaces byte budget with scalar count |
 | Error reporting | Panics inside multi-byte encoding | N/A | N/A | N/A |
 
-Both byte-cap solutions fix the panic when a limit splits a UTF-8 character; unchanged types and signatures do not mean unchanged correctness.
-Neither needs an error under this “at most” policy.
+Both byte-cap solutions fix the panic when a limit splits a UTF-8 character, even though neither changes the types or signature.
+Neither needs an error because the contract asks for “at most” the byte limit.
 An exact byte-length contract would need a failure case.
 Copying only the prefix reduces copied bytes when truncating, not necessarily elapsed time; nonempty results still allocate.
 
@@ -199,11 +199,12 @@ None of these variants guarantees complete grapheme clusters.
 
 ## Takeaways For Our Own Codebase
 
-> - Where do byte budgets in your codebase come from: protocols, databases, or external APIs?
-> - Should those limits count bytes, Unicode scalar values, or grapheme clusters?
+> - Trace your byte budgets back to their source: a protocol, database, or external API.
+> - Check whether each limit counts bytes, Unicode scalar values, or grapheme clusters, and name the unit in the API.
+> - Test limits inside multi-byte characters, not just inputs that contain them.
 > - Do callers need an owned `String`, or would a borrowed prefix work?
-> - Is Rust 1.91 an acceptable minimum compiler for the project?
-> - When should an impossible exact byte length return `Option`, `Result`, or raw bytes?
+> - Check your minimum supported Rust version before choosing `floor_char_boundary`: it requires Rust 1.91.
+> - If an exact byte length is impossible, should you return `Option` or `Result`, or change the API to return raw bytes?
 
 ## References
 

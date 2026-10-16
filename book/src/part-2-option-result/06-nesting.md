@@ -1,7 +1,8 @@
 # `nesting`
 
-This function trims optional text and returns it in uppercase when anything remains.
-Refactor it without changing its signature or results for absent input, empty input, whitespace-only input, and non-empty text surrounded by whitespace.
+This function trims optional text and returns the remaining text in uppercase.
+Can you make it easier to read without changing its signature or results?
+Keep its behaviour for absent input, empty input, whitespace-only input, and non-empty text surrounded by whitespace.
 
 Run the local tests with `cargo test --example 06_nesting`.
 
@@ -42,8 +43,8 @@ You don't need an owned copy to check the trimmed text.
 <details class="discussion-question">
 <summary>Which inputs make the function return <code>None</code>?</summary>
 
-Missing input and text that's empty after trimming both return `None`.
-The latter includes an empty string and a string containing only whitespace.
+The function returns `None` for missing input and for text that's empty after trimming.
+That includes both an empty string and a string containing only whitespace.
 
 </details>
 
@@ -58,8 +59,9 @@ Combined with `map`, it expresses the same steps as the branches: trim a present
 <details class="discussion-question">
 <summary>When do we need an owned <code>String</code>?</summary>
 
-Only when creating the uppercase result.
-`to_uppercase` builds the `String` returned to the caller; trimming and checking for empty text can both use borrowed slices.
+Only when you create the uppercase result.
+`to_uppercase` builds the `String` for the caller.
+Until then, you can trim and check for empty text through borrowed slices.
 
 </details>
 
@@ -84,25 +86,23 @@ If callers need to tell those cases apart, you'll need a different return type, 
 {{#include ../../../solutions/06_nesting.rs:tests}}
 </script>
 
-Read the chain as three stages, in order:
+The chain trims, checks, and uppercases the text in that order:
 
-1.
-   `map(str::trim)` turns `Some(&str)` into a trimmed `Some(&str)` and leaves `None` alone.
-2.
-   `filter(|t| !t.is_empty())` retains non-empty text and converts empty text to `None`.
-3.
-   `map(str::to_uppercase)` converts the remaining `&str` into an owned `String`.
+1. `map(str::trim)` trims the `&str` inside `Some` and leaves `None` alone.
+2. `filter(|t| !t.is_empty())` keeps non-empty text and converts empty text to `None`.
+3. `map(str::to_uppercase)` converts the remaining `&str` into an owned `String`.
 
 These methods call their functions or closures only for `Some`.
 Absent input remains `None` through the chain.
-If `filter` rejects a value, `to_uppercase` is not called.
+If `filter` rejects a value, the final `map` skips `to_uppercase`.
 
 `filter` borrows the value inside the option to test its predicate.
 The value is an `&str`, so the closure receives `&&str`.
 Method-call auto-dereferencing lets `t.is_empty()` work without an explicit dereference.
 
-`Option` has its own `map` and `filter` methods; it is not an `Iterator`.
-It can also be converted into an iterator containing zero or one item.
+Does this make `Option` an `Iterator`?
+No, `Option` has its own `map` and `filter` methods.
+You can also convert it into an iterator containing zero or one item.
 
 ### Alternative approaches
 
@@ -123,9 +123,9 @@ pub fn shout(s: Option<&str>) -> Option<String> {
 }
 ```
 
-Explicit branches are easier to extend with comments, logging, or distinct return values.
-Named intermediate values can help when the combinators are unfamiliar.
-The canonical chain fits this function because its three steps are short and have no side effects.
+Use explicit branches when you need comments, logging, or distinct return values.
+Named intermediate values also help if you find the combinators hard to follow.
+The chain works well here because all three steps are short and have no side effects.
 
 Keep `to_uppercase` after `filter` so the function checks the borrowed text before creating an owned result.
 
@@ -140,12 +140,13 @@ For example, uppercasing `"straße"` produces `"STRASSE"`.
 `str::to_uppercase` returns a new `String` because the output may require more storage than the input.
 
 `trim` removes leading and trailing Unicode whitespace according to Rust's whitespace rules.
-A protocol may define a narrower set, such as ASCII spaces only.
-In that case, `trim` can accept input the protocol rejects.
-Choose the whitespace rule required by the contract; this exercise keeps the starter's behavior.
+Does your protocol allow all of that whitespace?
+Some protocols allow only ASCII spaces.
+Using `trim` in that case can accept input the protocol rejects.
+Use the whitespace rule your contract requires; this exercise keeps the starter's behaviour.
 
-Uppercasing is not locale-aware either.
-Before using this result for identifiers, security checks, or language shown to users, decide whether Unicode's default case conversion is the normalization your domain intends.
+`to_uppercase` isn't locale-aware either.
+Before you use its output for identifiers, security checks, or text shown to users, check whether your domain requires Unicode's default case conversion or a different normalization.
 
 ### Trade-offs
 
@@ -168,11 +169,13 @@ Prefer named locals and explicit branches when steps need comments or logging.
 
 ## Takeaways For Our Own Codebase
 
-> - Must callers distinguish missing input from text that becomes empty after trimming?
-> - Which validation steps in your codebase can keep borrowing until the output is built?
-> - How long can a combinator chain become before your team prefers named intermediate values?
-> - Does your domain use Unicode whitespace, or does a protocol define a narrower rule?
-> - Is Unicode default uppercasing appropriate for how the result will be compared or displayed?
+> - Do callers need to distinguish missing input from text that's empty after trimming?
+>   If so, give those cases separate return values.
+> - Check whether your validation code can borrow the input until it needs to build an owned result.
+> - Can you follow the types and failure points in each combinator chain?
+>   Use named intermediate values or branches where you can't.
+> - Check your protocol's whitespace rules before using `trim`.
+> - Does Unicode's default uppercasing match how you'll compare or display the result?
 
 ## References
 
