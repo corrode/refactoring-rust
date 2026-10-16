@@ -120,16 +120,16 @@ The `starts_with` version is shorter, but its predicate form may be less familia
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 | Criterion | Original | `is_some_and` | `starts_with` predicate |
 |---|---|---|---|
-| Type-safety | Arbitrary text; boolean result | = No new type-level invariant | = No new type-level invariant |
-| Readability | Explicit branches; redundant boolean checks | + Fewer branches, if combinators familiar | + Direct question, if predicate form familiar |
-| API design | Takes ownership for read-only check | + Borrows read-only input | + Borrows read-only input |
-| Performance | Ownership may require caller copies | + Avoids copies when borrowing suffices | + Avoids copies when borrowing suffices |
-| Flexibility | Requires owned `String` | + Accepts slices and borrowed strings | + Accepts slices and borrowed strings |
+| Type-safety | Arbitrary text; boolean result | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No new type-level invariant | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No new type-level invariant |
+| Readability | Explicit branches; redundant boolean checks | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Fewer branches, if combinators familiar | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Direct question, if predicate form familiar |
+| API design | Takes ownership for read-only check | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Borrows read-only input | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Borrows read-only input |
+| Performance | Ownership may require caller copies | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids copies when borrowing suffices | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids copies when borrowing suffices |
+| Flexibility | Requires owned `String` | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Accepts slices and borrowed strings | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Accepts slices and borrowed strings |
 | Error reporting | Empty input returns `false` | N/A | N/A |
 
 All three inspect only the first Unicode scalar value.

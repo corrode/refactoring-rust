@@ -103,10 +103,43 @@
         let result = playground.querySelector('.result');
         if (!result) {
             result = document.createElement('code');
-            result.className = 'result hljs language-bash';
+            result.className = 'result hljs';
             playground.append(result);
         }
         return result;
+    }
+
+    function highlightOutput(result) {
+        const lines = result.textContent.split('\n');
+        result.replaceChildren();
+
+        function append(text, className) {
+            const span = document.createElement('span');
+            span.className = className;
+            span.textContent = text;
+            result.append(span);
+            return span;
+        }
+
+        for (const [index, line] of lines.entries()) {
+            if (index > 0) result.append('\n');
+            const source = line.match(/^(\s*\d+\s*\| ?)(.*)$/);
+            if (source) {
+                append(source[1], 'diagnostic-location');
+                const code = append(source[2], 'language-rust');
+                if (window.hljs) window.hljs.highlightBlock(code);
+            } else if (/^\s*(?:error(?:\[E\d+\])?:|test result: FAILED|.*\.\.\. FAILED$)/.test(line)) {
+                append(line, 'diagnostic-error');
+            } else if (/^\s*warning(?:\[.*?\])?:/.test(line)) {
+                append(line, 'diagnostic-warning');
+            } else if (/^\s*(?:--> |::: |\||= (?:note|help):|(?:note|help):)/.test(line)) {
+                append(line, 'diagnostic-location');
+            } else if (/^(?:Tests passed\.|Code compiles\.|test result: ok\.|test .* \.\.\. ok$)/.test(line)) {
+                append(line, 'diagnostic-success');
+            } else {
+                result.append(line);
+            }
+        }
     }
 
     async function runOnPlayground(source, playground, runsTests, signal) {
@@ -206,6 +239,7 @@
             } else {
                 result.textContent = text || 'Code compiles.';
             }
+            highlightOutput(result);
             result.classList.toggle('result-no-output', output.success && text === '');
         } catch (error) {
             const message = error.name === 'AbortError' ? 'request timed out' : error.message;

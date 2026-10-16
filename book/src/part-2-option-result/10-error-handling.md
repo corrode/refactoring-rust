@@ -143,17 +143,17 @@ A surrounding error type can add that context while preserving the low-level I/O
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 | Criterion | Original | Open/read with `?` | `fs::read_to_string` (main) | Helper with `AsRef<Path>` |
 |---|---|---|---|---|
-| Type-safety | Fallible UTF-8 text result | = Same result guarantees | = Same result guarantees | = Same result guarantees |
-| Readability | Explicit error branches | + Less propagation boilerplate | + Names whole operation | + Names whole operation |
-| API design | Text path, fallible result | = Same public signature | = Same public signature | + Accepts native paths too |
-| Performance | Whole-file read into `String` | = Same read and buffer | = Still reads whole file | = Still reads whole file |
-| Flexibility | Separate open/read steps | = Retains intermediate access | − Hides intermediate steps | + Accepts more path types |
-| Error reporting | Propagates bare `io::Error` | = Preserves I/O errors | = Preserves I/O errors | = Preserves I/O errors |
+| Type-safety | Fallible UTF-8 text result | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same result guarantees | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same result guarantees | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same result guarantees |
+| Readability | Explicit error branches | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Less propagation boilerplate | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names whole operation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names whole operation |
+| API design | Text path, fallible result | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same public signature | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same public signature | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Accepts native paths too |
+| Performance | Whole-file read into `String` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same read and buffer | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Still reads whole file | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Still reads whole file |
+| Flexibility | Separate open/read steps | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Retains intermediate access | <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Hides intermediate steps | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Accepts more path types |
+| Error reporting | Propagates bare `io::Error` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Preserves I/O errors | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Preserves I/O errors | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Preserves I/O errors |
 
 `AsRef<Path>` broadens accepted paths, not content encodings; it still requires UTF-8 contents and hides intermediate steps.
 Use separate steps for limits or streaming.

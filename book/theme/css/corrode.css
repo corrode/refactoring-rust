@@ -472,3 +472,36 @@ pre,
 .content details.discussion-question > :last-child:not(summary) {
     margin-bottom: 1.25rem;
 }
+
+/* SVG scores remain distinct by symbol, not just colour. */
+.content .tradeoff-icon {
+    width: 1.15em;
+    height: 1.15em;
+    vertical-align: -0.2em;
+    display: inline-block;
+    max-width: none;
+}
+
+/* The neutral score needs darker strokes on paper-like backgrounds. */
+:is(.navy, .coal, .ayu) .tradeoff-icon[src$="comparable.svg"] {
+    filter: brightness(1.65);
+}
+
+/* Compiler diagnostics and test results, in both dark and light themes. */
+.result .diagnostic-error { color: #ff9292; }
+.result .diagnostic-warning { color: #edc56b; }
+.result .diagnostic-location { color: #83b8ef; }
+.result .diagnostic-success { color: #85cc9b; }
+.light .result .diagnostic-error,
+.rust .result .diagnostic-error { color: #b42332; }
+.light .result .diagnostic-warning,
+.rust .result .diagnostic-warning { color: #805600; }
+.light .result .diagnostic-location,
+.rust .result .diagnostic-location { color: #245f9b; }
+.light .result .diagnostic-success,
+.rust .result .diagnostic-success { color: #246d3d; }
+.content .result .hljs {
+    display: inline;
+    padding: 0;
+    background: transparent;
+}

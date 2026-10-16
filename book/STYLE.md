@@ -222,11 +222,13 @@ Use the six criteria as rows, in their usual order, and name each implementation
 in a column heading. The original column describes the baseline; other cells give
 a relative score and a short reason:
 
-- **+**: advantage over the original.
-- **=**: comparable on this criterion.
-- **−**: disadvantage relative to the original.
+- Circled checkmark: advantage over the original.
+- Circled equals sign: comparable on this criterion.
+- Circled cross: disadvantage relative to the original.
 - **N/A**: the criterion does not apply.
 
+Use the SVG icons in `src/icons/` for scores, with the `tradeoff-icon` class and descriptive `alt` text.
+Keep N/A as text; it is not a neutral score.
 Keep the reason in the cell so the comparison stands on its own. Avoid sentences
 that make the table hard to scan. Use short phrases such as “+ Borrows input” or
 “= Same error type,” rather than a score with no explanation.

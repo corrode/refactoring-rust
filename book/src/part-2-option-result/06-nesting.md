@@ -149,17 +149,17 @@ Before using this result for identifiers, security checks, or language shown to 
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 | Criterion | Original | `map` → `filter` → `map` | `let-else` + early returns |
 |---|---|---|---|
-| Type-safety | Optional input and output | = Same representable states | = Same representable states |
-| Readability | Nested presence and emptiness checks | + Three named stages, no nesting | + Flat checks, named intermediate |
-| API design | `Option<&str>` → `Option<String>` | = Same borrowed input, owned output | = Same borrowed input, owned output |
-| Performance | Allocates uppercase result after validation | = Same trimming and uppercase allocation | = Same trimming and uppercase allocation |
-| Flexibility | More checks can deepen nesting | + Add stages without nesting | + Add guards without nesting |
-| Error reporting | Missing and empty become `None` | = Same indistinguishable failure reasons | = Same indistinguishable failure reasons |
+| Type-safety | Optional input and output | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same representable states | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same representable states |
+| Readability | Nested presence and emptiness checks | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Three named stages, no nesting | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Flat checks, named intermediate |
+| API design | `Option<&str>` → `Option<String>` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same borrowed input, owned output | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same borrowed input, owned output |
+| Performance | Allocates uppercase result after validation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same trimming and uppercase allocation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same trimming and uppercase allocation |
+| Flexibility | More checks can deepen nesting | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Add stages without nesting | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Add guards without nesting |
+| Error reporting | Missing and empty become `None` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same indistinguishable failure reasons | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same indistinguishable failure reasons |
 
 Longer chains can hide intermediate types and failure points.
 Prefer named locals and explicit branches when steps need comments or logging.

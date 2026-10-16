@@ -187,29 +187,29 @@ Put those rules in configuration validation or a domain type such as `Excluder`,
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 #### Keeping an optional parameter
 
 | Criterion | Original | `let ... else` + `any` (main) | `Option<&HashSet<PathBuf>>` |
 | --- | --- | --- | --- |
-| Type-safety | No validated path invariant | = No added path invariant | = No added path invariant |
-| Readability | Nested absence and match checks | + Early return, named search | = Compact, familiarity-dependent combinators |
-| API design | Borrows optional owning set | = Same public signature | + Optional borrow without owning wrapper |
-| Performance | Short-circuiting linear prefix scan | = Same prefix scan | = Same prefix scan |
-| Flexibility | Requires optional `HashSet` | = Same container requirement | + Borrows standalone sets too |
+| Type-safety | No validated path invariant | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added path invariant | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added path invariant |
+| Readability | Nested absence and match checks | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Early return, named search | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Compact, familiarity-dependent combinators |
+| API design | Borrows optional owning set | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same public signature | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Optional borrow without owning wrapper |
+| Performance | Short-circuiting linear prefix scan | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same prefix scan | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same prefix scan |
+| Flexibility | Requires optional `HashSet` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same container requirement | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Borrows standalone sets too |
 | Error reporting | Boolean match, no failure channel | N/A | N/A |
 
 #### Changing the interface
 
 | Criterion | Original | Plain `&HashSet<PathBuf>` | `Excluder` | `Excludable` for `Path` |
 | --- | --- | --- | --- | --- |
-| Type-safety | No validated path invariant | = No added path invariant | = Constructor does not validate | = No added path invariant |
-| Readability | Nested absence and match checks | + No absence branch | + Named rules and operation | = Method syntax, trait import |
-| API design | Borrows optional owning set | + Removes unused absence distinction | + Hides storage behind methods | = Method still exposes set |
-| Performance | Short-circuiting linear prefix scan | = Same prefix scan | = Same scan after construction | = Same prefix scan |
-| Flexibility | Requires optional `HashSet` | + No owning `Option` required | + Storage can change privately | = Still requires `HashSet` |
+| Type-safety | No validated path invariant | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added path invariant | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Constructor does not validate | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added path invariant |
+| Readability | Nested absence and match checks | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> No absence branch | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Named rules and operation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Method syntax, trait import |
+| API design | Borrows optional owning set | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Removes unused absence distinction | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Hides storage behind methods | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Method still exposes set |
+| Performance | Short-circuiting linear prefix scan | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same prefix scan | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same scan after construction | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same prefix scan |
+| Flexibility | Requires optional `HashSet` | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> No owning `Option` required | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Storage can change privately | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Still requires `HashSet` |
 | Error reporting | Boolean match, no failure channel | N/A | N/A | N/A |
 
 Readability depends on your team's iterator familiarity; loops remain easier to step through.

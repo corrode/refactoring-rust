@@ -131,17 +131,17 @@ It uses `NonZeroU16` to guarantee a non-zero value, not for that optimisation.
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 | Criterion | Original | `Result<NonZeroU16, InvalidPort>` (main) |
 |---|---|---|
-| Type-safety | Zero excluded by runtime convention | + Success type excludes zero |
-| Readability | Range check before narrowing cast | + Direct parsing, no cast |
-| API design | Success or undifferentiated absence | + Non-zero success, named failures |
-| Performance | One parse, no allocation | = One parse, no allocation |
-| Flexibility | Callers receive plain integers | + Non-zero values compose downstream |
-| Error reporting | Every failure becomes `None` | + Distinguishes zero from other failures |
+| Type-safety | Zero excluded by runtime convention | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Success type excludes zero |
+| Readability | Range check before narrowing cast | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Direct parsing, no cast |
+| API design | Success or undifferentiated absence | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Non-zero success, named failures |
+| Performance | One parse, no allocation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> One parse, no allocation |
+| Flexibility | Callers receive plain integers | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Non-zero values compose downstream |
+| Error reporting | Every failure becomes `None` | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Distinguishes zero from other failures |
 
 Callers must handle `InvalidPort` and use `.get()` where a `u16` is needed.
 Syntax and range errors still share `Invalid`.

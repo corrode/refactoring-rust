@@ -132,16 +132,16 @@ Here the values are evenly spaced, so `step_by(2)` states the rule directly with
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 | Criterion | Original | Lazy `step_by` | `step_by` → `Vec` | Lazy `filter` |
 |---|---|---|---|---|
-| Type-safety | Evenness enforced by implementation | = Evenness not encoded in type | = Evenness not encoded in type | = Evenness not encoded in type |
-| Readability | Manual counter and parity check | + Direct stride, if adapter familiar | + Direct stride, if adapters familiar | + Explicit predicate, if adapters familiar |
-| API design | Owned, indexable, reusable collection | + Meets lazy requirement; breaks callers | = Preserves collection API; remains eager | + Meets lazy requirement; breaks callers |
-| Performance | Builds full result before returning | + Avoids unused suffix and collection | = Still eager; timing unmeasured | + Avoids unused suffix and collection |
-| Flexibility | Composition after full generation | + Composition before generation | = Composition after full generation | + Composition before generation |
+| Type-safety | Evenness enforced by implementation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Evenness not encoded in type | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Evenness not encoded in type | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Evenness not encoded in type |
+| Readability | Manual counter and parity check | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Direct stride, if adapter familiar | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Direct stride, if adapters familiar | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Explicit predicate, if adapters familiar |
+| API design | Owned, indexable, reusable collection | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Meets lazy requirement; breaks callers | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Preserves collection API; remains eager | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Meets lazy requirement; breaks callers |
+| Performance | Builds full result before returning | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids unused suffix and collection | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Still eager; timing unmeasured | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids unused suffix and collection |
+| Flexibility | Composition after full generation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Composition before generation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Composition after full generation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Composition before generation |
 | Error reporting | Every bound defines a sequence | N/A | N/A | N/A |
 
 Both lazy variants give up direct indexing and repeated traversal; callers needing those must collect.

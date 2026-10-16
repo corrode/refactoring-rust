@@ -131,17 +131,17 @@ Neither change belongs in a control-flow cleanup until you have checked the call
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 | Criterion | Original | `flatten().sum()` on owned vector | `filter_map` identity + `sum` | Borrowed slice + `flatten().copied().sum()` |
 |---|---|---|---|---|
-| Type-safety | Optional integers; overflow still possible | = Same overflow risk | = Same overflow risk | = Same overflow risk |
-| Readability | Mutable total, explicit absence branch | + Names flattening and summation | + Names filtering and summation | + Names aggregation; explicit copying |
-| API design | Consumes `Vec<Option<i32>>` | = Same consuming signature | = Same consuming signature | + Borrows `&[Option<i32>]` |
-| Performance | One pass; no allocation | = One pass; no allocation | = One pass; no allocation | + Avoids cloning when caller retains input |
-| Flexibility | Requires owned vector | = Still requires owned vector | = Still requires owned vector | + Accepts slices, arrays, borrowed vectors |
-| Error reporting | No overflow error; empty sums zero | = Same unreported overflow and zero | = Same unreported overflow and zero | = Same unreported overflow and zero |
+| Type-safety | Optional integers; overflow still possible | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same overflow risk | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same overflow risk | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same overflow risk |
+| Readability | Mutable total, explicit absence branch | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names flattening and summation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names filtering and summation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names aggregation; explicit copying |
+| API design | Consumes `Vec<Option<i32>>` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same consuming signature | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same consuming signature | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Borrows `&[Option<i32>]` |
+| Performance | One pass; no allocation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> One pass; no allocation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> One pass; no allocation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids cloning when caller retains input |
+| Flexibility | Requires owned vector | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Still requires owned vector | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Still requires owned vector | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Accepts slices, arrays, borrowed vectors |
+| Error reporting | No overflow error; empty sums zero | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same unreported overflow and zero | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same unreported overflow and zero | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same unreported overflow and zero |
 
 The borrowed version changes the ownership contract and requires callers to pass a reference.
 Its clone saving applies only when callers would otherwise clone to keep the input; the iterator rewrite alone makes no speed guarantee.

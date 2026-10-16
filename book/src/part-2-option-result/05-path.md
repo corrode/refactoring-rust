@@ -145,17 +145,17 @@ The function needs a richer return type and an explicit encoding policy.
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 | Criterion | Original | `is_some_and` | `map_or(false, …)` | Explicit `match` on extension |
 |---|---|---|---|---|
-| Type-safety | No filesystem guarantees | = No filesystem guarantees | = No filesystem guarantees | = No filesystem guarantees |
-| Readability | Two nested absence checks | + One presence-and-predicate expression | + Explicit default, no nesting | + Two cases, no nesting |
-| API design | `&Path` → `bool` | = Same borrowed predicate | = Same borrowed predicate | = Same borrowed predicate |
-| Performance | No allocation; validates UTF-8 | = No allocation; skips UTF-8 validation | = No allocation; skips UTF-8 validation | = No allocation; skips UTF-8 validation |
-| Flexibility | Exact, case-sensitive extension check | = Same matching policy | = Same matching policy | = Same matching policy |
-| Error reporting | All non-matches become `false` | = No reason for non-match | = No reason for non-match | = No reason for non-match |
+| Type-safety | No filesystem guarantees | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No filesystem guarantees | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No filesystem guarantees | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No filesystem guarantees |
+| Readability | Two nested absence checks | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> One presence-and-predicate expression | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Explicit default, no nesting | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Two cases, no nesting |
+| API design | `&Path` → `bool` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same borrowed predicate | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same borrowed predicate | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same borrowed predicate |
+| Performance | No allocation; validates UTF-8 | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No allocation; skips UTF-8 validation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No allocation; skips UTF-8 validation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No allocation; skips UTF-8 validation |
+| Flexibility | Exact, case-sensitive extension check | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same matching policy | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same matching policy | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same matching policy |
+| Error reporting | All non-matches become `false` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No reason for non-match | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No reason for non-match | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No reason for non-match |
 
 Skipping UTF-8 validation is not a measured speed-up.
 `is_some_and` requires Rust 1.70; `map_or` and explicit `match` work on older versions.

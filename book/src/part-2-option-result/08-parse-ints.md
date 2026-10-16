@@ -137,30 +137,30 @@ As the validation system grows, a structured error can carry a field name, code,
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 #### Parsing: `parse_values`
 
 | Criterion | Original | Borrowed slice + `map().collect()` |
 |---|---|---|
-| Type-safety | Complete vector or `ParseIntError` | = Same all-or-error result |
-| Readability | Explicit push and early return | + Names parsing and collection |
-| API design | Consumes `Vec<String>` | + Borrows `&[String]` |
-| Performance | Single pass; allocates output vector | + Avoids cloning when caller retains input |
-| Flexibility | Requires owned vector | + Accepts slices, arrays, borrowed vectors |
-| Error reporting | First `ParseIntError`; no input index | = Same error, still no index |
+| Type-safety | Complete vector or `ParseIntError` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same all-or-error result |
+| Readability | Explicit push and early return | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names parsing and collection |
+| API design | Consumes `Vec<String>` | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Borrows `&[String]` |
+| Performance | Single pass; allocates output vector | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids cloning when caller retains input |
+| Flexibility | Requires owned vector | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Accepts slices, arrays, borrowed vectors |
+| Error reporting | First `ParseIntError`; no input index | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same error, still no index |
 
 #### Validation: `collect_errors`
 
 | Criterion | Original | `filter_map` with `.err()` + `collect` |
 |---|---|---|
-| Type-safety | `expect` guarded by `is_err` | = Same `Result` and `Option` types |
-| Readability | Repeated variant checks, mutable accumulator | + Names error selection and collection |
-| API design | Borrows validators and input | = Same borrowed signature |
-| Performance | Every validator runs; stores error strings | = Same calls and owned messages |
-| Flexibility | Heterogeneous validators via trait objects | = Same trait-object interface |
-| Error reporting | All string errors, validator order | = Same messages and order |
+| Type-safety | `expect` guarded by `is_err` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same `Result` and `Option` types |
+| Readability | Repeated variant checks, mutable accumulator | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names error selection and collection |
+| API design | Borrows validators and input | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same borrowed signature |
+| Performance | Every validator runs; stores error strings | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same calls and owned messages |
+| Flexibility | Heterogeneous validators via trait objects | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same trait-object interface |
+| Error reporting | All string errors, validator order | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same messages and order |
 
 Parsing now requires a reference at call sites.
 Clone savings apply only when callers would otherwise clone to retain the input; neither pipeline promises a speed-up.

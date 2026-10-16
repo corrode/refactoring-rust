@@ -1,8 +1,15 @@
 # `better_match`
 
-This function assigns labels to an optional number.
-Refactor it without changing its signature or results, including the distinction between `None` and a number that isn't listed.
-You can check your changes with `cargo test --example 02_better_match`.
+The next function assigns "labels" to numbers.
+
+The (somewhat arbitrary) rules are:
+
+- If the number is prime (2, 3, 5, or 7), return `"prime"`.
+- If the number is a perfect square (0, 1, 4, or 9), return `"square"`.
+- If the input is `None`, return `"nothing"`.
+- For any other number, return `"something else"`.
+
+It works, but is there a way to reduce the repetition?
 
 ## Code to refactor
 
@@ -22,17 +29,17 @@ You can check your changes with `cargo test --example 02_better_match`.
 ## Discussion
 
 <details class="discussion-question">
-<summary>What changes across the first two arms, and what stays the same?</summary>
+<summary>What changes across the match arms, and what stays the same?</summary>
 
-Within each arm, every alternative has the same outer `Some` constructor and returns the same label.
-Only the integer inside the constructor changes.
+Only the integer inside the constructor changes!
+But the `Some` constructor and the returned label are the same for each arm.
 
 </details>
 
 <details class="discussion-question">
-<summary>Can an enum variant pattern contain an or-pattern?</summary>
+<summary>Can an enum variant contain an or-pattern?</summary>
 
-Yes, or-patterns work recursively.
+Or-patterns work recursively, so yes!
 You can put the alternatives inside the shared constructor, as in `Some(2 | 3)`.
 
 </details>
@@ -74,49 +81,27 @@ The `Some(11)` test confirms this: 11 is prime, but the function returns `"somet
 {{#include ../../../solutions/02_better_match.rs:tests}}
 </script>
 
-`Some(2 | 3 | 5 | 7)` applies one constructor pattern to four possible payloads.
-The next arm does the same for its four values.
-Since `None` and the fallback are unchanged, the match still divides every input into the same four cases:
+`Some(2 | 3 | 5 | 7)` applies one constructor pattern to the four primes.
+The next arm does the same for the square values. 
+Since `None` and the fallback are unchanged, we still have four cases: 
 
 1. `Some` containing one of the listed prime values;
 2. `Some` containing one of the listed square values;
 3. `None`;
 4. every other `Some(u32)`.
 
-Each rewritten arm matches the same values as before, and the arm order is unchanged.
-The signature and results stay the same; only the pattern syntax changes.
-
-### Edge cases and production concerns
-
-> **EDGE CASE**
->
-> The names suggest broader categories than the implementation provides.
-> Both versions are fixed lookup tables.
-
-Primes such as 13 and squares such as 16 still return `"something else"`.
-Recognizing all primes and squares would require arithmetic checks and broader tests, not just more literals.
-These two mathematical categories do not overlap: no prime is a perfect square.
-
-Match arms are evaluated in source order.
-If a later change places one literal in both sets, the earlier category wins.
-That priority belongs in the contract rather than emerging accidentally from the order of the arms.
-
-A `&'static str` is adequate for display.
-If downstream code starts branching on these labels, an enum would rule out typos and make category changes visible to the compiler.
-That would be a separate API change, not part of this pattern refactor.
-
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 | Criterion | Original | Nested or-patterns |
 |---|---|---|
-| Type-safety | Exhaustive match; string labels | = Same states and string labels |
-| Readability | Repeats constructor for each literal | + Less repetition, if nesting familiar |
-| API design | Fixed lookup; wildcard fallback | = Same signature and fallback |
-| Performance | Fixed match; no allocation | = Same matching work; no allocation |
-| Flexibility | Categories require source edits | = Categories still require source edits |
+| Type-safety | Exhaustive match; string labels | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same states and string labels |
+| Readability | Repeats constructor for each literal | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Less repetition, if nesting familiar |
+| API design | Fixed lookup; wildcard fallback | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same signature and fallback |
+| Performance | Fixed match; no allocation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same matching work; no allocation |
+| Flexibility | Categories require source edits | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Categories still require source edits |
 | Error reporting | Every input maps to a label | N/A |
 
 Keeping the expanded patterns is reasonable if your team finds them easier to scan.
@@ -127,10 +112,10 @@ The suggested `Some(_)` fallback is a separate change: unlike `_`, it would let 
 
 ## Takeaways For Our Own Codebase
 
-> - When does removing a repeated constructor make a pattern easier to read, and when does nesting make it harder to scan?
-> - In your codebase, would `Some(_)` communicate the fallback more clearly than `_`?
-> - Does the name `describe` reveal that this function recognizes fixed categories?
-> - When should a small fixed set stay in a pattern, and when should it become data or an algorithm?
+> - How can you make pattern matching easier to read?
+> - Can your fallbacks be more precise than `_`? E.g. maybe use `Some(_)` instead of `_` to indicate that the fallback only applies to `Some` values?
+> - Always be on the lookout for better function names. In the example above, `describe` could be replaced with something more descriptive, like `label_number`.
+> - How do you decide whether to use pattern matching or turn the logic into its own function?
 
 ## References
 

@@ -158,16 +158,16 @@ pub fn is_yes(s: &str) -> bool {
 }
 ```
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
+Compared with the original: <img class="tradeoff-icon" src="icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
 | Criterion | Original: owned input, exact comparisons | Borrowed input + ASCII lowercase |
 |---|---|---|
-| Type-safety | Any string; boolean result | = No new type-level invariant |
-| Readability | Four separate branches | + One expression, if `matches!` familiar |
-| API design | Consumes `String` | + Borrows `&str` |
-| Performance | No internal allocation | − Allocates lowercase copy |
-| Flexibility | Can add arbitrary exact spellings | − Applies ASCII folding to every input |
+| Type-safety | Any string; boolean result | <img class="tradeoff-icon" src="icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No new type-level invariant |
+| Readability | Four separate branches | <img class="tradeoff-icon" src="icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> One expression, if `matches!` familiar |
+| API design | Consumes `String` | <img class="tradeoff-icon" src="icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Borrows `&str` |
+| Performance | No internal allocation | <img class="tradeoff-icon" src="icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Allocates lowercase copy |
+| Flexibility | Can add arbitrary exact spellings | <img class="tradeoff-icon" src="icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Applies ASCII folding to every input |
 | Error reporting | Every input yields a boolean | N/A |
 
 The borrowed parameter removes the need to give up ownership, but lowercasing adds

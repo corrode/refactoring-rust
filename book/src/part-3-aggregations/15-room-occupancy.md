@@ -148,17 +148,17 @@ Callers must then handle the absence of a maximum.
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 | Criterion | Original | Iterator aggregates (main) | `Rooms` methods |
 |---|---|---|---|
-| Type-safety | Signed counts, narrowing casts | = Same types and casts | = No validation, same casts |
-| Readability | Mutable aggregate bookkeeping | + Names each aggregate operation | + Named aggregates grouped as methods |
-| API design | Four borrowed-slice helpers | = Same signatures, changed maximum semantics | + Groups operations, hides storage |
-| Performance | Linear traversals, eager age vector | = Same asymptotic work and copying | = Same traversals; moves input vector |
-| Flexibility | Accepts any room slice | + Composable filters and transformations | − Requires owned vector, not slice |
-| Error reporting | No explicit validation errors | = No added error reporting | = No added error reporting |
+| Type-safety | Signed counts, narrowing casts | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same types and casts | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No validation, same casts |
+| Readability | Mutable aggregate bookkeeping | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names each aggregate operation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Named aggregates grouped as methods |
+| API design | Four borrowed-slice helpers | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same signatures, changed maximum semantics | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Groups operations, hides storage |
+| Performance | Linear traversals, eager age vector | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same asymptotic work and copying | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same traversals; moves input vector |
+| Flexibility | Accepts any room slice | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Composable filters and transformations | <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Requires owned vector, not slice |
+| Error reporting | No explicit validation errors | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added error reporting | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> No added error reporting |
 
 The readability gains assume iterator familiarity.
 Both shown solutions return `-1` for adult counts `[-3, -1]`, where the original returns `0`: a contract change, not stronger type safety.

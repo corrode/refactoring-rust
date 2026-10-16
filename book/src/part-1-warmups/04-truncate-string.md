@@ -174,16 +174,16 @@ Make that API change only when callers benefit from it.
 
 ### Trade-offs
 
-Compared with the original: **+** advantage, **=** comparable, **−** disadvantage, **N/A** not applicable.
+Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
 | Criterion | Original | `floor_char_boundary` | Manual boundary search | `truncate_chars` (scalar cap) |
 |---|---|---|---|---|
-| Type-safety | Boundary rule absent from types | = Boundary checked at runtime | = Boundary checked at runtime | = Limit unit still untyped |
-| Readability | Short; boundary precondition hidden | + Named policy; nested expression needs familiarity | + Explicit policy; more control flow | + Direct scalar count, if adapters familiar |
-| API design | Byte cap; owned result | = Same signature and byte unit | = Same signature and byte unit | − Scalar cap cannot enforce byte budget |
-| Performance | Copies entire input | + Copies less when prefix shorter | + Copies less when prefix shorter | N/A |
-| Flexibility | Byte cap; older stable APIs | − Requires Rust 1.91 | = Byte cap; older stable APIs | − Replaces byte budget with scalar count |
+| Type-safety | Boundary rule absent from types | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Boundary checked at runtime | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Boundary checked at runtime | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Limit unit still untyped |
+| Readability | Short; boundary precondition hidden | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Named policy; nested expression needs familiarity | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Explicit policy; more control flow | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Direct scalar count, if adapters familiar |
+| API design | Byte cap; owned result | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same signature and byte unit | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same signature and byte unit | <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Scalar cap cannot enforce byte budget |
+| Performance | Copies entire input | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Copies less when prefix shorter | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Copies less when prefix shorter | N/A |
+| Flexibility | Byte cap; older stable APIs | <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Requires Rust 1.91 | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Byte cap; older stable APIs | <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> Replaces byte budget with scalar count |
 | Error reporting | Panics inside multi-byte encoding | N/A | N/A | N/A |
 
 Both byte-cap solutions fix the panic when a limit splits a UTF-8 character; unchanged types and signatures do not mean unchanged correctness.
