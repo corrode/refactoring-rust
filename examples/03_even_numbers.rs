@@ -1,9 +1,8 @@
 // ANCHOR: listing
 /// Return the even numbers below `max`.
 ///
-/// This works right now, but it eagerly builds a whole `Vec` and hand-rolls
-/// the loop. Can you return a lazy sequence instead?
-/// (You have free rein to change the signature.)
+/// Refactor the loop without changing the signature or returned values.
+/// As a separate alternative, consider returning a lazy sequence.
 pub fn evens(max: u32) -> Vec<u32> {
     let mut result = Vec::new();
     let mut n = 0;

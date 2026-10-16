@@ -93,7 +93,7 @@ zoom: 0.8
 # 21 · Follow-up: commands form a pipeline
 
 ```rust
-fn apply_pipeline(commands: &[Box<dyn PipelineCommand>], input: &str) -> String {
+pub fn apply_pipeline(commands: &[Box<dyn PipelineCommand>], input: &str) -> String {
     if commands.is_empty() {
         return input.to_string();
     }
@@ -152,7 +152,7 @@ zoom: 1.05
 # 21 · Use the pipeline identity
 
 ```rust
-fn apply_pipeline(
+pub fn apply_pipeline(
     commands: &[Box<dyn PipelineCommand>],
     input: &str,
 ) -> String {

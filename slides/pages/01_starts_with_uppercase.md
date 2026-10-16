@@ -29,7 +29,7 @@ pub fn starts_with_uppercase(s: String) -> bool {
 <!--
 Easiest possible warm-up. Several things to find. Don't preempt them.
 Common discoveries (in roughly the order people will spot them):
-  - `String` -> `&str`
+  - `String` -> `&str` is a later API alternative, not the first pass.
   - `len() == 0` -> `is_empty()`
   - `chars().nth(0)` -> `chars().next()`
   - `== true` -> just drop it
@@ -52,6 +52,23 @@ Hint: Clippy will tell you most of these. Run it.
 ---
 
 # 01 · Possible solution
+
+```rust
+pub fn starts_with_uppercase(s: String) -> bool {
+    s.chars().next().is_some_and(char::is_uppercase)
+}
+```
+
+<div class="mt-8 text-base opacity-80">
+
+- Keep `String` so existing callers need no changes.
+- `is_some_and` checks the first character, or returns `false` for empty input.
+
+</div>
+
+---
+
+# 01 · Alternative: borrow the string
 
 ```rust
 pub fn starts_with_uppercase(s: &str) -> bool {

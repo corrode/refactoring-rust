@@ -41,38 +41,9 @@ field makes the accessor redundant and commits the module to this representation
 - When would `pub(crate)` or `pub(super)` describe the intended boundary better?
 
 <div class="mt-12 opacity-70">
-Fix visibility errors one at a time with the narrowest access that serves the caller.
+Keep `Settings::new`, `Settings::get_port`, and the public field first. Revisit visibility in an alternative.
 </div>
 
----
-
-# 26 · Keep the representation private
-
-```rust
-pub mod settings {
-    pub struct Settings {
-        port: u16,
-    }
-
-    impl Settings {
-        pub fn new(port: u16) -> Self {
-            Self { port }
-        }
-
-        pub fn port(&self) -> u16 {
-            self.port
-        }
-    }
-}
-```
-
-<div class="mt-8 text-base opacity-80">
-
-- Callers depend on the type's API rather than its field layout.
-- The module can add validation or change storage without changing callers.
-- Visibility defines an architectural boundary.
-
-</div>
 
 ---
 layout: default
@@ -141,7 +112,67 @@ Hint: you can <code>impl TryFrom&lt;&HashMap&lt;String, String&gt;&gt; for Setti
 zoom: 0.75
 ---
 
-# 26 · Possible solution: public surface
+# 26 · Possible solution
+
+```rust
+use std::collections::HashMap;
+
+pub fn get_port(config: &HashMap<String, String>) -> u16 {
+    config.get("PORT").and_then(|v| v.parse().ok()).unwrap_or(8080)
+}
+
+pub fn get_host(config: &HashMap<String, String>) -> String {
+    config.get("HOST").cloned().unwrap_or_else(|| "localhost".to_string())
+}
+
+pub fn get_debug(config: &HashMap<String, String>) -> bool {
+    matches!(config.get("DEBUG").map(String::as_str), Some("1" | "true" | "yes"))
+}
+
+pub fn get_max_connections(config: &HashMap<String, String>) -> u32 {
+    config.get("MAX_CONNECTIONS").and_then(|v| v.parse().ok()).unwrap_or(100)
+}
+```
+
+<div class="mt-4 text-base opacity-80">
+Keep `settings::Settings` unchanged, including `new`, `get_port`, and `pub port`.
+The getters keep their signatures and fallback policy without temporary default strings.
+</div>
+
+---
+
+# 26 · Alternative: private representation
+
+```rust
+pub mod settings {
+    pub struct Settings {
+        port: u16,
+    }
+
+    impl Settings {
+        pub fn new(port: u16) -> Self {
+            Self { port }
+        }
+
+        pub fn port(&self) -> u16 {
+            self.port
+        }
+    }
+}
+```
+
+<div class="mt-8 text-base opacity-80">
+
+- Hiding `port` and renaming `get_port` break existing callers.
+- Once callers migrate, the module controls access to its representation.
+
+</div>
+
+---
+zoom: 0.75
+---
+
+# 26 · Alternative: typed settings
 
 ```rust
 pub mod settings {
@@ -178,7 +209,7 @@ The type and its operations are public. Its representation remains private.
 zoom: 0.72
 ---
 
-# 26 · Possible solution: parse at the boundary
+# 26 · Alternative: parse at the boundary
 
 ```rust
 #[derive(Debug)]
@@ -213,7 +244,7 @@ impl TryFrom<&HashMap<String, String>> for Settings {
 ```
 
 <div class="mt-4 text-base opacity-80">
-Parsing happens once, bad input is reported, and callers use the small `Settings` API.
+Callers migrate to `Settings::try_from`. Invalid numbers now return errors instead of defaults.
 </div>
 
 <!--

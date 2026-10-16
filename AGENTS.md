@@ -56,6 +56,9 @@ make book-check   # full CI replica: test + book-test + book-build
 ## When editing code
 
 1. Keep starter and solution behaviour aligned. Both are tested.
+   The first solution (`solutions/NN_name.rs`) must preserve the starter's
+   function signatures and caller-facing types. Put API-changing designs in
+   `_alt.rs` files and present them after the first solution in the book and slides.
 2. Run `make test` before committing.
 3. If you add a new alternative solution, add the `[[example]]` entry
    in `Cargo.toml` so CI picks it up.

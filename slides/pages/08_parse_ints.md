@@ -48,6 +48,27 @@ zoom: 1.2
 # 08 · Possible solution
 
 ```rust
+use std::num::ParseIntError;
+
+pub fn parse_values(values: Vec<String>) -> Result<Vec<i32>, ParseIntError> {
+    values.into_iter().map(|v| v.parse()).collect()
+}
+```
+
+<div class="mt-8 text-base opacity-80">
+
+- Keep the owned input and the same result type.
+- `collect` returns all parsed values, or stops at the first error.
+
+</div>
+
+---
+zoom: 1.2
+---
+
+# 08 · Alternative: borrow the input
+
+```rust
 pub fn parse_values(values: &[String]) -> Result<Vec<i32>, ParseIntError> {
     values.iter().map(|v| v.parse()).collect()
 }
@@ -72,7 +93,7 @@ Validation wants every rule to run and every error to be returned in rule order.
 </div>
 
 ```rust
-fn collect_errors(
+pub fn collect_errors(
     validators: &[&dyn Validator],
     input: &str,
 ) -> Vec<String> {
@@ -114,7 +135,7 @@ zoom: 1.1
 # 08 · Collect every validation error
 
 ```rust
-fn collect_errors(
+pub fn collect_errors(
     validators: &[&dyn Validator],
     input: &str,
 ) -> Vec<String> {

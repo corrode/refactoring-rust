@@ -7,7 +7,7 @@
 <div>
 
 1. I show the awkward code.
-2. You take a few minutes to refactor.
+2. You refactor, keeping the starter's signatures.
 3. We compare answers together.
 4. I show one possible solution.
 
@@ -32,7 +32,7 @@ cargo test --examples
 ```
 
 Everything is allowed: `clippy`, `rust-analyzer`, the docs, your neighbor, an LLM. 
-Feel free to change the code as much as you want.
+First preserve the API. Explore API redesigns as separate alternatives.
 
 </div>
 

@@ -18,6 +18,10 @@ and make it more idiomatic. There is typically more than one good answer.
 The goal is not to be a definitive source of truth, but rather to give us
 something concrete to talk about.
 
+Start by keeping the function signatures unchanged.
+The first solution in `solutions/NN_name.rs` preserves the original API;
+`solutions/NN_name_alt.rs` can explore a different interface afterward.
+
 ## The book
 
 A companion mdBook is in development on the `book` branch. See

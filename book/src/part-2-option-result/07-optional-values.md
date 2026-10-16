@@ -3,7 +3,8 @@
 This function adds up optional integers.
 Can you express that more directly?
 Keep the same totals, including for missing entries, empty input, and input with no present values.
-You may change how the function accepts its input.
+Keep the function signature for your first solution.
+Explore different input types as an alternative afterward.
 
 Run the local tests with `cargo test --example 07_optional_values`.
 

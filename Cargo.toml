@@ -126,6 +126,11 @@ path = "solutions/01_starts_with_uppercase.rs"
 crate-type = ["lib"]
 
 [[example]]
+name = "01_starts_with_uppercase_alt"
+path = "solutions/01_starts_with_uppercase_alt.rs"
+crate-type = ["lib"]
+
+[[example]]
 name = "02_better_match_solution"
 path = "solutions/02_better_match.rs"
 crate-type = ["lib"]
@@ -133,6 +138,11 @@ crate-type = ["lib"]
 [[example]]
 name = "03_even_numbers_solution"
 path = "solutions/03_even_numbers.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "03_even_numbers_alt"
+path = "solutions/03_even_numbers_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
@@ -161,6 +171,11 @@ path = "solutions/08_parse_ints.rs"
 crate-type = ["lib"]
 
 [[example]]
+name = "08_parse_ints_alt"
+path = "solutions/08_parse_ints_alt.rs"
+crate-type = ["lib"]
+
+[[example]]
 name = "09_floor_solution"
 path = "solutions/09_floor.rs"
 crate-type = ["lib"]
@@ -182,6 +197,11 @@ path = "solutions/11_parse_port.rs"
 crate-type = ["lib"]
 
 [[example]]
+name = "11_parse_port_alt"
+path = "solutions/11_parse_port_alt.rs"
+crate-type = ["lib"]
+
+[[example]]
 name = "12_dedup_runs_solution"
 path = "solutions/12_dedup_runs.rs"
 crate-type = ["lib"]
@@ -199,6 +219,11 @@ crate-type = ["lib"]
 [[example]]
 name = "14_spell_check_solution"
 path = "solutions/14_spell_check.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "14_spell_check_alt"
+path = "solutions/14_spell_check_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
@@ -232,8 +257,18 @@ path = "solutions/19_parse_srt_timestamp.rs"
 crate-type = ["lib"]
 
 [[example]]
+name = "19_parse_srt_timestamp_alt"
+path = "solutions/19_parse_srt_timestamp_alt.rs"
+crate-type = ["lib"]
+
+[[example]]
 name = "20_iterators_solution"
 path = "solutions/20_iterators.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "20_iterators_alt"
+path = "solutions/20_iterators_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
@@ -244,6 +279,11 @@ crate-type = ["lib"]
 [[example]]
 name = "22_fun_strings_ext_solution"
 path = "solutions/22_fun_strings_ext.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "22_fun_strings_ext_alt"
+path = "solutions/22_fun_strings_ext_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
@@ -267,11 +307,26 @@ path = "solutions/26_config_loader.rs"
 crate-type = ["lib"]
 
 [[example]]
+name = "26_config_loader_alt"
+path = "solutions/26_config_loader_alt.rs"
+crate-type = ["lib"]
+
+[[example]]
 name = "27_env_file_parser_solution"
 path = "solutions/27_env_file_parser.rs"
 crate-type = ["lib"]
 
 [[example]]
+name = "27_env_file_parser_alt"
+path = "solutions/27_env_file_parser_alt.rs"
+crate-type = ["lib"]
+
+[[example]]
 name = "28_mini_redis_solution"
 path = "solutions/28_mini_redis.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "28_mini_redis_alt"
+path = "solutions/28_mini_redis_alt.rs"
 crate-type = ["lib"]

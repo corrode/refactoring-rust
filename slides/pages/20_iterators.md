@@ -36,7 +36,7 @@ Lots of beginner smells in one place:
   - Manual `while` with `i = i + 1` instead of a `for` / iterator.
   - `return` on the last expression.
   - Eagerly building a `Vec` when a lazy producer would do.
-The arc: spot the smells -> reach for `Iterator`.
+First remove repeated work while keeping fib and first_n. Then explore an Iterator API.
 -->
 
 ---
@@ -55,10 +55,44 @@ zoom: 0.85
 # 20 · Possible solution
 
 ```rust
-struct Fibonacci { current: u64, next: u64 }
+pub fn fib(n: u32) -> u64 {
+    let (mut previous, mut current) = (1, 0);
+    for _ in 0..n {
+        (previous, current) = (current, previous + current);
+    }
+    current
+}
+
+pub fn first_n(n: usize) -> Vec<u64> {
+    (0..n).scan((1, 0), |(previous, current), i| {
+        if i > 0 {
+            (*previous, *current) = (*current, *previous + *current);
+        }
+        Some(*current)
+    }).collect()
+}
+```
+
+<div class="mt-6 text-base opacity-80">
+
+- Both signatures stay unchanged; each function takes O(n) time.
+- Advance only when needed: `fib(93)` and `first_n(94)` fit in `u64`.
+- Larger values still use ordinary integer overflow behavior.
+
+</div>
+
+---
+zoom: 0.85
+---
+
+# 20 · Alternative: a lazy iterator
+
+```rust
+// Excerpt: Default and FusedIterator impls omitted.
+pub struct Fibonacci { current: u64, next: u64 }
 
 impl Fibonacci {
-    fn new() -> Self { Self { current: 0, next: 1 } }
+    pub fn new() -> Self { Self { current: 0, next: 1 } }
 }
 
 impl Iterator for Fibonacci {
@@ -79,10 +113,12 @@ impl Iterator for Fibonacci {
 
 - One `struct` holds the state; `next` advances it in O(1).
 - Implementing `Iterator` unlocks `take`, `map`, `zip`, `collect`, …
-- For overflow safety, swap `+` for `checked_add` and return `None`.
+- This version computes ahead: it overflows before yielding F(92) with overflow checks enabled.
 
 </div>
 <!--
+A checked iterator needs a terminal state so it can yield the last valid value
+before returning None permanently. Replacing + with checked_add alone is not enough.
 A tuple-destructure form is even tidier on recent Rust:
   (self.current, self.next) = (self.next, self.current + self.next);
 -->

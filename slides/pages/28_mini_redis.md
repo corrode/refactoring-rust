@@ -72,4 +72,5 @@ a command? what's the type of a response?" Each answer collapses code.
 # 28 · Show me the code! 
 
 Come up with your own solution!
-Take it as far as you'd like.
+Keep `handle(db: &mut Db, args: &[&str]) -> String` and the public `Db` fields first.
+Explore a different storage model as a separate alternative.

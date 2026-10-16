@@ -65,6 +65,37 @@ zoom: 0.85
 # 22 · Possible solution
 
 ```rust
+pub fn shout(s: &str) -> String { s.to_uppercase() }
+
+pub fn sparkle(s: &str) -> String { format!("✨ {s} ✨") }
+
+pub fn spongebob_case(s: &str) -> String {
+    s.chars().enumerate().fold(String::new(), |mut out, (i, c)| {
+        if i % 2 == 0 {
+            out.extend(c.to_uppercase());
+        } else {
+            out.extend(c.to_lowercase());
+        }
+        out
+    })
+}
+```
+
+<div class="mt-8 text-base opacity-80">
+
+- Keep all three free functions and their signatures.
+- `extend` preserves Unicode casing, including expansions such as `ß` to `SS`.
+- The original loop is also fine; a fold is not automatically clearer.
+
+</div>
+
+---
+zoom: 0.85
+---
+
+# 22 · Alternative: an extension trait
+
+```rust
 pub trait FunStr {
     fn shout(&self) -> String;
     fn sparkle(&self) -> String;
@@ -90,7 +121,7 @@ impl FunStr for str {
 
 - An extension trait lets us add methods to a foreign type (`str`) because we own the trait.
 - Call sites flow in reading order: `s.trim().shout().sparkle()`.
-- `spongebob_case` becomes a single iterator pipeline - no manual buffer.
+- This `spongebob_case` uses ASCII casing, changing the starter's non-ASCII behavior.
 
 </div>
 <!--

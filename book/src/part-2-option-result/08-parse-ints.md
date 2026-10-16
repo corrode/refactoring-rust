@@ -4,7 +4,8 @@ One function parses integers; the other collects validation errors.
 Can you make both easier to read without changing how they handle errors?
 Parsing must stop at the first failure.
 Validation must run every check and collect all errors in input order.
-You may change how the functions accept their inputs, but keep these results.
+Keep the original function signatures and results.
+Consider changes to input ownership afterward as a separate alternative.
 
 Run the local tests with `cargo test --example 08_parse_ints`.
 
@@ -19,7 +20,7 @@ Run the local tests with `cargo test --example 08_parse_ints`.
 </script>
 
 <script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/08_parse_ints.rs:tests}}
+{{#include ../../../solutions/08_parse_ints_alt.rs:tests}}
 </script>
 
 
@@ -31,6 +32,7 @@ Run the local tests with `cargo test --example 08_parse_ints`.
 No, it only reads each string.
 `parse` works on the string's `str` contents, so you can accept `&[String]` instead of taking ownership of the vector.
 Callers can then keep using their strings afterward.
+That changes the API, so keep it separate from the first refactor.
 
 </details>
 
@@ -38,7 +40,7 @@ Callers can then keep using their strings afterward.
 <summary>What is the iterator's item type after parsing each string?</summary>
 
 `Result<i32, ParseIntError>`, when you parse as `i32`.
-Mapping `parse` over `values.iter()` produces either a parsed integer or a parse error for each string it visits.
+Mapping `parse` over `values.into_iter()` produces either a parsed integer or a parse error for each string it visits.
 
 </details>
 
@@ -101,9 +103,9 @@ In an iterator chain, `filter_map` can consume that `Option` directly.
 {{#include ../../../solutions/08_parse_ints.rs:tests}}
 </script>
 
-The new `parse_values` takes a borrowed slice.
-`values.iter()` visits each `String` by reference, and method resolution lets `parse` read the underlying `str`.
-The caller keeps both the vector and its strings.
+`parse_values` still takes ownership of `Vec<String>`.
+`values.into_iter()` yields each owned `String`, and method resolution lets `parse` read the underlying `str`.
+Both functions keep their original signatures, so callers need no changes.
 
 The return type determines the types in the iterator chain.
 It tells `parse` that successful values are `i32`, and it tells `collect` to build `Result<Vec<i32>, ParseIntError>`.
@@ -120,6 +122,22 @@ Instead, the closure passed to `filter_map` runs each validator and calls `Resul
 The final `collect` consumes the entire iterator, so every validator runs.
 It collects the messages in validator order.
 You no longer need the repeated variant check or `expect`: `filter_map` discards `None` and extracts the value inside `Some`.
+
+### Alternative: borrow the input
+
+If you can change the parsing API, accept a borrowed slice instead:
+
+```rust,editable
+{{#include ../../../solutions/08_parse_ints_alt.rs:listing}}
+```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/08_parse_ints_alt.rs:tests}}
+</script>
+
+`values.iter()` visits each `String` by reference.
+The caller keeps both the vector and its strings, but must now pass a reference to `parse_values`.
+The error policy stays the same, and `collect_errors` needs no further changes.
 
 ### Edge cases and production concerns
 
@@ -147,14 +165,14 @@ Readability depends on familiarity.
 
 #### Parsing: `parse_values`
 
-| Criterion | Original | Borrowed slice + `map().collect()` |
-|---|---|---|
-| Type-safety | Complete vector or `ParseIntError` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same all-or-error result |
-| Readability | Explicit push and early return | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names parsing and collection |
-| API design | Consumes `Vec<String>` | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Borrows `&[String]` |
-| Performance | Single pass; allocates output vector | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids cloning when caller retains input |
-| Flexibility | Requires owned vector | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Accepts slices, arrays, borrowed vectors |
-| Error reporting | First `ParseIntError`; no input index | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same error, still no index |
+| Criterion | Original | Owned `map().collect()` (main) | Borrowed slice + `map().collect()` |
+|---|---|---|---|
+| Type-safety | Complete vector or `ParseIntError` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same all-or-error result | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same all-or-error result |
+| Readability | Explicit push and early return | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names parsing and collection | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Names parsing and collection |
+| API design | Consumes `Vec<String>` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Preserves `Vec<String>` parameter | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Borrows `&[String]` |
+| Performance | Single pass; allocates output vector | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Single pass; allocates output vector | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids cloning when caller retains input |
+| Flexibility | Requires owned vector | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Requires owned vector | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Accepts slices, arrays, borrowed vectors |
+| Error reporting | First `ParseIntError`; no input index | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same error, still no index | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same error, still no index |
 
 #### Validation: `collect_errors`
 
@@ -167,7 +185,7 @@ Readability depends on familiarity.
 | Flexibility | Heterogeneous validators via trait objects | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same trait-object interface |
 | Error reporting | All string errors, validator order | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same messages and order |
 
-Callers must now pass a reference to `parse_values`.
+Only the borrowed alternative requires callers to pass a reference to `parse_values`.
 Borrowing saves a clone only if they would otherwise clone the input to keep it.
 Neither iterator chain guarantees a speed-up.
 Don't replace the validation chain with `collect` over `Result`: it would stop at the first error.

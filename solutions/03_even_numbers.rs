@@ -1,12 +1,7 @@
 // ANCHOR: listing
-/// Return the even numbers below `max` as a lazy iterator.
-///
-/// Solution highlights:
-/// - `impl Iterator<Item = u32>` returns the iterator without allocating.
-/// - `step_by(2)` says exactly what we mean: walk in steps of two.
-/// - Callers stay in control: they can `take`, `map`, `sum`, or `collect`.
-pub fn evens(max: u32) -> impl Iterator<Item = u32> {
-    (0..max).step_by(2)
+/// Return the even numbers below `max`.
+pub fn evens(max: u32) -> Vec<u32> {
+    (0..max).step_by(2).collect()
 }
 
 // ANCHOR_END: listing
@@ -17,26 +12,29 @@ mod tests {
     use super::*;
 
     #[test]
+    fn original_signature() {
+        let generate: fn(u32) -> Vec<u32> = evens;
+        assert_eq!(generate(2), vec![0]);
+    }
+
+    #[test]
     fn first_few() {
-        let evens: Vec<u32> = evens(10).collect();
-        assert_eq!(evens, vec![0, 2, 4, 6, 8]);
+        assert_eq!(evens(10), vec![0, 2, 4, 6, 8]);
     }
 
     #[test]
     fn empty() {
-        assert_eq!(evens(0).count(), 0);
+        assert_eq!(evens(0), Vec::<u32>::new());
     }
 
     #[test]
     fn odd_bound() {
-        let evens: Vec<u32> = evens(7).collect();
-        assert_eq!(evens, vec![0, 2, 4, 6]);
+        assert_eq!(evens(7), vec![0, 2, 4, 6]);
     }
 
     #[test]
-    fn stays_lazy() {
-        let first_three: Vec<u32> = evens(u32::MAX).take(3).collect();
-        assert_eq!(first_three, vec![0, 2, 4]);
+    fn smallest_nonempty_bound() {
+        assert_eq!(evens(1), vec![0]);
     }
 }
 // ANCHOR_END: tests

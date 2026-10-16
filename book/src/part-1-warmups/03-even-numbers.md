@@ -1,6 +1,9 @@
 # `even_numbers`
 
-In this exercise, the task is to return a sequence of even numbers below a given upper bound. For example, `evens(10)` should produce the sequence `[0, 2, 4, 6, 8]`.
+In this exercise, the task is to return a sequence of even numbers below a given upper bound.
+For example, `evens(10)` should produce the sequence `[0, 2, 4, 6, 8]`.
+Refactor the implementation without changing its signature or returned values.
+Afterward, consider a lazy iterator as a separate API change.
 
 
 ## Code to refactor
@@ -14,7 +17,7 @@ In this exercise, the task is to return a sequence of even numbers below a given
 </script>
 
 <script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/03_even_numbers.rs:tests}}
+{{#include ../../../solutions/03_even_numbers_alt.rs:tests}}
 </script>
 
 
@@ -23,7 +26,8 @@ In this exercise, the task is to return a sequence of even numbers below a given
 <details class="discussion-question">
 <summary>Does <code>evens</code> need to allocate and fill a complete <code>Vec</code> before returning?</summary>
 
-No, it can return a lazy iterator instead.
+With the current `Vec<u32>` return type, yes.
+If you can change that signature, it can return a lazy iterator instead.
 You can then consume values as you need them without storing the complete sequence first.
 
 </details>
@@ -87,6 +91,23 @@ Returning a `Vec` makes `evens` generate the complete result before returning.
 `step_by(2)` yields every other value, starting with zero.
 This removes the manual counter and parity check.
 
+`collect` builds the `Vec<u32>` promised by the original signature.
+Callers keep their owned storage, indexing, and repeated traversal without changing their code.
+This version still generates the complete result before returning.
+The tests compare vectors directly and check the original function type.
+
+### Alternative: return a lazy iterator
+
+If callers don't need owned storage, you can move the choice of how to consume the sequence to them:
+
+```rust,editable
+{{#include ../../../solutions/03_even_numbers_alt.rs:listing}}
+```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/03_even_numbers_alt.rs:tests}}
+</script>
+
 The return type, `impl Iterator<Item = u32>`, hides the concrete `StepBy<Range<u32>>` type.
 You can change the adapters later as long as you preserve the promised sequence and public trait guarantees.
 
@@ -95,35 +116,25 @@ Calling `evens` creates the iterator without generating the full sequence.
 `sum` consumes the sequence without building a temporary collection.
 A caller that needs owned storage can use `collect::<Vec<_>>()`.
 
-The solution tests call `collect` before comparing a complete sequence and use `count` for the empty case.
+The alternative's tests call `collect` before comparing a complete sequence and use `count` for the empty case.
 Callers that rely on a `Vec` for indexing, storage, or repeated traversal also need to collect the iterator or change how they use the result.
 
 Do the shared tests prove that the result is lazy?
-No, so the solution adds `stays_lazy`: it uses `u32::MAX` as the bound and consumes only three values.
+No, so the alternative adds `stays_lazy`: it uses `u32::MAX` as the bound and consumes only three values.
 The test shows that you can stop after a small prefix instead of constructing the full result.
 It does not measure allocations.
 
-### Alternative approaches
-
-If callers rely on an owned collection, you can remove the manual loop without changing the API:
-
-```rust,editable
-pub fn evens(max: u32) -> Vec<u32> {
-    (0..max).step_by(2).collect()
-}
-```
-
-Use this version when you need to preserve the `Vec` contract.
-It removes the manual loop without making callers change.
-It remains eager, so it does not satisfy this exercise's lazy-result requirement.
-
-A lazy filter is also correct:
+A lazy filter is also correct if you choose to change the API:
 
 ```rust,editable
 pub fn evens(max: u32) -> impl Iterator<Item = u32> {
     (0..max).filter(|n| n % 2 == 0)
 }
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/03_even_numbers_alt.rs:tests}}
+</script>
 
 `filter` is useful when a predicate determines which values to keep.
 Here the values are evenly spaced, so `step_by(2)` states the rule directly without a parity test for each candidate.
@@ -133,17 +144,17 @@ Here the values are evenly spaced, so `step_by(2)` states the rule directly with
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
-| Criterion | Original | Lazy `step_by` | `step_by` → `Vec` | Lazy `filter` |
+| Criterion | Original | `step_by` → `Vec` (main) | Lazy `step_by` | Lazy `filter` |
 |---|---|---|---|---|
 | Type-safety | Evenness enforced by implementation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Evenness not encoded in type | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Evenness not encoded in type | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Evenness not encoded in type |
-| Readability | Manual counter and parity check | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Direct stride, if adapter familiar | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Direct stride, if adapters familiar | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Explicit predicate, if adapters familiar |
-| API design | Owned, indexable, reusable collection | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Meets lazy requirement; breaks callers | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Preserves collection API; remains eager | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Meets lazy requirement; breaks callers |
-| Performance | Builds full result before returning | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids unused suffix and collection | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Still eager; timing unmeasured | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids unused suffix and collection |
-| Flexibility | Composition after full generation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Composition before generation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Composition after full generation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Composition before generation |
+| Readability | Manual counter and parity check | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Direct stride, if adapters familiar | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Direct stride, if adapter familiar | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Explicit predicate, if adapters familiar |
+| API design | Owned, indexable, reusable collection | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Preserves collection API; remains eager | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Offers lazy traversal; breaks callers | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Offers lazy traversal; breaks callers |
+| Performance | Builds full result before returning | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Still eager; timing unmeasured | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids unused suffix and collection | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Avoids unused suffix and collection |
+| Flexibility | Composition after full generation | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Composition after full generation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Composition before generation | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Composition before generation |
 | Error reporting | Every bound defines a sequence | N/A | N/A | N/A |
 
 Both lazy variants give up direct indexing and repeated traversal; callers needing those must collect.
-The `Vec` alternative preserves those capabilities but does not meet the exercise's lazy-result requirement.
+The main `Vec` solution preserves those capabilities and the original API.
 `filter` tests candidate parity, whereas `step_by` expresses the stride directly.
 Avoiding unused work helps partial consumers; fully collecting still allocates, and timing differences need measurement.
 

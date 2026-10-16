@@ -6,13 +6,13 @@
 //! - `collect` on an `Iterator<Item = Result<T, E>>` produces
 //!   `Result<Vec<T>, E>` and short-circuits on the first `Err`.
 //! - The return type drives inference for both `parse` and `collect`.
-//! - Borrowed slice means callers don't have to give up ownership.
+//! - Keep the owned input so existing callers need no changes.
 //! - Validation uses `filter_map(Result::err)` because it must collect every error.
 
 use std::num::ParseIntError;
 
-pub fn parse_values(values: &[String]) -> Result<Vec<i32>, ParseIntError> {
-    values.iter().map(|v| v.parse()).collect()
+pub fn parse_values(values: Vec<String>) -> Result<Vec<i32>, ParseIntError> {
+    values.into_iter().map(|v| v.parse()).collect()
 }
 
 pub trait Validator {
@@ -53,20 +53,39 @@ mod tests {
     }
 
     #[test]
+    fn original_signatures() {
+        let parse: fn(Vec<String>) -> Result<Vec<i32>, ParseIntError> = parse_values;
+        let validate: fn(&[&dyn Validator], &str) -> Vec<String> = collect_errors;
+        assert_eq!(parse(vec!["42".to_string()]), Ok(vec![42]));
+        assert!(validate(&[], "input").is_empty());
+    }
+
+    #[test]
+    fn first_error_wins() {
+        let values = vec![
+            "1".to_string(),
+            "nope".to_string(),
+            "2147483648".to_string(),
+        ];
+        let error = parse_values(values).unwrap_err();
+        assert_eq!(error.kind(), &std::num::IntErrorKind::InvalidDigit);
+    }
+
+    #[test]
     fn all_valid() {
         let values = vec!["10".to_string(), "20".to_string(), "30".to_string()];
-        assert_eq!(parse_values(&values), Ok(vec![10, 20, 30]));
+        assert_eq!(parse_values(values), Ok(vec![10, 20, 30]));
     }
 
     #[test]
     fn one_invalid() {
         let values = vec!["10".to_string(), "twenty".to_string(), "30".to_string()];
-        assert!(parse_values(&values).is_err());
+        assert!(parse_values(values).is_err());
     }
 
     #[test]
     fn empty_input() {
-        assert_eq!(parse_values(&[]), Ok(vec![]));
+        assert_eq!(parse_values(vec![]), Ok(vec![]));
     }
 
     #[test]

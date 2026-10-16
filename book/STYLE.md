@@ -95,8 +95,8 @@ There is no separate “The problem” heading or EXERCISE / TRY THIS callout.
 
 Do not identify the bug, name the refactor, or supply a failing input in the
 introduction. Put those discoveries in Discussion or an optional hint. State
-whether API changes are allowed; preserving results does not necessarily mean
-preserving the signature. Don't promise that code works when the task includes
+that the first solution preserves the original function signatures.
+Keep API changes in alternative solutions and explain how callers must adapt. Don't promise that code works when the task includes
 finding and fixing a bug.
 
 Use this section order:
@@ -145,6 +145,12 @@ Keep the native disclosure marker and keyboard interaction; no click-handler scr
 
 ## Hidden solutions
 
+Start with a solution that preserves the original function signatures and caller-facing types.
+Keep this version in `solutions/NN_name.rs`.
+Put signature-changing designs in `solutions/NN_name_alt.rs` and show them afterward as alternatives.
+Do not weaken the original tests to accommodate the first solution's API.
+When the exercise asks for a bug fix, explain the behaviour change separately from any API redesign.
+
 Keep the main solution, alternative implementations, their explanations, and trade-off comparisons together
 in one disclosure titled **Show Solutions**, collapsed by default. Use subheadings to distinguish approaches
 inside it; do not nest another disclosure for each alternative. Readers should
@@ -191,8 +197,8 @@ block.
   `// ANCHOR_END: tests`, then include it in an adjacent inert
   `<script class="playground-tests">` element. The editor hides that element, while the
   Run button sends its contents to the Rust Playground with the edited code. Starter
-  blocks also include the solution tests as `playground-tests-fallback`, so an intended
-  signature change can switch to the updated test API. Cargo and the slides still use
+  blocks may include alternative tests as `playground-tests-fallback`, so readers exploring an API change can run that version too.
+  The first solution must still pass the original API's tests; a fallback is not a substitute for compatibility. Cargo and the slides still use
   the complete source file. Include paths are relative to the Markdown file, so
   front-matter pages need a different number of parent traversals.
 - **Alternative solutions worth keeping runnable:** add a real file

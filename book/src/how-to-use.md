@@ -2,7 +2,10 @@
 
 Each chapter gives you a small piece of Rust to review and refactor. Try the
 exercise before reading the solution so you can compare your decisions with
-those in the chapter. Choose one of the four modes below.
+those in the chapter.
+Start by preserving the function signatures so callers don't need to change.
+The first solution follows that rule; alternatives may change the API and explain what callers gain or lose.
+Choose one of the four modes below.
 
 ## Solo
 
@@ -73,6 +76,9 @@ cargo test --example 01_starts_with_uppercase
 
 # Run the canonical solution's tests
 cargo test --example 01_starts_with_uppercase_solution
+
+# Try an alternative that changes the API
+cargo test --example 01_starts_with_uppercase_alt
 
 # Run every test in the repo
 make test

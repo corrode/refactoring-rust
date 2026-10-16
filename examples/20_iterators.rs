@@ -1,7 +1,8 @@
 //! Generate the Fibonacci sequence.
 //!
 //! This works, but make it nicer.
-//! (Don't worry about the signature; you have free rein to change that code)
+//! Keep both function signatures for the first solution.
+//! Explore a different API as an alternative.
 
 pub fn fib(n: u32) -> u64 {
     if n == 0 {

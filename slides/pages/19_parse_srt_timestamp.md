@@ -63,6 +63,40 @@ zoom: 0.75
 
 ```rust
 use core::time::Duration;
+
+pub fn parse_srt_timestamp(s: &str) -> Option<Duration> {
+    let (hours, rest) = s.split_once(':')?;
+    let (minutes, rest) = rest.split_once(':')?;
+    let (seconds, millis) = rest.split_once(',')?;
+
+    let hours = hours.parse::<u64>().ok()?;
+    let minutes = minutes.parse::<u64>().ok()?;
+    let seconds = seconds.parse::<u64>().ok()?;
+    let millis = millis.parse::<u64>().ok()?;
+
+    let total_ms = hours.checked_mul(3_600_000)?
+        .checked_add(minutes.checked_mul(60_000)?)?
+        .checked_add(seconds.checked_mul(1_000)?)?
+        .checked_add(millis)?;
+    Some(Duration::from_millis(total_ms))
+}
+```
+
+<div class="mt-6 text-base opacity-80">
+
+- Keep `Option<Duration>`; bad numbers and overflow now return `None` instead of panicking.
+- Field widths and component ranges remain unrestricted.
+
+</div>
+
+---
+zoom: 0.75
+---
+
+# 19 · Alternative: return error details
+
+```rust
+use core::time::Duration;
 use std::num::ParseIntError;
 
 #[derive(Debug)]
@@ -92,7 +126,7 @@ pub fn parse_srt_timestamp(s: &str) -> Result<Duration, ParseError> {
 
 - `split_once` returns `Option<(&str, &str)>` (no allocation)
 - `?` propagates both the format error and the numeric error via `From`.
-- Every failure mode is now reported
+- This alternative still uses unchecked arithmetic: overflow can panic or wrap.
 
 </div>
 <!--

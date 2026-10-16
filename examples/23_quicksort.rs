@@ -4,7 +4,8 @@
 /// then juggles indices through a hand-written Lomuto partition with a
 /// mutating helper. The algorithm is in there somewhere, buried under
 /// bookkeeping. Rewrite it so it reads the way you'd explain quicksort
-/// on a whiteboard. (You have free rein to change the signature.)
+/// on a whiteboard. Keep the signature for the first solution; explore
+/// a different interface as an alternative.
 pub fn quicksort(input: &[i32]) -> Vec<i32> {
     let mut values = input.to_vec();
     let len = values.len();

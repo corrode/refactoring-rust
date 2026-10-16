@@ -1,169 +1,61 @@
-//! A tiny in-memory key/value store, Redis-flavored.
+//! Refactor dispatch while preserving the starter's public fields and behavior.
 //!
-//! Solution highlights:
-//! - One `HashMap<String, Value>` instead of three sidecar maps — a key has one type at a time,
-//!   so `SET` on an existing list now returns a `WRONGTYPE` error like real Redis.
-//! - `Command::parse` does arity checking once, up front; the dispatcher matches on the enum
-//!   instead of an `if/else` ladder over uppercased strings.
-//! - `Reply` owns the wire format; `Display` is the single place that knows about `\r\n`.
+//! The independent maps still allow a key to hold multiple types. Arity behavior
+//! is also unchanged: SET and HSET ignore extra arguments, short SET returns an
+//! error, and short LPUSH or HSET panics.
+//!
+//! `28_mini_redis_alt.rs` preserves the API-changing redesign: one typed store,
+//! parsed commands, centralized replies, cross-type rejection, and arity errors.
+//! Those are separate contract changes, not part of this compatibility refactor.
+//! Despite the alternative's original comment, real Redis SET replaces existing
+//! values of other types; rejecting them is that alternative's own policy.
 
+// ANCHOR: listing
 use std::collections::HashMap;
-use std::fmt;
-
-#[derive(Debug)]
-pub enum Value {
-    String(String),
-    List(Vec<String>),
-    Hash(HashMap<String, String>),
-}
-
-impl Value {
-    fn type_name(&self) -> &'static str {
-        match self {
-            Value::String(_) => "string",
-            Value::List(_) => "list",
-            Value::Hash(_) => "hash",
-        }
-    }
-}
 
 #[derive(Default)]
 pub struct Db {
-    pub store: HashMap<String, Value>,
-}
-
-pub enum Command {
-    Set {
-        key: String,
-        value: String,
-    },
-    LPush {
-        key: String,
-        values: Vec<String>,
-    },
-    HSet {
-        key: String,
-        field: String,
-        value: String,
-    },
-}
-
-#[derive(Debug)]
-pub enum CommandError {
-    Empty,
-    Unknown(String),
-    WrongArity(&'static str),
-}
-
-impl Command {
-    pub fn parse(args: &[&str]) -> Result<Self, CommandError> {
-        let (cmd, rest) = args.split_first().ok_or(CommandError::Empty)?;
-        match cmd.to_uppercase().as_str() {
-            "SET" => match rest {
-                [key, value] => Ok(Command::Set {
-                    key: (*key).to_string(),
-                    value: (*value).to_string(),
-                }),
-                _ => Err(CommandError::WrongArity("SET")),
-            },
-            "LPUSH" => match rest {
-                [key, values @ ..] if !values.is_empty() => Ok(Command::LPush {
-                    key: (*key).to_string(),
-                    values: values.iter().map(|s| (*s).to_string()).collect(),
-                }),
-                _ => Err(CommandError::WrongArity("LPUSH")),
-            },
-            "HSET" => match rest {
-                [key, field, value] => Ok(Command::HSet {
-                    key: (*key).to_string(),
-                    field: (*field).to_string(),
-                    value: (*value).to_string(),
-                }),
-                _ => Err(CommandError::WrongArity("HSET")),
-            },
-            other => Err(CommandError::Unknown(other.to_string())),
-        }
-    }
-}
-
-pub enum Reply {
-    Ok,
-    Integer(i64),
-    Error(String),
-}
-
-impl fmt::Display for Reply {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Reply::Ok => write!(f, "+OK\r\n"),
-            Reply::Integer(n) => write!(f, ":{}\r\n", n),
-            Reply::Error(msg) => write!(f, "-ERR {}\r\n", msg),
-        }
-    }
+    pub strings: HashMap<String, String>,
+    pub lists: HashMap<String, Vec<String>>,
+    pub hashes: HashMap<String, HashMap<String, String>>,
 }
 
 pub fn handle(db: &mut Db, args: &[&str]) -> String {
-    let cmd = match Command::parse(args) {
-        Ok(cmd) => cmd,
-        Err(CommandError::Empty) => return Reply::Error("empty command".into()).to_string(),
-        Err(CommandError::Unknown(name)) => {
-            return Reply::Error(format!("unknown command '{}'", name)).to_string();
-        }
-        Err(CommandError::WrongArity(name)) => {
-            return Reply::Error(format!("wrong number of arguments for '{}'", name)).to_string();
-        }
+    let Some((command, rest)) = args.split_first() else {
+        return "-ERR empty command\r\n".to_string();
     };
-    execute(db, cmd).to_string()
-}
 
-fn execute(db: &mut Db, cmd: Command) -> Reply {
-    match cmd {
-        Command::Set { key, value } => match db.store.get(&key) {
-            Some(v) if !matches!(v, Value::String(_)) => wrong_type(v.type_name()),
-            _ => {
-                db.store.insert(key, Value::String(value));
-                Reply::Ok
-            }
-        },
-        Command::LPush { key, values } => {
-            let entry = db
-                .store
-                .entry(key)
-                .or_insert_with(|| Value::List(Vec::new()));
-            match entry {
-                Value::List(list) => {
-                    for v in values {
-                        list.insert(0, v);
-                    }
-                    Reply::Integer(list.len() as i64)
-                }
-                other => wrong_type(other.type_name()),
-            }
+    match command.to_uppercase().as_str() {
+        "SET" => {
+            let [key, value, ..] = rest else {
+                return "-ERR wrong number of arguments\r\n".to_string();
+            };
+            db.strings.insert((*key).to_string(), (*value).to_string());
+            "+OK\r\n".to_string()
         }
-        Command::HSet { key, field, value } => {
-            let entry = db
-                .store
-                .entry(key)
-                .or_insert_with(|| Value::Hash(HashMap::new()));
-            match entry {
-                Value::Hash(hash) => {
-                    let is_new = !hash.contains_key(&field);
-                    hash.insert(field, value);
-                    Reply::Integer(if is_new { 1 } else { 0 })
-                }
-                other => wrong_type(other.type_name()),
+        "LPUSH" => {
+            assert!(args.len() >= 3, "LPUSH needs key and at least one value");
+            let list = db.lists.entry(rest[0].to_string()).or_default();
+            for value in &rest[1..] {
+                list.insert(0, (*value).to_string());
             }
+            format!(":{}\r\n", list.len())
         }
+        "HSET" => {
+            // Keep the starter's indexing (and panic) before any database write.
+            let key = args[1].to_string();
+            let field = args[2].to_string();
+            let value = args[3].to_string();
+            let hash = db.hashes.entry(key).or_default();
+            let is_new = hash.insert(field, value).is_none();
+            format!(":{}\r\n", u8::from(is_new))
+        }
+        _ => format!("-ERR unknown command '{}'\r\n", command),
     }
 }
+// ANCHOR_END: listing
 
-fn wrong_type(actual: &str) -> Reply {
-    Reply::Error(format!(
-        "WRONGTYPE Operation against a key holding the wrong kind of value (got {})",
-        actual
-    ))
-}
-
+// ANCHOR: tests
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -172,29 +64,27 @@ mod tests {
     fn set_writes_to_strings() {
         let mut db = Db::default();
         assert_eq!(handle(&mut db, &["SET", "x", "1"]), "+OK\r\n");
-        assert!(matches!(db.store.get("x"), Some(Value::String(s)) if s == "1"));
+        assert_eq!(db.strings.get("x"), Some(&"1".to_string()));
     }
 
     #[test]
     fn lpush_writes_to_lists_in_reverse_order() {
         let mut db = Db::default();
         assert_eq!(handle(&mut db, &["LPUSH", "q", "a", "b"]), ":2\r\n");
-        match db.store.get("q") {
-            Some(Value::List(list)) => {
-                assert_eq!(list, &vec!["b".to_string(), "a".to_string()]);
-            }
-            other => panic!("expected list, got {:?}", other),
-        }
+        assert_eq!(
+            db.lists.get("q").unwrap(),
+            &vec!["b".to_string(), "a".to_string()]
+        );
     }
 
     #[test]
     fn hset_writes_to_hashes() {
         let mut db = Db::default();
         assert_eq!(handle(&mut db, &["HSET", "u", "name", "ada"]), ":1\r\n");
-        match db.store.get("u") {
-            Some(Value::Hash(h)) => assert_eq!(h.get("name"), Some(&"ada".to_string())),
-            other => panic!("expected hash, got {:?}", other),
-        }
+        assert_eq!(
+            db.hashes.get("u").unwrap().get("name"),
+            Some(&"ada".to_string())
+        );
     }
 
     #[test]
@@ -212,13 +102,99 @@ mod tests {
     }
 
     #[test]
-    fn set_on_existing_list_returns_wrongtype() {
-        // The previous version silently kept both writes in their own sidecar maps.
-        // With a single, typed store the second command must refuse.
+    fn set_and_lpush_on_same_key_both_succeed_silently() {
+        // Documents the bug: each command writes to its own sidecar map,
+        // so the same key can be a string AND a list at the same time.
+        // After the refactor this test will need to change: one of the two
+        // commands must return a WRONGTYPE error.
         let mut db = Db::default();
         handle(&mut db, &["LPUSH", "x", "a"]);
-        let reply = handle(&mut db, &["SET", "x", "1"]);
-        assert!(reply.starts_with("-ERR WRONGTYPE"));
-        assert!(matches!(db.store.get("x"), Some(Value::List(_))));
+        handle(&mut db, &["SET", "x", "1"]);
+        assert!(db.strings.contains_key("x"));
+        assert!(db.lists.contains_key("x"));
+    }
+
+    #[test]
+    fn original_public_api_supports_struct_literals_and_direct_mutation() {
+        let handle: fn(&mut Db, &[&str]) -> String = super::handle;
+        let mut db = Db {
+            strings: HashMap::<String, String>::new(),
+            lists: HashMap::<String, Vec<String>>::new(),
+            hashes: HashMap::<String, HashMap<String, String>>::new(),
+        };
+        db.strings.insert("x".into(), "old".into());
+        db.lists.insert("x".into(), vec!["old".into()]);
+        db.hashes
+            .insert("x".into(), HashMap::from([("field".into(), "old".into())]));
+        assert_eq!(handle(&mut db, &["SET", "x", "new"]), "+OK\r\n");
+        assert_eq!(handle(&mut db, &["LPUSH", "x", "new"]), ":2\r\n");
+        assert_eq!(handle(&mut db, &["HSET", "x", "field", "new"]), ":0\r\n");
+        let Db {
+            strings,
+            lists,
+            hashes,
+        } = db;
+        assert_eq!(strings["x"], "new");
+        assert_eq!(lists["x"], ["new", "old"]);
+        assert_eq!(hashes["x"]["field"], "new");
+    }
+
+    #[test]
+    fn exact_error_replies_and_command_case_are_preserved() {
+        let mut db = Db::default();
+        assert_eq!(handle(&mut db, &[]), "-ERR empty command\r\n");
+        for args in [&["SET"][..], &["set", "x"]] {
+            assert_eq!(handle(&mut db, args), "-ERR wrong number of arguments\r\n");
+        }
+        assert_eq!(
+            handle(&mut db, &["froB"]),
+            "-ERR unknown command 'froB'\r\n"
+        );
+        assert_eq!(handle(&mut db, &[""]), "-ERR unknown command ''\r\n");
+        assert_eq!(handle(&mut db, &["sEt", "", ""]), "+OK\r\n");
+        assert_eq!(handle(&mut db, &["lPush", "q", ""]), ":1\r\n");
+        assert_eq!(handle(&mut db, &["hSet", "h", "", ""]), ":1\r\n");
+    }
+
+    #[test]
+    fn set_and_hset_ignore_extra_arguments() {
+        let mut db = Db::default();
+        assert_eq!(handle(&mut db, &["SET", "x", "1", "ignored"]), "+OK\r\n");
+        assert_eq!(db.strings["x"], "1");
+        assert_eq!(
+            handle(&mut db, &["HSET", "h", "f", "v", "ignored"]),
+            ":1\r\n"
+        );
+        assert_eq!(db.hashes["h"]["f"], "v");
+    }
+
+    #[test]
+    fn short_lpush_and_hset_still_panic_without_mutating_the_database() {
+        use std::panic::{AssertUnwindSafe, catch_unwind};
+        for args in [
+            &["LPUSH"][..],
+            &["LPUSH", "x"],
+            &["HSET"],
+            &["HSET", "x"],
+            &["HSET", "x", "field"],
+        ] {
+            let mut db = Db::default();
+            db.strings.insert("existing".into(), "value".into());
+            let result = catch_unwind(AssertUnwindSafe(|| handle(&mut db, args)));
+            assert!(result.is_err(), "{args:?}");
+            assert_eq!(
+                db.strings,
+                HashMap::from([("existing".into(), "value".into())])
+            );
+            assert!(db.lists.is_empty());
+            assert!(db.hashes.is_empty());
+        }
+    }
+
+    #[test]
+    #[should_panic(expected = "LPUSH needs key and at least one value")]
+    fn lpush_keeps_its_assertion_message() {
+        handle(&mut Db::default(), &["LPUSH", "x"]);
     }
 }
+// ANCHOR_END: tests

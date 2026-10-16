@@ -31,7 +31,7 @@ Smells:
   - Manual `while` + counter instead of a range.
   - `% 2 == 0` to recover a pattern we could express directly.
   - Eagerly builds a `Vec`; the caller can't stop early.
-The arc: return an iterator, say what we mean with `step_by`.
+First keep Vec and collect the stepped range. Then explore a lazy API.
 -->
 
 ---
@@ -45,6 +45,23 @@ The arc: return an iterator, say what we mean with `step_by`.
 ---
 
 # 03 · Possible solution
+
+```rust
+pub fn evens(max: u32) -> Vec<u32> {
+    (0..max).step_by(2).collect()
+}
+```
+
+<div class="mt-6 text-base opacity-80">
+
+- `step_by(2)` replaces the counter and predicate.
+- `collect` keeps the starter's `Vec<u32>` return type and values.
+
+</div>
+
+---
+
+# 03 · Alternative: return an iterator
 
 ```rust
 pub fn evens(max: u32) -> impl Iterator<Item = u32> {

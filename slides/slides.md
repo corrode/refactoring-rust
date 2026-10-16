@@ -132,8 +132,8 @@ Types, signatures, simple matches.
 </div>
 
 <div class="mt-10 text-base opacity-60 max-w-2xl">
-The point is to get talking. Most of the "fix" is a one-line signature change
-or a Clippy lint you've seen a hundred times.
+The point is to get talking. Start with the existing signatures;
+then compare API alternatives and the tradeoffs they introduce.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">

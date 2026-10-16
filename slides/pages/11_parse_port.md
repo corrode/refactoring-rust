@@ -50,6 +50,25 @@ zoom: 0.95
 # 11 · Possible solution
 
 ```rust
+pub fn parse_port(s: &str) -> Option<u16> {
+    s.parse::<u16>().ok().filter(|&port| port != 0)
+}
+```
+
+<div class="mt-8 text-base opacity-80">
+
+- Parsing as `u16` checks the range; `filter` rejects zero.
+- Invalid input still returns `None`. No caller changes needed.
+
+</div>
+
+---
+zoom: 0.95
+---
+
+# 11 · Alternative: encode the invariant
+
+```rust
 use std::num::NonZeroU16;
 
 #[derive(Debug, PartialEq, Eq)]

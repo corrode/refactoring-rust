@@ -38,7 +38,7 @@ Discoveries:
   - A `HashSet` lookup is O(1); build it once.
   - `&Vec<T>` should almost always be `&[T]`.
   - We clone every output; we could borrow with a lifetime instead.
-  - `to_ascii_lowercase` is enough if the dictionary is ASCII (it usually is for spell check).
+  - ASCII casing is a separate contract, not a substitute for Unicode lowercase comparison.
 -->
 
 ---
@@ -61,6 +61,35 @@ Hint: build the lookup set once, outside.
 ```rust
 use std::collections::HashSet;
 
+pub fn spell_check(words: &Vec<String>, dict: &Vec<String>) -> Vec<String> {
+    let dict: HashSet<String> = dict.iter().map(|w| w.to_lowercase()).collect();
+    words.iter()
+        .filter(|word| !dict.contains(&word.to_lowercase()))
+        .cloned()
+        .collect()
+}
+```
+
+<div class="mt-8 text-base opacity-80">
+
+- Build the lookup set once per call, not once per comparison.
+- Keep Unicode lowercase comparison, output spelling, and order.
+- Keep `&Vec<String>` and owned results for existing callers.
+
+</div>
+
+<!--
+This compares Unicode lowercase strings, not full Unicode case folding.
+The unusual &Vec arguments deliberately preserve the starter's API.
+-->
+
+---
+
+# 14 · Alternative: reusable ASCII dictionary
+
+```rust
+use std::collections::HashSet;
+
 pub fn spell_check<'a>(words: &[&'a str], dict: &HashSet<String>) -> Vec<&'a str> {
     words
         .iter()
@@ -74,7 +103,7 @@ pub fn spell_check<'a>(words: &[&'a str], dict: &HashSet<String>) -> Vec<&'a str
 
 - The caller builds the `HashSet` once (lowercased) and reuses it - O(n) lookups.
 - `&[&str]` and `Vec<&'a str>` avoid the per-word `clone`.
-- `to_ascii_lowercase` is cheaper than `to_lowercase` and right for ASCII input.
+- ASCII-only casing changes non-ASCII behavior; the dictionary must already be ASCII-lowercased.
 
 </div>
 <!--

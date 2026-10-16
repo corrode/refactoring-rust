@@ -66,7 +66,9 @@ the first chapter's instructions for using the editor and repository.
 2. **Discussion**: independent, initially closed question-and-answer disclosures.
    Put each explanation with its question; do not repeat the questions in a callout.
 3. **Show Solutions**: the main solution, alternatives, and relevant edge cases in one
-   collapsed box. Use level-three subheadings within it.
+   collapsed box. Show a signature-preserving refactor first; reserve API changes for alternatives.
+   Keep the original caller-facing types in the first solution too.
+   Use level-three subheadings within it.
    End the disclosure with **Trade-offs** under `### Trade-offs`, with any subheadings at level four or deeper.
    Compare named variants against an **Original** column, with the six criteria as rows and a short reason beside each score.
 4. **Takeaways For Our Own Codebase**: questions for further work or team discussion.
@@ -111,7 +113,8 @@ scoring problems.
 - **Starter listings:** `{{#include ../../../examples/NN_name.rs}}` from chapters
   under `book/src/part-*`.
 - **Canonical solution listings:** `{{#include ../../../solutions/NN_name.rs}}` from
-  the same location.
+  the same location. These preserve the original function signatures.
+  Keep API-changing versions in `_alt.rs` files, registered after the main solution in Cargo and shown afterward in the book and slides.
 - **Substantial alternative solutions** (e.g. the `Rooms` newtype, the
   `NonZeroU16` `parse_port`, the alternative `excluded_path` APIs,
   the lazy `spell_check` iterator): get their own files such as
