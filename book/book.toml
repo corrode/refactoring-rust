@@ -12,7 +12,7 @@ git-repository-url = "https://github.com/corrode/refactoring"
 edit-url-template = "https://github.com/corrode/refactoring/edit/main/book/{path}"
 site-url = "/"
 additional-css = ["theme/css/corrode.css"]
-additional-js = ["theme/js/playground-tests.js"]
+additional-js = ["theme/js/playground-tests.js", "theme/js/code-font.js"]
 no-section-label = false
 mathjax-support = false
 # TODO(theme,v2): drop unused themes (coal, ayu, rust) once a custom theme picker lands.

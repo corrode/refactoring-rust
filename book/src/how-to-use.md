@@ -14,11 +14,11 @@ time to read the explanation and answer the questions.
 3. **Stop reading the chapter.** Write down what you'd say in a review, then
    refactor the code in your editor. Spend five to twenty minutes, depending on
    the size of the chapter.
-4. Read *Discussion*. Compare its questions with yours. Which concerns did you both
-   notice? Which ones did either of you miss?
-5. Open *Solutions* and compare it with your version.
-6. Read *Trade-offs* and decide whether you agree with the scores.
-7. Choose a *Follow-up question* to investigate or discuss with someone else.
+4. Read the *Discussion* questions and compare them with yours.
+   Expand each question when you want to read its answer.
+5. Open *Show Solutions* and compare the implementations with your version.
+6. Read *Trade-offs* inside the same disclosure and decide whether you agree with the scores.
+7. Choose a *takeaway* to investigate or discuss with someone else.
 
 For more practice, return to the starter after reading the chapter and refactor
 it again without referring to the solution.
@@ -40,7 +40,7 @@ it on four things:
 2. Which solution is closest to the canonical one, which is furthest away, and
    why.
 3. Where the group disagrees with the *Trade-offs* scores.
-4. The *Follow-up questions*. They were written for this conversation.
+4. The *Takeaways For Our Own Codebase*. They were written for this conversation.
 
 Between meetings, look for related examples in your team's code. Take more
 than one session for a chapter if needed, and skip the warm-ups if the team
@@ -54,8 +54,8 @@ session and keep the book nearby as the reference. The chapter
 sections already divide the work:
 
 - Use *Discussion* to prompt the room.
-- Use *Trade-offs* when the discussion starts treating a preference as a rule.
-- Use *Follow-up questions* for breakout rooms.
+- Use *Trade-offs* inside *Show Solutions* when the discussion starts treating a preference as a rule.
+- Use *Takeaways For Our Own Codebase* for breakout rooms.
 
 To book a facilitated workshop for your team, visit <https://corrode.dev>.
 
@@ -98,25 +98,20 @@ make book-open      # build once, open the static HTML
 
 ## Conventions
 
-The same callouts recur throughout the book:
+In *Discussion*, click a question to expand its answer.
+You can open several answers at once, or leave them closed while you work.
 
-> **DISCUSSION**
->
-> Questions and explanations about the code and the choices involved.
+*Show Solutions* opens the implementations, explanations, and trade-off comparisons together.
+They stay hidden until you open the disclosure.
+
+The following callouts appear elsewhere in the book:
 
 > **EDGE CASE**
 >
 > Production concerns the canonical solution does not address.
 
-> **FOLLOW-UP**
->
-> Open-ended questions to take back to your team's code.
-
-> **CONCEPT**
->
-> A named idea introduced by the chapter, with a link to its
-> [Cheatsheet](appendix/concept-index.md) entry and every other chapter that
-> uses it.
+*Takeaways For Our Own Codebase* contains questions and actions in an unlabelled blockquote.
+*References* lists concepts with links to their [Cheatsheet](appendix/concept-index.md) entries.
 
 Some chapters open with a **BONUS** callout. They're optional. Skip them when
 you're short on time because no later chapter depends on them.

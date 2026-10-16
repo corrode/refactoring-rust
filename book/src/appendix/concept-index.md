@@ -4,4 +4,4 @@
 > introduced in the book, with the chapters that introduce and reuse it.
 >
 > Surfaced in the top nav as "Cheatsheet" (friendlier label). Doubles as
-> the target of every chapter's *Important Concepts* section.
+> the target of every chapter's *References* section.

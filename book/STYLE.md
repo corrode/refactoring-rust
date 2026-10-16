@@ -74,6 +74,14 @@
 - **"of course"**, **"obviously"**. Cut them. If it's obvious, the
   reader will notice. If it isn't, we've just made them feel stupid.
 
+## Source formatting
+
+Write one sentence per source line in prose.
+Keep related sentences in the same paragraph; do not add a blank line after every sentence.
+Do not hard-wrap sentences to a fixed width.
+Keep continuation sentences indented within list items.
+Leave code blocks, include directives, hidden-test scripts, and table rows unchanged.
+
 ## Structure
 
 Use `src/part-1-warmups/01-starts-with-uppercase.md` as the format reference.
@@ -94,32 +102,51 @@ finding and fixing a bug.
 Use this section order:
 
 1. Code to refactor: editable listing followed by its hidden test scripts.
-2. Discussion: a DISCUSSION callout, followed by explanations.
-3. Solutions: one collapsed box with implementations and explanations.
-4. Trade-offs: comparison matrices with an **Original** baseline column.
-5. Follow-up questions: a FOLLOW-UP callout.
-6. Important Concepts: a CONCEPT callout.
+2. Discussion: one expandable question-and-answer pair per disclosure.
+3. Show Solutions: one collapsed box with implementations, explanations, and Trade-offs.
+   End the disclosure with `### Trade-offs`: comparison matrices with an **Original** baseline column.
+4. Takeaways For Our Own Codebase: an unlabelled blockquote of questions and actions.
+5. References: a plain list of concept links and explanations.
 
-Keep alternatives and relevant edge cases inside Solutions as level-three
+Keep alternatives and relevant edge cases inside Show Solutions as level-three
 subheadings. Preserve useful caveats rather than deleting them to fit the format.
 Unwritten chapters remain marked as drafts; do not add empty sections or invented
 content just to fill the template. A quiz remains optional under the rules below.
 
 ## Callouts
 
-Use these labels where the reference chapter uses them:
-
-- `DISCUSSION`: questions about the code and refactoring choices.
-- `FOLLOW-UP`: questions for further work or team discussion.
-- `CONCEPT`: important concepts and links.
+Use an unlabelled blockquote for *Takeaways For Our Own Codebase*.
+Use a plain Markdown list for *References*, without a blockquote or label.
 
 Code to refactor and Trade-offs do not need a callout repeating the heading.
-Within Solutions, an EDGE CASE callout can draw attention to a constraint.
+Within Show Solutions, an EDGE CASE callout can draw attention to a constraint.
+
+## Discussion questions
+
+Use a separate native disclosure for each question and its answer.
+Leave every answer closed by default, and allow several answers to be open at once.
+Do not repeat the questions in a callout or list above the disclosures.
+Use direct questions and put each explanation with the question it answers.
+The optional lead-in “A few things to think about:” is enough; no badge is needed.
+
+```markdown
+<details class="discussion-question">
+<summary>Do we need to own the string to check its first character?</summary>
+
+The function only reads the input.
+A borrowed `&str` is enough for read access.
+
+</details>
+```
+
+Leave blank lines around Markdown content inside a disclosure.
+Use HTML `<code>` for identifiers in summaries, since Markdown backticks do not render there.
+Keep the native disclosure marker and keyboard interaction; no click-handler script is needed.
 
 ## Hidden solutions
 
-Keep the main solution, alternative implementations, and their explanations together
-in one disclosure, collapsed by default. Use subheadings to distinguish approaches
+Keep the main solution, alternative implementations, their explanations, and trade-off comparisons together
+in one disclosure titled **Show Solutions**, collapsed by default. Use subheadings to distinguish approaches
 inside it; do not nest another disclosure for each alternative. Readers should
 have a clear chance to try the exercise before seeing an answer. Put the heading inside
 the summary so it serves as the disclosure control without a repeated label. The
@@ -128,7 +155,7 @@ readers. Do not add a separate Markdown heading above it. Use this form:
 
 ````markdown
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Solutions</h2></summary>
+<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
 
 ```rust,editable
 {{#include ../../../solutions/NN_name.rs:listing}}
@@ -140,12 +167,17 @@ readers. Do not add a separate Markdown heading above it. Use this form:
 
 Walk through the code here.
 
+### Trade-offs
+
+Compare the implementations with the original here.
+
 </details>
 ````
 
 Put *Alternative approaches* inside the disclosure, under a level-three heading.
-Put relevant *Edge cases and production concerns* inside it too. Leave *Trade-offs*,
-*Quiz*, and later sections outside the disclosure. The native `details` element keeps
+Put relevant *Edge cases and production concerns* inside it too.
+Put *Trade-offs* last inside the disclosure, under a level-three heading, with any subheadings at level four or deeper.
+Leave *Quiz* and later sections outside the disclosure. The native `details` element keeps
 the summary keyboard accessible, and mdBook still renders included code as a Playground
 block.
 
@@ -176,7 +208,7 @@ block.
 
 ## Cross-references
 
-- Link Important Concepts entries to the appendix Cheatsheet with
+- Link References entries to the appendix Cheatsheet with
   `[newtype](../appendix/concept-index.md#newtype)` style anchors.
 - Link forward and backward between chapters generously
   (`see [ch. 13](../part-3-aggregations/13-excluded-path.md)`). The
@@ -184,7 +216,8 @@ block.
 
 ## Trade-off comparisons
 
-Compare the original and the implementations shown in Solutions side by side.
+Compare the original and the implementations shown in Show Solutions side by side.
+Keep these comparisons inside the disclosure, under `### Trade-offs`.
 Use the six criteria as rows, in their usual order, and name each implementation
 in a column heading. The original column describes the baseline; other cells give
 a relative score and a short reason:
@@ -213,7 +246,7 @@ scores or calculate an overall winner.
 - Remove questions answered by repeating the preceding explanation, obvious
   yes/no questions, and generic questions about team preferences.
 - There is no minimum question count. Put any retained questions between
-  *Trade-offs* and *Follow-up questions*.
+  the *Show Solutions* disclosure and *Takeaways For Our Own Codebase*.
 - **Judgement** style, not recall. See `PLAN.md` §13.
 - Never "what does this print" unless the surprise is the point.
 - Until the quiz plugin is chosen, use numbered `###` question headings followed by

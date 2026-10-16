@@ -63,13 +63,14 @@ the first chapter's instructions for using the editor and repository.
 
 1. **Code to refactor**: an editable include from `examples/`, followed by hidden
    tests. No EXERCISE or TRY THIS callout.
-2. **Discussion**: questions in a DISCUSSION callout, followed by explanations.
-3. **Solutions**: the main solution, alternatives, and relevant edge cases in one
+2. **Discussion**: independent, initially closed question-and-answer disclosures.
+   Put each explanation with its question; do not repeat the questions in a callout.
+3. **Show Solutions**: the main solution, alternatives, and relevant edge cases in one
    collapsed box. Use level-three subheadings within it.
-4. **Trade-offs**: compare named variants against an **Original** column, with the
-   six criteria as rows and a short reason beside each score.
-5. **Follow-up questions**: questions for further work or team discussion.
-6. **Important Concepts**: named concepts with links to the concept index.
+   End the disclosure with **Trade-offs** under `### Trade-offs`, with any subheadings at level four or deeper.
+   Compare named variants against an **Original** column, with the six criteria as rows and a short reason beside each score.
+4. **Takeaways For Our Own Codebase**: questions for further work or team discussion.
+5. **References**: named concepts with links to the concept index.
 
 Preserve useful technical details when applying this format. Unwritten chapters
 stay marked as drafts. Quizzes are optional and must meet the criteria in §13;
@@ -138,7 +139,7 @@ The book is physically incapable of shipping broken code.
 **mdBook + judgement-style quizzes + Rust Playground integration.**
 
 - **Quizzes (optional):** only when a new application or decision adds value.
-  Place them after Trade-offs and before Follow-up questions. Do not repeat
+  Place them outside the Show Solutions disclosure, after its Trade-offs section and before Takeaways For Our Own Codebase. Do not repeat
   points already covered in the chapter. Question style is **judgement**, not recall:
   - "Which of these signatures best expresses the invariant?"
   - "Which axis does change X improve at the cost of which other axis?"
@@ -200,7 +201,7 @@ Style rules (the full version lives in `book/STYLE.md`):
 
 6. **Concept index**: curated, not auto-generated. Every named concept
    listed with the chapters that introduce and reuse it. Doubles as the
-   target of every chapter's Important Concepts section. Surfaces in the top
+   target of every chapter's References section. Surfaces in the top
    nav as **"Cheatsheet"** (friendlier label).
 7. **Trade-off matrix appendix**: one big table; rows are exercises,
    columns are the six axes, with one row per exercise and solution variant. The whole-forest view no competitor publishes.
@@ -319,7 +320,8 @@ v1 scope:
 - Search on; sidebar on; prev/next on; stock playground button on `rust`
   blocks.
 - Blockquote-based callouts with a small CSS treatment to differentiate
-  the callout labels (`DISCUSSION`, `EDGE CASE`, `FOLLOW-UP`, `CONCEPT`).
+  the callout labels (`EDGE CASE`, `FOLLOW-UP`, `CONCEPT`).
+- Native question-and-answer disclosures in Discussion, with visible focus styling.
 - Light + dark only; kill the other three default themes (coal, ayu,
   rust) unless that creates friction.
 
@@ -427,7 +429,7 @@ their structure. No separate format spec document.
 
 ### Phase 4, Back matter (~3 days)
 
-- Concept index (aggregated from per-chapter Important Concepts).
+- Concept index (aggregated from per-chapter References).
 - Trade-off matrix (aggregated from per-chapter Trade-offs).
 - Further reading (consolidated).
 - Contributing, Acknowledgements.

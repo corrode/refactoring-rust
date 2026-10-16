@@ -15,6 +15,38 @@
  * TODO(theme,v2) for post-launch iteration.
  */
 
+@font-face {
+    font-family: "Zed Mono";
+    src: url("../../fonts/zed-mono/zed-mono-extended.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Zed Mono";
+    src: url("../../fonts/zed-mono/zed-mono-extendedbold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Zed Mono";
+    src: url("../../fonts/zed-mono/zed-mono-extendeditalic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Zed Mono";
+    src: url("../../fonts/zed-mono/zed-mono-extendedbolditalic.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
 /* ---------- Tokens ---------- */
 
 :root {
@@ -42,8 +74,9 @@
         "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
         Arial, sans-serif;
     --corrode-font-mono:
-        "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
+        "Zed Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
         monospace;
+    --mono-font: var(--corrode-font-mono);
 }
 
 /* ---------- Typography ---------- */
@@ -92,7 +125,8 @@ body,
 
 code,
 pre,
-.hljs {
+.hljs,
+.content .ace_editor {
     font-family: var(--corrode-font-mono);
     font-feature-settings:
         "calt" 1,
@@ -396,4 +430,45 @@ pre,
 .content details.solution[open] > summary {
     margin-bottom: 1rem;
     border-bottom: 1px solid var(--links);
+}
+
+/* Independent question cards keep answers optional without hiding the questions. */
+.content details.discussion-question {
+    margin: 0.75rem 0;
+    padding: 0 1.25rem;
+    border: 1px solid var(--table-border-color);
+    border-radius: 0.5rem;
+    background: color-mix(in srgb, var(--fg) 3%, var(--bg));
+}
+
+.content details.discussion-question > summary {
+    margin: 0 -1.25rem;
+    padding: 1rem 1.25rem;
+    border-radius: inherit;
+    cursor: pointer;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.content details.discussion-question > summary::marker {
+    color: var(--links);
+}
+
+.content details.discussion-question > summary:hover {
+    background: color-mix(in srgb, var(--links) 6%, var(--bg));
+}
+
+.content details.discussion-question > summary:focus-visible {
+    outline: 2px solid var(--links);
+    outline-offset: 2px;
+}
+
+.content details.discussion-question[open] > summary {
+    border-bottom: 1px solid var(--table-border-color);
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.content details.discussion-question > :last-child:not(summary) {
+    margin-bottom: 1.25rem;
 }
