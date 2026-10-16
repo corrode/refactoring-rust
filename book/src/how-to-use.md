@@ -9,7 +9,7 @@ those in the chapter. Choose one of the four modes below.
 Allow five to twenty minutes for your first attempt at each exercise, plus
 time to read the explanation and answer the questions.
 
-1. Read *The problem*, if the chapter has an introduction.
+1. Read the introduction for the task and any constraints.
 2. Read the code to refactor carefully, as if it were a pull request on GitHub.
 3. **Stop reading the chapter.** Write down what you'd say in a review, then
    refactor the code in your editor. Spend five to twenty minutes, depending on
@@ -100,18 +100,9 @@ make book-open      # build once, open the static HTML
 
 The same callouts recur throughout the book:
 
-> **EXERCISE**
->
-> The task and its constraints.
-
 > **DISCUSSION**
 >
 > Questions and explanations about the code and the choices involved.
-
-> **TRADE-OFF**
->
-> The original and alternatives compared side by side, with a score and a short
-> reason for each criterion.
 
 > **EDGE CASE**
 >

@@ -1,12 +1,12 @@
-# 13 · `excluded_path`
+# `excluded_path`
+
+This function checks whether a path starts with any configured exclusion prefix.
+Refactor it while preserving its signature and behaviour: absent or empty exclusions
+return `false`. Afterward, consider interface changes separately from the implementation.
+
+Run the tests with `cargo test --example 13_excluded_path`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> Review the implementation and the interface as two separate concerns. Preserve the
-> current behaviour first. Then check whether the parameter types express a distinction
-> this function uses.
 
 ```rust,editable
 {{#include ../../../examples/13_excluded_path.rs:listing}}
@@ -20,16 +20,6 @@
 {{#include ../../../solutions/13_excluded_path.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the tests, then refactor `examples/13_excluded_path.rs`:
->
-> ```sh
-> cargo test --example 13_excluded_path
-> ```
->
-> Compare the tests for `None` and an empty `HashSet`. Do they ask for different
-> results?
 
 ## Discussion
 
@@ -151,9 +141,7 @@ A non-empty `Excluder` is another possible invariant, but it contradicts the cur
 requirement that an empty rule set is valid. Add that restriction only when the domain
 requires at least one exclusion.
 
-</details>
-
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -171,6 +159,8 @@ relative prefixes also need a defined relationship before you mix them. Put thos
 in configuration validation or a domain type such as `Excluder`, rather than making
 every call site remember them.
 
+</details>
+
 ## Trade-offs
 
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
@@ -178,7 +168,7 @@ Compared with the original: **+** advantage, **=** comparable, **−** disadvant
 
 ### Keeping an optional parameter
 
-| Criterion | Original: nested loop | `let ... else` + `any` (main) | `Option<&HashSet<PathBuf>>` |
+| Criterion | Original | `let ... else` + `any` (main) | `Option<&HashSet<PathBuf>>` |
 | --- | --- | --- | --- |
 | Type-safety | No validated path invariant | = No added path invariant | = No added path invariant |
 | Readability | Nested absence and match checks | + Early return, named search | = Compact, familiarity-dependent combinators |
@@ -189,7 +179,7 @@ Compared with the original: **+** advantage, **=** comparable, **−** disadvant
 
 ### Changing the interface
 
-| Criterion | Original: nested loop | Plain `&HashSet<PathBuf>` | `Excluder` | `Excludable` for `Path` |
+| Criterion | Original | Plain `&HashSet<PathBuf>` | `Excluder` | `Excludable` for `Path` |
 | --- | --- | --- | --- | --- |
 | Type-safety | No validated path invariant | = No added path invariant | = Constructor does not validate | = No added path invariant |
 | Readability | Nested absence and match checks | + No absence branch | + Named rules and operation | = Method syntax, trait import |
@@ -221,7 +211,7 @@ set; the scan score excludes construction. None provides filesystem containment 
 >
 > - [`let ... else`](../appendix/concept-index.md#let-else): handle a non-matching case
 >   early and keep the main path unindented.
-> - [`Iterator::any`](../appendix/concept-index.md#iterator-any): express an
+> - [`Iterator::any`](../appendix/concept-index.md#iterator-any): express a
 >   check for at least one match and stop when found.
 > - [Optional borrows](../appendix/concept-index.md#optional-borrows): use `Option<&T>`
 >   when a function needs an optional view rather than a borrowed owning wrapper.

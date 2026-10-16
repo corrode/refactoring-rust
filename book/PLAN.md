@@ -56,38 +56,24 @@ reader will learn across its chapters.
 
 ## 3. Per-chapter anatomy
 
-Use the following section order. Omit **The problem** when the code to refactor
-and exercise prompt already provide enough information.
+Use `src/part-1-warmups/01-starts-with-uppercase.md` as the format reference.
+Start with an unnumbered exercise-name title and a short task-specific introduction.
+State constraints without giving away the diagnosis or solution. Avoid repeating
+the first chapter's instructions for using the editor and repository.
 
-1. **The problem (optional)**: context or a constraint that helps approach the
-   exercise. Do not repeat the function description, paraphrase the code, or
-   give away the solution. Start with **Code to refactor** when no introduction is needed.
-2. **Code to refactor**: `{{#include}}` from `examples/NN_*.rs`. Includes an
-   inline "Try it yourself" callout with the `cargo` invocations.
-3. **Discussion**: questions and explanations about the code and the choices
-   involved in refactoring it.
-4. **Solutions**: the main solution and any alternatives, with explanations,
-   inside one native `details` element that is collapsed by default.
-5. **Trade-offs**: compare the original and solution variants in columns, with
-   the six criteria as rows (see §4). Give each score a short reason in its cell.
-6. **Quiz (optional)**: a new application or decision that the preceding text
-   has not already answered. Omit the section when no such question is useful.
-7. **Follow-up questions**: open-ended prompts for the reader / their team.
-8. **Important Concepts**: named ideas this chapter introduced
-   (e.g. *newtype*, *let-else*, *is_some_and*), each linked to the Concept
-   index so they resolve to every other chapter that touches them.
+1. **Code to refactor**: an editable include from `examples/`, followed by hidden
+   tests. No EXERCISE or TRY THIS callout.
+2. **Discussion**: questions in a DISCUSSION callout, followed by explanations.
+3. **Solutions**: the main solution, alternatives, and relevant edge cases in one
+   collapsed box. Use level-three subheadings within it.
+4. **Trade-offs**: compare named variants against an **Original** column, with the
+   six criteria as rows and a short reason beside each score.
+5. **Follow-up questions**: questions for further work or team discussion.
+6. **Important Concepts**: named concepts with links to the concept index.
 
-**Optional (only when warranted, never as filler):**
-
-- **Alternative approaches**: other valid solutions, included as subheadings
-  inside **Solutions** when they offer a useful comparison.
-- **Edge cases & production concerns**: what we didn't consider; what
-  would break under load, weird input, i18n, concurrency. Included for most
-  chapters from ~10 onward.
-- **Further reading**: RFCs, std docs, blog posts, related crates.
-  Skipped if no good external resource exists.
-
-See §6 for the quiz format and question style.
+Preserve useful technical details when applying this format. Unwritten chapters
+stay marked as drafts. Quizzes are optional and must meet the criteria in §13;
+never add one merely to fill a section. Further reading is optional too.
 
 ---
 

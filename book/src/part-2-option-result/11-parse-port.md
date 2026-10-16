@@ -1,11 +1,13 @@
-# 11 · `parse_port`
+# `parse_port`
+
+Refactor this port parser to accept ports from 1 through 65535 and let callers
+distinguish zero from other invalid input. Keep the accepted range unchanged: zero,
+malformed text, and out-of-range numbers remain invalid. You may change the return
+type and update the tests to check the information exposed by the new interface.
+
+Run the tests with `cargo test --example 11_parse_port`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> Accept ports from 1 through 65535. Let callers distinguish zero from other invalid
-> input. You may change the return type.
 
 ```rust,editable
 {{#include ../../../examples/11_parse_port.rs:listing}}
@@ -19,18 +21,6 @@
 {{#include ../../../solutions/11_parse_port.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests, then refactor `examples/11_parse_port.rs`. You may strengthen
-> the public return type, so update the tests to check the information exposed by the new
-> interface:
->
-> ```sh
-> cargo test --example 11_parse_port
-> ```
->
-> Keep the accepted range unchanged. `8080` and `65535` remain valid. Zero, malformed
-> input, and out-of-range input remain invalid.
 
 ## Discussion
 
@@ -88,9 +78,7 @@ are known to be non-zero, and writing the wrong literal should fail the test imm
 The production function never unwraps untrusted input. Both failure stages become
 explicit `InvalidPort` values.
 
-</details>
-
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -113,12 +101,14 @@ Non-zero integer types also provide an unused value, called a niche.
 This function returns `Result`, not `Option`. It uses `NonZeroU16` to guarantee a non-zero
 value, not for that optimisation.
 
+</details>
+
 ## Trade-offs
 
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
-| Criterion | Original: `Option<u16>` | `Result<NonZeroU16, InvalidPort>` (main) |
+| Criterion | Original | `Result<NonZeroU16, InvalidPort>` (main) |
 |---|---|---|
 | Type-safety | Zero excluded by runtime convention | + Success type excludes zero |
 | Readability | Range check before narrowing cast | + Direct parsing, no cast |

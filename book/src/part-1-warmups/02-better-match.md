@@ -1,11 +1,11 @@
-# 02 · `better_match`
+# `better_match`
+
+This function assigns labels to an optional number. Refactor it without changing
+its signature or results, including the distinction between `None` and a number
+that isn't listed. You can check your changes with
+`cargo test --example 02_better_match`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> Review the repeated alternatives in this `match`. Preserve every tested result,
-> especially the difference between `None` and a number that isn't listed.
 
 ```rust,editable
 {{#include ../../../examples/02_better_match.rs:listing}}
@@ -19,16 +19,6 @@
 {{#include ../../../solutions/02_better_match.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests. Then refactor `examples/02_better_match.rs` without changing
-> its behaviour:
->
-> ```sh
-> cargo test --example 02_better_match
-> ```
->
-> Write the shared `Some` constructor once in each of the first two arms.
 
 ## Discussion
 
@@ -78,9 +68,7 @@ the match still divides every input into the same four cases:
 Each rewritten arm matches the same values as before, and the arm order is unchanged.
 The signature and results stay the same; only the pattern syntax changes.
 
-</details>
-
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -100,12 +88,14 @@ A `&'static str` is adequate for display. If downstream code starts branching on
 labels, an enum would rule out typos and make category changes visible to the compiler.
 That would be a separate API change, not part of this pattern refactor.
 
+</details>
+
 ## Trade-offs
 
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
-| Criterion | Original: repeated `Some` | Nested or-patterns |
+| Criterion | Original | Nested or-patterns |
 |---|---|---|
 | Type-safety | Exhaustive match; string labels | = Same states and string labels |
 | Readability | Repeats constructor for each literal | + Less repetition, if nesting familiar |

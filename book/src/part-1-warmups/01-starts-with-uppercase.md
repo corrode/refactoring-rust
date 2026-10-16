@@ -1,11 +1,20 @@
-# 01 · `starts_with_uppercase`
+# `starts_with_uppercase`
+
+Here's a function that checks whether a string starts with an uppercase letter.
+It works, but it could be prettier.
+You can click the "Run" button to run the tests.
+Try to refactor it while preserving its behaviour.
+That means, don't change the function signature or return value.
+
+If you like, you can also use your own development environment to run the tests and refactor the code.
+To do so, clone the repository and run the tests with `cargo test --example 01_starts_with_uppercase`.
+
+Once you're happy with your solution, take a look at the discussion and solution sections for some ideas on how to improve it further.
+
+Good luck!
 
 ## Code to refactor
 
-> **EXERCISE**
->
-> Review the function against the tests, which define the current contract for empty input
-> and for a non-ASCII uppercase letter.
 
 ```rust,editable
 {{#include ../../../examples/01_starts_with_uppercase.rs:listing}}
@@ -18,17 +27,6 @@
 <script type="text/plain" class="playground-tests-fallback">
 {{#include ../../../solutions/01_starts_with_uppercase.rs:tests}}
 </script>
-
-> **TRY THIS**
->
-> Run the starter tests. Then refactor `examples/01_starts_with_uppercase.rs` while
-> preserving its behaviour:
->
-> ```sh
-> cargo test --example 01_starts_with_uppercase
-> ```
->
-> Choose a version that makes the borrowing requirement and empty-input result clear.
 
 ## Discussion
 
@@ -103,7 +101,7 @@ version is shorter, but its predicate form may be less familiar.
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
-| Criterion | Original: owned `String` | `is_some_and` | `starts_with` predicate |
+| Criterion | Original | `is_some_and` | `starts_with` predicate |
 |---|---|---|---|
 | Type-safety | Arbitrary text; boolean result | = No new type-level invariant | = No new type-level invariant |
 | Readability | Explicit branches; redundant boolean checks | + Fewer branches, if combinators familiar | + Direct question, if predicate form familiar |

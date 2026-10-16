@@ -1,11 +1,12 @@
-# 07 · `optional_values`
+# `optional_values`
+
+This function adds up optional integers. Refactor it while preserving the results for
+missing entries, empty input, and input with no present values. You may change how
+it accepts its input, provided callers still get the same totals.
+
+Run the local tests with `cargo test --example 07_optional_values`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> Treat the loop as an aggregation over optional values. Preserve the existing results for
-> missing entries, an empty input vector, and a vector with no present values.
 
 ```rust,editable
 {{#include ../../../examples/07_optional_values.rs:listing}}
@@ -19,17 +20,6 @@
 {{#include ../../../solutions/07_optional_values.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests, then refactor `examples/07_optional_values.rs` without changing
-> its public signature or behaviour:
->
-> ```sh
-> cargo test --example 07_optional_values
-> ```
->
-> Try to name both operations in the expression: remove absent values, then sum what
-> remains.
 
 ## Discussion
 
@@ -106,9 +96,7 @@ Now `iter()` yields borrowed options, `flatten()` yields `&i32`, and `copied()` 
 into the owned `i32` values used by the sum. The borrowed interface gives callers more
 freedom, but it is not the same ownership contract as the starter.
 
-</details>
-
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -123,12 +111,14 @@ or a domain-specific `Result`. If large totals are valid, use a wider integer ty
 Neither change belongs in a control-flow cleanup until you have checked the callers and
 the domain limits.
 
+</details>
+
 ## Trade-offs
 
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
-| Criterion | Original: loop + `match` | `flatten().sum()` on owned vector | `filter_map` identity + `sum` | Borrowed slice + `flatten().copied().sum()` |
+| Criterion | Original | `flatten().sum()` on owned vector | `filter_map` identity + `sum` | Borrowed slice + `flatten().copied().sum()` |
 |---|---|---|---|---|
 | Type-safety | Optional integers; overflow still possible | = Same overflow risk | = Same overflow risk | = Same overflow risk |
 | Readability | Mutable total, explicit absence branch | + Names flattening and summation | + Names filtering and summation | + Names aggregation; explicit copying |

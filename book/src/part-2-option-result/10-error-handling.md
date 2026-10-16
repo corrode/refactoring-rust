@@ -1,12 +1,12 @@
-# 10 · `error_handling`
+# `error_handling`
+
+This function reads a file's contents into a string. Refactor it without changing the
+public signature or turning I/O failures into panics. Preserve the returned errors,
+including `io::ErrorKind::NotFound` for a missing file.
+
+Run the tests with `cargo test --example 10_error_handling`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> Follow the error paths before shortening the function. Work out what each `match`
-> returns, then find the standard-library operation that opens a file and reads all of it
-> into a `String`.
 
 ```rust,editable
 {{#include ../../../examples/10_error_handling.rs:listing}}
@@ -20,16 +20,6 @@
 {{#include ../../../solutions/10_error_handling.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests, then refactor `examples/10_error_handling.rs` without changing
-> the public signature or turning I/O failures into panics:
->
-> ```sh
-> cargo test --example 10_error_handling
-> ```
->
-> Keep the missing-file test passing, including its `io::ErrorKind::NotFound` check.
 
 ## Discussion
 
@@ -114,9 +104,7 @@ This API change is optional. Keep `&str` when paths enter the surrounding interf
 text and callers don't need other path types. Choose `AsRef<Path>` or `&Path` when support for
 native paths is part of the contract.
 
-</details>
-
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -129,12 +117,14 @@ reading, decoding, or policy failures, a bare `io::Error` may lack the domain co
 they need. A surrounding error type can add that context while preserving the low-level
 I/O error as its source.
 
+</details>
+
 ## Trade-offs
 
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
-| Criterion | Original: explicit matches | Open/read with `?` | `fs::read_to_string` (main) | Helper with `AsRef<Path>` |
+| Criterion | Original | Open/read with `?` | `fs::read_to_string` (main) | Helper with `AsRef<Path>` |
 |---|---|---|---|---|
 | Type-safety | Fallible UTF-8 text result | = Same result guarantees | = Same result guarantees | = Same result guarantees |
 | Readability | Explicit error branches | + Less propagation boilerplate | + Names whole operation | + Names whole operation |

@@ -1,16 +1,13 @@
-# 08 · `parse_ints`
+# `parse_ints`
 
-## The problem
+These functions parse integers and collect validation errors. Refactor both while
+preserving their different error policies: parsing stops at the first failure;
+validation runs every check and collects all errors in input order. You may change
+how the functions accept their inputs without changing these results.
 
-These loops need different error policies. Parsing stops at the first failure;
-validation must run every check and collect all errors.
+Run the local tests with `cargo test --example 08_parse_ints`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> Refactor both loops. Keep validator errors in input order, and check whether either
-> function needs to own its input.
 
 ```rust,editable
 {{#include ../../../examples/08_parse_ints.rs:listing}}
@@ -24,16 +21,6 @@ validation must run every check and collect all errors.
 {{#include ../../../solutions/08_parse_ints.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests, then refactor `examples/08_parse_ints.rs`:
->
-> ```sh
-> cargo test --example 08_parse_ints
-> ```
->
-> Let `parse_values` borrow its input. Before you change `collect_errors`, explain why
-> another fail-fast pipeline would break its test.
 
 ## Discussion
 
@@ -102,9 +89,7 @@ order is preserved, which keeps the returned messages in validator order. This a
 removes the repeated variant check and the `expect`: `filter_map` discards `None` and
 keeps the value inside `Some`.
 
-</details>
-
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -126,6 +111,8 @@ owned error messages. As the validation system grows, a structured error can car
 field name, code, and context without making callers recover data from human-readable
 text.
 
+</details>
+
 ## Trade-offs
 
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
@@ -133,7 +120,7 @@ Compared with the original: **+** advantage, **=** comparable, **−** disadvant
 
 ### Parsing: `parse_values`
 
-| Criterion | Original: loop + `match` | Borrowed slice + `map().collect()` |
+| Criterion | Original | Borrowed slice + `map().collect()` |
 |---|---|---|
 | Type-safety | Complete vector or `ParseIntError` | = Same all-or-error result |
 | Readability | Explicit push and early return | + Names parsing and collection |
@@ -144,7 +131,7 @@ Compared with the original: **+** advantage, **=** comparable, **−** disadvant
 
 ### Validation: `collect_errors`
 
-| Criterion | Original: loop + `is_err` / `expect` | `filter_map` with `.err()` + `collect` |
+| Criterion | Original | `filter_map` with `.err()` + `collect` |
 |---|---|---|
 | Type-safety | `expect` guarded by `is_err` | = Same `Result` and `Option` types |
 | Readability | Repeated variant checks, mutable accumulator | + Names error selection and collection |

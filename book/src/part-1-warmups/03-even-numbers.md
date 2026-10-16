@@ -1,11 +1,12 @@
-# 03 · `even_numbers`
+# `even_numbers`
+
+`evens` produces the even numbers below an upper bound. Refactor it so callers can
+consume just a few values without generating the entire sequence first. You may
+change the signature to provide a lazy API, but preserve the values and their order.
+Adapt the tests and callers as needed, and add a test that consumes only the first
+few values of a large range. Run them with `cargo test --example 03_even_numbers`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> You may change the return type. Add a test that consumes only the first few values
-> of a large range.
 
 ```rust,editable
 {{#include ../../../examples/03_even_numbers.rs:listing}}
@@ -19,17 +20,6 @@
 {{#include ../../../solutions/03_even_numbers.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests, then refactor `examples/03_even_numbers.rs`. You may change the
-> function signature in this exercise.
->
-> ```sh
-> cargo test --example 03_even_numbers
-> ```
->
-> While you work, account for the callers. What would they need to change if `evens` no
-> longer returned a `Vec<u32>`?
 
 ## Discussion
 
@@ -124,7 +114,7 @@ each candidate.
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
-| Criterion | Original: loop → `Vec` | Lazy `step_by` | `step_by` → `Vec` | Lazy `filter` |
+| Criterion | Original | Lazy `step_by` | `step_by` → `Vec` | Lazy `filter` |
 |---|---|---|---|---|
 | Type-safety | Evenness enforced by implementation | = Evenness not encoded in type | = Evenness not encoded in type | = Evenness not encoded in type |
 | Readability | Manual counter and parity check | + Direct stride, if adapter familiar | + Direct stride, if adapters familiar | + Explicit predicate, if adapters familiar |

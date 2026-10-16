@@ -1,10 +1,15 @@
-# 09 · `floor`
+# `floor`
 
-Based on [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2015/day/1).
+Follow the instructions to find the final floor, starting at zero. `(` moves up one
+floor and `)` moves down one. Refactor the loop while preserving the signature,
+result, and error for the first invalid instruction.
+
+This exercise comes from [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2015/day/1).
+Run its tests with `cargo test --example 09_floor`.
 
 > **TODO**
 >
-> The exercise and solutions are ready; the chapter is not yet written.
+> The exercise and solutions are ready; the discussion and remaining sections still need writing.
 
 ## Code to refactor
 

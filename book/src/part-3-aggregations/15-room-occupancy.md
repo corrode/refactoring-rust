@@ -1,10 +1,13 @@
-# 15 · `room_occupancy`
+# `room_occupancy`
+
+These functions calculate adult and child totals, find the largest adult count in a
+room, and collect child ages. Refactor one function at a time, keeping every public
+signature and the order returned by `child_ages`. Check behaviour for empty input and
+the full range of values the field types allow before deciding to change any results.
+
+Run the tests after each change with `cargo test --example 15_room_occupancy`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> Refactor one function at a time and run its tests after each change.
 
 ```rust,editable
 {{#include ../../../examples/15_room_occupancy.rs:listing}}
@@ -18,15 +21,6 @@
 {{#include ../../../solutions/15_room_occupancy.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests, then refactor `examples/15_room_occupancy.rs`:
->
-> ```sh
-> cargo test --example 15_room_occupancy
-> ```
->
-> Keep every public signature and preserve the order returned by `child_ages`.
 
 ## Discussion
 
@@ -106,9 +100,7 @@ Run the alternative as a separate example:
 cargo test --example 15_room_occupancy_alt
 ```
 
-</details>
-
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -128,12 +120,14 @@ Unsigned integers rule out negative values, but they do not prevent overflow or 
 the maximum of an empty collection. Returning `Option<i32>` from the maximum keeps
 “no rooms” distinct from a real value. Callers must then handle the absence of a maximum.
 
+</details>
+
 ## Trade-offs
 
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
-| Criterion | Original: free-function loops | Iterator aggregates (main) | `Rooms` methods |
+| Criterion | Original | Iterator aggregates (main) | `Rooms` methods |
 |---|---|---|---|
 | Type-safety | Signed counts, narrowing casts | = Same types and casts | = No validation, same casts |
 | Readability | Mutable aggregate bookkeeping | + Names each aggregate operation | + Named aggregates grouped as methods |

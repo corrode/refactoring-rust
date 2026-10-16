@@ -1,21 +1,13 @@
-# 21 · `transformer`
+# `transformer`
 
 > **TODO**. chapter not yet written.
 >
-> Follow the 8-section spine from `book/PLAN.md` §3:
+> Use the format of [starts_with_uppercase](../part-1-warmups/01-starts-with-uppercase.md),
+> with a short introduction specific to this exercise:
 >
-> 1. The problem
-> 2. Code to refactor (`{{#include}}` from `examples/`)
-> 3. Discussion
-> 4. Solutions
-> 5. Trade-offs (six axes)
-> 6. Quiz (optional; only if it adds a new application)
-> 7. Follow-up questions
-> 8. Important Concepts
->
-> Optional: Alternative approaches, Edge cases & production concerns,
-> Further reading.
->
-> TODO(prose): After the enum transformer, introduce the trait-object
-> pipeline. Add an erasing command to expose the empty-string sentinel,
-> then initialize the accumulator with the input as the pipeline identity.
+> 1. Code to refactor
+> 2. Discussion
+> 3. Solutions (one collapsed box, including alternatives and relevant edge cases)
+> 4. Trade-offs (variant comparison tables)
+> 5. Follow-up questions
+> 6. Important Concepts

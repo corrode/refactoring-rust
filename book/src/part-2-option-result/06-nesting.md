@@ -1,12 +1,12 @@
-# 06 · `nesting`
+# `nesting`
+
+This function trims optional text and returns it in uppercase when anything remains.
+Refactor it while preserving the results for absent input, empty input,
+whitespace-only input, and non-empty text surrounded by whitespace.
+
+Run the local tests with `cargo test --example 06_nesting`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> Read the branches as a sequence of data transformations. Preserve all four tested
-> cases: absent input, empty input, whitespace-only input, and non-empty text surrounded
-> by whitespace.
 
 ```rust,editable
 {{#include ../../../examples/06_nesting.rs:listing}}
@@ -20,17 +20,6 @@
 {{#include ../../../solutions/06_nesting.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests, then refactor `examples/06_nesting.rs` without changing its
-> behaviour:
->
-> ```sh
-> cargo test --example 06_nesting
-> ```
->
-> Keep trimming and validation on borrowed text. Create the uppercase `String` only after
-> the value survives the empty check.
 
 ## Discussion
 
@@ -108,9 +97,7 @@ side effects.
 Keep `to_uppercase` after `filter` so the function checks the borrowed text before
 creating an owned result.
 
-</details>
-
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -129,12 +116,14 @@ Uppercasing is not locale-aware either. Before using this result for identifiers
 security checks, or language shown to users, decide whether Unicode's default case
 conversion is the normalization your domain intends.
 
+</details>
+
 ## Trade-offs
 
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
-| Criterion | Original: nested `if let` / `if` | `map` → `filter` → `map` | `let-else` + early returns |
+| Criterion | Original | `map` → `filter` → `map` | `let-else` + early returns |
 |---|---|---|---|
 | Type-safety | Optional input and output | = Same representable states | = Same representable states |
 | Readability | Nested presence and emptiness checks | + Three named stages, no nesting | + Flat checks, named intermediate |

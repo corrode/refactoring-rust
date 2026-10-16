@@ -1,12 +1,12 @@
-# 04 · `truncate_string`
+# `truncate_string`
+
+This function limits a string to a byte budget. Check whether it meets its documented
+behaviour for all inputs, not just those covered by the existing tests. Add tests for
+missing cases, then refactor it and fix any behaviour that violates the contract
+without changing the signature. Run the tests with
+`cargo test --example 04_truncate_string`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> Check whether the function meets its documented behavior for all inputs. Add tests
-> for cases you think are missing, then make any needed changes without changing the
-> signature.
 
 ```rust,editable
 {{#include ../../../examples/04_truncate_string.rs:listing}}
@@ -20,16 +20,17 @@
 {{#include ../../../solutions/04_truncate_string.rs:tests}}
 </script>
 
-> **TRY THIS**
+## Discussion
+
+> **DISCUSSION**
 >
-> Run the existing starter tests, which pass:
->
-> ```sh
-> cargo test --example 04_truncate_string
-> ```
->
-> Look for inputs the existing tests do not cover. Try writing a failing test before
-> changing the implementation.
+> - What does `str::len` count?
+> - Which byte indices are valid boundaries in `"café"`?
+> - Why does the existing Unicode test miss the dangerous case?
+> - What precondition does `String::truncate` place on its argument?
+> - If four bytes would split `é`, should the function panic, return an error, or use
+>   the longest valid prefix below the limit?
+> - Does `max_bytes` count bytes or Unicode scalar values?
 
 <details>
 <summary>Hint: a test case to try</summary>
@@ -51,18 +52,6 @@
 > ```
 
 </details>
-
-## Discussion
-
-> **DISCUSSION**
->
-> - What does `str::len` count?
-> - Which byte indices are valid boundaries in `"café"`?
-> - Why does the existing Unicode test miss the dangerous case?
-> - What precondition does `String::truncate` place on its argument?
-> - If four bytes would split `é`, should the function panic, return an error, or use
->   the longest valid prefix below the limit?
-> - Does `max_bytes` count bytes or Unicode scalar values?
 
 `"café"` occupies five bytes. `c`, `a`, and `f` each use one byte; `é` uses two. The valid
 boundaries are therefore 0, 1, 2, 3, and 5. Index 4 lands inside the encoding of `é`.
@@ -144,9 +133,7 @@ pub fn truncate(s: &str, max_bytes: usize) -> String {
 The loop implements the same byte-cap policy. It is longer, but the boundary search is
 visible and it works with older stable Rust releases.
 
-</details>
-
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -167,12 +154,14 @@ A nonempty result requires an allocation because the function returns an owned
 but the result could not outlive the input. Make that API change only when callers
 benefit from it.
 
+</details>
+
 ## Trade-offs
 
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
-| Criterion | Original: copy then truncate | `floor_char_boundary` | Manual boundary search | `truncate_chars` (scalar cap) |
+| Criterion | Original | `floor_char_boundary` | Manual boundary search | `truncate_chars` (scalar cap) |
 |---|---|---|---|---|
 | Type-safety | Boundary rule absent from types | = Boundary checked at runtime | = Boundary checked at runtime | = Limit unit still untyped |
 | Readability | Short; boundary precondition hidden | + Named policy; nested expression needs familiarity | + Explicit policy; more control flow | + Direct scalar count, if adapters familiar |

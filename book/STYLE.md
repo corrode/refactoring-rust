@@ -76,52 +76,45 @@
 
 ## Structure
 
-Use the section order from `PLAN.md` §3. An introduction is optional: keep it
-only when it adds useful context beyond the exercise prompt and code to refactor.
-Do not describe the same behavior in all three places or preview the solution
-in the introduction. Short exercises can start with **Code to refactor**.
-State requirements without identifying the bug, naming the refactor, or supplying
-a failing input. Put those discoveries in Discussion or behind an optional hint.
+Use `src/part-1-warmups/01-starts-with-uppercase.md` as the format reference.
+The chapter title is the exercise name in backticks, without its number. Keep
+exercise numbers in filenames, commands, and the table of contents.
 
-1. The problem (optional)
-2. Code to refactor
-3. Discussion
-4. Solutions
-5. Trade-offs (six fixed axes; same order every time)
-6. Quiz (optional)
-7. Follow-up questions
-8. Important Concepts
+Start with a short introduction that states the task and any constraints. Adapt it
+to the exercise: don't repeat the first chapter's Run-button instructions, cloning
+instructions, or encouragement. Include the local test command where useful.
+There is no separate “The problem” heading or EXERCISE / TRY THIS callout.
 
-Optional, included only when there's something real to say:
+Do not identify the bug, name the refactor, or supply a failing input in the
+introduction. Put those discoveries in Discussion or an optional hint. State
+whether API changes are allowed; preserving results does not necessarily mean
+preserving the signature. Don't promise that code works when the task includes
+finding and fixing a bug.
 
-- Alternative approaches (inside Solutions)
-- Edge cases & production concerns
-- Further reading
+Use this section order:
 
-## Spine sections as callouts
+1. Code to refactor: editable listing followed by its hidden test scripts.
+2. Discussion: a DISCUSSION callout, followed by explanations.
+3. Solutions: one collapsed box with implementations and explanations.
+4. Trade-offs: comparison matrices with an **Original** baseline column.
+5. Follow-up questions: a FOLLOW-UP callout.
+6. Important Concepts: a CONCEPT callout.
 
-Prompt-oriented spine sections open with a labelled blockquote. Use badges for
-*Code to refactor*, *Discussion*, *Trade-offs*, *Follow-up questions*, and *Important Concepts*.
-*Solutions* and *Quiz* do not need badges because their headings already
-name the content. The CSS in `theme/css/corrode.css` styles the leading `**LABEL**`
-as a small-caps badge.
+Keep alternatives and relevant edge cases inside Solutions as level-three
+subheadings. Preserve useful caveats rather than deleting them to fit the format.
+Unwritten chapters remain marked as drafts; do not add empty sections or invented
+content just to fill the template. A quiz remains optional under the rules below.
 
-```markdown
-> **DISCUSSION**
->
-> - Does the function need to own the string?
-> - What does `chars().nth(0)` do, and is there a more direct way?
-```
+## Callouts
 
-Standard labels:
+Use these labels where the reference chapter uses them:
 
-- `EXERCISE`: wraps the starter listing
-- `DISCUSSION`: questions and explanations about the code and refactoring choices
-- `TRY THIS`: an inline call to action
-- `TRADE-OFF`: the per-chapter scoring section
-- `EDGE CASE`: production concerns
-- `FOLLOW-UP`: open-ended prompts
-- `CONCEPT`: important concepts entries
+- `DISCUSSION`: questions about the code and refactoring choices.
+- `FOLLOW-UP`: questions for further work or team discussion.
+- `CONCEPT`: important concepts and links.
+
+Code to refactor and Trade-offs do not need a callout repeating the heading.
+Within Solutions, an EDGE CASE callout can draw attention to a constraint.
 
 ## Hidden solutions
 
@@ -151,7 +144,7 @@ Walk through the code here.
 ````
 
 Put *Alternative approaches* inside the disclosure, under a level-three heading.
-Leave *Edge cases and production concerns*, *Trade-offs*,
+Put relevant *Edge cases and production concerns* inside it too. Leave *Trade-offs*,
 *Quiz*, and later sections outside the disclosure. The native `details` element keeps
 the summary keyboard accessible, and mdBook still renders included code as a Playground
 block.

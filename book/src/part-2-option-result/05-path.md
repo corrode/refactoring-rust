@@ -1,12 +1,12 @@
-# 05 · `path`
+# `path`
+
+This function checks whether a path has the extension `rs`. Refactor it while
+preserving its behaviour: keep the check lexical and case-sensitive, including the
+existing results for paths without an extension and for dotfiles.
+
+Run the local tests with `cargo test --example 05_path`.
 
 ## Code to refactor
-
-> **EXERCISE**
->
-> Read the nested matches alongside the tests. Keep the check lexical and case-sensitive,
-> including the existing results for a path without an extension and for the dotfile
-> `.rs`.
 
 ```rust,editable
 {{#include ../../../examples/05_path.rs:listing}}
@@ -20,17 +20,6 @@
 {{#include ../../../solutions/05_path.rs:tests}}
 </script>
 
-> **TRY THIS**
->
-> Run the starter tests, then refactor `examples/05_path.rs` without changing its
-> behaviour:
->
-> ```sh
-> cargo test --example 05_path
-> ```
->
-> Check whether the extension exists and equals `"rs"` without first converting it
-> to UTF-8 text.
 
 ## Discussion
 
@@ -109,9 +98,7 @@ pub fn is_rust_source_file(path: &Path) -> bool {
 This version removes the UTF-8 conversion but leaves the two cases in view. Choosing
 between it and `is_some_and` is mostly about which form your team reads faster.
 
-</details>
-
-## Edge cases and production concerns
+### Edge cases and production concerns
 
 > **EDGE CASE**
 >
@@ -133,12 +120,14 @@ a yes-or-no classifier. If the caller must tell “not Rust” apart from “the
 cannot be represented as UTF-8,” a `bool` is too small. The function needs a richer
 return type and an explicit encoding policy.
 
+</details>
+
 ## Trade-offs
 
 Compared with the original: **+** advantage, **=** comparable, **−** disadvantage,
 **N/A** not applicable. Readability depends on familiarity.
 
-| Criterion | Original: nested matches + `to_str` | `is_some_and` | `map_or(false, …)` | Explicit `match` on extension |
+| Criterion | Original | `is_some_and` | `map_or(false, …)` | Explicit `match` on extension |
 |---|---|---|---|---|
 | Type-safety | No filesystem guarantees | = No filesystem guarantees | = No filesystem guarantees | = No filesystem guarantees |
 | Readability | Two nested absence checks | + One presence-and-predicate expression | + Explicit default, no nesting | + Two cases, no nesting |
