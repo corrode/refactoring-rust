@@ -17,10 +17,6 @@ Run the tests after each change with `cargo test --example 15_room_occupancy`.
 {{#include ../../../examples/15_room_occupancy.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/15_room_occupancy.rs:tests}}
-</script>
-
 
 ## Discussion
 

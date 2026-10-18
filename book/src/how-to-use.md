@@ -139,11 +139,11 @@ its author is credited in the
 
 If you can follow the code to refactor in
 [chapter 01](part-1-warmups/01-starts-with-uppercase.md), begin with the
-[Preface](preface.md) and read forward. If not, work through *The Book* or
+[Intro](intro.md) and read forward. If not, work through *The Book* or
 *100 Exercises to Learn Rust* first. This book assumes you can read Rust without
 help.
 
 If you've written Rust for a while and want to get to the harder exercises,
-skim [How to run a code review](how-to-run-a-code-review.md) and
-[The trade-off axes](trade-off-axes.md) first. They define the vocabulary used
-throughout the book. Then use the [Roadmap](roadmap.md) to choose a part.
+skim [How to run a code review](appendix/how-to-run-a-code-review.md) and
+[The trade-off axes](appendix/trade-off-axes.md) first. They define the vocabulary used
+throughout the book. Then use the [Roadmap](appendix/roadmap.md) to choose a part.

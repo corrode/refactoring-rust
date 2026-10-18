@@ -4,7 +4,8 @@ window.addEventListener('load', async () => {
     const fontFamily = getComputedStyle(document.documentElement)
         .getPropertyValue('--corrode-font-mono').trim();
     const editors = window.editors || [];
-    editors.forEach(editor => editor.setOption('fontFamily', fontFamily));
+    // Override mdBook's inline size so editors share the pre's size with output.
+    editors.forEach(editor => editor.setOptions({ fontFamily, fontSize: 'inherit' }));
 
     try {
         await document.fonts.load('16px "Zed Mono"');

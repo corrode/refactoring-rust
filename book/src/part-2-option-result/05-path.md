@@ -17,10 +17,6 @@ Run the local tests with `cargo test --example 05_path`.
 {{#include ../../../examples/05_path.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/05_path.rs:tests}}
-</script>
-
 
 ## Discussion
 
@@ -104,6 +100,10 @@ pub fn is_rust_source_file(path: &Path) -> bool {
 }
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/05_path.rs:tests}}
+</script>
+
 `map_or(false, predicate)` returns `false` for `None` and applies the predicate to `Some`.
 `is_some_and` expresses this presence-and-predicate check directly.
 Use `map_or` if your team finds it clearer or supports a Rust version that predates `is_some_and`.
@@ -119,6 +119,10 @@ pub fn is_rust_source_file(path: &Path) -> bool {
     }
 }
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/05_path.rs:tests}}
+</script>
 
 This version removes the UTF-8 conversion but keeps both cases explicit.
 Choose it over `is_some_and` if your team reads it faster.

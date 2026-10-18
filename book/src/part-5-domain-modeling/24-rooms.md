@@ -17,10 +17,6 @@ Run the starter tests with `cargo test --example 24_rooms`.
 {{#include ../../../examples/24_rooms.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/24_rooms.rs:tests}}
-</script>
-
 ## Discussion
 
 <details class="discussion-question">

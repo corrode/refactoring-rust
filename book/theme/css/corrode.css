@@ -142,9 +142,6 @@ pre,
     font-size: inherit;
 }
 
-.content .ace_editor {
-    font-size: 0.96em;
-}
 
 /* ---------- Navy theme overrides ----------
  * mdBook's navy is closest to the slides palette; we nudge it the rest of
@@ -485,6 +482,51 @@ pre,
 /* The neutral score needs darker strokes on paper-like backgrounds. */
 :is(.navy, .coal, .ayu) .tradeoff-icon[src$="comparable.svg"] {
     filter: brightness(1.65);
+}
+
+/* Editable callers stay next to their snippet, outside the code block. */
+.content details.playground-test-editor {
+    margin: -0.5rem 0 1.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--table-border-color);
+    border-radius: 4px;
+}
+
+.content .playground-test-editor > summary {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.content .playground-test-editor label {
+    display: block;
+    margin-top: 0.75rem;
+}
+
+.content .playground-test-editor textarea {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 8rem;
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    font-family: var(--corrode-font-mono);
+    font-size: 0.96em;
+    line-height: 1.5;
+    white-space: pre;
+    overflow: auto;
+    color: var(--fg);
+    background: var(--bg);
+    border: 1px solid var(--table-border-color);
+    border-radius: 4px;
+    resize: vertical;
+    tab-size: 4;
+}
+
+.content .playground-test-editor :is(summary, textarea):focus-visible {
+    outline: 2px solid var(--links);
+    outline-offset: 2px;
 }
 
 /* Compiler diagnostics and test results, in both dark and light themes. */

@@ -1,8 +1,14 @@
 'use strict';
 
 // mdBook submits editable snippets as binaries and omits code hidden outside Ace.
-// Exercise listings need the opposite: visible code plus hidden tests, run with `cargo test`.
+// Exercise listings run the snippet plus explicitly attached, editable tests.
 (() => {
+    const initialized = Symbol.for('refactoring.playground-tests.initialized');
+    if (document[initialized]) return;
+    document[initialized] = true;
+
+    const testEditors = new WeakMap();
+    const editorOwners = new WeakMap();
     const playgroundUrl = 'https://play.rust-lang.org/execute';
     const activeRuns = new WeakMap();
 
@@ -14,79 +20,27 @@
         return window.ace ? window.ace.edit(code).getValue() : code.textContent;
     }
 
-    function attachedTestCandidates(playground) {
-        const tests = [playground, playground.parentElement]
+    function createTestEditor(playground) {
+        const script = [playground, playground.parentElement]
             .map(element => element?.nextElementSibling)
-            .find(element => element?.classList.contains('playground-tests'));
-        if (!tests) {
-            return [];
-        }
+            .find(element => element?.matches('script.playground-tests'));
+        if (!script) return;
 
-        const candidates = [tests.textContent.trim()];
-        const fallback = tests.nextElementSibling;
-        if (fallback?.classList.contains('playground-tests-fallback')) {
-            candidates.push(fallback.textContent.trim());
-        }
-        return candidates;
-    }
-
-    function chapterTestScripts(playground) {
-        const main = playground.closest('main');
-        if (!main) {
-            return [];
-        }
-
-        let section = playground;
-        while (section.parentElement && section.parentElement !== main) {
-            section = section.parentElement;
-        }
-
-        let heading = section;
-        while (heading && heading.tagName !== 'H1') {
-            heading = heading.previousElementSibling;
-        }
-        if (!heading) {
-            return [];
-        }
-
-        const scripts = [];
-        for (
-            let element = heading.nextElementSibling;
-            element && element.tagName !== 'H1';
-            element = element.nextElementSibling
-        ) {
-            if (element.matches('script.playground-tests, script.playground-tests-fallback')) {
-                scripts.push(element);
-            }
-            scripts.push(...element.querySelectorAll(
-                'script.playground-tests, script.playground-tests-fallback',
-            ));
-        }
-        return scripts;
-    }
-
-    function testCandidates(playground, code) {
-        const attached = attachedTestCandidates(playground);
-        if (attached.length > 0) {
-            return attached;
-        }
-
-        const functionNames = Array.from(
-            code.matchAll(/\b(?:pub\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)/g),
-            match => match[1],
-        );
-        if (functionNames.length === 0) {
-            return [];
-        }
-
-        const candidates = chapterTestScripts(playground)
-            .map(tests => tests.textContent.trim())
-            .filter(tests => functionNames.some(name => {
-                const call = new RegExp(`\\b${name}\\s*\\(`);
-                return call.test(tests);
-            }));
-
-        return Array.from(new Set(candidates));
+        const details = document.createElement('details');
+        details.className = 'playground-test-editor';
+        const summary = document.createElement('summary');
+        summary.textContent = 'Tests and callers';
+        const label = document.createElement('label');
+        label.textContent = 'Edit tests and callers to match your API:';
+        const textarea = document.createElement('textarea');
+        textarea.value = script.textContent.trim();
+        textarea.rows = Math.min(24, Math.max(6, textarea.value.split('\n').length));
+        textarea.spellcheck = false;
+        label.append(textarea);
+        details.append(summary, label);
+        playground.after(details);
+        testEditors.set(playground, textarea);
+        editorOwners.set(textarea, playground);
     }
 
     function editionFor(playground) {
@@ -184,8 +138,8 @@
             return;
         }
 
-        const candidates = testCandidates(playground, code);
-        const runsTests = candidates.length > 0;
+        const textarea = testEditors.get(playground);
+        const runsTests = Boolean(textarea);
         const result = resultBlock(playground);
         const button = playground.querySelector('.play-button');
         const controller = new AbortController();
@@ -199,45 +153,18 @@
         }
 
         try {
-            const outputs = [];
-
-            if (runsTests) {
-                for (const [index, tests] of candidates.entries()) {
-                    if (index > 0) {
-                        result.textContent = 'Trying tests for a compatible API...';
-                    }
-                    const output = await runOnPlayground(
-                        `${code}\n\n${tests}\n`,
-                        playground,
-                        true,
-                        controller.signal,
-                    );
-                    outputs.push(output);
-                    if (output.success) {
-                        break;
-                    }
-                }
-            } else {
-                outputs.push(await runOnPlayground(
-                    code,
-                    playground,
-                    false,
-                    controller.signal,
-                ));
-            }
-
-            const output = outputs[outputs.length - 1];
-            let text = outputText(output);
-            if (!output.success && outputs.length > 1) {
-                text = outputs
-                    .map((attempt, index) => `Test set ${index + 1}:\n${outputText(attempt)}`)
-                    .join('\n\n');
-            }
+            const output = await runOnPlayground(
+                runsTests ? `${code}\n\n${textarea.value}\n` : code,
+                playground,
+                runsTests,
+                controller.signal,
+            );
+            const text = outputText(output);
 
             if (output.success && runsTests) {
                 result.textContent = text ? `Tests passed.\n\n${text}` : 'Tests passed.';
             } else {
-                result.textContent = text || 'Code compiles.';
+                result.textContent = text || (output.success ? 'Code compiles.' : 'Execution failed.');
             }
             highlightOutput(result);
             result.classList.toggle('result-no-output', output.success && text === '');
@@ -258,7 +185,7 @@
 
     function playgroundFromEvent(event) {
         const target = event.target instanceof Element ? event.target : null;
-        const playground = target?.closest('pre.playground');
+        const playground = editorOwners.get(target) || target?.closest('pre.playground');
         if (!playground || editableCode(playground) === null) {
             return null;
         }
@@ -270,12 +197,13 @@
             return;
         }
 
+        createTestEditor(playground);
         const button = playground.querySelector('.play-button');
         if (!button) {
             return;
         }
 
-        const runsTests = testCandidates(playground, editableCode(playground)).length > 0;
+        const runsTests = testEditors.has(playground);
         button.title = runsTests ? 'Run tests' : 'Check code';
         button.setAttribute('aria-label', button.title);
     });

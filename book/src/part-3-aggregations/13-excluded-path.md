@@ -16,10 +16,6 @@ Run the tests with `cargo test --example 13_excluded_path`.
 {{#include ../../../examples/13_excluded_path.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/13_excluded_path.rs:tests}}
-</script>
-
 
 ## Discussion
 
@@ -107,7 +103,7 @@ The current signature requires both.
 
 If absence means something in the domain, accept an optional borrow instead:
 
-```rust,ignore
+```rust,ignore,noplayground
 pub fn is_excluded(
     path: &Path,
     excluded: Option<&HashSet<PathBuf>>,
@@ -129,6 +125,31 @@ If absence and emptiness mean the same thing, remove `Option` and put the candid
 {{#include ../../../solutions/13_excluded_path_alt.rs:plain_function}}
 ```
 
+<script type="text/plain" class="playground-tests">
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn excludes_paths_below_a_prefix() {
+        let excluded = HashSet::from([PathBuf::from("/tmp")]);
+        assert!(is_excluded(Path::new("/tmp/foo.log"), &excluded));
+        assert!(!is_excluded(Path::new("/home/me/x"), &excluded));
+    }
+
+    #[test]
+    fn path_prefixes_respect_component_boundaries() {
+        let excluded = HashSet::from([PathBuf::from("/tmp")]);
+        assert!(!is_excluded(Path::new("/tmpfile"), &excluded));
+    }
+
+    #[test]
+    fn an_empty_set_excludes_nothing() {
+        assert!(!is_excluded(Path::new("/tmp/foo.log"), &HashSet::new()));
+    }
+}
+</script>
+
 This signature removes the distinction between absent and empty exclusions.
 It still exposes `HashSet`, although this prefix search checks entries one by one rather than using hash lookups.
 The set does prevent duplicate prefixes.
@@ -140,6 +161,31 @@ To hide the collection from callers, give it a dedicated type with an exclusion-
 # use std::path::{Path, PathBuf};
 {{#include ../../../solutions/13_excluded_path_alt.rs:excluder}}
 ```
+
+<script type="text/plain" class="playground-tests">
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn excluder_owns_the_matching_policy() {
+        let excluder = Excluder::new([PathBuf::from("/tmp")]);
+        assert!(excluder.is_excluded(Path::new("/tmp/foo.log")));
+        assert!(!excluder.is_excluded(Path::new("/home/me/x")));
+        assert!(!excluder.is_excluded(Path::new("/tmpfile")));
+    }
+
+    #[test]
+    fn default_excluder_excludes_nothing() {
+        assert!(!Excluder::default().is_excluded(Path::new("/tmp/foo.log")));
+    }
+
+    #[test]
+    fn empty_constructor_excludes_nothing() {
+        assert!(!Excluder::new([]).is_excluded(Path::new("/tmp/foo.log")));
+    }
+}
+</script>
 
 `Excluder` keeps the exclusion rules and the matching method together.
 You can add prefix normalization and validation here if needed.
@@ -156,7 +202,7 @@ If you prefer `path.is_excluded(&prefixes)`, an extension trait can add that pro
 Callers must import the trait to use method syntax.
 The implementation must still check prefixes:
 
-```rust,ignore
+```rust,ignore,noplayground
 impl Excludable for Path {
     fn is_excluded(&self, excluded: &HashSet<PathBuf>) -> bool {
         excluded.iter().any(|prefix| self.starts_with(prefix))

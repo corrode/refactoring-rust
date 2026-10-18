@@ -46,8 +46,8 @@ dividers**:
 - **Part II, `Option` · `Result` · `?`** (05–11)
 - **Part III, Aggregations & counting** (12–17)
 - **Part IV, Strings, parsing & iterators** (18–23)
-- **Part V, Domain modeling** (24–27)
-- **Part VI, Capstone** (28–29)
+- **Part V, Domain modeling** (24–31)
+- **Part VI, Capstone** (32–33)
 
 Each part has a 1–3 paragraph intro page describing the theme and what the
 reader will learn across its chapters.
@@ -61,8 +61,9 @@ Start with an unnumbered exercise-name title and a short task-specific introduct
 State constraints without giving away the diagnosis or solution. Avoid repeating
 the first chapter's instructions for using the editor and repository.
 
-1. **Code to refactor**: an editable include from `examples/`, followed by hidden
-   tests. No EXERCISE or TRY THIS callout.
+1. **Code to refactor**: an editable include from `examples/`, followed by an expandable **Tests and callers** editor.
+   Each block has one explicitly attached suite; learners can edit callers when changing an API.
+   No EXERCISE or TRY THIS callout.
 2. **Discussion**: independent, initially closed question-and-answer disclosures.
    Put each explanation with its question; do not repeat the questions in a callout.
 3. **Show Solutions**: the main solution, alternatives, and relevant edge cases in one
@@ -97,7 +98,7 @@ Every Trade-offs section scores against these six axes, in this order:
 6. **Error reporting**: when this fails, does the caller learn enough to
    act?
 
-These axes are defined once in the front-matter Trade-off-axes chapter and
+These axes are defined once in the appendix's Trade-off-axes chapter and
 referenced as shorthand thereafter. Changing them later is expensive, they
 are the format's spec.
 
@@ -127,14 +128,20 @@ scoring problems.
 
 **CI must run in this order, gating deploy:**
 
-1. `cargo test --examples`, covers both starters and solutions, since
-   solutions are already wired as `NN_*_solution` `[[example]]` entries in
-   `Cargo.toml`.
-2. `mdbook test` (compiles inline rust blocks).
-3. `mdbook build`.
-4. Deploy.
+1. `make test` runs registered starters, solutions, and integration tests.
+   Integration tests check the two intentional starter failures separately; every solution must pass.
+2. `mdbook test` checks eligible inline Rust blocks.
+3. `make book-runner-test` checks the browser runner and rendered-snippet checker.
+4. `mdbook build` expands includes and renders the book.
+5. `python3 scripts/check_book_snippets.py book/book` compiles and runs every editable snippet with its explicitly attached suite, using the same source concatenation as the browser.
+   `data-expected-failures` on a suite declares intentional failing test names.
+   Unexpected failures, unexpected successes, compilation errors, missing suites, empty suites, and ignored tests fail the check.
+6. Deploy.
 
-The book is physically incapable of shipping broken code.
+`make book-check` runs these checks locally (requires Node.js and Python 3.10+ in addition to Rust and mdBook).
+The browser submits the current code and edited tests once, without selecting or retrying another suite.
+Intentional failures remain ordinary failing tests in the browser; their metadata controls CI expectations only.
+These checks cover executable examples, not the correctness of every claim or explicitly ignored illustration.
 
 ---
 
@@ -190,18 +197,17 @@ Style rules (the full version lives in `book/STYLE.md`):
 
 **Front matter (in order, before Part I):**
 
-1. **Preface, Why this book.** 1–2 pages, personal, opinionated,
-   positions against rustlings / 100 Exercises / Brown.
+1. **Intro.** Introduces the book and its approach.
 2. **How to use this book.** Enumerates the modes: **Solo**, **Pair**,
    **Book club / team**, **Workshop facilitator**.
+**Back matter (appendix, in order):**
+
 3. **How to run a code review.** ~5–8 pages, pure prose, no Rust-specific
    code. The book's meta-thesis: ask questions, don't dictate; every
    refactor has a cost; type-driven design is a tool not a religion.
 4. **The trade-off axes.** Defines the six axes once and for all, with a
    worked example.
 5. **Roadmap.** One page listing the parts and what each teaches.
-
-**Back matter:**
 
 6. **Concept index**: curated, not auto-generated. Every named concept
    listed with the chapters that introduce and reuse it. Doubles as the
@@ -239,11 +245,9 @@ refactoring/
 │   │   └── logo.svg
 │   ├── src/
 │   │   ├── SUMMARY.md
-│   │   ├── preface.md
+│   │   ├── intro.md
 │   │   ├── how-to-use.md
-│   │   ├── how-to-run-a-code-review.md
-│   │   ├── trade-off-axes.md
-│   │   ├── roadmap.md
+
 │   │   ├── part-1-warmups/
 │   │   │   ├── README.md
 │   │   │   ├── 01-starts-with-uppercase.md
@@ -251,6 +255,9 @@ refactoring/
 │   │   ├── part-2-control-flow/
 │   │   ├── ...
 │   │   └── appendix/
+│   │       ├── how-to-run-a-code-review.md
+│   │       ├── trade-off-axes.md
+│   │       ├── roadmap.md
 │   │       ├── concept-index.md
 │   │       ├── trade-off-matrix.md
 │   │       ├── further-reading.md
@@ -349,7 +356,7 @@ v1 scope:
 
 **Diagrams:** tables everywhere they help; mermaid (~6–10 diagrams across
 the whole book, only where genuinely useful, e.g. state machines in ch. 21
-or type relationships in ch. 29). No hand-drawn illustrations. No
+or type relationships in ch. 33). No hand-drawn illustrations. No
 screenshots.
 
 ---
@@ -395,7 +402,7 @@ their structure. No separate format spec document.
 
 ### Phase 0, Scaffolding (~1 day)
 
-- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 29
+- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 33
   chapter entries (unwritten ones as plain text `- [Title]()`).
 - All part-intro stubs.
 - CI workflow (`cargo test --examples`, `mdbook test`, `mdbook build`,

@@ -19,10 +19,6 @@ Run the local tests with `cargo test --example 08_parse_ints`.
 {{#include ../../../examples/08_parse_ints.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/08_parse_ints_alt.rs:tests}}
-</script>
-
 
 ## Discussion
 

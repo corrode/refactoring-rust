@@ -16,10 +16,6 @@ Run the tests with `cargo test --example 10_error_handling`.
 {{#include ../../../examples/10_error_handling.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/10_error_handling.rs:tests}}
-</script>
-
 
 ## Discussion
 
@@ -38,7 +34,7 @@ The second `match` does the same for `read_to_string`.
 Use `?` after each fallible call to return early on an error.
 The function already returns `io::Error`, so the same errors reach the caller:
 
-```rust,ignore
+```rust,ignore,noplayground
 let mut file = File::open(path)?;
 let mut contents = String::new();
 file.read_to_string(&mut contents)?;
@@ -112,7 +108,7 @@ Otherwise, call `fs::read_to_string` directly.
 The canonical solution keeps `path: &str` because this exercise changes the implementation, not the public interface.
 If callers use native filesystem paths, consider a path parameter as a separate API change:
 
-```rust,ignore
+```rust,ignore,noplayground
 use std::path::Path;
 
 pub fn read_file_contents(path: impl AsRef<Path>) -> std::io::Result<String> {

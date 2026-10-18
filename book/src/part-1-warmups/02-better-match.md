@@ -21,10 +21,6 @@ It works, but is there a way to reduce the repetition?
 {{#include ../../../examples/02_better_match.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/02_better_match.rs:tests}}
-</script>
-
 
 ## Discussion
 

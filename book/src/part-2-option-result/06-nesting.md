@@ -16,10 +16,6 @@ Run the local tests with `cargo test --example 06_nesting`.
 {{#include ../../../examples/06_nesting.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/06_nesting.rs:tests}}
-</script>
-
 
 ## Discussion
 
@@ -122,6 +118,10 @@ pub fn shout(s: Option<&str>) -> Option<String> {
     Some(trimmed.to_uppercase())
 }
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/06_nesting.rs:tests}}
+</script>
 
 Use explicit branches when you need comments, logging, or distinct return values.
 Named intermediate values also help if you find the combinators hard to follow.

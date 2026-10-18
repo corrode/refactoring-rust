@@ -6,7 +6,9 @@ It works, but it could be prettier.
 
 A bunch of notes before we get started:
 
-- You can click the "Run" button to run the tests.
+- You can click the "Run" button to run the tests attached to that code block.
+  Expand **Tests and callers** to inspect or edit them.
+  If you explore an API change, update those calls alongside the implementation; Run uses your edits and does not choose another test suite for you.
 - Try to refactor it while preserving its behaviour.
   That means, don't change the function signature or return value.
 - If you like, you can also use your own development environment to run the tests and refactor the code.
@@ -25,10 +27,6 @@ Good luck.
 
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/01_starts_with_uppercase.rs:tests}}
-</script>
-
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/01_starts_with_uppercase_alt.rs:tests}}
 </script>
 
 ## Discussion

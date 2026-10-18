@@ -17,10 +17,6 @@ Run the tests with `cargo test --example 11_parse_port`.
 {{#include ../../../examples/11_parse_port.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/11_parse_port_alt.rs:tests}}
-</script>
-
 
 ## Discussion
 

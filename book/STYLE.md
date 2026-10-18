@@ -102,7 +102,7 @@ finding and fixing a bug.
 
 Use this section order:
 
-1. Code to refactor: editable listing followed by its hidden test scripts.
+1. Code to refactor: editable listing followed by one explicit test script.
 2. Discussion: one expandable question-and-answer pair per disclosure.
 3. Show Solutions: one collapsed box with implementations, explanations, and Trade-offs.
    End the disclosure with `### Trade-offs`: comparison matrices with an **Original** baseline column.
@@ -197,19 +197,28 @@ block.
   the same location. Put the code readers should see between `// ANCHOR: listing` and
   `// ANCHOR_END: listing`. Put the test module between `// ANCHOR: tests` and
   `// ANCHOR_END: tests`, then include it in an adjacent inert
-  `<script class="playground-tests">` element. The editor hides that element, while the
-  Run button sends its contents to the Rust Playground with the edited code. Starter
-  blocks may include alternative tests as `playground-tests-fallback`, so readers exploring an API change can run that version too.
-  Outside domain modeling, the first solution must still pass the original API's tests; a fallback is not a substitute for compatibility.
-    For domain-modeling exercises, attach the redesigned API's tests to the solution and use them as the starter's fallback. Cargo and the slides still use
+  `<script type="text/plain" class="playground-tests">` element immediately after the code fence, with only whitespace between them.
+  Every editable implementation, including an inline alternative, must have exactly one adjacent test script with tests for that implementation's API.
+  Reuse a test include only when its calls and assertions apply to the displayed code; write an API-specific suite when no compatible include exists.
+  The browser reads only this adjacent script, with no fallback suites or chapter-wide symbol matching.
+  It exposes the script's contents in the expandable, editable **Tests and callers** textarea.
+  Run sends the edited implementation and edited tests to the Rust Playground together.
+  When exploring an API change, readers must update the tests and callers themselves; never silently substitute another suite.
+  Outside domain modeling, the first solution must still pass the original API's tests.
+  For domain-modeling exercises, attach each implementation's own tests to its code block.
+  A failing assertion should remain visible so learners can fix the problem.
+  For an intentionally failing starter, put the exact failing test name in `data-expected-failures` on that starter's script, not on its solution.
+  This metadata documents expected failures for CI; the browser still shows the failure.
+  Cargo and the slides still use
   the complete source file. Include paths are relative to the Markdown file, so
   front-matter pages need a different number of parent traversals.
 - **Alternative solutions worth keeping runnable:** add a real file
   `solutions/NN_name_alt.rs` (and a matching `[[example]]` entry in
   `Cargo.toml`), then `{{#include}}` it.
-- **Inline snippets:** ` ```rust,editable ` for complete runnable code,
-  ` ```rust,ignore ` for deliberately broken or illustrative code, and
-  ` ```rust,no_run ` for code that should compile without running.
+- **Inline snippets:** ` ```rust,editable ` with an adjacent explicit test script for complete runnable implementations,
+  ` ```rust,ignore,noplayground ` for deliberately broken or illustrative partial code, and
+  ` ```rust,no_run,noplayground ` for code that should compile without running.
+  Do not mark a complete implementation illustrative just to avoid attaching a compatible suite.
 - **`noplayground`** on any block the reader is *not* meant to run
   (avoids tempting them with a Run button on illustrative code).
 - Prefer **`// ANCHOR:` / `// ANCHOR_END:`** regions in solution files

@@ -18,10 +18,6 @@ Run the local tests with `cargo test --example 07_optional_values`.
 {{#include ../../../examples/07_optional_values.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/07_optional_values.rs:tests}}
-</script>
-
 
 ## Discussion
 
@@ -103,6 +99,10 @@ pub fn sum_options(options: Vec<Option<i32>>) -> i32 {
 }
 ```
 
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/07_optional_values.rs:tests}}
+</script>
+
 The closure returns each option unchanged.
 `filter_map` extracts the value from `Some` and drops `None`.
 `flatten` does the same without an identity closure.
@@ -114,6 +114,35 @@ pub fn sum_options(options: &[Option<i32>]) -> i32 {
     options.iter().flatten().copied().sum()
 }
 ```
+
+<script type="text/plain" class="playground-tests">
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn typical() {
+        let values = vec![Some(1), None, Some(3), None, Some(5)];
+        assert_eq!(sum_options(&values), 9);
+        assert_eq!(sum_options(&values), 9);
+    }
+
+    #[test]
+    fn empty() {
+        assert_eq!(sum_options(&[]), 0);
+    }
+
+    #[test]
+    fn all_none() {
+        assert_eq!(sum_options(&[None, None, None]), 0);
+    }
+
+    #[test]
+    fn negative_values() {
+        assert_eq!(sum_options(&[Some(-3), None, Some(1)]), -2);
+    }
+}
+</script>
 
 Here, `iter()` yields borrowed options and `flatten()` yields `&i32` values.
 `copied()` copies those integers into the `i32` values that `sum` adds.

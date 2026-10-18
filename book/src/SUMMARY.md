@@ -1,10 +1,8 @@
 # Summary
 
-[Preface](preface.md)
+[Intro](intro.md)
 [How to use this book](how-to-use.md)
-[How to run a code review](how-to-run-a-code-review.md)
-[The trade-off axes](trade-off-axes.md)
-[Roadmap](roadmap.md)
+
 
 ---
 
@@ -54,17 +52,24 @@
   - [25 · iban_prefix_check](part-5-domain-modeling/25-iban-prefix-check.md)
   - [26 · http_response_router](part-5-domain-modeling/26-http-response-router.md)
   - [27 · config_loader](part-5-domain-modeling/27-config-loader.md)
+  - [28 · buffer_policy](part-5-domain-modeling/28-buffer-policy.md)
+  - [29 · typed_ids](part-5-domain-modeling/29-typed-ids.md)
+  - [30 · secret_token](part-5-domain-modeling/30-secret-token.md)
+  - [31 · config_typestate](part-5-domain-modeling/31-config-typestate.md)
 
 # Part VI. Capstone
 
 - [Overview](part-6-capstone/README.md)
-  - [28 · env_file_parser](part-6-capstone/28-env-file-parser.md)
-  - [29 · mini_redis](part-6-capstone/29-mini-redis.md)
+  - [32 · env_file_parser](part-6-capstone/32-env-file-parser.md)
+  - [33 · mini_redis](part-6-capstone/33-mini-redis.md)
 
 ---
 
 # Appendix
 
+- [How to run a code review](appendix/how-to-run-a-code-review.md)
+- [The trade-off axes](appendix/trade-off-axes.md)
+- [Roadmap](appendix/roadmap.md)
 - [Cheatsheet (Concept index)](appendix/concept-index.md)
 - [Trade-off matrix](appendix/trade-off-matrix.md)
 - [Further reading](appendix/further-reading.md)

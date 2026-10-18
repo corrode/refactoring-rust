@@ -16,10 +16,6 @@ Afterward, consider a lazy iterator as a separate API change.
 {{#include ../../../examples/03_even_numbers.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/03_even_numbers_alt.rs:tests}}
-</script>
-
 
 ## Discussion
 

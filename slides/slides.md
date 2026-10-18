@@ -302,7 +302,7 @@ Choose types and methods, then update callers and tests.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 24–27
+Exercises 24–31
 </div>
 
 ---
@@ -322,6 +322,22 @@ src: ./pages/27_config_loader.md
 ---
 
 ---
+src: ./pages/28_buffer_policy.md
+---
+
+---
+src: ./pages/29_typed_ids.md
+---
+
+---
+src: ./pages/30_secret_token.md
+---
+
+---
+src: ./pages/31_config_typestate.md
+---
+
+---
 layout: section
 ---
 
@@ -336,15 +352,15 @@ Lastly, two larger bonus problems.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 28–29
+Exercises 32–33
 </div>
 
 ---
-src: ./pages/28_env_file_parser.md
+src: ./pages/32_env_file_parser.md
 ---
 
 ---
-src: ./pages/29_mini_redis.md
+src: ./pages/33_mini_redis.md
 ---
 
 ---

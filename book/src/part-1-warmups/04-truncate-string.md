@@ -16,10 +16,6 @@ Run the tests with `cargo test --example 04_truncate_string`.
 {{#include ../../../examples/04_truncate_string.rs:tests}}
 </script>
 
-<script type="text/plain" class="playground-tests-fallback">
-{{#include ../../../solutions/04_truncate_string.rs:tests}}
-</script>
-
 ## Discussion
 
 <details class="discussion-question">
@@ -48,7 +44,7 @@ Add a test with a limit inside the encoding to expose the bug.
 
 > Try this test in `examples/04_truncate_string.rs`:
 >
-> ```rust,ignore
+> ```rust,ignore,noplayground
 > #[test]
 > fn backs_up_to_a_character_boundary() {
 >     assert_eq!(truncate("café", 4), "caf");
@@ -127,6 +123,27 @@ pub fn truncate_chars(s: &str, num_chars: usize) -> String {
 }
 ```
 
+<script type="text/plain" class="playground-tests">
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn counts_unicode_scalar_values_not_bytes() {
+        assert_eq!(truncate_chars("café", 4), "café");
+        assert_eq!(truncate_chars("café", 3), "caf");
+        assert_eq!(truncate_chars("🦀rust", 1), "🦀");
+    }
+
+    #[test]
+    fn empty_zero_and_oversized_limits() {
+        assert_eq!(truncate_chars("", 3), "");
+        assert_eq!(truncate_chars("hello", 0), "");
+        assert_eq!(truncate_chars("hi", 100), "hi");
+    }
+}
+</script>
+
 Use this helper when your limit counts Unicode scalar values, not bytes.
 It does not enforce a byte budget.
 Four scalar values from `"café"` occupy five bytes.
@@ -148,6 +165,10 @@ pub fn truncate(s: &str, max_bytes: usize) -> String {
     s[..end].to_string()
 }
 ```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../solutions/04_truncate_string.rs:tests}}
+</script>
 
 The loop backs up until it finds a character boundary, preserving the same byte-cap policy.
 You write more code, but you can see the boundary search and use older stable Rust releases.
