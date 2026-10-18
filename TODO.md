@@ -1,6 +1,6 @@
 # Remaining workshop slide todos
 
-> Exercise numbers below use the **new** numbering (after removing the old `05_two_variables`).
+> Exercise numbers below use the current 01–34 numbering, starting with `01_is_yes`.
 > The "(was N)" hint shows the old number where useful.
 
 ---
@@ -21,7 +21,7 @@ Use Slidev's `two-cols-header` layout for step 2:
 layout: two-cols-header
 ---
 
-# 02 · `describe`
+# 03 · `describe`
 
 ::left::
 
@@ -45,18 +45,18 @@ Notes:
 
 ---
 
-## 2. Exercise 24 · `rooms`: standalone domain-modeling exercise (done)
+## 2. Exercise 25 · `rooms`: standalone domain-modeling exercise (done)
 
-Moved the `Rooms` design from exercise 15 into `slides/pages/24_rooms.md`,
-using `solutions/24_rooms.rs` as the main solution.
-Exercise 15 keeps the iterator refactor; exercise 24 changes the API.
+Moved the `Rooms` design from exercise 16 into `slides/pages/25_rooms.md`,
+using `solutions/25_rooms.rs` as the main solution.
+Exercise 16 keeps the iterator refactor; exercise 25 changes the API.
 The four helpers become methods that operate on the receiver's collection.
 Callers cannot pass a different slice to each method, but the constructor still
 accepts any `Vec<RoomOccupancy>`; the wrapper does not validate which rooms belong together.
 
 ---
 
-## 3. Exercise 11 · `parse_port`: show `NonZeroU16` + `InvalidPort` solution
+## 3. Exercise 12 · `parse_port`: show `NonZeroU16` + `InvalidPort` solution
 
 Add this as a solution slide:
 
@@ -80,7 +80,7 @@ pub fn parse_port(s: &str) -> Result<NonZeroU16, InvalidPort> {
 
 ---
 
-## 4. Exercise 13 · `excluded_path`: show alternative signatures
+## 4. Exercise 14 · `excluded_path`: show alternative signatures
 
 The current signature is:
 
@@ -119,7 +119,7 @@ Frame it as "what is the type *really* telling us, and what's it hiding?".
 
 ---
 
-## 6. Exercise 14 · `spell_check`: show the lazy `vimspell` solution
+## 6. Exercise 15 · `spell_check`: show the lazy `vimspell` solution
 
 Add an extra solution slide that shows returning an `impl Iterator` of
 byte ranges instead of allocating a `Vec`. Source for reference:
@@ -140,7 +140,7 @@ no `Vec` allocation, ranges instead of copied strings.
 
 ---
 
-## 7. Exercise 22 · `fun_strings`: trim vertical on the solution
+## 7. Exercise 23 · `fun_strings`: trim vertical on the solution
 
 The solution slide is tall. Tighten it (compact `emoji_case` /
 `spongebob_case` iterator chain, drop blank lines, shorter takeaway).

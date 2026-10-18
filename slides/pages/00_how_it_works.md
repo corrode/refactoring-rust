@@ -22,7 +22,7 @@ The extra ones are for take-home.
 ### Tools
 
 ```sh
-cargo test --example 01_starts_with_uppercase
+cargo test --example 01_is_yes
 ```
 
 Or run all exercises at once:

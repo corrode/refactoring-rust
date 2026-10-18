@@ -11,7 +11,8 @@ slides/
 ├── slides.md             # entry: cover + section dividers + src: includes
 └── pages/
     ├── 00_motivation.md
-    ├── 01_starts_with_uppercase.md
+    ├── 01_is_yes.md
+    ├── 02_starts_with_uppercase.md
     └── ...
 ```
 
@@ -20,7 +21,7 @@ by itself. The entry deck pulls them in with frontmatter:
 
 ```md
 ---
-src: ./pages/01_starts_with_uppercase.md
+src: ./pages/01_is_yes.md
 ---
 ```
 
@@ -187,13 +188,13 @@ slidev --port 4000
 - Section dividers between phases give a natural breakpoint to look at
   the clock.
 - File numbering matches `examples/NN_name.rs` exactly, so saying
-  "exercise 17" works for both the deck and the codebase.
+  "exercise 18" works for both the deck and the codebase.
 
 ## Things to add later
 
 - A solution diff using Shiki Magic Move (` ```md magic-move `) for the
   meatier refactors - would animate starter → solution beautifully on
-  exercises 11, 23, 26, 27.
+  exercises 12, 24, 27, 28.
 - Per-phase recap slides that summarize the idioms introduced.
 - A "cheatsheet" appendix slide with all the `Option`/`Result`
   combinators, useful as a final hand-out.

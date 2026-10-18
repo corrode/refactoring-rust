@@ -42,12 +42,12 @@ reference companion.
 Proposed parts, **confirmed against `slides/slides.md` phase
 dividers**:
 
-- **Part I, Warm-ups** (01–04)
-- **Part II, `Option` · `Result` · `?`** (05–11)
-- **Part III, Aggregations & counting** (12–17)
-- **Part IV, Strings, parsing & iterators** (18–23)
-- **Part V, Domain modeling** (24–31)
-- **Part VI, Capstone** (32–33)
+- **Part I, Warm-ups** (01–05)
+- **Part II, `Option` · `Result` · `?`** (06–12)
+- **Part III, Aggregations & counting** (13–18)
+- **Part IV, Strings, parsing & iterators** (19–24)
+- **Part V, Domain modeling** (25–32)
+- **Part VI, Capstone** (33–34)
 
 Each part has a 1–3 paragraph intro page describing the theme and what the
 reader will learn across its chapters.
@@ -56,7 +56,7 @@ reader will learn across its chapters.
 
 ## 3. Per-chapter anatomy
 
-Use `src/part-1-warmups/01-starts-with-uppercase.md` as the format reference.
+Use `src/part-1-warmups/01-is-yes.md` as the format reference.
 Start with an unnumbered exercise-name title and a short task-specific introduction.
 State constraints without giving away the diagnosis or solution. Avoid repeating
 the first chapter's instructions for using the editor and repository.
@@ -250,7 +250,8 @@ refactoring/
 
 │   │   ├── part-1-warmups/
 │   │   │   ├── README.md
-│   │   │   ├── 01-starts-with-uppercase.md
+│   │   │   ├── 01-is-yes.md
+│   │   │   ├── 02-starts-with-uppercase.md
 │   │   │   └── ...
 │   │   ├── part-2-control-flow/
 │   │   ├── ...
@@ -355,8 +356,8 @@ v1 scope:
 - Corrode logo + favicon (probably exist in `slides/public/`).
 
 **Diagrams:** tables everywhere they help; mermaid (~6–10 diagrams across
-the whole book, only where genuinely useful, e.g. state machines in ch. 21
-or type relationships in ch. 33). No hand-drawn illustrations. No
+the whole book, only where genuinely useful, e.g. state machines in ch. 22
+or type relationships in ch. 34). No hand-drawn illustrations. No
 screenshots.
 
 ---
@@ -390,11 +391,11 @@ The front matter must be written **before** the reference trio so the
 six trade-off axes and the meta-position on code review are committed to
 prose before any chapter operationalizes them.
 
-The reference trio is **ch. 01, ch. 15, ch. 13**:
-- **01** tests "does the format collapse on a trivial exercise?"
-- **15** tests whether the format handles repeated aggregations, a semantic edge
+The reference trio is **ch. 02, ch. 16, ch. 14**:
+- **02** tests "does the format collapse on a trivial exercise?"
+- **16** tests whether the format handles repeated aggregations, a semantic edge
   case, and a domain-newtype alternative.
-- **13** tests whether *Alternative approaches* can handle a multi-signature API
+- **14** tests whether *Alternative approaches* can handle a multi-signature API
   design space.
 
 Once the trio is locked, *they are the format spec.* New chapters follow
@@ -402,7 +403,7 @@ their structure. No separate format spec document.
 
 ### Phase 0, Scaffolding (~1 day)
 
-- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 33
+- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 34
   chapter entries (unwritten ones as plain text `- [Title]()`).
 - All part-intro stubs.
 - CI workflow (`cargo test --examples`, `mdbook test`, `mdbook build`,
@@ -423,9 +424,9 @@ their structure. No separate format spec document.
 
 ### Phase 2, Format lock / reference trio (~4 days)
 
-- Chapter 01 (`starts_with_uppercase`)
-- Chapter 15 (`room_occupancy`)
-- Chapter 13 (`excluded_path`)
+- Chapter 02 (`starts_with_uppercase`)
+- Chapter 16 (`room_occupancy`)
+- Chapter 14 (`excluded_path`)
 - Iterate on `STYLE.md` until it reflects what the trio actually does.
 
 ### Phase 3, Bulk write (~12 days)
@@ -434,8 +435,8 @@ their structure. No separate format spec document.
 - Go part-by-part so part intros can be tightened against the chapters
   they introduce.
 - Add real solution files for the remaining alternatives the TODO identifies
-  (`NonZeroU16` for ch. 11 and a lazy iterator for ch. 14). The `Rooms` newtype now has its own domain-modeling chapter (24), following the aggregation work in ch. 15.
-  Alternative exclusion APIs remain in ch. 13.
+  (`NonZeroU16` for ch. 12 and a lazy iterator for ch. 15). The `Rooms` newtype now has its own domain-modeling chapter (25), following the aggregation work in ch. 16.
+  Alternative exclusion APIs remain in ch. 14.
 
 ### Phase 4, Back matter (~3 days)
 

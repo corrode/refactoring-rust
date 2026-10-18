@@ -38,8 +38,7 @@ make book
 ## Running an exercise
 
 ```sh
-cargo run --example 01_starts_with_uppercase
-cargo test --example 01_starts_with_uppercase
+cargo test --example 01_is_yes
 ```
 
 ## Overview

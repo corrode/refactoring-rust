@@ -73,13 +73,13 @@ git clone https://github.com/corrode/refactoring-rust
 cd refactoring-rust
 
 # Test a starter (these are the tests every refactor has to keep passing)
-cargo test --example 01_starts_with_uppercase
+cargo test --example 01_is_yes
 
 # Run the canonical solution's tests
-cargo test --example 01_starts_with_uppercase_solution
+cargo test --example 01_is_yes_solution
 
 # Try an alternative that changes the API
-cargo test --example 01_starts_with_uppercase_alt
+cargo test --example 01_is_yes_alt_solution
 
 # Run every test in the repo
 make test
@@ -138,7 +138,7 @@ its author is credited in the
 ## Where to start
 
 If you can follow the code to refactor in
-[chapter 01](part-1-warmups/01-starts-with-uppercase.md), begin with the
+[chapter 01](part-1-warmups/01-is-yes.md), begin with the
 [Intro](intro.md) and read forward. If not, work through *The Book* or
 *100 Exercises to Learn Rust* first. This book assumes you can read Rust without
 help.

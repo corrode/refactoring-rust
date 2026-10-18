@@ -7,7 +7,7 @@ body:
     id: chapter
     attributes:
       label: Chapter
-      description: Which chapter? (e.g. `14 · error_handling`)
+      description: Which chapter? (e.g. `11 · error_handling`)
     validations:
       required: true
   - type: textarea

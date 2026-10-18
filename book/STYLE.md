@@ -1,7 +1,7 @@
 # Writing style for Refactoring Rust
 
 > **Status:** living document. Established from the reference trio
-> (chapters 01, 15, 13) and updated as the book grows.
+> (chapters 02, 16, 14) and updated as the book grows.
 > See `book/PLAN.md` §7 for the rationale.
 
 ## Voice
@@ -34,7 +34,7 @@
   colons, or a period and a new sentence, depending on what the dash
   was doing. Em dashes are a tell for AI-generated prose and unedited
   drafts. This book does not use them.
-- En-dashes (–) are fine for numeric ranges (`chapters 01–04`) and
+- En-dashes (–) are fine for numeric ranges (`chapters 01–05`) and
   nothing else.
 - No exclamation marks outside of code.
 - Don't apologise for opinions. Justify them.
@@ -84,7 +84,7 @@ Leave code blocks, include directives, hidden-test scripts, and table rows uncha
 
 ## Structure
 
-Use `src/part-1-warmups/01-starts-with-uppercase.md` as the format reference.
+Use `src/part-1-warmups/01-is-yes.md` as the format reference.
 The chapter title is the exercise name in backticks, without its number. Keep
 exercise numbers in filenames, commands, and the table of contents.
 
@@ -229,7 +229,7 @@ block.
 - Link References entries to the appendix Cheatsheet with
   `[newtype](../appendix/concept-index.md#newtype)` style anchors.
 - Link forward and backward between chapters generously
-  (`see [ch. 13](../part-3-aggregations/13-excluded-path.md)`). The
+  (`see [ch. 14](../part-3-aggregations/14-excluded-path.md)`). The
   book is a graph, not a list.
 
 ## Trade-off comparisons

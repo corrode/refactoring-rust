@@ -137,23 +137,27 @@ then compare API alternatives and the tradeoffs they introduce.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 01–04
+Exercises 01–05
 </div>
 
 ---
-src: ./pages/01_starts_with_uppercase.md
+src: ./pages/01_is_yes.md
 ---
 
 ---
-src: ./pages/02_better_match.md
+src: ./pages/02_starts_with_uppercase.md
 ---
 
 ---
-src: ./pages/03_even_numbers.md
+src: ./pages/03_better_match.md
 ---
 
 ---
-src: ./pages/04_truncate_string.md
+src: ./pages/04_even_numbers.md
+---
+
+---
+src: ./pages/05_truncate_string.md
 ---
 
 ---
@@ -171,35 +175,35 @@ The idioms that show up in almost every Rust file.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 05–11
+Exercises 06–12
 </div>
 
 ---
-src: ./pages/05_path.md
+src: ./pages/06_path.md
 ---
 
 ---
-src: ./pages/06_nesting.md
+src: ./pages/07_nesting.md
 ---
 
 ---
-src: ./pages/07_optional_values.md
+src: ./pages/08_optional_values.md
 ---
 
 ---
-src: ./pages/08_parse_ints.md
+src: ./pages/09_parse_ints.md
 ---
 
 ---
-src: ./pages/09_floor.md
+src: ./pages/10_floor.md
 ---
 
 ---
-src: ./pages/10_error_handling.md
+src: ./pages/11_error_handling.md
 ---
 
 ---
-src: ./pages/11_parse_port.md
+src: ./pages/12_parse_port.md
 ---
 
 ---
@@ -217,31 +221,31 @@ For-loops with accumulators become iterator chains.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 12–17
+Exercises 13–18
 </div>
 
 ---
-src: ./pages/12_dedup_runs.md
+src: ./pages/13_dedup_runs.md
 ---
 
 ---
-src: ./pages/13_excluded_path.md
+src: ./pages/14_excluded_path.md
 ---
 
 ---
-src: ./pages/14_spell_check.md
+src: ./pages/15_spell_check.md
 ---
 
 ---
-src: ./pages/15_room_occupancy.md
+src: ./pages/16_room_occupancy.md
 ---
 
 ---
-src: ./pages/16_text_stats.md
+src: ./pages/17_text_stats.md
 ---
 
 ---
-src: ./pages/17_mode.md
+src: ./pages/18_mode.md
 ---
 
 ---
@@ -259,31 +263,31 @@ Reach for the standard library before hand-rolling a loop.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 18–23
+Exercises 19–24
 </div>
 
 ---
-src: ./pages/18_trim_log_line.md
+src: ./pages/19_trim_log_line.md
 ---
 
 ---
-src: ./pages/19_parse_srt_timestamp.md
+src: ./pages/20_parse_srt_timestamp.md
 ---
 
 ---
-src: ./pages/20_iterators.md
+src: ./pages/21_iterators.md
 ---
 
 ---
-src: ./pages/21_transformer.md
+src: ./pages/22_transformer.md
 ---
 
 ---
-src: ./pages/22_fun_strings_ext.md
+src: ./pages/23_fun_strings_ext.md
 ---
 
 ---
-src: ./pages/23_quicksort.md
+src: ./pages/24_quicksort.md
 ---
 
 ---
@@ -302,39 +306,39 @@ Choose types and methods, then update callers and tests.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 24–31
+Exercises 25–32
 </div>
 
 ---
-src: ./pages/24_rooms.md
+src: ./pages/25_rooms.md
 ---
 
 ---
-src: ./pages/25_iban_prefix_check.md
+src: ./pages/26_iban_prefix_check.md
 ---
 
 ---
-src: ./pages/26_http_response_router.md
+src: ./pages/27_http_response_router.md
 ---
 
 ---
-src: ./pages/27_config_loader.md
+src: ./pages/28_config_loader.md
 ---
 
 ---
-src: ./pages/28_buffer_policy.md
+src: ./pages/29_buffer_policy.md
 ---
 
 ---
-src: ./pages/29_typed_ids.md
+src: ./pages/30_typed_ids.md
 ---
 
 ---
-src: ./pages/30_secret_token.md
+src: ./pages/31_secret_token.md
 ---
 
 ---
-src: ./pages/31_config_typestate.md
+src: ./pages/32_config_typestate.md
 ---
 
 ---
@@ -352,15 +356,15 @@ Lastly, two larger bonus problems.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 32–33
+Exercises 33–34
 </div>
 
 ---
-src: ./pages/32_env_file_parser.md
+src: ./pages/33_env_file_parser.md
 ---
 
 ---
-src: ./pages/33_mini_redis.md
+src: ./pages/34_mini_redis.md
 ---
 
 ---

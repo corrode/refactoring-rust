@@ -147,12 +147,12 @@ fn check_exercise_test(source: &str, test: &str, expected_failure: Option<&str>)
 #[test]
 fn typed_ids_starter_fails_desired_behavior_and_solution_passes() {
     check_exercise_test(
-        "examples/29_typed_ids.rs",
+        "examples/30_typed_ids.rs",
         "tests::variable_and_declaration_ids_are_distinct",
         Some("variable and declaration IDs must be distinct types"),
     );
     check_exercise_test(
-        "solutions/29_typed_ids.rs",
+        "solutions/30_typed_ids.rs",
         "tests::ids_have_distinct_types",
         None,
     );
@@ -161,12 +161,12 @@ fn typed_ids_starter_fails_desired_behavior_and_solution_passes() {
 #[test]
 fn secret_token_starter_fails_desired_behavior_and_solution_passes() {
     check_exercise_test(
-        "examples/30_secret_token.rs",
+        "examples/31_secret_token.rs",
         "tests::debug_does_not_leak_token",
         Some("Debug output must not contain the token"),
     );
     check_exercise_test(
-        "solutions/30_secret_token.rs",
+        "solutions/31_secret_token.rs",
         "tests::credentials_keep_username_visible_and_token_explicit",
         None,
     );
@@ -175,7 +175,7 @@ fn secret_token_starter_fails_desired_behavior_and_solution_passes() {
 #[test]
 fn typed_ids_allow_matching_categories() {
     check(
-        "29_typed_ids.rs",
+        "30_typed_ids.rs",
         r#"
         let engine = Engine::new(vec!["count".into()], vec!["print".into()]);
         assert_eq!(engine.variable(VarId(0)), Some("count"));
@@ -190,7 +190,7 @@ fn typed_ids_allow_matching_categories() {
 #[test]
 fn variable_lookup_rejects_declaration_id() {
     check(
-        "29_typed_ids.rs",
+        "30_typed_ids.rs",
         "let engine = Engine::new(vec![], vec![]); engine.variable(DeclId(0));",
         Some("E0308"),
     );
@@ -199,7 +199,7 @@ fn variable_lookup_rejects_declaration_id() {
 #[test]
 fn declaration_lookup_rejects_variable_id() {
     check(
-        "29_typed_ids.rs",
+        "30_typed_ids.rs",
         "let engine = Engine::new(vec![], vec![]); engine.declaration(VarId(0));",
         Some("E0308"),
     );
@@ -208,7 +208,7 @@ fn declaration_lookup_rejects_variable_id() {
 #[test]
 fn token_allows_explicit_exposure_and_redacted_debug() {
     check(
-        "30_secret_token.rs",
+        "31_secret_token.rs",
         r#"
         let credentials = Credentials::new("alice".into(), Token::new("secret".into()));
         assert_eq!(credentials.username, "alice");
@@ -225,7 +225,7 @@ fn token_allows_explicit_exposure_and_redacted_debug() {
 #[test]
 fn token_storage_is_private() {
     check(
-        "30_secret_token.rs",
+        "31_secret_token.rs",
         "let token = Token::new(String::new()); let _ = token.0;",
         Some("E0616"),
     );
@@ -234,7 +234,7 @@ fn token_storage_is_private() {
 #[test]
 fn token_does_not_implement_display() {
     check(
-        "30_secret_token.rs",
+        "31_secret_token.rs",
         r#"let token = Token::new(String::new()); let _ = format!("{token}");"#,
         Some("E0277"),
     );
@@ -243,7 +243,7 @@ fn token_does_not_implement_display() {
 #[test]
 fn configured_builder_builds() {
     check(
-        "31_config_typestate.rs",
+        "32_config_typestate.rs",
         r#"
         let ready: Ready = NeedsRoots.with_roots(RootStore::new("roots".into()));
         let config: ClientConfig = ready.build();
@@ -256,7 +256,7 @@ fn configured_builder_builds() {
 #[test]
 fn builder_cannot_build_before_receiving_roots() {
     check(
-        "31_config_typestate.rs",
+        "32_config_typestate.rs",
         "NeedsRoots.build();",
         Some("E0599"),
     );
@@ -265,7 +265,7 @@ fn builder_cannot_build_before_receiving_roots() {
 #[test]
 fn ready_cannot_be_reused_after_build() {
     check(
-        "31_config_typestate.rs",
+        "32_config_typestate.rs",
         r#"
         let ready = NeedsRoots.with_roots(RootStore::new(String::new()));
         let _ = ready.build();
@@ -278,7 +278,7 @@ fn ready_cannot_be_reused_after_build() {
 #[test]
 fn ready_cannot_be_constructed_directly() {
     check(
-        "31_config_typestate.rs",
+        "32_config_typestate.rs",
         "let _ = Ready { roots: RootStore::new(String::new()) };",
         Some("E0451"),
     );
