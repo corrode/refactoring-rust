@@ -217,11 +217,11 @@ layout: section
 # Aggregations & counting
 
 <div class="text-2xl opacity-80 mt-4">
-For-loops with accumulators become iterator chains.
+Iterator chains, explicit loops, and consuming a recursive list.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 13–18
+Exercises 13–19
 </div>
 
 ---
@@ -249,6 +249,10 @@ src: ./pages/18_mode.md
 ---
 
 ---
+src: ./pages/19_list_sum.md
+---
+
+---
 layout: section
 ---
 
@@ -263,31 +267,31 @@ Reach for the standard library before hand-rolling a loop.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 19–24
+Exercises 20–25
 </div>
 
 ---
-src: ./pages/19_trim_log_line.md
+src: ./pages/20_trim_log_line.md
 ---
 
 ---
-src: ./pages/20_parse_srt_timestamp.md
+src: ./pages/21_parse_srt_timestamp.md
 ---
 
 ---
-src: ./pages/21_iterators.md
+src: ./pages/22_iterators.md
 ---
 
 ---
-src: ./pages/22_transformer.md
+src: ./pages/23_transformer.md
 ---
 
 ---
-src: ./pages/23_fun_strings_ext.md
+src: ./pages/24_fun_strings_ext.md
 ---
 
 ---
-src: ./pages/24_quicksort.md
+src: ./pages/25_quicksort.md
 ---
 
 ---
@@ -306,39 +310,39 @@ Choose types and methods, then update callers and tests.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 25–32
+Exercises 26–33
 </div>
 
 ---
-src: ./pages/25_rooms.md
+src: ./pages/26_rooms.md
 ---
 
 ---
-src: ./pages/26_iban_prefix_check.md
+src: ./pages/27_iban_prefix_check.md
 ---
 
 ---
-src: ./pages/27_http_response_router.md
+src: ./pages/28_http_response_router.md
 ---
 
 ---
-src: ./pages/28_config_loader.md
+src: ./pages/29_config_loader.md
 ---
 
 ---
-src: ./pages/29_buffer_policy.md
+src: ./pages/30_buffer_policy.md
 ---
 
 ---
-src: ./pages/30_typed_ids.md
+src: ./pages/31_typed_ids.md
 ---
 
 ---
-src: ./pages/31_secret_token.md
+src: ./pages/32_secret_token.md
 ---
 
 ---
-src: ./pages/32_config_typestate.md
+src: ./pages/33_config_typestate.md
 ---
 
 ---
@@ -356,15 +360,15 @@ Lastly, two larger bonus problems.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 33–34
+Exercises 34–35
 </div>
 
 ---
-src: ./pages/33_env_file_parser.md
+src: ./pages/34_env_file_parser.md
 ---
 
 ---
-src: ./pages/34_mini_redis.md
+src: ./pages/35_mini_redis.md
 ---
 
 ---

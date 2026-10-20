@@ -3,7 +3,7 @@ layout: default
 zoom: 0.9
 ---
 
-# 20 · `parse_srt_timestamp`
+# 21 · `parse_srt_timestamp`
 
 <div class="opacity-80 mb-4">
 Parse an SRT timestamp like <code>"00:01:23,456"</code> into a <code>Duration</code>.
@@ -34,7 +34,7 @@ pub fn parse_srt_timestamp(s: &str) -> Option<Duration> {
 ```
 
 <div class="absolute top-20 right-12 text-sm opacity-60">
-<code>cargo test --example 20_parse_srt_timestamp</code>
+<code>cargo test --example 21_parse_srt_timestamp</code>
 </div>
 
 <!--
@@ -47,7 +47,7 @@ Discoveries:
 
 ---
 
-# 20 · Review
+# 21 · Review
 
 - What happens to <code>"ab:cd:ef,gh"</code> today?
 - Do we really need a <code>Vec</code> just to grab "before colon" and "after colon"?
@@ -59,7 +59,7 @@ Discoveries:
 zoom: 0.75
 ---
 
-# 20 · Possible solution
+# 21 · Possible solution
 
 ```rust
 use core::time::Duration;
@@ -93,7 +93,7 @@ pub fn parse_srt_timestamp(s: &str) -> Option<Duration> {
 zoom: 0.75
 ---
 
-# 20 · Alternative: return error details
+# 21 · Alternative: return error details
 
 ```rust
 use core::time::Duration;

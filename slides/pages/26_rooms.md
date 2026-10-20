@@ -3,7 +3,7 @@ layout: default
 zoom: 0.9
 ---
 
-# 25 · `rooms`
+# 26 · `rooms`
 
 ```rust
 pub fn adults_total(rooms: &[RoomOccupancy]) -> i32 {
@@ -24,19 +24,19 @@ pub fn child_ages(rooms: &[RoomOccupancy]) -> Vec<i32> {
 ```
 
 <div class="absolute top-20 right-12 text-sm opacity-60">
-<code>cargo test --example 25_rooms</code>
+<code>cargo test --example 26_rooms</code>
 </div>
 
 <!--
 These are the iterator functions from exercise 16. RoomOccupancy has an adults:
 i32 field and a children: Vec<i32> field. The loops are already gone; this time
 we are reviewing the API. Domain-modeling exercises allow API changes.
-The full starter and its tests are in examples/25_rooms.rs.
+The full starter and its tests are in examples/26_rooms.rs.
 -->
 
 ---
 
-# 25 · Review
+# 26 · Review
 
 - What do these four functions have in common?
 - Would callers benefit from a type that owns the collection?
@@ -54,7 +54,7 @@ That is an API decision, not validation of counts, ages, or room membership.
 zoom: 0.85
 ---
 
-# 25 · Possible solution: `Rooms`
+# 26 · Possible solution: `Rooms`
 
 ```rust
 pub struct Rooms(Vec<RoomOccupancy>);
@@ -86,6 +86,6 @@ functions. Callers transfer ownership of their Vec to Rooms::new.
 The methods borrow self; constructing Rooms does not clone the collection.
 Negative values remain accepted. max returns zero only for an empty collection,
 not as a lower bound. child_ages still allocates its result and preserves order.
-The full implementation, derives, and tests are in solutions/25_rooms.rs.
-Run them with cargo test --example 25_rooms_solution.
+The full implementation, derives, and tests are in solutions/26_rooms.rs.
+Run them with cargo test --example 26_rooms_solution.
 -->

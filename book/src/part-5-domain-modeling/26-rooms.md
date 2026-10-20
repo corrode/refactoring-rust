@@ -8,11 +8,11 @@ You may change the public API in this domain-modeling exercise, but keep the cal
 ## Code to refactor
 
 ```rust,editable
-{{#include ../../../examples/25_rooms.rs:listing}}
+{{#include ../../../examples/26_rooms.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../examples/25_rooms.rs:tests}}
+{{#include ../../../examples/26_rooms.rs:tests}}
 </script>
 
 <div class="playground-local-setup">
@@ -22,7 +22,7 @@ You may change the public API in this domain-modeling exercise, but keep the cal
 From the repository root:
 
 ```sh
-cargo test --example 25_rooms
+cargo test --example 26_rooms
 ```
 
 </div>
@@ -98,11 +98,11 @@ Keep that distinction: reorganizing this code is not an invitation to change its
 ### An owned collection
 
 ```rust,editable
-{{#include ../../../solutions/25_rooms.rs:listing}}
+{{#include ../../../solutions/26_rooms.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../solutions/25_rooms.rs:tests}}
+{{#include ../../../solutions/26_rooms.rs:tests}}
 </script>
 
 `pub struct Rooms(Vec<RoomOccupancy>)` gives the collection its own type and four methods.

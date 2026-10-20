@@ -3,7 +3,7 @@ layout: default
 zoom: 0.85
 ---
 
-# 30 · `typed_ids`
+# 31 · `typed_ids`
 
 ```rust
 pub type VarId = usize;
@@ -32,14 +32,14 @@ Workshop-created fixture inspired by <a href="https://github.com/nushell/nushell
 </div>
 
 <!--
-Run cargo test --example 30_typed_ids. The source and tests are in
-examples/30_typed_ids.rs. Review the lookup API; API changes are allowed.
+Run cargo test --example 31_typed_ids. The source and tests are in
+examples/31_typed_ids.rs. Review the lookup API; API changes are allowed.
 Preserve borrowed results and None for missing entries.
 -->
 
 ---
 
-# 30 · Review
+# 31 · Review
 
 - Can a `DeclId` reach `variable`? What happens if the index exists?
 - Does an alias create a new type?
@@ -67,7 +67,7 @@ Option catches out-of-range indices, not in-range category mistakes.
 zoom: 0.85
 ---
 
-# 30 · Possible solution: distinct IDs
+# 31 · Possible solution: distinct IDs
 
 ```rust
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
@@ -97,8 +97,8 @@ Teaching simplification · <a href="https://github.com/nushell/nushell/pull/1383
 
 <!--
 Replace the aliases and lookup methods; keep Engine's storage and constructor.
-The full solution and tests are in solutions/30_typed_ids.rs.
-Run cargo test --example 30_typed_ids_solution.
+The full solution and tests are in solutions/31_typed_ids.rs.
+Run cargo test --example 31_typed_ids_solution.
 With the solution types in scope, engine.variable(DeclId(0)) reports expected
 VarId, found DeclId; engine.declaration(VarId(0)) reports the reverse mismatch.
 Public fields permit explicit relabeling. There is no claim of validation.

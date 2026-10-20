@@ -3,7 +3,7 @@ layout: default
 zoom: 0.9
 ---
 
-# 29 · `buffer_policy`
+# 30 · `buffer_policy`
 
 ```rust
 #[derive(Debug, Default, PartialEq)]
@@ -32,7 +32,7 @@ Inspired by <a href="https://github.com/hyperium/hyper/blob/73bff4e98c372ce04b00
 
 <!--
 Review the representation while preserving setter signatures and behaviour.
-The complete starter and tests are in examples/29_buffer_policy.rs.
+The complete starter and tests are in examples/30_buffer_policy.rs.
 This extracts two private fields from hyper's connection builder, makes them
 public for inspection, shortens names, and removes builder chaining and feature
 gates. The panic message is workshop-specific. The upstream MIT attribution
@@ -43,7 +43,7 @@ as an upstream bug. Let participants discover the relationship between fields.
 
 ---
 
-# 29 · Review
+# 30 · Review
 
 - Which configurations can the setters produce?
 - What changes when you reverse setter order?
@@ -62,7 +62,7 @@ Ask whether these rules belong in individual assignments or the representation.
 zoom: 0.85
 ---
 
-# 29 · Possible solution: a policy enum
+# 30 · Possible solution: a policy enum
 
 ```rust
 #[derive(Debug, Default, PartialEq)]
@@ -96,7 +96,7 @@ Inspired by <a href="https://github.com/hyperium/hyper/blob/73bff4e98c372ce04b00
 </div>
 
 <!--
-The full implementation and tests are in solutions/29_buffer_policy.rs.
+The full implementation and tests are in solutions/30_buffer_policy.rs.
 Field readers now match variants; struct literals must choose a policy.
 Adaptive means no explicit size or maximum, not unlimited growth.
 The enum enforces mutual exclusion, not numeric validity on every construction

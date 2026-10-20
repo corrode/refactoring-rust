@@ -79,67 +79,71 @@ name = "18_mode"
 crate-type = ["lib"]
 
 [[example]]
-name = "19_trim_log_line"
+name = "19_list_sum"
 crate-type = ["lib"]
 
 [[example]]
-name = "20_parse_srt_timestamp"
+name = "20_trim_log_line"
 crate-type = ["lib"]
 
 [[example]]
-name = "21_iterators"
+name = "21_parse_srt_timestamp"
 crate-type = ["lib"]
 
 [[example]]
-name = "22_transformer"
+name = "22_iterators"
 crate-type = ["lib"]
 
 [[example]]
-name = "23_fun_strings_ext"
+name = "23_transformer"
 crate-type = ["lib"]
 
 [[example]]
-name = "24_quicksort"
+name = "24_fun_strings_ext"
 crate-type = ["lib"]
 
 [[example]]
-name = "25_rooms"
+name = "25_quicksort"
 crate-type = ["lib"]
 
 [[example]]
-name = "26_iban_prefix_check"
+name = "26_rooms"
 crate-type = ["lib"]
 
 [[example]]
-name = "27_http_response_router"
+name = "27_iban_prefix_check"
 crate-type = ["lib"]
 
 [[example]]
-name = "28_config_loader"
+name = "28_http_response_router"
 crate-type = ["lib"]
 
 [[example]]
-name = "29_buffer_policy"
+name = "29_config_loader"
 crate-type = ["lib"]
 
 [[example]]
-name = "30_typed_ids"
+name = "30_buffer_policy"
 crate-type = ["lib"]
 
 [[example]]
-name = "31_secret_token"
+name = "31_typed_ids"
 crate-type = ["lib"]
 
 [[example]]
-name = "32_config_typestate"
+name = "32_secret_token"
 crate-type = ["lib"]
 
 [[example]]
-name = "33_env_file_parser"
+name = "33_config_typestate"
 crate-type = ["lib"]
 
 [[example]]
-name = "34_mini_redis"
+name = "34_env_file_parser"
+crate-type = ["lib"]
+
+[[example]]
+name = "35_mini_redis"
 crate-type = ["lib"]
 
 # --- Solutions (parallel to examples/; used as the "after" reference) ---
@@ -286,111 +290,121 @@ path = "solutions/18_mode.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "19_trim_log_line_solution"
-path = "solutions/19_trim_log_line.rs"
+name = "19_list_sum_solution"
+path = "solutions/19_list_sum.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "20_parse_srt_timestamp_solution"
-path = "solutions/20_parse_srt_timestamp.rs"
+name = "19_list_sum_alt_solution"
+path = "solutions/19_list_sum_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "20_parse_srt_timestamp_alt"
-path = "solutions/20_parse_srt_timestamp_alt.rs"
+name = "20_trim_log_line_solution"
+path = "solutions/20_trim_log_line.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "21_iterators_solution"
-path = "solutions/21_iterators.rs"
+name = "21_parse_srt_timestamp_solution"
+path = "solutions/21_parse_srt_timestamp.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "21_iterators_alt"
-path = "solutions/21_iterators_alt.rs"
+name = "21_parse_srt_timestamp_alt"
+path = "solutions/21_parse_srt_timestamp_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "22_transformer_solution"
-path = "solutions/22_transformer.rs"
+name = "22_iterators_solution"
+path = "solutions/22_iterators.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "23_fun_strings_ext_solution"
-path = "solutions/23_fun_strings_ext.rs"
+name = "22_iterators_alt"
+path = "solutions/22_iterators_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "23_fun_strings_ext_alt"
-path = "solutions/23_fun_strings_ext_alt.rs"
+name = "23_transformer_solution"
+path = "solutions/23_transformer.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "24_quicksort_solution"
-path = "solutions/24_quicksort.rs"
+name = "24_fun_strings_ext_solution"
+path = "solutions/24_fun_strings_ext.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "25_rooms_solution"
-path = "solutions/25_rooms.rs"
+name = "24_fun_strings_ext_alt"
+path = "solutions/24_fun_strings_ext_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "26_iban_prefix_check_solution"
-path = "solutions/26_iban_prefix_check.rs"
+name = "25_quicksort_solution"
+path = "solutions/25_quicksort.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "27_http_response_router_solution"
-path = "solutions/27_http_response_router.rs"
+name = "26_rooms_solution"
+path = "solutions/26_rooms.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "28_config_loader_solution"
-path = "solutions/28_config_loader.rs"
+name = "27_iban_prefix_check_solution"
+path = "solutions/27_iban_prefix_check.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "28_config_loader_alt"
-path = "solutions/28_config_loader_alt.rs"
+name = "28_http_response_router_solution"
+path = "solutions/28_http_response_router.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "29_buffer_policy_solution"
-path = "solutions/29_buffer_policy.rs"
+name = "29_config_loader_solution"
+path = "solutions/29_config_loader.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "30_typed_ids_solution"
-path = "solutions/30_typed_ids.rs"
+name = "29_config_loader_alt"
+path = "solutions/29_config_loader_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "31_secret_token_solution"
-path = "solutions/31_secret_token.rs"
+name = "30_buffer_policy_solution"
+path = "solutions/30_buffer_policy.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "32_config_typestate_solution"
-path = "solutions/32_config_typestate.rs"
+name = "31_typed_ids_solution"
+path = "solutions/31_typed_ids.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "33_env_file_parser_solution"
-path = "solutions/33_env_file_parser.rs"
+name = "32_secret_token_solution"
+path = "solutions/32_secret_token.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "33_env_file_parser_alt"
-path = "solutions/33_env_file_parser_alt.rs"
+name = "33_config_typestate_solution"
+path = "solutions/33_config_typestate.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "34_mini_redis_solution"
-path = "solutions/34_mini_redis.rs"
+name = "34_env_file_parser_solution"
+path = "solutions/34_env_file_parser.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "34_mini_redis_alt"
-path = "solutions/34_mini_redis_alt.rs"
+name = "34_env_file_parser_alt"
+path = "solutions/34_env_file_parser_alt.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "35_mini_redis_solution"
+path = "solutions/35_mini_redis.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "35_mini_redis_alt"
+path = "solutions/35_mini_redis_alt.rs"
 crate-type = ["lib"]

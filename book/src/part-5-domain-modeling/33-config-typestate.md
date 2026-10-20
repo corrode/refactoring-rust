@@ -12,11 +12,11 @@ The linked source demonstrates a typed API; it is not evidence of a before-and-a
 ## Code to refactor
 
 ```rust,editable
-{{#include ../../../examples/32_config_typestate.rs:listing}}
+{{#include ../../../examples/33_config_typestate.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../examples/32_config_typestate.rs:tests}}
+{{#include ../../../examples/33_config_typestate.rs:tests}}
 </script>
 
 
@@ -57,7 +57,7 @@ The starter already consumes its builder, but ownership alone does not prevent b
 No.
 Even an empty label counts as a supplied `RootStore` here.
 A type can record a completed configuration step without certifying the data passed to that step.
-As with [Rooms](25-rooms.md), ownership and private storage are not content validation.
+As with [Rooms](26-rooms.md), ownership and private storage are not content validation.
 
 </details>
 
@@ -67,11 +67,11 @@ As with [Rooms](25-rooms.md), ownership and private storage are not content vali
 ### Give each stage its own operations
 
 ```rust,editable
-{{#include ../../../solutions/32_config_typestate.rs:listing}}
+{{#include ../../../solutions/33_config_typestate.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../solutions/32_config_typestate.rs:tests}}
+{{#include ../../../solutions/33_config_typestate.rs:tests}}
 </script>
 
 `NeedsRoots` has `with_roots`, but no `build` method.
@@ -145,7 +145,7 @@ Removing a source-level branch is not a measured speed-up; the compiler may alre
 - [rustls][rustls]: the real project behind the staged-builder example, not the source of our runtime starter.
 - [Historical typed builder][typed-builder]: the pinned generic transition simplified here.
 - [Newtypes](https://doc.rust-lang.org/rust-by-example/generics/new_types.html): distinct types and restricted operations.
-- [Rooms](25-rooms.md): owning data does not validate it.
+- [Rooms](26-rooms.md): owning data does not validate it.
 - [Method syntax](https://doc.rust-lang.org/book/ch05-03-method-syntax.html): receiver choices and methods attached to specific types.
 
 [rustls]: https://github.com/rustls/rustls

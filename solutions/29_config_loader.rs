@@ -1,5 +1,5 @@
 //! Read configuration values without changing the caller's API or fallback policy.
-//! See `28_config_loader_alt.rs` for typed settings with explicit parse errors.
+//! See `29_config_loader_alt.rs` for typed settings with explicit parse errors.
 
 // ANCHOR: listing
 use std::collections::HashMap;

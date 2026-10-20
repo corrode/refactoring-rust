@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 24 · `quicksort` <span class="opacity-50 text-base">· bonus</span>
+# 25 · `quicksort` <span class="opacity-50 text-base">· bonus</span>
 
 <div class="opacity-80 text-xs mb-4">
 This works. Make it nicer.
@@ -44,7 +44,7 @@ fn sort_range(values: &mut [i32], lo: usize, hi: usize) {
 </div>
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 24_quicksort</code>
+<code>cargo test --example 25_quicksort</code>
 </div>
 
 <!--
@@ -54,7 +54,7 @@ is buried. Ask the audience to make it read like the textbook definition.
 
 ---
 
-# 24 · Review
+# 25 · Review
 
 - Quicksort is "pick a pivot, recurse on the smaller, then the larger." How much of that survives in the code?
 - Slice patterns can name the head and the tail at once. What would `[pivot, rest @ ..]` give us?
@@ -65,7 +65,7 @@ is buried. Ask the audience to make it read like the textbook definition.
 zoom: 0.95
 ---
 
-# 24 · Possible solution
+# 25 · Possible solution
 
 ```rust
 pub fn quicksort(input: &[i32]) -> Vec<i32> {

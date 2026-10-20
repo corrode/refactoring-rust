@@ -1,6 +1,6 @@
 # Roadmap
 
-The book contains thirty-four exercises in six parts. Read them in order, jump
+The book contains thirty-five exercises in six parts. Read them in order, jump
 to the topic you need, or use this page to choose where to start. Each chapter
 stands on its own, while each part develops one group of related ideas.
 
@@ -27,18 +27,20 @@ By the end, you should be able to read a complicated `Option` or `Result`
 pipeline and write one a teammate can follow. Give chapter 11 extra time: its short
 final implementation involves several decisions about interfaces and error contracts.
 
-## Part III. Aggregations & counting (chapters 13–18)
+## Part III. Aggregations & counting (chapters 13–19)
 
 This part covers common iterator tasks: collapsing runs with `dedup`,
 checking membership with a `HashSet`, summing fields across structs, defining
 occurrence-weighted text statistics, and computing modes with the `entry` API.
-You'll compare these methods with explicit loops.
-
+You'll compare these methods with explicit loops across seven exercises.
+Chapter 19 ([`list_sum`](../part-3-aggregations/19-list-sum.md)) consumes a recursive list to aggregate its values.
+Iteration and recursion can evaluate additions in different orders, changing which intermediate sums overflow when overflow checks are enabled.
+Rust does not guarantee tail-call optimization; don't assume recursion uses constant stack space across compilers and build settings.
 
 Chapter 13 (`dedup_runs`) is an optional bonus exercise. Skip it when time is
 short.
 
-## Part IV. Strings, parsing & iterators (chapters 19–24)
+## Part IV. Strings, parsing & iterators (chapters 20–25)
 
 Part IV covers standard library methods and custom iterators. You'll clean up
 log lines with `split_whitespace` and `strip_prefix`, parse
@@ -47,24 +49,24 @@ small transformer with an `enum`, and remove a sentinel from a command pipeline
 by choosing its identity value. You'll also turn free functions into a fluent
 extension trait and reduce a verbose quicksort to its textbook definition.
 
-In chapter 21, implementing `Iterator` makes methods such as `take`, `map`,
-`zip`, and `collect` available to your type. Chapter 24
+In chapter 22, implementing `Iterator` makes methods such as `take`, `map`,
+`zip`, and `collect` available to your type. Chapter 25
 (`quicksort`) is an optional bonus exercise. Skip it when time is short.
 
-## Part V. Domain modeling (chapters 25–32)
+## Part V. Domain modeling (chapters 26–33)
 
 Part V moves from syntax to data and API design across eight exercises.
-Chapter 25 groups room aggregates on an owned **newtype**, revisiting the iterator functions from chapter 16.
-Chapter 26 validates IBAN prefixes, chapter 27 uses enums to separate routing decisions from side effects, and chapter 28 combines visibility with layered configuration through `TryFrom` and `FromStr`.
-Chapter 29 models buffer sizing policies, chapter 30 separates ID types, chapter 31 controls access to secrets and their diagnostic output, and chapter 32 uses typestate to constrain configuration steps.
+Chapter 26 groups room aggregates on an owned **newtype**, revisiting the iterator functions from chapter 16.
+Chapter 27 validates IBAN prefixes, chapter 28 uses enums to separate routing decisions from side effects, and chapter 29 combines visibility with layered configuration through `TryFrom` and `FromStr`.
+Chapter 30 models buffer sizing policies, chapter 31 separates ID types, chapter 32 controls access to secrets and their diagnostic output, and chapter 33 uses typestate to constrain configuration steps.
 
 If your team's Rust reviews spend more time on types and design than syntax,
 start here.
 
-## Part VI. Capstone (chapters 33–34)
+## Part VI. Capstone (chapters 34–35)
 
-The final two refactors combine most of the earlier work. Chapter 33 is a
-parser. Chapter 34 is a small `redis`-style server. Both include production
+The final two refactors combine most of the earlier work. Chapter 34 is a
+parser. Chapter 35 is a small `redis`-style server. Both include production
 concerns to investigate: additional tests, edge cases, and design decisions
 that compilation alone can't settle.
 
@@ -87,7 +89,7 @@ book:
 
 - The [Cheatsheet](concept-index.md) lists every named concept and links
   to each chapter that uses it.
-- The [Trade-off matrix](trade-off-matrix.md) puts all thirty-four
+- The [Trade-off matrix](trade-off-matrix.md) puts all thirty-five
   canonical solutions and their scores side by side.
 - [Further reading](further-reading.md) collects and deduplicates every
   external resource cited in the book.

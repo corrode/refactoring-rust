@@ -10,11 +10,11 @@ One test intentionally fails; make it pass without weakening its assertion.
 ## Code to refactor
 
 ```rust,editable
-{{#include ../../../examples/30_typed_ids.rs:listing}}
+{{#include ../../../examples/31_typed_ids.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests" data-expected-failures="tests::variable_and_declaration_ids_are_distinct">
-{{#include ../../../examples/30_typed_ids.rs:tests}}
+{{#include ../../../examples/31_typed_ids.rs:tests}}
 </script>
 
 <div class="playground-local-setup">
@@ -24,7 +24,7 @@ One test intentionally fails; make it pass without weakening its assertion.
 From the repository root:
 
 ```sh
-cargo test --example 30_typed_ids
+cargo test --example 31_typed_ids
 ```
 
 </div>
@@ -78,11 +78,11 @@ Decide which guarantee you need before designing constructors that appear to pro
 ### Give each category its own type
 
 ```rust,editable
-{{#include ../../../solutions/30_typed_ids.rs:listing}}
+{{#include ../../../solutions/31_typed_ids.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../solutions/30_typed_ids.rs:tests}}
+{{#include ../../../solutions/31_typed_ids.rs:tests}}
 </script>
 
 The two tuple structs are different types even though each contains a `usize`.
@@ -170,7 +170,7 @@ This API deliberately removes interchangeability; it is not a drop-in replacemen
 ## References
 
 - [Newtypes](https://doc.rust-lang.org/rust-by-example/generics/new_types.html): distinguish values that share a representation.
-- [Rooms](25-rooms.md): another domain API change, and why wrapping data does not validate it.
+- [Rooms](26-rooms.md): another domain API change, and why wrapping data does not validate it.
 - [Type aliases](https://doc.rust-lang.org/reference/items/type-aliases.html): aliases name existing types rather than creating new ones.
 - [`PhantomData`](https://doc.rust-lang.org/std/marker/struct.PhantomData.html): represent a type parameter without storing a value of that type.
 - [Nushell PR #13832](https://github.com/nushell/nushell/pull/13832): the production refactor that inspired this exercise.

@@ -3,7 +3,7 @@ layout: default
 zoom: 0.85
 ---
 
-# 22 · `apply_commands`
+# 23 · `apply_commands`
 
 <div class="opacity-80 mb-4">
 Apply a sequence of <code>Command</code>s to strings.
@@ -36,7 +36,7 @@ pub fn apply_commands(input: Vec<(String, Command)>) -> Vec<String> {
 ```
 
 <div class="absolute top-25 right-12 text-sm opacity-60">
-<code>cargo test --example 22_transformer</code>
+<code>cargo test --example 23_transformer</code>
 </div>
 
 <!--
@@ -49,7 +49,7 @@ Discoveries:
 
 ---
 
-# 22 · Review
+# 23 · Review
 
 - We own <code>input</code>. Why are we cloning each element?
 - A chain of <code>if let</code> on the same enum… what's the better tool?
@@ -59,7 +59,7 @@ Discoveries:
 
 ---
 
-# 22 · Possible solution
+# 23 · Possible solution
 
 ```rust
 pub fn apply_commands(input: Vec<(String, Command)>) -> Vec<String> {
@@ -90,7 +90,7 @@ Both fine. The `s + &"bar".repeat(n)` form is shorter and reuses `s`'s allocatio
 zoom: 0.8
 ---
 
-# 22 · Follow-up: commands form a pipeline
+# 23 · Follow-up: commands form a pipeline
 
 ```rust
 pub fn apply_pipeline(commands: &[Box<dyn PipelineCommand>], input: &str) -> String {
@@ -121,7 +121,7 @@ data. This is a sentinel bug; iterator style is beside the point.
 
 ---
 
-# 22 · Review the pipeline state
+# 23 · Review the pipeline state
 
 Add a command that erases its input:
 
@@ -149,7 +149,7 @@ Then test this transition:
 zoom: 1.05
 ---
 
-# 22 · Use the pipeline identity
+# 23 · Use the pipeline identity
 
 ```rust
 pub fn apply_pipeline(

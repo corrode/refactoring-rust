@@ -8,11 +8,11 @@ This exercise is inspired by hyper's buffer configuration.[^source]
 ## Code to refactor
 
 ```rust,editable
-{{#include ../../../examples/29_buffer_policy.rs:listing}}
+{{#include ../../../examples/30_buffer_policy.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../examples/29_buffer_policy.rs:tests}}
+{{#include ../../../examples/30_buffer_policy.rs:tests}}
 </script>
 
 
@@ -66,11 +66,11 @@ Adding a minimum exact size would change the contract rather than preserve it.
 ### Name the three policies
 
 ```rust,editable
-{{#include ../../../solutions/29_buffer_policy.rs:listing}}
+{{#include ../../../solutions/30_buffer_policy.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../solutions/29_buffer_policy.rs:tests}}
+{{#include ../../../solutions/30_buffer_policy.rs:tests}}
 </script>
 
 An enum holds one policy at a time.
@@ -104,7 +104,7 @@ The enum prevents conflicting policies, but it does not enforce the minimum maxi
 If that guarantee matters, hide construction behind a wrapper or use a validated payload type.
 That would be a further API design decision.
 
-The [rooms exercise](25-rooms.md) makes a related distinction: naming a type does not automatically validate its contents.
+The [rooms exercise](26-rooms.md) makes a related distinction: naming a type does not automatically validate its contents.
 Here the enum enforces one specific invariant while leaving numeric checks in the setter.
 Neither implementation allocates a buffer or implements adaptive growth.
 
@@ -141,7 +141,7 @@ Keep the original representation if its private mutation paths are easy to audit
 
 - [Enums](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html): represent mutually exclusive choices with their associated data.
 - [Pattern matching](https://doc.rust-lang.org/book/ch06-02-match.html): inspect a policy and handle every variant.
-- [Rooms](25-rooms.md): distinguish an API redesign from validation of its contents.
+- [Rooms](26-rooms.md): distinguish an API redesign from validation of its contents.
 - [hyper](https://github.com/hyperium/hyper): inspiration for this exercise.[^source]
 
 [^source]: Inspired by [hyper's buffer configuration setters](https://github.com/hyperium/hyper/blob/73bff4e98c372ce04b006370c0b0d2af29ea8718/src/client/conn.rs#L616-L642).

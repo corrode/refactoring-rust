@@ -44,10 +44,10 @@ dividers**:
 
 - **Part I, Warm-ups** (01–05)
 - **Part II, `Option` · `Result` · `?`** (06–12)
-- **Part III, Aggregations & counting** (13–18)
-- **Part IV, Strings, parsing & iterators** (19–24)
-- **Part V, Domain modeling** (25–32)
-- **Part VI, Capstone** (33–34)
+- **Part III, Aggregations & counting** (13–19)
+- **Part IV, Strings, parsing & iterators** (20–25)
+- **Part V, Domain modeling** (26–33)
+- **Part VI, Capstone** (34–35)
 
 Each part has a 1–3 paragraph intro page describing the theme and what the
 reader will learn across its chapters.
@@ -355,8 +355,8 @@ v1 scope:
 - Corrode logo + favicon (probably exist in `slides/public/`).
 
 **Diagrams:** tables everywhere they help; mermaid (~6–10 diagrams across
-the whole book, only where genuinely useful, e.g. state machines in ch. 22
-or type relationships in ch. 34). No hand-drawn illustrations. No
+the whole book, only where genuinely useful, e.g. state machines in ch. 23
+or type relationships in ch. 35). No hand-drawn illustrations. No
 screenshots.
 
 ---
@@ -402,7 +402,7 @@ their structure. No separate format spec document.
 
 ### Phase 0, Scaffolding (~1 day)
 
-- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 34
+- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 35
   chapter entries (unwritten ones as plain text `- [Title]()`).
 - All part-intro stubs.
 - CI workflow (`cargo test --examples`, `mdbook test`, `mdbook build`,
@@ -434,7 +434,7 @@ their structure. No separate format spec document.
 - Go part-by-part so part intros can be tightened against the chapters
   they introduce.
 - Add real solution files for the remaining alternatives the TODO identifies
-  (`NonZeroU16` for ch. 12 and a lazy iterator for ch. 15). The `Rooms` newtype now has its own domain-modeling chapter (25), following the aggregation work in ch. 16.
+  (`NonZeroU16` for ch. 12 and a lazy iterator for ch. 15). The `Rooms` newtype now has its own domain-modeling chapter (26), following the aggregation work in ch. 16.
   Alternative exclusion APIs remain in ch. 14.
 
 ### Phase 4, Back matter (~3 days)

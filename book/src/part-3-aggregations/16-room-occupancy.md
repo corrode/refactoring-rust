@@ -115,7 +115,7 @@ In `child_ages`, `flat_map` visits each room's ages in turn to produce one seque
 These operations preserve room order and the order of ages within each room.
 
 You might think about grouping the four functions into a struct with methods and you're onto something.
-We will revisit this idea [later](../part-5-domain-modeling/25-rooms.md). 🙃
+We will revisit this idea [later](../part-5-domain-modeling/26-rooms.md). 🙃
 
 ### Edge cases and production concerns
 

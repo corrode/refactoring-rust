@@ -1,6 +1,6 @@
 # Remaining workshop slide todos
 
-> Exercise numbers below use the current 01–34 numbering, starting with `01_is_yes`.
+> Exercise numbers below use the current 01–35 numbering, starting with `01_is_yes`.
 > The "(was N)" hint shows the old number where useful.
 
 ---
@@ -45,11 +45,11 @@ Notes:
 
 ---
 
-## 2. Exercise 25 · `rooms`: standalone domain-modeling exercise (done)
+## 2. Exercise 26 · `rooms`: standalone domain-modeling exercise (done)
 
-Moved the `Rooms` design from exercise 16 into `slides/pages/25_rooms.md`,
-using `solutions/25_rooms.rs` as the main solution.
-Exercise 16 keeps the iterator refactor; exercise 25 changes the API.
+Moved the `Rooms` design from exercise 16 into `slides/pages/26_rooms.md`,
+using `solutions/26_rooms.rs` as the main solution.
+Exercise 16 keeps the iterator refactor; exercise 26 changes the API.
 The four helpers become methods that operate on the receiver's collection.
 Callers cannot pass a different slice to each method, but the constructor still
 accepts any `Vec<RoomOccupancy>`; the wrapper does not validate which rooms belong together.
@@ -140,7 +140,7 @@ no `Vec` allocation, ranges instead of copied strings.
 
 ---
 
-## 7. Exercise 23 · `fun_strings`: trim vertical on the solution
+## 7. Exercise 24 · `fun_strings`: trim vertical on the solution
 
 The solution slide is tall. Tighten it (compact `emoji_case` /
 `spongebob_case` iterator chain, drop blank lines, shorter takeaway).

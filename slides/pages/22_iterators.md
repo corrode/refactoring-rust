@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 21 · `Fibonacci`
+# 22 · `Fibonacci`
 
 <div class="opacity-80 text-xs mb-4">
 This works. Make it nicer.
@@ -27,7 +27,7 @@ pub fn first_n(n: usize) -> Vec<u64> {
 ```
 
 <div class="absolute top-25 right-12 text-sm opacity-60">
-<code>cargo test --example 21_iterators</code>
+<code>cargo test --example 22_iterators</code>
 </div>
 
 <!--
@@ -41,7 +41,7 @@ First remove repeated work while keeping fib and first_n. Then explore an Iterat
 
 ---
 
-# 21 · Review
+# 22 · Review
 
 - `fib(n)` recomputes the same subproblems over and over - what's the complexity?
 - `first_n` allocates a whole `Vec` up front. What if the caller only wants the first few?
@@ -52,7 +52,7 @@ First remove repeated work while keeping fib and first_n. Then explore an Iterat
 zoom: 0.85
 ---
 
-# 21 · Possible solution
+# 22 · Possible solution
 
 ```rust
 pub fn fib(n: u32) -> u64 {
@@ -85,7 +85,7 @@ pub fn first_n(n: usize) -> Vec<u64> {
 zoom: 0.85
 ---
 
-# 21 · Alternative: a lazy iterator
+# 22 · Alternative: a lazy iterator
 
 ```rust
 // Excerpt: Default and FusedIterator impls omitted.

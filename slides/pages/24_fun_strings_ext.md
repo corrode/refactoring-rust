@@ -4,7 +4,7 @@ zoom: 0.9
 ---
 
 
-# 23 · `fun_strings`
+# 24 · `fun_strings`
 
 <div class="opacity-80 mb-4">
 A bunch of little string helpers. Notice how call sites read inside-out:
@@ -37,7 +37,7 @@ pub fn spongebob_case(s: &str) -> String {
 ```
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
-<code>cargo test --example 23_fun_strings_ext</code>
+<code>cargo test --example 24_fun_strings_ext</code>
 </div>
 
 <!--
@@ -51,7 +51,7 @@ Discoveries:
 
 ---
 
-# 23 · Review
+# 24 · Review
 
 - Why does <code>sparkle(&shout(s.trim()))</code> read backwards?
 - Method calls chain left-to-right. Could these *be* methods on <code>str</code>?
@@ -62,7 +62,7 @@ Discoveries:
 zoom: 0.85
 ---
 
-# 23 · Possible solution
+# 24 · Possible solution
 
 ```rust
 pub fn shout(s: &str) -> String { s.to_uppercase() }
@@ -93,7 +93,7 @@ pub fn spongebob_case(s: &str) -> String {
 zoom: 0.85
 ---
 
-# 23 · Alternative: an extension trait
+# 24 · Alternative: an extension trait
 
 ```rust
 pub trait FunStr {

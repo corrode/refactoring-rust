@@ -10,11 +10,11 @@ One starter test intentionally fails; make it pass without weakening its asserti
 ## Code to refactor
 
 ```rust,editable
-{{#include ../../../examples/31_secret_token.rs:listing}}
+{{#include ../../../examples/32_secret_token.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests" data-expected-failures="tests::debug_does_not_leak_token">
-{{#include ../../../examples/31_secret_token.rs:tests}}
+{{#include ../../../examples/32_secret_token.rs:tests}}
 </script>
 
 <div class="playground-local-setup">
@@ -24,7 +24,7 @@ One starter test intentionally fails; make it pass without weakening its asserti
 From the repository root:
 
 ```sh
-cargo test --example 31_secret_token
+cargo test --example 32_secret_token
 ```
 
 </div>
@@ -49,7 +49,7 @@ It fails on the original implementation.
 A custom `Debug` implementation for `Credentials` could omit its token.
 But another struct containing the same token as a `String` would need the same care.
 A dedicated token type puts the policy on the value: enclosing structs can derive `Debug` and delegate to it.
-As in [rooms](25-rooms.md), the useful question is which operations belong on the new type, not whether wrapping a value is enough by itself.
+As in [rooms](26-rooms.md), the useful question is which operations belong on the new type, not whether wrapping a value is enough by itself.
 
 </details>
 
@@ -79,11 +79,11 @@ Test both formatting modes, including credentials nested inside another derived 
 ### A token with explicit access
 
 ```rust,editable
-{{#include ../../../solutions/31_secret_token.rs:listing}}
+{{#include ../../../solutions/32_secret_token.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../solutions/31_secret_token.rs:tests}}
+{{#include ../../../solutions/32_secret_token.rs:tests}}
 </script>
 
 `Token` owns a `String`, but its tuple field is private.
@@ -144,7 +144,7 @@ The performance comparison concerns ownership and formatting work, not a measure
 ## References
 
 - [Newtypes](https://doc.rust-lang.org/rust-by-example/generics/new_types.html): give a string its own operations and formatting policy.
-- [Rooms](25-rooms.md): choose a small interface around private storage.
+- [Rooms](26-rooms.md): choose a small interface around private storage.
 - [`Debug`](https://doc.rust-lang.org/std/fmt/trait.Debug.html): derived formatting delegates to fields; custom implementations control their output.
 - [Visibility and privacy](https://doc.rust-lang.org/reference/visibility-and-privacy.html): understand where a private tuple field remains accessible.
 - [`secrecy`](https://docs.rs/secrecy/): production-oriented secret handling with explicit access.[^source]
