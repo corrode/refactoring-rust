@@ -1,5 +1,5 @@
 /*
- * Refactoring Rust — brand layer over mdBook's navy theme.
+ * Refactoring Rust: three custom palettes alongside native Rust, Coal and Ayu.
  *
  * Aesthetic target: Brown's TRPL fork — bookish, restrained, no decorative
  * chrome. Tight typography. Flat info boxes with no coloured borders.
@@ -63,12 +63,30 @@
 
     --corrode-accent: #5eadf2; /* brand blue (slides accents-blue)*/
     --corrode-accent-soft: #74b8f4;
-    --corrode-accent-muted: #4a6480; /* labels, secondary chrome        */
+    --corrode-accent-muted: #98aec5; /* readable labels on info boxes   */
 
     --corrode-inline-code: #f0a868; /* warm amber for inline code      */
-    /* TODO(theme): try replacing amber inline code with brand teal once
-     prose lands and we can see how often inline code appears. Brown
-     uses amber and it reads beautifully; we may or may not. */
+    --corrode-sidebar-bg: #121728;
+    --corrode-inline-bg: #1a2138;
+    --corrode-table-alternate: #1a2034;
+    --corrode-selection: #344763;
+    --corrode-error: #ff9292;
+    --corrode-warning: #edc56b;
+    --corrode-location: #83b8ef;
+    --corrode-success: #85cc9b;
+    --corrode-syntax-comment: #a8a7ad;
+    --corrode-syntax-keyword: #c5a5d0;
+    --corrode-syntax-string: #b5c77b;
+    --corrode-syntax-number: #f0a868;
+    --corrode-syntax-function: #83b8ef;
+    --corrode-syntax-type: #edc56b;
+    --corrode-syntax-variable: #e89b9b;
+    --corrode-syntax-operator: #8abeb7;
+    --corrode-icon-filter: brightness(0) invert(0.7);
+    --corrode-icon-hover-filter: brightness(0) invert(0.9);
+    --corrode-score-filter: brightness(1.35);
+    --corrode-neutral-score-filter: brightness(1.65);
+    --corrode-color-scheme: dark;
 
     --corrode-font-sans:
         "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
@@ -77,6 +95,179 @@
         "Zed Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
         monospace;
     --mono-font: var(--corrode-font-mono);
+}
+
+/* Only palette values differ; component rules below are shared. */
+html.light {
+    --corrode-bg: #faf7f0;
+    --corrode-fg: #302c27;
+    --corrode-fg-muted: #676057;
+    --corrode-code-bg: #f1ede4;
+    --corrode-code-border: #d3cbbc;
+    --corrode-surface: #f0ebe1;
+    --corrode-surface-2: #e8e1d5;
+    --corrode-rule: #d0c6b6;
+    --corrode-accent: #216397;
+    --corrode-accent-soft: #174e79;
+    --corrode-accent-muted: #5e625f;
+    --corrode-inline-code: #8b441b;
+    --corrode-sidebar-bg: #eee9df;
+    --corrode-inline-bg: #eee8dd;
+    --corrode-table-alternate: #f3eee5;
+    --corrode-selection: #c9d9df;
+    --corrode-error: #a52332;
+    --corrode-warning: #765000;
+    --corrode-location: #245f91;
+    --corrode-success: #246638;
+    --corrode-syntax-comment: #686057;
+    --corrode-syntax-keyword: #74478b;
+    --corrode-syntax-string: #486322;
+    --corrode-syntax-number: #91471c;
+    --corrode-syntax-function: #245f91;
+    --corrode-syntax-type: #765000;
+    --corrode-syntax-variable: #a0323d;
+    --corrode-syntax-operator: #286863;
+    --corrode-icon-filter: brightness(0) invert(0.38);
+    --corrode-icon-hover-filter: brightness(0) invert(0.18);
+    --corrode-score-filter: none;
+    --corrode-neutral-score-filter: none;
+    --corrode-color-scheme: light;
+}
+
+html.warm-dark .content :is(h1, h2, h3, h4, h5, h6),
+html.warm-dark .content :is(h1, h2, h3, h4, h5, h6) :is(a, code, .header) {
+    color: var(--corrode-accent);
+}
+
+html.warm-dark {
+    --corrode-bg: #282420;
+    --corrode-fg: #ebdbb2;
+    --corrode-fg-muted: #bdae93;
+    --corrode-code-bg: #201d1a;
+    --corrode-code-border: #443c33;
+    --corrode-surface: #322c26;
+    --corrode-surface-2: #3c342c;
+    --corrode-rule: #504638;
+    --corrode-accent: #e9b35f;
+    --corrode-accent-soft: #f6cf8b;
+    --corrode-accent-muted: #bdae93;
+    --corrode-inline-code: #fabd7b;
+    --corrode-sidebar-bg: #231f1b;
+    --corrode-inline-bg: #352e27;
+    --corrode-table-alternate: #2e2823;
+    --corrode-selection: #514735;
+    --corrode-error: #fb9383;
+    --corrode-warning: #fabd2f;
+    --corrode-location: #83c5b5;
+    --corrode-success: #b8bb65;
+    --corrode-syntax-comment: #bdae93;
+    --corrode-syntax-keyword: #d8a1bc;
+    --corrode-syntax-string: #b8bb65;
+    --corrode-syntax-number: #fabd7b;
+    --corrode-syntax-function: #83c5b5;
+    --corrode-syntax-type: #fabd2f;
+    --corrode-syntax-variable: #fb9383;
+    --corrode-syntax-operator: #a9c48b;
+}
+
+/* Native themes retain mdBook's chrome; these tokens style our added surfaces. */
+html.rust {
+    --corrode-bg: hsl(60, 9%, 87%);
+    --corrode-fg: #262625;
+    --corrode-fg-muted: #625b53;
+    --corrode-code-bg: #f1eee8;
+    --corrode-code-border: #b3a497;
+    --corrode-surface: #d2cec4;
+    --corrode-surface-2: #c5b9ab;
+    --corrode-rule: #b3a497;
+    --corrode-accent: #286b90;
+    --corrode-accent-soft: #205878;
+    --corrode-accent-muted: #665244;
+    --corrode-inline-code: #6e6b5e;
+    --corrode-sidebar-bg: #3b2e2a;
+    --corrode-inline-bg: #e8e3da;
+    --corrode-table-alternate: #d8d5cb;
+    --corrode-selection: #dec2a2;
+    --corrode-error: #a52332;
+    --corrode-warning: #765000;
+    --corrode-location: #245f91;
+    --corrode-success: #246638;
+    --corrode-syntax-comment: #686057;
+    --corrode-syntax-keyword: #74478b;
+    --corrode-syntax-string: #486322;
+    --corrode-syntax-number: #91471c;
+    --corrode-syntax-function: #245f91;
+    --corrode-syntax-type: #765000;
+    --corrode-syntax-variable: #a0323d;
+    --corrode-syntax-operator: #286863;
+    --corrode-icon-filter: brightness(0) invert(0.38);
+    --corrode-icon-hover-filter: brightness(0) invert(0.18);
+    --corrode-score-filter: none;
+    --corrode-neutral-score-filter: none;
+    --corrode-color-scheme: light;
+    color-scheme: light;
+}
+
+html.coal {
+    --corrode-bg: hsl(200, 7%, 8%);
+    --corrode-fg: #c5c8c6;
+    --corrode-fg-muted: #a1adb8;
+    --corrode-code-bg: #1d1f21;
+    --corrode-code-border: #43484d;
+    --corrode-surface: #24272a;
+    --corrode-surface-2: #303438;
+    --corrode-rule: #43484d;
+    --corrode-accent: #75b5d6;
+    --corrode-accent-soft: #9bcce5;
+    --corrode-accent-muted: #a1adb8;
+    --corrode-inline-code: #c5c8c6;
+    --corrode-sidebar-bg: #292c2f;
+    --corrode-inline-bg: #24272a;
+    --corrode-table-alternate: #1a1d1f;
+    --corrode-selection: #355c7d;
+    --corrode-error: #e89393;
+    --corrode-warning: #f0c674;
+    --corrode-location: #81a2be;
+    --corrode-success: #b5bd68;
+    --corrode-syntax-comment: #a1a5a1;
+    --corrode-syntax-keyword: #b294bb;
+    --corrode-syntax-string: #b5bd68;
+    --corrode-syntax-number: #de935f;
+    --corrode-syntax-function: #81a2be;
+    --corrode-syntax-type: #f0c674;
+    --corrode-syntax-variable: #cc8b8b;
+    --corrode-syntax-operator: #8abeb7;
+}
+
+html.ayu {
+    --corrode-bg: hsl(210, 25%, 8%);
+    --corrode-fg: #c5c5c5;
+    --corrode-fg-muted: #a0a5ad;
+    --corrode-code-bg: #0f1419;
+    --corrode-code-border: #363e48;
+    --corrode-surface: #191f26;
+    --corrode-surface-2: #242c36;
+    --corrode-rule: #363e48;
+    --corrode-accent: #ffb454;
+    --corrode-accent-soft: #ffd08a;
+    --corrode-accent-muted: #c2a77f;
+    --corrode-inline-code: #ffb454;
+    --corrode-sidebar-bg: #14191f;
+    --corrode-inline-bg: #191f26;
+    --corrode-table-alternate: #151c23;
+    --corrode-selection: #364657;
+    --corrode-error: #ff8f80;
+    --corrode-warning: #ffb454;
+    --corrode-location: #59c2ff;
+    --corrode-success: #b8cc52;
+    --corrode-syntax-comment: #969da6;
+    --corrode-syntax-keyword: #ff8f40;
+    --corrode-syntax-string: #b8cc52;
+    --corrode-syntax-number: #e6b673;
+    --corrode-syntax-function: #ffb454;
+    --corrode-syntax-type: #59c2ff;
+    --corrode-syntax-variable: #f07178;
+    --corrode-syntax-operator: #f29668;
 }
 
 /* ---------- Typography ---------- */
@@ -143,18 +334,17 @@ pre,
 }
 
 
-/* ---------- Navy theme overrides ----------
- * mdBook's navy is closest to the slides palette; we nudge it the rest of
- * the way to a Brown-style bookish dark.
- */
+/* ---------- mdBook token bridge (custom palettes only) ---------- */
 
-.navy {
+html:is(.navy, .light, .warm-dark) {
+    color-scheme: var(--corrode-color-scheme);
+    --color-scheme: var(--corrode-color-scheme);
     --bg: var(--corrode-bg);
     --fg: var(--corrode-fg);
 
-    --sidebar-bg: #121728;
+    --sidebar-bg: var(--corrode-sidebar-bg);
     --sidebar-fg: var(--corrode-fg-muted);
-    --sidebar-non-existant: #4a4f5c;
+    --sidebar-non-existant: var(--corrode-fg-muted);
     --sidebar-active: var(--corrode-accent);
     --sidebar-spacer: var(--corrode-rule);
 
@@ -176,7 +366,7 @@ pre,
 
     --table-border-color: var(--corrode-rule);
     --table-header-bg: var(--corrode-surface-2);
-    --table-alternate-bg: #1a2034;
+    --table-alternate-bg: var(--corrode-table-alternate);
 
     --searchbar-bg: var(--corrode-surface);
     --searchbar-fg: var(--corrode-fg);
@@ -185,76 +375,165 @@ pre,
 
     --searchresults-header-fg: var(--corrode-accent);
     --searchresults-border-color: var(--corrode-rule);
-    --search-mark-bg: #c78b3f;
+    --search-mark-bg: var(--corrode-selection);
+    --searchresults-li-bg: var(--corrode-surface);
+    --copy-button-filter: var(--corrode-icon-filter);
+    --copy-button-filter-hover: var(--corrode-icon-hover-filter);
+    --warning-border: var(--corrode-warning);
+    --footnote-highlight: var(--corrode-selection);
+    --overlay-bg: #00000066;
+    --blockquote-note-color: var(--corrode-location);
+    --blockquote-tip-color: var(--corrode-success);
+    --blockquote-important-color: var(--corrode-syntax-keyword);
+    --blockquote-warning-color: var(--corrode-warning);
+    --blockquote-caution-color: var(--corrode-error);
+    --sidebar-header-border-color: var(--corrode-rule);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) mark {
+    color: var(--corrode-fg);
+    background: var(--corrode-selection);
 }
 
 /* Code blocks: tighter than mdBook's default, flat surface. */
-.navy pre {
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content pre {
     background: var(--corrode-code-bg);
     border: 1px solid var(--corrode-code-border);
     border-radius: 4px;
     padding: 0.9em 1em;
 }
 
-.navy pre code {
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content pre code {
     background: var(--corrode-code-bg);
 }
 
+/* Shared syntax colors keep static snippets, editable code and diagnostic
+   excerpts consistent. Scope Ace rules above its late-loaded native themes. */
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content :is(.hljs, .ace_editor, .result) {
+    color: var(--corrode-fg);
+    background: var(--corrode-code-bg);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content :is(.hljs-comment, .hljs-quote),
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_comment {
+    color: var(--corrode-syntax-comment);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content :is(.hljs-keyword, .hljs-selector-tag, .hljs-meta),
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor :is(.ace_keyword, .ace_storage, .ace_meta) {
+    color: var(--corrode-syntax-keyword);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content :is(.hljs-variable, .hljs-template-variable, .hljs-attribute, .hljs-attr, .hljs-tag, .hljs-name, .hljs-selector-id, .hljs-selector-class),
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor :is(.ace_variable, .ace_entity) {
+    color: var(--corrode-syntax-variable);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content :is(.hljs-number, .hljs-literal, .hljs-params),
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_constant {
+    color: var(--corrode-syntax-number);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content :is(.hljs-type, .hljs-built_in, .hljs-builtin-name),
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_support {
+    color: var(--corrode-syntax-type);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content :is(.hljs-title, .hljs-section, .hljs-link),
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor :is(.ace_entity.ace_name.ace_function, .ace_support.ace_function) {
+    color: var(--corrode-syntax-function);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content :is(.hljs-string, .hljs-symbol, .hljs-bullet, .hljs-regexp),
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_string {
+    color: var(--corrode-syntax-string);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_keyword.ace_operator {
+    color: var(--corrode-syntax-operator);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .hljs-addition {
+    color: var(--corrode-success);
+    background: var(--corrode-code-bg);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .hljs-deletion,
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_invalid {
+    color: var(--corrode-error);
+    background: var(--corrode-code-bg);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_gutter {
+    color: var(--corrode-fg-muted);
+    background: var(--corrode-code-bg);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor :is(.ace_active-line, .ace_gutter-active-line) {
+    background: var(--corrode-surface);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_selection {
+    background: var(--corrode-selection);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_selection.ace_start {
+    box-shadow: 0 0 3px 0 var(--corrode-code-bg);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor :is(.ace_bracket, .ace_selected-word) {
+    border-color: var(--corrode-accent);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_cursor {
+    color: var(--corrode-fg);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_print-margin {
+    background: var(--corrode-rule);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_invisible {
+    color: var(--corrode-fg-muted);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_indent-guide {
+    background: linear-gradient(var(--corrode-rule), var(--corrode-rule)) right / 1px 100% no-repeat;
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_fold {
+    background: var(--corrode-accent);
+    border-color: var(--corrode-fg);
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .ace_editor .ace_step {
+    background: var(--corrode-selection);
+}
+
 /* Inline code: subtle pill, warm accent, no aggressive box. */
-.navy :not(pre) > code {
-    background: #1a2138;
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) :not(pre) > code {
+    background: var(--corrode-inline-bg);
     font-size: 0.9em;
     padding: 0.12em 0.4em;
     border-radius: 3px;
     border: 1px solid transparent;
 }
 
-/* Sidebar: thin amber-style bar on the active entry (we use brand blue). */
-.navy .sidebar .chapter li.chapter-item a.active {
-    color: var(--corrode-accent);
+/* Sidebar: a thin accent bar marks the active entry. */
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .sidebar .chapter li.chapter-item a {
+    border-left: 2px solid transparent;
+    padding-left: 0.5rem;
+}
+
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .sidebar .chapter li.chapter-item a.active {
+    border-left-color: var(--sidebar-active);
+    color: var(--sidebar-active);
     background: transparent;
     position: relative;
 }
 
-.navy .sidebar .chapter li.chapter-item a {
-    border-left: 2px solid transparent;
-    padding-left: 0.5rem;
-}
-
-.navy .sidebar .chapter li.chapter-item a.active {
-    border-left-color: var(--corrode-accent);
-}
-
-.navy .sidebar .chapter li.chapter-item a:hover {
-    color: var(--corrode-accent-soft);
-    background: transparent;
-}
-
-/* ---------- Light theme overrides ----------
- * Keep `light` clean and high-contrast; only adjust the accent so the brand
- * is recognizable across themes.
- */
-
-.light {
-    --corrode-fg: #1a1a1a;
-    --corrode-surface: #f3f4f6;
-    --corrode-surface-2: #e8eaed;
-    --corrode-rule: #d0d4da;
-    --links: #2a6fb3;
-    --inline-code-color: #b65a18;
-    --sidebar-active: #2a6fb3;
-    --quote-bg: var(--corrode-surface);
-    --quote-border: var(--corrode-surface);
-}
-
-.light .sidebar .chapter li.chapter-item a {
-    border-left: 2px solid transparent;
-    padding-left: 0.5rem;
-}
-
-.light .sidebar .chapter li.chapter-item a.active {
-    border-left-color: #2a6fb3;
-    color: #2a6fb3;
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .sidebar .chapter li.chapter-item a:hover {
+    color: var(--sidebar-active);
     background: transparent;
 }
 
@@ -345,7 +624,7 @@ pre,
 .menu-bar {
     border-bottom: 1px solid var(--corrode-rule);
 }
-.navy .menu-bar {
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .menu-bar {
     background: var(--corrode-bg);
 }
 
@@ -382,9 +661,9 @@ pre,
  *   - "Cheatsheet" top-nav link → appendix/concept-index.md.
  *   - Per-callout accent colour (different label colour for each spine
  *     section).
- *   - Custom syntax theme matching the corrode brand more tightly.
+
  *   - Prominent in-page "Run" button styling.
- *   - Drop the unused default themes (coal, ayu, rust) from the picker.
+
  *   - Per-chapter trade-off radar chart, programmatically generated.
  *   - Revisit inline-code colour (amber vs. teal) after prose lands.
  */
@@ -479,9 +758,14 @@ pre,
     max-width: none;
 }
 
-/* The neutral score needs darker strokes on paper-like backgrounds. */
-:is(.navy, .coal, .ayu) .tradeoff-icon[src$="comparable.svg"] {
-    filter: brightness(1.65);
+/* External SVG strokes cannot inherit color. Preserve their semantic hues,
+   brighten them on dark surfaces, and leave the original strokes in light. */
+.content .tradeoff-icon {
+    filter: var(--corrode-score-filter);
+}
+
+.content .tradeoff-icon[src$="comparable.svg"] {
+    filter: var(--corrode-neutral-score-filter);
 }
 
 /* Editable callers stay next to their snippet, outside the code block. */
@@ -516,9 +800,9 @@ pre,
     line-height: 1.5;
     white-space: pre;
     overflow: auto;
-    color: var(--fg);
-    background: var(--bg);
-    border: 1px solid var(--table-border-color);
+    color: var(--corrode-fg);
+    background: var(--corrode-code-bg);
+    border: 1px solid var(--corrode-code-border);
     border-radius: 4px;
     resize: vertical;
     tab-size: 4;
@@ -529,20 +813,12 @@ pre,
     outline-offset: 2px;
 }
 
-/* Compiler diagnostics and test results, in both dark and light themes. */
-.result .diagnostic-error { color: #ff9292; }
-.result .diagnostic-warning { color: #edc56b; }
-.result .diagnostic-location { color: #83b8ef; }
-.result .diagnostic-success { color: #85cc9b; }
-.light .result .diagnostic-error,
-.rust .result .diagnostic-error { color: #b42332; }
-.light .result .diagnostic-warning,
-.rust .result .diagnostic-warning { color: #805600; }
-.light .result .diagnostic-location,
-.rust .result .diagnostic-location { color: #245f9b; }
-.light .result .diagnostic-success,
-.rust .result .diagnostic-success { color: #246d3d; }
-.content .result .hljs {
+/* Compiler diagnostics use the same semantic colors as editor annotations. */
+.result .diagnostic-error { color: var(--corrode-error); }
+.result .diagnostic-warning { color: var(--corrode-warning); }
+.result .diagnostic-location { color: var(--corrode-location); }
+.result .diagnostic-success { color: var(--corrode-success); }
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .content .result .hljs {
     display: inline;
     padding: 0;
     background: transparent;

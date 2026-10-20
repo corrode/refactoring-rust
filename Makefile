@@ -40,7 +40,7 @@ book-clean: ## Remove the generated book output
 
 .PHONY: book-runner-test
 book-runner-test: ## Test the browser runner and rendered-snippet checker (Node.js + Python 3.10+)
-	node --test tests/playground-tests.test.cjs
+	node --test tests/playground-tests.test.cjs tests/themes.test.cjs
 	python3 -m unittest discover -s tests -p 'test_book_snippets.py'
 
 .PHONY: book-snippet-check
