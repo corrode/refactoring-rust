@@ -5,8 +5,6 @@ Their iterator implementations are already concise.
 Consider how to organize the related operations.
 You may change the public API in this domain-modeling exercise, but keep the calculation results unchanged.
 
-Run the starter tests with `cargo test --example 25_rooms`.
-
 ## Code to refactor
 
 ```rust,editable
@@ -16,6 +14,18 @@ Run the starter tests with `cargo test --example 25_rooms`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/25_rooms.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 25_rooms
+```
+
+</div>
 
 ## Discussion
 

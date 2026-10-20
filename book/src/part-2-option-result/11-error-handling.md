@@ -4,8 +4,6 @@ This function reads a file's contents into a string.
 Refactor it without changing the public signature or turning I/O failures into panics.
 Preserve the returned errors, including `io::ErrorKind::NotFound` for a missing file.
 
-Run the tests with `cargo test --example 11_error_handling`.
-
 ## Code to refactor
 
 ```rust,editable
@@ -15,6 +13,18 @@ Run the tests with `cargo test --example 11_error_handling`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/11_error_handling.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 11_error_handling
+```
+
+</div>
 
 
 ## Discussion

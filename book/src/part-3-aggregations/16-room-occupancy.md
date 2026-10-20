@@ -5,8 +5,6 @@ Refactor one function at a time, keeping every public signature and the order re
 Check what each function returns for empty input and for the full range of values its field types allow.
 Decide explicitly whether any result should change.
 
-Run the tests after each change with `cargo test --example 16_room_occupancy`.
-
 ## Code to refactor
 
 ```rust,editable
@@ -16,6 +14,18 @@ Run the tests after each change with `cargo test --example 16_room_occupancy`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/16_room_occupancy.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+After each change, run from the repository root:
+
+```sh
+cargo test --example 16_room_occupancy
+```
+
+</div>
 
 
 ## Discussion

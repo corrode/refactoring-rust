@@ -90,8 +90,16 @@ exercise numbers in filenames, commands, and the table of contents.
 
 Start with a short introduction that states the task and any constraints. Adapt it
 to the exercise: don't repeat the first chapter's Run-button instructions, cloning
-instructions, or encouragement. Include the local test command where useful.
+instructions, or encouragement.
 There is no separate “The problem” heading or EXERCISE / TRY THIS callout.
+
+Put introductory local test commands in a `<div class="playground-local-setup">` directly after the starter listing's attached `script.playground-tests` closing tag, never between the listing and its test script.
+Leave blank lines around the Markdown content inside the div and start it with a plain **Run locally** label, not a heading.
+The browser moves this div into the generated **Tests and local setup** disclosure below the editable tests textarea.
+Do not add a separate Run locally disclosure.
+Use a `sh` fence with the explicit command, introduced by “From the repository root:”.
+Keep task constraints and intentional failure notices visible outside the disclosure.
+Do not add run instructions to placeholder or unwritten chapters.
 
 Do not identify the bug, name the refactor, or supply a failing input in the
 introduction. Put those discoveries in Discussion or an optional hint. State
@@ -201,7 +209,7 @@ block.
   Every editable implementation, including an inline alternative, must have exactly one adjacent test script with tests for that implementation's API.
   Reuse a test include only when its calls and assertions apply to the displayed code; write an API-specific suite when no compatible include exists.
   The browser reads only this adjacent script, with no fallback suites or chapter-wide symbol matching.
-  It exposes the script's contents in the expandable, editable **Tests and callers** textarea.
+  It exposes the script's contents in an editable textarea inside the expandable **Tests and local setup** disclosure.
   Run sends the edited implementation and edited tests to the Rust Playground together.
   When exploring an API change, readers must update the tests and callers themselves; never silently substitute another suite.
   Outside domain modeling, the first solution must still pass the original API's tests.

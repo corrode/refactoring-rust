@@ -4,7 +4,6 @@ This function limits a string to a byte budget.
 Does it meet its documented behaviour for all inputs, or do the tests miss something?
 Add tests for the missing cases, then refactor the function and fix any behaviour that violates the contract.
 Keep the signature unchanged.
-Run the tests with `cargo test --example 05_truncate_string`.
 
 ## Code to refactor
 
@@ -15,6 +14,18 @@ Run the tests with `cargo test --example 05_truncate_string`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/05_truncate_string.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 05_truncate_string
+```
+
+</div>
 
 ## Discussion
 

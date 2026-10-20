@@ -25,11 +25,12 @@
             .map(element => element?.nextElementSibling)
             .find(element => element?.matches('script.playground-tests'));
         if (!script) return;
+        const localSetup = script.nextElementSibling;
 
         const details = document.createElement('details');
         details.className = 'playground-test-editor';
         const summary = document.createElement('summary');
-        summary.textContent = 'Tests and callers';
+        summary.textContent = 'Tests and local setup';
         const label = document.createElement('label');
         label.textContent = 'Edit tests and callers to match your API:';
         const textarea = document.createElement('textarea');
@@ -38,6 +39,9 @@
         textarea.spellcheck = false;
         label.append(textarea);
         details.append(summary, label);
+        if (localSetup?.matches('div.playground-local-setup')) {
+            details.append(localSetup);
+        }
         playground.after(details);
         testEditors.set(playground, textarea);
         editorOwners.set(textarea, playground);

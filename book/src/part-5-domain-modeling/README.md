@@ -8,7 +8,7 @@ We'll start by giving a collection of rooms its own operations, then work on ide
 You'll also model buffer policies, separate ID types, control access to secrets, and restrict which configuration steps callers can take.
 Ask what each type represents, which values it should allow, and what callers need to do with it.
 Update callers and tests when the interface changes, but keep checking the behaviour they rely on.
-In the browser, expand **Tests and callers** beneath a code block to edit its attached suite alongside your implementation.
+In the browser, expand **Tests and local setup** beneath a code block to edit its attached suite alongside your implementation.
 Run uses those edits, not a different suite selected to fit your API.
 Keep the assertions that express the required behaviour, including any that initially fail.
 Changing a type does not automatically validate its contents or make an implementation better.

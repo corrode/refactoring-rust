@@ -7,8 +7,6 @@ You may change the public API in this domain-modeling exercise, but keep the use
 This is an instructor-created starter inspired by the existing design of `secrecy`, not historical upstream code or an upstream vulnerability.[^source]
 One starter test intentionally fails; make it pass without weakening its assertions.
 
-Run the starter tests with `cargo test --example 31_secret_token`.
-
 ## Code to refactor
 
 ```rust,editable
@@ -18,6 +16,18 @@ Run the starter tests with `cargo test --example 31_secret_token`.
 <script type="text/plain" class="playground-tests" data-expected-failures="tests::debug_does_not_leak_token">
 {{#include ../../../examples/31_secret_token.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 31_secret_token
+```
+
+</div>
 
 
 ## Discussion

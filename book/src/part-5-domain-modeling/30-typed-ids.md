@@ -5,7 +5,6 @@ Review its public interface while keeping successful lookups and the `None` resu
 You may change the API in this domain-modeling exercise, including how callers construct IDs.
 This workshop-created fixture draws on an ID refactor in [Nushell](https://github.com/nushell/nushell), not on a copy of its engine.[^provenance]
 
-Run the starter tests with `cargo test --example 30_typed_ids`.
 One test intentionally fails; make it pass without weakening its assertion.
 
 ## Code to refactor
@@ -17,6 +16,18 @@ One test intentionally fails; make it pass without weakening its assertion.
 <script type="text/plain" class="playground-tests" data-expected-failures="tests::variable_and_declaration_ids_are_distinct">
 {{#include ../../../examples/30_typed_ids.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 30_typed_ids
+```
+
+</div>
 
 
 ## Discussion

@@ -5,16 +5,10 @@ Refactor it without changing its signature or which inputs it accepts.
 The first solution keeps both; the alternatives explore changes to the API and behavior.
 
 You can edit the code below and press **Run** to test your changes.
-Each editable block has its own attached **Tests and callers** editor.
+Each editable block has its own attached **Tests and local setup** editor.
 Expand it to inspect the assertions, add a case, or change a caller.
 Run sends the current implementation and its attached tests to the Rust Playground together.
 If you try a different signature, update the callers yourself; the editor won't replace them for you.
-
-To work locally, edit `examples/01_is_yes.rs` in the [workshop repository](https://github.com/corrode/refactoring-rust) and run:
-
-```sh
-cargo test --example 01_is_yes
-```
 
 ## Code to refactor
 
@@ -25,6 +19,19 @@ cargo test --example 01_is_yes
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/01_is_yes.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+Edit `examples/01_is_yes.rs` in the [workshop repository](https://github.com/corrode/refactoring-rust).
+From the repository root:
+
+```sh
+cargo test --example 01_is_yes
+```
+
+</div>
 
 ## Discussion
 

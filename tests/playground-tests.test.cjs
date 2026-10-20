@@ -28,6 +28,10 @@ class Element {
     }
     append(...children) {
         for (const child of children) {
+            if (child instanceof Element && child.parentElement) {
+                const siblings = child.parentElement.children;
+                siblings.splice(siblings.indexOf(child), 1);
+            }
             this.children.push(child);
             if (child instanceof Element) child.parentElement = this;
         }
@@ -41,7 +45,7 @@ class Element {
         const siblings = this.parentElement?.children || [];
         return siblings.slice(siblings.indexOf(this) + 1).find(child => child instanceof Element) || null;
     }
-    set textContent(text) { this.replaceChildren(String(text)); }
+    set textContent(text) { this.replaceChildren(...(String(text) ? [String(text)] : [])); }
     get textContent() { return this.children.map(child => typeof child === 'string' ? child : child.textContent).join(''); }
     replaceChildren(...children) {
         for (const child of this.children) if (child instanceof Element) child.parentElement = null;
@@ -142,7 +146,7 @@ test('attached callers are editable, accessible, adjacent, and submitted verbati
     h.init();
     const details = pre.nextElementSibling;
     assert.equal(details.tagName, 'DETAILS');
-    assert.equal(details.querySelector('summary').textContent, 'Tests and callers');
+    assert.equal(details.querySelector('summary').textContent, 'Tests and local setup');
     const textarea = details.querySelector('textarea');
     assert.equal(textarea.parentElement.tagName, 'LABEL');
     assert.match(textarea.parentElement.textContent, /Edit tests and callers/);
@@ -162,6 +166,57 @@ test('attached callers are editable, accessible, adjacent, and submitted verbati
     assert.equal(script.attributes['data-expected-failures'], '1');
     assert.equal(h.timers.size, 0);
 });
+
+for (const wrapped of [false, true]) {
+    test(`adjacent local setup moves below editable tests without duplication or payload changes (wrapped: ${wrapped})`, async () => {
+        const h = harness();
+        const { pre, code, script } = h.block({ wrapped, suite: '#[test]\nfn original() {}' });
+        const local = element('div', 'playground-local-setup');
+        const heading = element('strong', '', 'Run locally');
+        const shell = element('pre');
+        shell.append(element('code', 'language-sh', 'cargo test --example local_only'));
+        local.append(heading, shell);
+        script.after(local);
+        h.init();
+        const details = pre.nextElementSibling;
+        const label = details.querySelector('label');
+        const textarea = label.querySelector('textarea');
+        assert.equal(details.querySelector('summary').textContent, 'Tests and local setup');
+        assert.deepEqual(details.children, [details.querySelector('summary'), label, local]);
+        assert.deepEqual(local.children, [heading, shell]);
+        assert.equal(local.parentElement, details);
+        assert.equal(script.nextElementSibling, null);
+        assert.equal(textarea.value, script.textContent);
+        textarea.value = '\n#[test]\nfn edited() { changed(); }\n ';
+        h.aceValues.set(code, 'fn changed() {}\n');
+        h.init();
+        assert.equal(h.document.querySelectorAll('details.playground-test-editor').length, 1);
+        assert.deepEqual(h.document.querySelectorAll('div.playground-local-setup'), [local]);
+        assert.equal(label.nextElementSibling, local);
+        await h.fire('click', pre.querySelector('.play-button'));
+        assert.equal(h.requests.length, 1);
+        assert.equal(h.requests[0].body.code, `fn changed() {}\n\n\n${textarea.value}\n`);
+        assert.doesNotMatch(h.requests[0].body.code, /Run locally|cargo test|local_only/);
+    });
+}
+
+for (const placement of ['nonadjacent', 'wrong tag', 'wrong class', 'other block']) {
+    test(`does not adopt ${placement} local instructions`, () => {
+        const h = harness();
+        const first = h.block({ suite: 'first tests' });
+        const local = element(placement === 'wrong tag' ? 'section' : 'div',
+            placement === 'wrong class' ? 'other-local-setup' : 'playground-local-setup', 'Run locally');
+        let other;
+        if (placement === 'nonadjacent') h.document.append(element('p', '', 'Intervening content'));
+        if (placement === 'other block') other = h.block({ suite: 'other tests' });
+        h.document.append(local);
+        h.init();
+        const details = first.pre.nextElementSibling;
+        assert.deepEqual(details.children.map(child => child.tagName), ['SUMMARY', 'LABEL']);
+        assert.equal(local.parentElement, other ? other.pre.nextElementSibling : h.document);
+        assert.equal(h.document.querySelectorAll('textarea').length, other ? 2 : 1);
+    });
+}
 
 for (const [name, output] of [
     ['assertion', { success: false, stdout: 'test example ... FAILED\ntest result: FAILED.', stderr: "thread panicked: assertion failed" }],

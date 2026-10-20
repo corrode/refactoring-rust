@@ -5,8 +5,6 @@ Can you simplify it without changing its signature or results?
 Keep the check case-sensitive and inspect only the path's syntax.
 Preserve the existing results for paths without an extension and for dotfiles.
 
-Run the local tests with `cargo test --example 06_path`.
-
 ## Code to refactor
 
 ```rust,editable
@@ -16,6 +14,18 @@ Run the local tests with `cargo test --example 06_path`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/06_path.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 06_path
+```
+
+</div>
 
 
 ## Discussion

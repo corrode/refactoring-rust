@@ -4,8 +4,6 @@ This function checks whether a path starts with any configured exclusion prefix.
 Refactor it while preserving its signature and behaviour: absent or empty exclusions return `false`.
 Then consider whether you would change the interface as a separate step.
 
-Run the tests with `cargo test --example 14_excluded_path`.
-
 ## Code to refactor
 
 ```rust,editable
@@ -15,6 +13,18 @@ Run the tests with `cargo test --example 14_excluded_path`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/14_excluded_path.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 14_excluded_path
+```
+
+</div>
 
 
 ## Discussion

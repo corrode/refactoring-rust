@@ -5,8 +5,6 @@ Refactor it without changing the function signature or accepted inputs.
 Keep the accepted range unchanged: zero, malformed text, and out-of-range numbers remain invalid.
 Afterward, consider an alternative API that distinguishes zero from other invalid input.
 
-Run the tests with `cargo test --example 12_parse_port`.
-
 ## Code to refactor
 
 ```rust,editable
@@ -16,6 +14,18 @@ Run the tests with `cargo test --example 12_parse_port`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/12_parse_port.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 12_parse_port
+```
+
+</div>
 
 
 ## Discussion

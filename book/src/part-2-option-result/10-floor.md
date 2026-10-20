@@ -6,7 +6,7 @@ Can you express the calculation more directly?
 Keep the signature, result, and error for the first invalid instruction unchanged.
 
 This exercise comes from [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2015/day/1).
-Run its tests with `cargo test --example 10_floor`.
+
 
 > **TODO**
 >
@@ -22,6 +22,18 @@ Run its tests with `cargo test --example 10_floor`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/10_floor.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 10_floor
+```
+
+</div>
 
 <details class="solution" id="solutions">
 <summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>

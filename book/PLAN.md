@@ -61,7 +61,7 @@ Start with an unnumbered exercise-name title and a short task-specific introduct
 State constraints without giving away the diagnosis or solution. Avoid repeating
 the first chapter's instructions for using the editor and repository.
 
-1. **Code to refactor**: an editable include from `examples/`, followed by an expandable **Tests and callers** editor.
+1. **Code to refactor**: an editable include from `examples/`, followed by an expandable **Tests and local setup** editor.
    Each block has one explicitly attached suite; learners can edit callers when changing an API.
    No EXERCISE or TRY THIS callout.
 2. **Discussion**: independent, initially closed question-and-answer disclosures.

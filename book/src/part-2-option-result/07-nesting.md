@@ -4,8 +4,6 @@ This function trims optional text and returns the remaining text in uppercase.
 Can you make it easier to read without changing its signature or results?
 Keep its behaviour for absent input, empty input, whitespace-only input, and non-empty text surrounded by whitespace.
 
-Run the local tests with `cargo test --example 07_nesting`.
-
 ## Code to refactor
 
 ```rust,editable
@@ -15,6 +13,18 @@ Run the local tests with `cargo test --example 07_nesting`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/07_nesting.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 07_nesting
+```
+
+</div>
 
 
 ## Discussion

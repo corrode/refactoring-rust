@@ -2,7 +2,6 @@
 
 This function checks whether a string starts with an uppercase letter.
 Refactor it while preserving its behaviour and function signature.
-Run the tests locally with `cargo test --example 02_starts_with_uppercase`.
 
 ## Code to refactor
 
@@ -14,6 +13,18 @@ Run the tests locally with `cargo test --example 02_starts_with_uppercase`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/02_starts_with_uppercase.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 02_starts_with_uppercase
+```
+
+</div>
 
 ## Discussion
 

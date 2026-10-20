@@ -6,8 +6,6 @@ Keep the same totals, including for missing entries, empty input, and input with
 Keep the function signature for your first solution.
 Explore different input types as an alternative afterward.
 
-Run the local tests with `cargo test --example 08_optional_values`.
-
 ## Code to refactor
 
 ```rust,editable
@@ -17,6 +15,18 @@ Run the local tests with `cargo test --example 08_optional_values`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/08_optional_values.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 08_optional_values
+```
+
+</div>
 
 
 ## Discussion

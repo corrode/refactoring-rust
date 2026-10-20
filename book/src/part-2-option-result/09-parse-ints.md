@@ -7,8 +7,6 @@ Validation must run every check and collect all errors in input order.
 Keep the original function signatures and results.
 Consider changes to input ownership afterward as a separate alternative.
 
-Run the local tests with `cargo test --example 09_parse_ints`.
-
 ## Code to refactor
 
 ```rust,editable
@@ -18,6 +16,18 @@ Run the local tests with `cargo test --example 09_parse_ints`.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/09_parse_ints.rs:tests}}
 </script>
+
+<div class="playground-local-setup">
+
+**Run locally**
+
+From the repository root:
+
+```sh
+cargo test --example 09_parse_ints
+```
+
+</div>
 
 
 ## Discussion
