@@ -146,12 +146,12 @@ All versions reject " yes ", "yesterday", and "yés".
 # 01 · Compare the consequences
 
 <style scoped>
-table {
+.slidev-layout table {
   margin: 1rem 0;
 }
-th,
-td {
-  padding: 0.5rem 0.75rem;
+.slidev-layout table th,
+.slidev-layout table td {
+  padding: 0.3rem 0.75rem;
 }
 </style>
 
@@ -176,7 +176,7 @@ td {
 
 </div>
 
-<div class="mt-6 text-base">
+<div class="mt-3 text-base">
 Choose the accepted inputs first. Allocation counts aren't benchmark results.
 </div>
 

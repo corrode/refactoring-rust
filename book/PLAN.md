@@ -197,9 +197,8 @@ Style rules (the full version lives in `book/STYLE.md`):
 
 **Front matter (in order, before Part I):**
 
-1. **Intro.** Introduces the book and its approach.
-2. **How to use this book.** Enumerates the modes: **Solo**, **Pair**,
-   **Book club / team**, **Workshop facilitator**.
+1. **Refactoring Rust.** Introduces the book and its approach.
+   Its **How to use this book** section covers **Solo**, **Pair**, **Book club / team**, and **Workshop facilitator** modes.
 **Back matter (appendix, in order):**
 
 3. **How to run a code review.** ~5–8 pages, pure prose, no Rust-specific
@@ -246,7 +245,7 @@ refactoring/
 │   ├── src/
 │   │   ├── SUMMARY.md
 │   │   ├── intro.md
-│   │   ├── how-to-use.md
+
 
 │   │   ├── part-1-warmups/
 │   │   │   ├── README.md

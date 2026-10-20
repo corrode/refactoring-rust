@@ -1,7 +1,6 @@
 # Summary
 
-[Intro](intro.md)
-[How to use this book](how-to-use.md)
+[Refactoring Rust](intro.md)
 
 
 ---

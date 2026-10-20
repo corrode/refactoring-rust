@@ -37,6 +37,9 @@ heading-split-level = 3
 [output.html.print]
 enable = true
 
+[output.html.redirect]
+"how-to-use.html" = "intro.html#how-to-use-this-book"
+
 [rust]
 edition = "2024"
 

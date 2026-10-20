@@ -8,6 +8,9 @@ layout: default
 This works. Make it nicer.
 </div>
 
+<div class="grid grid-cols-[2fr_3fr] gap-4">
+<div>
+
 ```rust
 pub fn quicksort(input: &[i32]) -> Vec<i32> {
     let mut values = input.to_vec();
@@ -17,7 +20,12 @@ pub fn quicksort(input: &[i32]) -> Vec<i32> {
     }
     values
 }
+```
 
+</div>
+<div>
+
+```rust
 fn sort_range(values: &mut [i32], lo: usize, hi: usize) {
     if lo >= hi { return; }
     let pivot = values[hi];
@@ -31,6 +39,9 @@ fn sort_range(values: &mut [i32], lo: usize, hi: usize) {
     sort_range(values, i + 1, hi);
 }
 ```
+
+</div>
+</div>
 
 <div class="absolute bottom-6 right-12 text-sm opacity-60">
 <code>cargo test --example 24_quicksort</code>
