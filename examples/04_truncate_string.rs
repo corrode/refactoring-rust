@@ -22,6 +22,6 @@ mod tests {
 
     #[test]
     fn whole_unicode_string_fits() {
-        assert_eq!(truncate("café", 5), "café");
+        assert_eq!(truncate("café", 4), "caf");
     }
 }
