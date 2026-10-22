@@ -310,7 +310,7 @@ Choose types and methods, then update callers and tests.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 26–33
+Exercises 26–34
 </div>
 
 ---
@@ -338,11 +338,15 @@ src: ./pages/31_typed_ids.md
 ---
 
 ---
-src: ./pages/32_secret_token.md
+src: ./pages/32_validation_feedback.md
 ---
 
 ---
-src: ./pages/33_config_typestate.md
+src: ./pages/33_secret_token.md
+---
+
+---
+src: ./pages/34_config_typestate.md
 ---
 
 ---
@@ -360,15 +364,15 @@ Lastly, two larger bonus problems.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 34–35
+Exercises 35–36
 </div>
 
 ---
-src: ./pages/34_env_file_parser.md
+src: ./pages/35_env_file_parser.md
 ---
 
 ---
-src: ./pages/35_mini_redis.md
+src: ./pages/36_mini_redis.md
 ---
 
 ---

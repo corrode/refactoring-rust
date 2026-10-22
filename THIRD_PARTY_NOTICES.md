@@ -1,4 +1,4 @@
-# Third-party notices for exercises 30–33
+# Third-party notices for exercises 30–31 and 33–34
 
 This file records the upstream sources and MIT notices for these four exercises only; it is not a repository-wide dependency inventory.
 The notices below were fetched from the same commits cited in the chapters.
@@ -74,13 +74,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## 32 · secrecy secret access and redaction
+## 33 · secrecy secret access and redaction
 
 - Project: [iqlusioninc/crates, secrecy](https://github.com/iqlusioninc/crates/tree/main/secrecy).
 - Verified PR: [#1140, secrecy: rework the `SecretBox` type](https://github.com/iqlusioninc/crates/pull/1140).
 - Pinned source: [`secrecy/src/lib.rs`, lines 141–162](https://github.com/iqlusioninc/crates/blob/f98d4ccf1e81d2fb9daaa7a5458f8064ecb563a2/secrecy/src/lib.rs#L141-L162), at the PR's merge commit.
 - License notice recorded here: [MIT notice at the same commit](https://github.com/iqlusioninc/crates/blob/f98d4ccf1e81d2fb9daaa7a5458f8064ecb563a2/secrecy/LICENSE-MIT).
-- Local files: `examples/32_secret_token.rs`, `solutions/32_secret_token.rs`, `book/src/part-5-domain-modeling/32-secret-token.md`, and `slides/pages/32_secret_token.md`.
+- Local files: `examples/33_secret_token.rs`, `solutions/33_secret_token.rs`, `book/src/part-5-domain-modeling/33-secret-token.md`, and `slides/pages/33_secret_token.md`.
 
 Both workshop implementations are instructor-created fixtures inspired by explicit access and redacted debugging, not historical upstream code.
 PR #1140 restructures `SecretBox`; it is not evidence of an upstream version of the starter's derived-`Debug` leak.
@@ -110,12 +110,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## 33 · rustls staged configuration
+## 34 · rustls staged configuration
 
 - Project: [rustls](https://github.com/rustls/rustls).
 - Pinned source: [`rustls/src/client/builder.rs`, lines 16–31](https://github.com/rustls/rustls/blob/792045ba685965edc6f872cb8fcdd3136c8f0ef8/rustls/src/client/builder.rs#L16-L31).
 - License notice recorded here: [MIT notice at the same commit](https://github.com/rustls/rustls/blob/792045ba685965edc6f872cb8fcdd3136c8f0ef8/LICENSE-MIT).
-- Local files: `examples/33_config_typestate.rs`, `solutions/33_config_typestate.rs`, `book/src/part-5-domain-modeling/33-config-typestate.md`, and `slides/pages/33_config_typestate.md`.
+- Local files: `examples/34_config_typestate.rs`, `solutions/34_config_typestate.rs`, `book/src/part-5-domain-modeling/34-config-typestate.md`, and `slides/pages/34_config_typestate.md`.
 
 The runtime starter and concrete-state solution are instructor-created fixtures, not upstream excerpts.
 They simplify the idea demonstrated by rustls's generic typed transition and omit TLS validation and subsequent configuration stages.

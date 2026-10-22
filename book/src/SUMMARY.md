@@ -55,14 +55,15 @@
   - [29 · config_loader](part-5-domain-modeling/29-config-loader.md)
   - [30 · buffer_policy](part-5-domain-modeling/30-buffer-policy.md)
   - [31 · typed_ids](part-5-domain-modeling/31-typed-ids.md)
-  - [32 · secret_token](part-5-domain-modeling/32-secret-token.md)
-  - [33 · config_typestate](part-5-domain-modeling/33-config-typestate.md)
+  - [32 · validation_feedback](part-5-domain-modeling/32-validation-feedback.md)
+  - [33 · secret_token](part-5-domain-modeling/33-secret-token.md)
+  - [34 · config_typestate](part-5-domain-modeling/34-config-typestate.md)
 
 # Part VI. Capstone
 
 - [Overview](part-6-capstone/README.md)
-  - [34 · env_file_parser](part-6-capstone/34-env-file-parser.md)
-  - [35 · mini_redis](part-6-capstone/35-mini-redis.md)
+  - [35 · env_file_parser](part-6-capstone/35-env-file-parser.md)
+  - [36 · mini_redis](part-6-capstone/36-mini-redis.md)
 
 ---
 

@@ -3,7 +3,7 @@ layout: default
 zoom: 0.9
 ---
 
-# 33 · `config_typestate`
+# 34 · `config_typestate`
 
 ```rust
 #[derive(Default)]
@@ -26,7 +26,7 @@ impl ConfigBuilder {
 
 <div class="absolute bottom-6 left-12 right-12 text-xs opacity-70">
 Inspired by <a href="https://github.com/rustls/rustls">rustls</a>. This runtime starter is ours, not historical rustls code.<br>
-<code>RootStore</code> holds a label, not certificates. Full source: <code>examples/33_config_typestate.rs</code>.
+<code>RootStore</code> holds a label, not certificates. Full source: <code>examples/34_config_typestate.rs</code>.
 </div>
 
 <!--
@@ -37,7 +37,7 @@ The original builder permits repeated settings, keeping the last store.
 
 ---
 
-# 33 · Review
+# 34 · Review
 
 - Can callers build before supplying roots?
 - What happens when callers supply roots twice?
@@ -59,7 +59,7 @@ problems; a supplied store can still be empty or inappropriate.
 zoom: 0.9
 ---
 
-# 33 · Possible solution: concrete states
+# 34 · Possible solution: concrete states
 
 ```rust
 #[derive(Default)]
@@ -83,7 +83,7 @@ impl Ready {
 
 <div class="absolute bottom-6 left-12 right-12 text-xs opacity-70">
 Rust: <a href="https://doc.rust-lang.org/reference/visibility-and-privacy.html">private fields</a> restrict direct construction to the defining module and its descendants.<br>
-Full source: <code>solutions/33_config_typestate.rs</code>. Neither state implements <code>Copy</code> or <code>Clone</code>.
+Full source: <code>solutions/34_config_typestate.rs</code>. Neither state implements <code>Copy</code> or <code>Clone</code>.
 </div>
 
 <!--
@@ -98,7 +98,7 @@ compile-fail tests should cover early build and reuse after consumption.
 
 ---
 
-# 33 · What does `Ready` prove?
+# 34 · What does `Ready` prove?
 
 - A store was supplied, not validated.
 - Owning `Ready` permits one consuming build.

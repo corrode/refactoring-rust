@@ -3,7 +3,7 @@ layout: default
 zoom: 0.9
 ---
 
-# 32 · `secret_token`
+# 33 · `secret_token`
 
 ```rust
 #[derive(Debug)]
@@ -27,7 +27,7 @@ Instructor-created example inspired by <a href="https://github.com/iqlusioninc/c
 </div>
 
 <!--
-Full starter: examples/32_secret_token.rs; run cargo test --example 32_secret_token.
+Full starter: examples/33_secret_token.rs; run cargo test --example 33_secret_token.
 Keep the username visible and preserve deliberate access to the original token.
 The existing secrecy design already redacts Debug. Do not present this starter
 as the before-version of PR #1140.
@@ -35,7 +35,7 @@ as the before-version of PR #1140.
 
 ---
 
-# 32 · Review
+# 33 · Review
 
 - What does `format!("{credentials:?}")` expose? What about `{credentials:#?}`?
 - Would private fields change derived `Debug` output?
@@ -55,7 +55,7 @@ from searching for an empty secret, the visible username, or the marker itself.
 zoom: 0.8
 ---
 
-# 32 · Possible solution: `Token`
+# 33 · Possible solution: `Token`
 
 ```rust
 pub struct Token(String);
@@ -89,8 +89,8 @@ Design reference: <a href="https://github.com/iqlusioninc/crates/blob/f98d4ccf1e
 </div>
 
 <!--
-Full solution and constructor: solutions/32_secret_token.rs.
-Run cargo test --example 32_secret_token_solution.
+Full solution and constructor: solutions/33_secret_token.rs.
+Run cargo test --example 33_secret_token_solution.
 The constructor now accepts Token instead of String. Callers read through
 credentials.token.expose(); this is deliberate access, not prevention of access.
 Both normal and pretty formatting redact, including nested Credentials.

@@ -131,19 +131,23 @@ name = "31_typed_ids"
 crate-type = ["lib"]
 
 [[example]]
-name = "32_secret_token"
+name = "32_validation_feedback"
 crate-type = ["lib"]
 
 [[example]]
-name = "33_config_typestate"
+name = "33_secret_token"
 crate-type = ["lib"]
 
 [[example]]
-name = "34_env_file_parser"
+name = "34_config_typestate"
 crate-type = ["lib"]
 
 [[example]]
-name = "35_mini_redis"
+name = "35_env_file_parser"
+crate-type = ["lib"]
+
+[[example]]
+name = "36_mini_redis"
 crate-type = ["lib"]
 
 # --- Solutions (parallel to examples/; used as the "after" reference) ---
@@ -380,31 +384,36 @@ path = "solutions/31_typed_ids.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "32_secret_token_solution"
-path = "solutions/32_secret_token.rs"
+name = "32_validation_feedback_solution"
+path = "solutions/32_validation_feedback.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "33_config_typestate_solution"
-path = "solutions/33_config_typestate.rs"
+name = "33_secret_token_solution"
+path = "solutions/33_secret_token.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "34_env_file_parser_solution"
-path = "solutions/34_env_file_parser.rs"
+name = "34_config_typestate_solution"
+path = "solutions/34_config_typestate.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "34_env_file_parser_alt"
-path = "solutions/34_env_file_parser_alt.rs"
+name = "35_env_file_parser_solution"
+path = "solutions/35_env_file_parser.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "35_mini_redis_solution"
-path = "solutions/35_mini_redis.rs"
+name = "35_env_file_parser_alt"
+path = "solutions/35_env_file_parser_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "35_mini_redis_alt"
-path = "solutions/35_mini_redis_alt.rs"
+name = "36_mini_redis_solution"
+path = "solutions/36_mini_redis.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "36_mini_redis_alt"
+path = "solutions/36_mini_redis_alt.rs"
 crate-type = ["lib"]

@@ -12,11 +12,11 @@ The linked source demonstrates a typed API; it is not evidence of a before-and-a
 ## Code to refactor
 
 ```rust,editable
-{{#include ../../../examples/33_config_typestate.rs:listing}}
+{{#include ../../../examples/34_config_typestate.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../examples/33_config_typestate.rs:tests}}
+{{#include ../../../examples/34_config_typestate.rs:tests}}
 </script>
 
 
@@ -67,11 +67,11 @@ As with [Rooms](26-rooms.md), ownership and private storage are not content vali
 ### Give each stage its own operations
 
 ```rust,editable
-{{#include ../../../solutions/33_config_typestate.rs:listing}}
+{{#include ../../../solutions/34_config_typestate.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../solutions/33_config_typestate.rs:tests}}
+{{#include ../../../solutions/34_config_typestate.rs:tests}}
 </script>
 
 `NeedsRoots` has `with_roots`, but no `build` method.

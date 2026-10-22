@@ -10,11 +10,11 @@ One starter test intentionally fails; make it pass without weakening its asserti
 ## Code to refactor
 
 ```rust,editable
-{{#include ../../../examples/32_secret_token.rs:listing}}
+{{#include ../../../examples/33_secret_token.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests" data-expected-failures="tests::debug_does_not_leak_token">
-{{#include ../../../examples/32_secret_token.rs:tests}}
+{{#include ../../../examples/33_secret_token.rs:tests}}
 </script>
 
 <div class="playground-local-setup">
@@ -24,7 +24,7 @@ One starter test intentionally fails; make it pass without weakening its asserti
 From the repository root:
 
 ```sh
-cargo test --example 32_secret_token
+cargo test --example 33_secret_token
 ```
 
 </div>
@@ -79,11 +79,11 @@ Test both formatting modes, including credentials nested inside another derived 
 ### A token with explicit access
 
 ```rust,editable
-{{#include ../../../solutions/32_secret_token.rs:listing}}
+{{#include ../../../solutions/33_secret_token.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../solutions/32_secret_token.rs:tests}}
+{{#include ../../../solutions/33_secret_token.rs:tests}}
 </script>
 
 `Token` owns a `String`, but its tuple field is private.

@@ -161,12 +161,12 @@ fn typed_ids_starter_fails_desired_behavior_and_solution_passes() {
 #[test]
 fn secret_token_starter_fails_desired_behavior_and_solution_passes() {
     check_exercise_test(
-        "examples/32_secret_token.rs",
+        "examples/33_secret_token.rs",
         "tests::debug_does_not_leak_token",
         Some("Debug output must not contain the token"),
     );
     check_exercise_test(
-        "solutions/32_secret_token.rs",
+        "solutions/33_secret_token.rs",
         "tests::credentials_keep_username_visible_and_token_explicit",
         None,
     );
@@ -206,9 +206,50 @@ fn declaration_lookup_rejects_variable_id() {
 }
 
 #[test]
+fn validation_feedback_renders_typed_categories() {
+    check(
+        "32_validation_feedback.rs",
+        r#"
+        let messages: Vec<&'static str> = {
+            let report = ValidationReport {
+                feedback: vec![Feedback::MissingDigit, Feedback::TooShort],
+            };
+            report.suggestions()
+        };
+        assert_eq!(messages, ["Include a digit.", "Use at least eight characters."]);
+        "#,
+        None,
+    );
+}
+
+#[test]
+fn validation_feedback_rejects_string_categories() {
+    check(
+        "32_validation_feedback.rs",
+        r#"let _ = ValidationReport { feedback: vec![String::from("missing digit")] };"#,
+        Some("E0308"),
+    );
+}
+
+#[test]
+fn validation_feedback_requires_all_categories_in_a_match() {
+    check(
+        "32_validation_feedback.rs",
+        r#"
+        let feedback = Feedback::TooShort;
+        let _ = match feedback {
+            Feedback::TooShort => "Use at least eight characters.",
+            Feedback::MissingUppercase => "Include an uppercase letter.",
+        };
+        "#,
+        Some("E0004"),
+    );
+}
+
+#[test]
 fn token_allows_explicit_exposure_and_redacted_debug() {
     check(
-        "32_secret_token.rs",
+        "33_secret_token.rs",
         r#"
         let credentials = Credentials::new("alice".into(), Token::new("secret".into()));
         assert_eq!(credentials.username, "alice");
@@ -225,7 +266,7 @@ fn token_allows_explicit_exposure_and_redacted_debug() {
 #[test]
 fn token_storage_is_private() {
     check(
-        "32_secret_token.rs",
+        "33_secret_token.rs",
         "let token = Token::new(String::new()); let _ = token.0;",
         Some("E0616"),
     );
@@ -234,7 +275,7 @@ fn token_storage_is_private() {
 #[test]
 fn token_does_not_implement_display() {
     check(
-        "32_secret_token.rs",
+        "33_secret_token.rs",
         r#"let token = Token::new(String::new()); let _ = format!("{token}");"#,
         Some("E0277"),
     );
@@ -243,7 +284,7 @@ fn token_does_not_implement_display() {
 #[test]
 fn configured_builder_builds() {
     check(
-        "33_config_typestate.rs",
+        "34_config_typestate.rs",
         r#"
         let ready: Ready = NeedsRoots.with_roots(RootStore::new("roots".into()));
         let config: ClientConfig = ready.build();
@@ -256,7 +297,7 @@ fn configured_builder_builds() {
 #[test]
 fn builder_cannot_build_before_receiving_roots() {
     check(
-        "33_config_typestate.rs",
+        "34_config_typestate.rs",
         "NeedsRoots.build();",
         Some("E0599"),
     );
@@ -265,7 +306,7 @@ fn builder_cannot_build_before_receiving_roots() {
 #[test]
 fn ready_cannot_be_reused_after_build() {
     check(
-        "33_config_typestate.rs",
+        "34_config_typestate.rs",
         r#"
         let ready = NeedsRoots.with_roots(RootStore::new(String::new()));
         let _ = ready.build();
@@ -278,7 +319,7 @@ fn ready_cannot_be_reused_after_build() {
 #[test]
 fn ready_cannot_be_constructed_directly() {
     check(
-        "33_config_typestate.rs",
+        "34_config_typestate.rs",
         "let _ = Ready { roots: RootStore::new(String::new()) };",
         Some("E0451"),
     );

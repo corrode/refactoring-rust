@@ -1,6 +1,6 @@
 # Roadmap
 
-The book contains thirty-five exercises in six parts. Read them in order, jump
+The book contains thirty-six exercises in six parts. Read them in order, jump
 to the topic you need, or use this page to choose where to start. Each chapter
 stands on its own, while each part develops one group of related ideas.
 
@@ -53,22 +53,24 @@ In chapter 22, implementing `Iterator` makes methods such as `take`, `map`,
 `zip`, and `collect` available to your type. Chapter 25
 (`quicksort`) is an optional bonus exercise. Skip it when time is short.
 
-## Part V. Domain modeling (chapters 26–33)
+## Part V. Domain modeling (chapters 26–34)
 
-Part V moves from syntax to data and API design across eight exercises.
+Part V moves from syntax to data and API design across nine exercises.
 Chapter 26 groups room aggregates on an owned **newtype**, revisiting the iterator functions from chapter 16.
 Chapter 27 validates IBAN prefixes, chapter 28 uses enums to separate routing decisions from side effects, and chapter 29 combines visibility with layered configuration through `TryFrom` and `FromStr`.
-Chapter 30 models buffer sizing policies, chapter 31 separates ID types, chapter 32 controls access to secrets and their diagnostic output, and chapter 33 uses typestate to constrain configuration steps.
+Chapter 30 models buffer sizing policies, and chapter 31 separates ID types.
+Chapter 32 separates validation categories from display messages in a fresh instructor-created fixture inspired by beginner submissions, not copied from a learner's code.
+Chapter 33 controls access to secrets and their diagnostic output, and chapter 34 uses typestate to constrain configuration steps.
 
 If your team's Rust reviews spend more time on types and design than syntax,
 start here.
 
-## Part VI. Capstone (chapters 34–35)
+## Part VI. Capstone (chapters 35–36)
 
-The final two refactors combine most of the earlier work. Chapter 34 is a
-parser. Chapter 35 is a small `redis`-style server. Both include production
-concerns to investigate: additional tests, edge cases, and design decisions
-that compilation alone can't settle.
+The final two refactors combine most of the earlier work.
+Chapter 35 is a parser.
+Chapter 36 is a small `redis`-style server.
+Both include production concerns to investigate: additional tests, edge cases, and design decisions that compilation alone can't settle.
 
 The capstones introduce no new concepts. They show how the rest of the book's
 techniques interact in larger code.
@@ -89,7 +91,7 @@ book:
 
 - The [Cheatsheet](concept-index.md) lists every named concept and links
   to each chapter that uses it.
-- The [Trade-off matrix](trade-off-matrix.md) puts all thirty-five
+- The [Trade-off matrix](trade-off-matrix.md) puts all thirty-six
   canonical solutions and their scores side by side.
 - [Further reading](further-reading.md) collects and deduplicates every
   external resource cited in the book.
