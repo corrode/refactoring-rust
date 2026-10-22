@@ -4,7 +4,7 @@
 //! is also unchanged: SET and HSET ignore extra arguments, short SET returns an
 //! error, and short LPUSH or HSET panics.
 //!
-//! `36_mini_redis_alt.rs` preserves the API-changing redesign: one typed store,
+//! `37_mini_redis_alt.rs` preserves the API-changing redesign: one typed store,
 //! parsed commands, centralized replies, cross-type rejection, and arity errors.
 //! Those are separate contract changes, not part of this compatibility refactor.
 //! Despite the alternative's original comment, real Redis SET replaces existing

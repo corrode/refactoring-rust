@@ -40,13 +40,15 @@ jobs:
       - name: Cache cargo
         uses: Swatinem/rust-cache@v2
 
-      # Integration tests verify these two intentional starter assertion failures.
+      # Integration tests verify intentional starter failures.
       # Solution tests have different names and must still run.
       - name: Test examples + solutions + integration tests
         run: >-
           cargo test --examples --tests --all-features -- --exact
           --skip tests::variable_and_declaration_ids_are_distinct
           --skip tests::debug_does_not_leak_token
+          --skip tests::self_friendship_is_a_noop
+          --skip tests::people_with_same_name_are_distinct
 
       - name: Install mdBook
         run: |

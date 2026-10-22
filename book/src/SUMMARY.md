@@ -58,12 +58,13 @@
   - [32 · validation_feedback](part-5-domain-modeling/32-validation-feedback.md)
   - [33 · secret_token](part-5-domain-modeling/33-secret-token.md)
   - [34 · config_typestate](part-5-domain-modeling/34-config-typestate.md)
+  - [35 · friends (advanced)](part-5-domain-modeling/35-friends.md)
 
 # Part VI. Capstone
 
 - [Overview](part-6-capstone/README.md)
-  - [35 · env_file_parser](part-6-capstone/35-env-file-parser.md)
-  - [36 · mini_redis](part-6-capstone/36-mini-redis.md)
+  - [36 · env_file_parser](part-6-capstone/36-env-file-parser.md)
+  - [37 · mini_redis](part-6-capstone/37-mini-redis.md)
 
 ---
 

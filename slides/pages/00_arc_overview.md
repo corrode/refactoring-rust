@@ -39,7 +39,7 @@
 <div class="flex items-baseline gap-5">
   <div class="text-3xl font-bold opacity-60 w-8">5</div>
   <div>
-    <div class="text-xl"><strong>Domain modeling</strong> <span class="opacity-50 text-base ml-2">26–34</span></div>
+    <div class="text-xl"><strong>Domain modeling</strong> <span class="opacity-50 text-base ml-2">26–35</span></div>
     <div class="opacity-70 text-sm">Types, APIs, and validation categories separate from display messages.</div>
   </div>
 </div>
@@ -47,7 +47,7 @@
 <div class="flex items-baseline gap-5">
   <div class="text-3xl font-bold opacity-60 w-8">6</div>
   <div>
-    <div class="text-xl"><strong>Capstone</strong> <span class="opacity-50 text-base ml-2">35–36</span></div>
+    <div class="text-xl"><strong>Capstone</strong> <span class="opacity-50 text-base ml-2">36–37</span></div>
     <div class="opacity-70 text-sm">Two larger bonus problems.</div>
   </div>
 </div>

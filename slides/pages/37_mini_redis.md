@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# 36 · `mini_redis`
+# 37 · `mini_redis`
 
 <div class="opacity-80 mb-4">
 A tiny Redis-flavored store. Three commands, three data types.
@@ -31,7 +31,7 @@ pub fn handle(db: &mut Db, args: &[&str]) -> String {
 ```
 
 <div class="absolute top-30 right-12 text-sm opacity-60">
-<code>cargo test --example 36_mini_redis</code>
+<code>cargo test --example 37_mini_redis</code>
 </div>
 
 <!--
@@ -58,7 +58,7 @@ a command? what's the type of a response?" Each answer collapses code.
 
 ---
 
-# 36 · Review
+# 37 · Review
 
 - Three storage maps for three data types. What does a *key* actually point to?
 - Can the same key live in two maps at once? Should it? What would Redis itself say?
@@ -69,7 +69,7 @@ a command? what's the type of a response?" Each answer collapses code.
 
 ---
 
-# 36 · Show me the code! 
+# 37 · Show me the code! 
 
 Come up with your own solution!
 Keep `handle(db: &mut Db, args: &[&str]) -> String` and the public `Db` fields first.

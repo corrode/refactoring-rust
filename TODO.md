@@ -1,6 +1,6 @@
 # Remaining workshop slide todos
 
-> Exercise numbers below use the current 01–36 numbering, starting with `01_is_yes`.
+> Exercise numbers below use the current 01–37 numbering, starting with `01_is_yes`.
 > The "(was N)" hint shows the old number where useful.
 
 ---

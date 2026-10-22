@@ -173,6 +173,30 @@ fn secret_token_starter_fails_desired_behavior_and_solution_passes() {
 }
 
 #[test]
+fn friends_starter_panics_on_self_friendship_and_solution_passes() {
+    check_exercise_test(
+        "examples/35_friends.rs",
+        "tests::self_friendship_is_a_noop",
+        Some("already mutably borrowed"),
+    );
+    check_exercise_test("solutions/35_friends.rs", "tests::own_id_is_a_noop", None);
+}
+
+#[test]
+fn friends_starter_rejects_equal_names_and_solution_passes() {
+    check_exercise_test(
+        "examples/35_friends.rs",
+        "tests::people_with_same_name_are_distinct",
+        Some("distinct people with the same name must be able to be friends"),
+    );
+    check_exercise_test(
+        "solutions/35_friends.rs",
+        "tests::equal_names_have_distinct_ids",
+        None,
+    );
+}
+
+#[test]
 fn typed_ids_allow_matching_categories() {
     check(
         "31_typed_ids.rs",
@@ -322,5 +346,47 @@ fn ready_cannot_be_constructed_directly() {
         "34_config_typestate.rs",
         "let _ = Ready { roots: RootStore::new(String::new()) };",
         Some("E0451"),
+    );
+}
+
+#[test]
+fn people_allow_id_based_friendships_and_borrowed_views() {
+    check(
+        "35_friends.rs",
+        r#"
+        let mut people = People::default();
+        let alice: PersonId = people.add("Alice");
+        let bob = people.add("Bob");
+        assert_eq!(people.add_friend(alice, bob), Some(()));
+        let person: &Person = people.get(alice).unwrap();
+        let name: &str = person.name();
+        let friends: &[PersonId] = person.friends();
+        assert_eq!(name, "Alice");
+        assert_eq!(friends, &[bob]);
+        assert_eq!(people.add_friend(bob, alice), Some(()));
+        assert_eq!(people.get(bob).unwrap().friends(), &[alice]);
+        "#,
+        None,
+    );
+}
+
+#[test]
+fn person_id_cannot_be_constructed_directly() {
+    check("35_friends.rs", "let _ = PersonId(0);", Some("E0423"));
+}
+
+#[test]
+fn people_cannot_mutate_while_a_person_view_is_live() {
+    check(
+        "35_friends.rs",
+        r#"
+        let mut people = People::default();
+        let alice = people.add("Alice");
+        let bob = people.add("Bob");
+        let person = people.get(alice).unwrap();
+        assert_eq!(people.add_friend(alice, bob), Some(()));
+        assert!(person.friends().is_empty());
+        "#,
+        Some("E0502"),
     );
 }

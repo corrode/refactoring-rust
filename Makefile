@@ -9,7 +9,9 @@ help: ## Show this help message
 test: ## Run tests; intentional starter failures are verified separately by integration tests
 	cargo test --examples --tests --all-features -- --exact \
 		--skip tests::variable_and_declaration_ids_are_distinct \
-		--skip tests::debug_does_not_leak_token
+		--skip tests::debug_does_not_leak_token \
+		--skip tests::self_friendship_is_a_noop \
+		--skip tests::people_with_same_name_are_distinct
 
 .PHONY: dev
 dev: ## Start the Slidev dev server
