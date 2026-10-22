@@ -41,6 +41,10 @@ A caller can pass a declaration ID to `variable`, or a variable ID to `declarati
 The starter test `variable_and_declaration_ids_are_distinct` asserts that the categories have different types.
 It fails because both aliases refer to `usize`.
 
+An alias is useful when you want another name for an existing type and intend the two names to remain interchangeable.
+Use a newtype when callers must distinguish meanings or when the type needs its own operations.
+Here the distinction affects which lookup a caller may use, so a name alone is not enough.
+
 </details>
 
 <details class="discussion-question">
@@ -94,6 +98,10 @@ No extra allocation or traversal is involved.
 The ID fields are public too: callers write `VarId(1)` or `DeclId(0)`.
 There is no validation to hide behind a constructor, so separate `new` and `get` methods would add little to this example.
 `Copy` and `Clone` let callers reuse an ID; `Debug`, equality, and hashing support diagnostics, comparisons, and map keys.
+
+The public tuple field also exposes `usize` as part of the API.
+If you want to change the stored representation independently of callers later, keep that field private and provide construction and access methods.
+A newtype separates meanings, but it only hides its representation when its visibility and methods do so.
 
 ### Migrate callers and tests
 
@@ -172,6 +180,7 @@ This API deliberately removes interchangeability; it is not a drop-in replacemen
 - [Newtypes](https://doc.rust-lang.org/rust-by-example/generics/new_types.html): distinguish values that share a representation.
 - [Rooms](26-rooms.md): another domain API change, and why wrapping data does not validate it.
 - [Type aliases](https://doc.rust-lang.org/reference/items/type-aliases.html): aliases name existing types rather than creating new ones.
+- [Google Rust Style Guide: newtypes versus type aliases](https://google.github.io/styleguide/rustguide.html#newtypes-versus-type-aliases): use distinct types for semantic differences, dedicated operations, or values callers must not mix.
 - [`PhantomData`](https://doc.rust-lang.org/std/marker/struct.PhantomData.html): represent a type parameter without storing a value of that type.
 - [Nushell PR #13832](https://github.com/nushell/nushell/pull/13832): the production refactor that inspired this exercise.
 

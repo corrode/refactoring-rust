@@ -79,6 +79,10 @@ An enum holds one policy at a time.
 There is no variant for selecting both.
 This enum is a workshop redesign, not a claimed upstream refactor.
 
+For a policy parameter, a named enum variant also tells you more than an unexplained `true` or `false` at a call site.
+Prefer that distinction when the boolean's purpose isn't clear.
+A predicate such as [`is_excluded`](../part-3-aggregations/14-excluded-path.md) answers a yes/no question, so its `bool` result needs no replacement.
+
 Each setter replaces the whole value, so it no longer needs to clear a second field.
 The assertion still runs before assignment.
 If it panics, the previous policy remains intact.
@@ -141,6 +145,7 @@ Keep the original representation if its private mutation paths are easy to audit
 
 - [Enums](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html): represent mutually exclusive choices with their associated data.
 - [Pattern matching](https://doc.rust-lang.org/book/ch06-02-match.html): inspect a policy and handle every variant.
+- [Google Rust Style Guide: enum parameters instead of unclear booleans](https://google.github.io/styleguide/rustguide.html#prefer-enum-over-bool-in-apis): name a policy when a boolean argument would hide its meaning.
 - [Rooms](26-rooms.md): distinguish an API redesign from validation of its contents.
 - [hyper](https://github.com/hyperium/hyper): inspiration for this exercise.[^source]
 

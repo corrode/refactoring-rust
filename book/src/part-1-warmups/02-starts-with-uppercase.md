@@ -53,6 +53,7 @@ Do we need it?</summary>
 
 The early return for `s.len() == 0` makes this `unwrap` safe: a nonempty UTF-8 string has at least one character.
 Handling the `Option<char>` from `chars().next()` avoids the `unwrap` and the separate empty-input check.
+Matching `Some(first)` binds the character only in the branch where it exists, instead of relying on the earlier length check to justify a later `unwrap`.
 
 </details>
 
@@ -112,6 +113,8 @@ If you can change the API, the same implementation can borrow its input:
 </script>
 
 The borrowed signature accepts string literals, borrowed `String` values, and other string slices without taking ownership.
+An `&String` would still require a `String` behind the borrow, even though this function only needs the text.
+For immutable inputs, the same reasoning favours `&[T]` over `&Vec<T>` and `&T` over `&Box<T>` when the function only needs the contained data.
 Callers that previously passed a `String` must now borrow it.
 This is a separate API change, not part of the signature-preserving refactor above.
 
@@ -167,3 +170,5 @@ Empty input is an ordinary `false`, not an error.
 - [`Iterator::next`](../appendix/concept-index.md#iterator-next): request the first item directly and receive `Option` when the iterator might be empty.
 - [`Option::is_some_and`](../appendix/concept-index.md#option-is-some-and): test both presence and a condition without calling `unwrap`.
 - [Unicode scalar values](../appendix/concept-index.md#unicode-scalar-values): a Rust string is UTF-8, so its first byte and its first `char` answer different questions.
+- [Google Rust Style Guide: flexible immutable references](https://google.github.io/styleguide/rustguide.html#accept-flexible-references-for-immutable-data): borrow the data rather than requiring a particular owning wrapper.
+- [Google Rust Style Guide: pattern matching over check-then-unwrap](https://google.github.io/styleguide/rustguide.html#prefer-pattern-matching-over-check-then-unwrap): bind a present value directly rather than checking and unwrapping it separately.

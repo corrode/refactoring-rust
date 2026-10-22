@@ -126,6 +126,7 @@ pub fn is_excluded(
 
 A caller with an `Option<HashSet<PathBuf>>` can pass `excluded.as_ref()`.
 The function receives an optional reference to the set rather than a reference to the original `Option`.
+A caller with a standalone set can instead pass `Some(&set)`, without moving the set into an owning `Option`.
 
 If absence and emptiness mean the same thing, remove `Option` and put the candidate path first:
 
@@ -163,6 +164,8 @@ mod tests {
 This signature removes the distinction between absent and empty exclusions.
 It still exposes `HashSet`, although this prefix search checks entries one by one rather than using hash lookups.
 The set does prevent duplicate prefixes.
+An `IntoIterator` parameter over borrowed prefixes could let a library accept other collections or a filtered iterator without requiring callers to build a set.
+If all application call sites already use a `HashSet`, keep the concrete borrow unless that flexibility solves a real need.
 
 To hide the collection from callers, give it a dedicated type with an exclusion-checking method:
 
@@ -296,3 +299,5 @@ None of these versions guarantees filesystem containment.
 - [Empty collections as identity values](../appendix/concept-index.md#empty-collections): use an empty collection for “no configured items” when absence carries no additional information.
 - [Newtypes](../appendix/concept-index.md#newtype): hide storage and put domain policy behind a dedicated interface.
 - [Lexical path matching](../appendix/concept-index.md#lexical-path-matching): path component checks do not resolve filesystem identity.
+- [Google Rust Style Guide: flexible immutable references](https://google.github.io/styleguide/rustguide.html#accept-flexible-references-for-immutable-data): accept `Option<&T>` without requiring the caller to store an `Option<T>`.
+- [Google Rust Style Guide: iterators in function parameters](https://google.github.io/styleguide/rustguide.html#iterators-vs-slices-in-function-parameters): weigh reusable library inputs against simpler parameters for known application callers.

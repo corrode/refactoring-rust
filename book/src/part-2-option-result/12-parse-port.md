@@ -133,6 +133,12 @@ Those literals are known to be non-zero, and writing the wrong literal should fa
 The production function never unwraps untrusted input.
 Both failure stages become explicit `InvalidPort` values.
 
+`parse::<u16>()` already uses a standard trait: `FromStr`.
+If ports later need their own domain type, implement `FromStr` for that type rather than adding only an inherent parsing method.
+That lets callers use `text.parse::<Port>()` and lets generic parsers use the same interface.
+The implementation can expose the domain's error type through `FromStr::Err`.
+Keep the free function as a wrapper if existing callers need it; introducing a `Port` type is not required for this exercise.
+
 ### Edge cases and production concerns
 
 > **EDGE CASE**
@@ -191,3 +197,5 @@ Don't use it for bind APIs that accept zero.
 - [`NonZeroU16`](../appendix/concept-index.md#nonzero-integers): represent an integer whose valid set excludes zero.
 - [Type invariants](../appendix/concept-index.md#type-invariants): prevent invalid values through safe construction instead of relying on repeated checks.
 - [`map_err` and `ok_or`](../appendix/concept-index.md#error-conversion-combinators): translate lower-level failure representations into errors defined by your API.
+- [`FromStr`](https://doc.rust-lang.org/std/str/trait.FromStr.html): provide a string parser that callers can use through `str::parse`.
+- [Google Rust Style Guide: standard library traits](https://google.github.io/styleguide/rustguide.html#implement-known-standard-library-traits-instead-of-custom-methods): use an established trait when its contract matches the operation, rather than offering only a custom method.

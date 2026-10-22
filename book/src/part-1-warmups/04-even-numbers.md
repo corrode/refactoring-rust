@@ -114,6 +114,9 @@ A caller that needs owned storage can use `collect::<Vec<_>>()`.
 
 The alternative's tests call `collect` before comparing a complete sequence and use `count` for the empty case.
 Callers that rely on a `Vec` for indexing, storage, or repeated traversal also need to collect the iterator or change how they use the result.
+For a reusable library, leaving consumption to the caller can serve uses you don't control.
+In an application where most known callers need the collection or random indexing, keeping `Vec` is reasonable.
+If a function needs to build a vector internally or returns one it already owns, exposing it as an iterator doesn't remove that allocation.
 
 Do the shared tests prove that the result is lazy?
 No, so the alternative adds `stays_lazy`: it uses `u32::MAX` as the bound and consumes only three values.
@@ -171,3 +174,4 @@ Avoiding unused work helps partial consumers; fully collecting still allocates, 
 - [Return-position `impl Trait`](../appendix/concept-index.md#return-position-impl-trait): promise iterator behaviour while keeping the concrete adapter type private.
 - [`Iterator::step_by`](../appendix/concept-index.md#iterator-step-by): traverse a sequence at a fixed stride.
 - [Iterator consumers](../appendix/concept-index.md#iterator-consumers): `sum` and `collect` consume an iterator; adapters such as `take` limit later consumption.
+- [Google Rust Style Guide: iterators vs. owned collections](https://google.github.io/styleguide/rustguide.html#iterators-vs-owned-collections-in-return-types): return-type guidance, including when a `Vec` is the simpler application API.
