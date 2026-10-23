@@ -66,15 +66,15 @@ Chapter 35 (`friends`) closes the part with an advanced exercise.
 If your team's Rust reviews spend more time on types and design than syntax,
 start here.
 
-## Part VI. Capstone (chapters 36–37)
+## Part VI. Larger refactors (chapters 36–37)
 
 The final two refactors combine most of the earlier work.
 Chapter 36 is a parser.
 Chapter 37 is a small `redis`-style server.
 Both include production concerns to investigate: additional tests, edge cases, and design decisions that compilation alone can't settle.
 
-The capstones introduce no new concepts. They show how the rest of the book's
-techniques interact in larger code.
+These exercises introduce no new concepts.
+They show how the rest of the book's techniques interact in larger code.
 
 ## Suggested pace
 

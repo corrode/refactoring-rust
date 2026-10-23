@@ -37,7 +37,7 @@ pub fn parse_env(content: &str) -> HashMap<String, String> {
 </div>
 
 <!--
-The capstone. Try parsing these lines against the starter:
+Try parsing these lines against the starter:
 
   WITH_EQUALS=a=b=c            # silently dropped (parts.len() != 2)
   WITH_HASH="not # a comment"  # the `#` stripping eats the rest

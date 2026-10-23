@@ -60,7 +60,7 @@
   - [34 · config_typestate](part-5-domain-modeling/34-config-typestate.md)
   - [35 · friends (advanced)](part-5-domain-modeling/35-friends.md)
 
-# Part VI. Capstone
+# Part VI. Larger refactors
 
 - [Overview](part-6-capstone/README.md)
   - [36 · env_file_parser](part-6-capstone/36-env-file-parser.md)

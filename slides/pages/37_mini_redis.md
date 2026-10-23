@@ -35,7 +35,7 @@ pub fn handle(db: &mut Db, args: &[&str]) -> String {
 </div>
 
 <!--
-This is the capstone. ~3 commands now. In a real implementation:
+Three commands now. In a real implementation:
 GET, DEL, EXISTS, INCR, TYPE, LRANGE, LLEN, HGET, HKEYS, HDEL, EXPIRE,
 plus 20 more. Each one slots into the if/else cascade the same way.
 Imagine the file at 10x size.

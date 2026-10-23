@@ -361,7 +361,7 @@ layout: section
 
 <div class="text-xs opacity-50 tracking-widest uppercase mb-6">Phase 6 of 6</div>
 
-# Capstone
+# Larger refactors
 
 <div class="text-2xl opacity-80 mt-4">
 Lastly, two larger bonus problems.

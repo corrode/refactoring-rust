@@ -1,4 +1,4 @@
-# Part VI. Capstone
+# Part VI. Larger refactors
 
 > **TODO**. Phase 3. 1–3 paragraphs. What this part is about, what the
 > reader will learn across its chapters, how it connects to the part

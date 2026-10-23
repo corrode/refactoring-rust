@@ -51,6 +51,7 @@ alice.borrow_mut().add_friend(&alice);
 - Does `Rc::clone` copy a person or share one?
 - What keeps Alice and Bob alive if they add each other?
 - Does being someone's friend need to keep them alive?
+  (Taken out of context, this question is almost philosophical.) 
 
 <!--
 This caller uses the starter definitions from the previous slide.

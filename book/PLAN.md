@@ -47,7 +47,7 @@ dividers**:
 - **Part III, Aggregations & counting** (13–19)
 - **Part IV, Strings, parsing & iterators** (20–25)
 - **Part V, Domain modeling** (26–35)
-- **Part VI, Capstone** (36–37)
+- **Part VI, Larger refactors** (36–37)
 
 Each part has a 1–3 paragraph intro page describing the theme and what the
 reader will learn across its chapters.

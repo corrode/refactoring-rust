@@ -47,7 +47,7 @@
 <div class="flex items-baseline gap-5">
   <div class="text-3xl font-bold opacity-60 w-8">6</div>
   <div>
-    <div class="text-xl"><strong>Capstone</strong> <span class="opacity-50 text-base ml-2">36–37</span></div>
+    <div class="text-xl"><strong>Larger refactors</strong> <span class="opacity-50 text-base ml-2">36–37</span></div>
     <div class="opacity-70 text-sm">Two larger bonus problems.</div>
   </div>
 </div>
