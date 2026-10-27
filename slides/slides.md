@@ -137,7 +137,7 @@ then compare API alternatives and the tradeoffs they introduce.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 01–05
+Exercises 01–06
 </div>
 
 ---
@@ -153,11 +153,15 @@ src: ./pages/03_better_match.md
 ---
 
 ---
-src: ./pages/04_even_numbers.md
+src: ./pages/04_person_info.md
 ---
 
 ---
-src: ./pages/05_truncate_string.md
+src: ./pages/05_even_numbers.md
+---
+
+---
+src: ./pages/06_truncate_string.md
 ---
 
 ---
@@ -175,35 +179,35 @@ The idioms that show up in almost every Rust file.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 06–12
+Exercises 07–13
 </div>
 
 ---
-src: ./pages/06_path.md
+src: ./pages/07_path.md
 ---
 
 ---
-src: ./pages/07_nesting.md
+src: ./pages/08_nesting.md
 ---
 
 ---
-src: ./pages/08_optional_values.md
+src: ./pages/09_optional_values.md
 ---
 
 ---
-src: ./pages/09_parse_ints.md
+src: ./pages/10_parse_ints.md
 ---
 
 ---
-src: ./pages/10_floor.md
+src: ./pages/11_floor.md
 ---
 
 ---
-src: ./pages/11_error_handling.md
+src: ./pages/12_error_handling.md
 ---
 
 ---
-src: ./pages/12_parse_port.md
+src: ./pages/13_parse_port.md
 ---
 
 ---
@@ -221,35 +225,35 @@ Iterator chains, explicit loops, and consuming a recursive list.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 13–19
+Exercises 14–20
 </div>
 
 ---
-src: ./pages/13_dedup_runs.md
+src: ./pages/14_dedup_runs.md
 ---
 
 ---
-src: ./pages/14_excluded_path.md
+src: ./pages/15_excluded_path.md
 ---
 
 ---
-src: ./pages/15_spell_check.md
+src: ./pages/16_spell_check.md
 ---
 
 ---
-src: ./pages/16_room_occupancy.md
+src: ./pages/17_room_occupancy.md
 ---
 
 ---
-src: ./pages/17_text_stats.md
+src: ./pages/18_text_stats.md
 ---
 
 ---
-src: ./pages/18_mode.md
+src: ./pages/19_mode.md
 ---
 
 ---
-src: ./pages/19_list_sum.md
+src: ./pages/20_list_sum.md
 ---
 
 ---
@@ -267,31 +271,31 @@ Reach for the standard library before hand-rolling a loop.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 20–25
+Exercises 21–26
 </div>
 
 ---
-src: ./pages/20_trim_log_line.md
+src: ./pages/21_trim_log_line.md
 ---
 
 ---
-src: ./pages/21_parse_srt_timestamp.md
+src: ./pages/22_parse_srt_timestamp.md
 ---
 
 ---
-src: ./pages/22_iterators.md
+src: ./pages/23_iterators.md
 ---
 
 ---
-src: ./pages/23_transformer.md
+src: ./pages/24_transformer.md
 ---
 
 ---
-src: ./pages/24_fun_strings_ext.md
+src: ./pages/25_fun_strings_ext.md
 ---
 
 ---
-src: ./pages/25_quicksort.md
+src: ./pages/26_quicksort.md
 ---
 
 ---
@@ -310,47 +314,47 @@ Choose types and methods, then update callers and tests.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 26–35
+Exercises 27–36
 </div>
 
 ---
-src: ./pages/26_rooms.md
+src: ./pages/27_rooms.md
 ---
 
 ---
-src: ./pages/27_iban_prefix_check.md
+src: ./pages/28_iban_prefix_check.md
 ---
 
 ---
-src: ./pages/28_http_response_router.md
+src: ./pages/29_http_response_router.md
 ---
 
 ---
-src: ./pages/29_config_loader.md
+src: ./pages/30_config_loader.md
 ---
 
 ---
-src: ./pages/30_buffer_policy.md
+src: ./pages/31_buffer_policy.md
 ---
 
 ---
-src: ./pages/31_typed_ids.md
+src: ./pages/32_typed_ids.md
 ---
 
 ---
-src: ./pages/32_validation_feedback.md
+src: ./pages/33_validation_feedback.md
 ---
 
 ---
-src: ./pages/33_secret_token.md
+src: ./pages/34_secret_token.md
 ---
 
 ---
-src: ./pages/34_config_typestate.md
+src: ./pages/35_config_typestate.md
 ---
 
 ---
-src: ./pages/35_friends.md
+src: ./pages/36_friends.md
 ---
 
 ---
@@ -368,15 +372,15 @@ Lastly, two larger bonus problems.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 36–37
+Exercises 37–38
 </div>
 
 ---
-src: ./pages/36_env_file_parser.md
+src: ./pages/37_env_file_parser.md
 ---
 
 ---
-src: ./pages/37_mini_redis.md
+src: ./pages/38_mini_redis.md
 ---
 
 ---

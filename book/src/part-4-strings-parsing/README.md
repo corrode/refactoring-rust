@@ -11,12 +11,12 @@
 
 ## Exercises
 
-- [`trim_log_line`](20-trim-log-line.md): clean up a log-line transformation and pin down which whitespace and prefixes it should preserve.
-- [`parse_srt_timestamp`](21-parse-srt-timestamp.md): parse a timestamp, distinguish malformed input from arithmetic limits, and compare panic-based and fallible interfaces.
-- [`iterators`](22-iterators.md): produce a numeric sequence, expose it through the standard iterator protocol, and define exhaustion at the integer boundary.
-- [`transformer`](23-transformer.md): review batch transformations and command pipelines, including the meaning of an empty intermediate string.
-- [`fun_strings_ext`](24-fun-strings-ext.md): compare free functions with a fluent extension trait, while keeping ownership, allocation, and Unicode policy explicit.
-- [`quicksort`](25-quicksort.md): optional bonus on expressing a recursive algorithm without hiding duplicate handling, worst-case work, or memory costs.
+- [`trim_log_line`](21-trim-log-line.md): clean up a log-line transformation and pin down which whitespace and prefixes it should preserve.
+- [`parse_srt_timestamp`](22-parse-srt-timestamp.md): parse a timestamp, distinguish malformed input from arithmetic limits, and compare panic-based and fallible interfaces.
+- [`iterators`](23-iterators.md): produce a numeric sequence, expose it through the standard iterator protocol, and define exhaustion at the integer boundary.
+- [`transformer`](24-transformer.md): review batch transformations and command pipelines, including the meaning of an empty intermediate string.
+- [`fun_strings_ext`](25-fun-strings-ext.md): compare free functions with a fluent extension trait, while keeping ownership, allocation, and Unicode policy explicit.
+- [`quicksort`](26-quicksort.md): optional bonus on expressing a recursive algorithm without hiding duplicate handling, worst-case work, or memory costs.
 
 ## Connections and boundaries
 

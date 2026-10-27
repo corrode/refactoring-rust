@@ -39,7 +39,7 @@
 
 - From the repository root, `make test` runs Cargo examples and integration tests with all features, excluding four exact unit-test names from the broad run.
 - `tests/domain_modeling.rs` separately compiles and runs the relevant starter tests, requiring their expected failure messages and matching passing solution cases.
-- The four designated starter failures concern distinct ID categories in exercise 31, secret leakage through `Debug` in exercise 33, and self-friendship plus equal-name identity in exercise 35.
+- The four designated starter failures concern distinct ID categories in exercise 32, secret leakage through `Debug` in exercise 34, and self-friendship plus equal-name identity in exercise 36.
 - Integration fixtures also test actual solution callers that must compile, run, or fail compilation with a particular diagnostic code.
 - Plain `cargo test --examples` can fail on these starters by design, so it is not the current all-green acceptance command.
 - `make book-test` runs `mdbook test` for eligible Rust listings; it does not replace the rendered editable-snippet checks.

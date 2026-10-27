@@ -188,13 +188,13 @@ slidev --port 4000
 - Section dividers between phases give a natural breakpoint to look at
   the clock.
 - File numbering matches `examples/NN_name.rs` exactly, so saying
-  "exercise 18" works for both the deck and the codebase.
+  "exercise 19" works for both the deck and the codebase.
 
 ## Things to add later
 
 - A solution diff using Shiki Magic Move (` ```md magic-move `) for the
   meatier refactors - would animate starter → solution beautifully on
-  exercises 12, 25, 28, 29.
+  exercises 13, 26, 29, 30.
 - Per-phase recap slides that summarize the idioms introduced.
 - A "cheatsheet" appendix slide with all the `Option`/`Result`
   combinators, useful as a final hand-out.

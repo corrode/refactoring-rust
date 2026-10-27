@@ -42,12 +42,12 @@ reference companion.
 Proposed parts, **confirmed against `slides/slides.md` phase
 dividers**:
 
-- **Part I, Warm-ups** (01–05)
-- **Part II, `Option` · `Result` · `?`** (06–12)
-- **Part III, Aggregations & counting** (13–19)
-- **Part IV, Strings, parsing & iterators** (20–25)
-- **Part V, Domain modeling** (26–35)
-- **Part VI, Larger refactors** (36–37)
+- **Part I, Warm-ups** (01–06)
+- **Part II, `Option` · `Result` · `?`** (07–13)
+- **Part III, Aggregations & counting** (14–20)
+- **Part IV, Strings, parsing & iterators** (21–26)
+- **Part V, Domain modeling** (27–36)
+- **Part VI, Larger refactors** (37–38)
 
 Each part has a 1–3 paragraph intro page describing the theme and what the
 reader will learn across its chapters.
@@ -355,8 +355,8 @@ v1 scope:
 - Corrode logo + favicon (probably exist in `slides/public/`).
 
 **Diagrams:** tables everywhere they help; mermaid (~6–10 diagrams across
-the whole book, only where genuinely useful, e.g. state machines in ch. 23
-or type relationships in ch. 37). No hand-drawn illustrations. No
+the whole book, only where genuinely useful, e.g. state machines in ch. 24
+or type relationships in ch. 38). No hand-drawn illustrations. No
 screenshots.
 
 ---
@@ -390,11 +390,11 @@ The front matter must be written **before** the reference trio so the
 six trade-off axes and the meta-position on code review are committed to
 prose before any chapter operationalizes them.
 
-The reference trio is **ch. 02, ch. 16, ch. 14**:
+The reference trio is **ch. 02, ch. 17, ch. 15**:
 - **02** tests "does the format collapse on a trivial exercise?"
-- **16** tests whether the format handles repeated aggregations, a semantic edge
+- **17** tests whether the format handles repeated aggregations, a semantic edge
   case, and a domain-newtype alternative.
-- **14** tests whether *Alternative approaches* can handle a multi-signature API
+- **15** tests whether *Alternative approaches* can handle a multi-signature API
   design space.
 
 Once the trio is locked, *they are the format spec.* New chapters follow
@@ -402,7 +402,7 @@ their structure. No separate format spec document.
 
 ### Phase 0, Scaffolding (~1 day)
 
-- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 37
+- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 38
   chapter entries (unwritten ones as plain text `- [Title]()`).
 - All part-intro stubs.
 - CI workflow (`cargo test --examples`, `mdbook test`, `mdbook build`,
@@ -424,8 +424,8 @@ their structure. No separate format spec document.
 ### Phase 2, Format lock / reference trio (~4 days)
 
 - Chapter 02 (`starts_with_uppercase`)
-- Chapter 16 (`room_occupancy`)
-- Chapter 14 (`excluded_path`)
+- Chapter 17 (`room_occupancy`)
+- Chapter 15 (`excluded_path`)
 - Iterate on `STYLE.md` until it reflects what the trio actually does.
 
 ### Phase 3, Bulk write (~12 days)
@@ -434,8 +434,8 @@ their structure. No separate format spec document.
 - Go part-by-part so part intros can be tightened against the chapters
   they introduce.
 - Add real solution files for the remaining alternatives the TODO identifies
-  (`NonZeroU16` for ch. 12 and a lazy iterator for ch. 15). The `Rooms` newtype now has its own domain-modeling chapter (26), following the aggregation work in ch. 16.
-  Alternative exclusion APIs remain in ch. 14.
+  (`NonZeroU16` for ch. 13 and a lazy iterator for ch. 16). The `Rooms` newtype now has its own domain-modeling chapter (27), following the aggregation work in ch. 17.
+  Alternative exclusion APIs remain in ch. 15.
 
 ### Phase 4, Back matter (~3 days)
 

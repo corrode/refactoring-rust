@@ -147,12 +147,12 @@ fn check_exercise_test(source: &str, test: &str, expected_failure: Option<&str>)
 #[test]
 fn typed_ids_starter_fails_desired_behavior_and_solution_passes() {
     check_exercise_test(
-        "examples/31_typed_ids.rs",
+        "examples/32_typed_ids.rs",
         "tests::variable_and_declaration_ids_are_distinct",
         Some("variable and declaration IDs must be distinct types"),
     );
     check_exercise_test(
-        "solutions/31_typed_ids.rs",
+        "solutions/32_typed_ids.rs",
         "tests::ids_have_distinct_types",
         None,
     );
@@ -161,12 +161,12 @@ fn typed_ids_starter_fails_desired_behavior_and_solution_passes() {
 #[test]
 fn secret_token_starter_fails_desired_behavior_and_solution_passes() {
     check_exercise_test(
-        "examples/33_secret_token.rs",
+        "examples/34_secret_token.rs",
         "tests::debug_does_not_leak_token",
         Some("Debug output must not contain the token"),
     );
     check_exercise_test(
-        "solutions/33_secret_token.rs",
+        "solutions/34_secret_token.rs",
         "tests::credentials_keep_username_visible_and_token_explicit",
         None,
     );
@@ -175,22 +175,22 @@ fn secret_token_starter_fails_desired_behavior_and_solution_passes() {
 #[test]
 fn friends_starter_panics_on_self_friendship_and_solution_passes() {
     check_exercise_test(
-        "examples/35_friends.rs",
+        "examples/36_friends.rs",
         "tests::self_friendship_is_a_noop",
         Some("already mutably borrowed"),
     );
-    check_exercise_test("solutions/35_friends.rs", "tests::own_id_is_a_noop", None);
+    check_exercise_test("solutions/36_friends.rs", "tests::own_id_is_a_noop", None);
 }
 
 #[test]
 fn friends_starter_rejects_equal_names_and_solution_passes() {
     check_exercise_test(
-        "examples/35_friends.rs",
+        "examples/36_friends.rs",
         "tests::people_with_same_name_are_distinct",
         Some("distinct people with the same name must be able to be friends"),
     );
     check_exercise_test(
-        "solutions/35_friends.rs",
+        "solutions/36_friends.rs",
         "tests::equal_names_have_distinct_ids",
         None,
     );
@@ -199,7 +199,7 @@ fn friends_starter_rejects_equal_names_and_solution_passes() {
 #[test]
 fn typed_ids_allow_matching_categories() {
     check(
-        "31_typed_ids.rs",
+        "32_typed_ids.rs",
         r#"
         let engine = Engine::new(vec!["count".into()], vec!["print".into()]);
         assert_eq!(engine.variable(VarId(0)), Some("count"));
@@ -214,7 +214,7 @@ fn typed_ids_allow_matching_categories() {
 #[test]
 fn variable_lookup_rejects_declaration_id() {
     check(
-        "31_typed_ids.rs",
+        "32_typed_ids.rs",
         "let engine = Engine::new(vec![], vec![]); engine.variable(DeclId(0));",
         Some("E0308"),
     );
@@ -223,7 +223,7 @@ fn variable_lookup_rejects_declaration_id() {
 #[test]
 fn declaration_lookup_rejects_variable_id() {
     check(
-        "31_typed_ids.rs",
+        "32_typed_ids.rs",
         "let engine = Engine::new(vec![], vec![]); engine.declaration(VarId(0));",
         Some("E0308"),
     );
@@ -232,7 +232,7 @@ fn declaration_lookup_rejects_variable_id() {
 #[test]
 fn validation_feedback_renders_typed_categories() {
     check(
-        "32_validation_feedback.rs",
+        "33_validation_feedback.rs",
         r#"
         let messages: Vec<&'static str> = {
             let report = ValidationReport {
@@ -249,7 +249,7 @@ fn validation_feedback_renders_typed_categories() {
 #[test]
 fn validation_feedback_rejects_string_categories() {
     check(
-        "32_validation_feedback.rs",
+        "33_validation_feedback.rs",
         r#"let _ = ValidationReport { feedback: vec![String::from("missing digit")] };"#,
         Some("E0308"),
     );
@@ -258,7 +258,7 @@ fn validation_feedback_rejects_string_categories() {
 #[test]
 fn validation_feedback_requires_all_categories_in_a_match() {
     check(
-        "32_validation_feedback.rs",
+        "33_validation_feedback.rs",
         r#"
         let feedback = Feedback::TooShort;
         let _ = match feedback {
@@ -273,7 +273,7 @@ fn validation_feedback_requires_all_categories_in_a_match() {
 #[test]
 fn token_allows_explicit_exposure_and_redacted_debug() {
     check(
-        "33_secret_token.rs",
+        "34_secret_token.rs",
         r#"
         let credentials = Credentials::new("alice".into(), Token::new("secret".into()));
         assert_eq!(credentials.username, "alice");
@@ -290,7 +290,7 @@ fn token_allows_explicit_exposure_and_redacted_debug() {
 #[test]
 fn token_storage_is_private() {
     check(
-        "33_secret_token.rs",
+        "34_secret_token.rs",
         "let token = Token::new(String::new()); let _ = token.0;",
         Some("E0616"),
     );
@@ -299,7 +299,7 @@ fn token_storage_is_private() {
 #[test]
 fn token_does_not_implement_display() {
     check(
-        "33_secret_token.rs",
+        "34_secret_token.rs",
         r#"let token = Token::new(String::new()); let _ = format!("{token}");"#,
         Some("E0277"),
     );
@@ -308,7 +308,7 @@ fn token_does_not_implement_display() {
 #[test]
 fn configured_builder_builds() {
     check(
-        "34_config_typestate.rs",
+        "35_config_typestate.rs",
         r#"
         let ready: Ready = NeedsRoots.with_roots(RootStore::new("roots".into()));
         let config: ClientConfig = ready.build();
@@ -321,7 +321,7 @@ fn configured_builder_builds() {
 #[test]
 fn builder_cannot_build_before_receiving_roots() {
     check(
-        "34_config_typestate.rs",
+        "35_config_typestate.rs",
         "NeedsRoots.build();",
         Some("E0599"),
     );
@@ -330,7 +330,7 @@ fn builder_cannot_build_before_receiving_roots() {
 #[test]
 fn ready_cannot_be_reused_after_build() {
     check(
-        "34_config_typestate.rs",
+        "35_config_typestate.rs",
         r#"
         let ready = NeedsRoots.with_roots(RootStore::new(String::new()));
         let _ = ready.build();
@@ -343,7 +343,7 @@ fn ready_cannot_be_reused_after_build() {
 #[test]
 fn ready_cannot_be_constructed_directly() {
     check(
-        "34_config_typestate.rs",
+        "35_config_typestate.rs",
         "let _ = Ready { roots: RootStore::new(String::new()) };",
         Some("E0451"),
     );
@@ -352,7 +352,7 @@ fn ready_cannot_be_constructed_directly() {
 #[test]
 fn people_allow_id_based_friendships_and_borrowed_views() {
     check(
-        "35_friends.rs",
+        "36_friends.rs",
         r#"
         let mut people = People::default();
         let alice: PersonId = people.add("Alice");
@@ -372,13 +372,13 @@ fn people_allow_id_based_friendships_and_borrowed_views() {
 
 #[test]
 fn person_id_cannot_be_constructed_directly() {
-    check("35_friends.rs", "let _ = PersonId(0);", Some("E0423"));
+    check("36_friends.rs", "let _ = PersonId(0);", Some("E0423"));
 }
 
 #[test]
 fn people_cannot_mutate_while_a_person_view_is_live() {
     check(
-        "35_friends.rs",
+        "36_friends.rs",
         r#"
         let mut people = People::default();
         let alice = people.add("Alice");

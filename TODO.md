@@ -1,6 +1,6 @@
 # Remaining workshop slide todos
 
-> Exercise numbers below use the current 01–37 numbering, starting with `01_is_yes`.
+> Exercise numbers below use the current 01–38 numbering, starting with `01_is_yes`.
 > The "(was N)" hint shows the old number where useful.
 
 ---
@@ -45,18 +45,18 @@ Notes:
 
 ---
 
-## 2. Exercise 26 · `rooms`: standalone domain-modeling exercise (done)
+## 2. Exercise 27 · `rooms`: standalone domain-modeling exercise (done)
 
-Moved the `Rooms` design from exercise 16 into `slides/pages/26_rooms.md`,
-using `solutions/26_rooms.rs` as the main solution.
-Exercise 16 keeps the iterator refactor; exercise 26 changes the API.
+Moved the `Rooms` design from exercise 17 into `slides/pages/27_rooms.md`,
+using `solutions/27_rooms.rs` as the main solution.
+Exercise 17 keeps the iterator refactor; exercise 27 changes the API.
 The four helpers become methods that operate on the receiver's collection.
 Callers cannot pass a different slice to each method, but the constructor still
 accepts any `Vec<RoomOccupancy>`; the wrapper does not validate which rooms belong together.
 
 ---
 
-## 3. Exercise 12 · `parse_port`: show `NonZeroU16` + `InvalidPort` solution
+## 3. Exercise 13 · `parse_port`: show `NonZeroU16` + `InvalidPort` solution
 
 Add this as a solution slide:
 
@@ -80,7 +80,7 @@ pub fn parse_port(s: &str) -> Result<NonZeroU16, InvalidPort> {
 
 ---
 
-## 4. Exercise 14 · `excluded_path`: show alternative signatures
+## 4. Exercise 15 · `excluded_path`: show alternative signatures
 
 The current signature is:
 
@@ -119,7 +119,7 @@ Frame it as "what is the type *really* telling us, and what's it hiding?".
 
 ---
 
-## 6. Exercise 15 · `spell_check`: show the lazy `vimspell` solution
+## 6. Exercise 16 · `spell_check`: show the lazy `vimspell` solution
 
 Add an extra solution slide that shows returning an `impl Iterator` of
 byte ranges instead of allocating a `Vec`. Source for reference:
@@ -140,7 +140,7 @@ no `Vec` allocation, ranges instead of copied strings.
 
 ---
 
-## 7. Exercise 24 · `fun_strings`: trim vertical on the solution
+## 7. Exercise 25 · `fun_strings`: trim vertical on the solution
 
 The solution slide is tall. Tighten it (compact `emoji_case` /
 `spongebob_case` iterator chain, drop blank lines, shorter takeaway).

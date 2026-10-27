@@ -1,6 +1,6 @@
 # `better_match`
 
-The next function assigns "labels" to numbers.
+The function `describe` assigns "labels" to numbers.
 
 The (somewhat arbitrary) rules are:
 
@@ -9,7 +9,8 @@ The (somewhat arbitrary) rules are:
 - If the input is `None`, return `"nothing"`.
 - For any other number, return `"something else"`.
 
-It works, but is there a way to reduce the repetition?
+Can you reduce the repetition?
+Keep the function signature and the exact output strings unchanged.
 
 ## Code to refactor
 
@@ -25,7 +26,7 @@ It works, but is there a way to reduce the repetition?
 ## Discussion
 
 <details class="discussion-question">
-<summary>What changes across the match arms, and what stays the same?</summary>
+<summary>What changes across the arms in <code>describe</code>, and what stays the same?</summary>
 
 Only the integer inside the constructor changes!
 But the `Some` constructor and the returned label are the same for each arm.
@@ -66,6 +67,7 @@ The `Some(11)` test confirms this: 11 is prime, but the function returns `"somet
 
 </details>
 
+
 <details class="solution" id="solutions">
 <summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
 
@@ -86,10 +88,12 @@ Since `None` and the fallback are unchanged, we still have four cases:
 3. `None`;
 4. every other `Some(u32)`.
 
+
 ### Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
+
 
 | Criterion | Original | Nested or-patterns |
 |---|---|---|
@@ -102,11 +106,13 @@ Readability depends on familiarity.
 
 Note that keeping the expanded patterns is reasonable if your team finds them easier to scan.
 
+
 </details>
 
 ## Takeaways For Our Own Codebase
 
 > - How can you make pattern matching easier to read?
+
 > - Can your fallbacks be more precise than `_`? E.g. maybe use `Some(_)` instead of `_` to indicate that the fallback only applies to `Some` values?
 > - Always be on the lookout for better function names. In the example above, `describe` could be replaced with something more descriptive, like `label_number`.
 > - How do you decide whether to use pattern matching or turn the logic into its own function?
@@ -115,5 +121,6 @@ Note that keeping the expanded patterns is reasonable if your team finds them ea
 
 - [Or-patterns](../appendix/concept-index.md#or-patterns): use `|` when several patterns should run the same match arm.
 - [Nested patterns](../appendix/concept-index.md#nested-patterns): place alternatives inside their shared enum constructor.
+
 - [Wildcard patterns](../appendix/concept-index.md#wildcard-patterns): `_` accepts every value not consumed by an earlier arm.
 - [Exhaustive matching](../appendix/concept-index.md#exhaustive-matching): account for every possible input with explicit cases and an intentional fallback.

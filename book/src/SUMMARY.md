@@ -11,60 +11,61 @@
   - [01 · is_yes](part-1-warmups/01-is-yes.md)
   - [02 · starts_with_uppercase](part-1-warmups/02-starts-with-uppercase.md)
   - [03 · better_match](part-1-warmups/03-better-match.md)
-  - [04 · even_numbers](part-1-warmups/04-even-numbers.md)
-  - [05 · truncate_string](part-1-warmups/05-truncate-string.md)
+  - [04 · person_info](part-1-warmups/04-person-info.md)
+  - [05 · even_numbers](part-1-warmups/05-even-numbers.md)
+  - [06 · truncate_string](part-1-warmups/06-truncate-string.md)
 
 # Part II. Option, Result, `?`
 
 - [Overview](part-2-option-result/README.md)
-  - [06 · path](part-2-option-result/06-path.md)
-  - [07 · nesting](part-2-option-result/07-nesting.md)
-  - [08 · optional_values](part-2-option-result/08-optional-values.md)
-  - [09 · parse_ints](part-2-option-result/09-parse-ints.md)
-  - [10 · floor](part-2-option-result/10-floor.md)
-  - [11 · error_handling](part-2-option-result/11-error-handling.md)
-  - [12 · parse_port](part-2-option-result/12-parse-port.md)
+  - [07 · path](part-2-option-result/07-path.md)
+  - [08 · nesting](part-2-option-result/08-nesting.md)
+  - [09 · optional_values](part-2-option-result/09-optional-values.md)
+  - [10 · parse_ints](part-2-option-result/10-parse-ints.md)
+  - [11 · floor](part-2-option-result/11-floor.md)
+  - [12 · error_handling](part-2-option-result/12-error-handling.md)
+  - [13 · parse_port](part-2-option-result/13-parse-port.md)
 
 # Part III. Aggregations & counting
 
 - [Overview](part-3-aggregations/README.md)
-  - [13 · dedup_runs (bonus)](part-3-aggregations/13-dedup-runs.md)
-  - [14 · excluded_path](part-3-aggregations/14-excluded-path.md)
-  - [15 · spell_check](part-3-aggregations/15-spell-check.md)
-  - [16 · room_occupancy](part-3-aggregations/16-room-occupancy.md)
-  - [17 · text_stats](part-3-aggregations/17-text-stats.md)
-  - [18 · mode](part-3-aggregations/18-mode.md)
-  - [19 · list_sum](part-3-aggregations/19-list-sum.md)
+  - [14 · dedup_runs (bonus)](part-3-aggregations/14-dedup-runs.md)
+  - [15 · excluded_path](part-3-aggregations/15-excluded-path.md)
+  - [16 · spell_check](part-3-aggregations/16-spell-check.md)
+  - [17 · room_occupancy](part-3-aggregations/17-room-occupancy.md)
+  - [18 · text_stats](part-3-aggregations/18-text-stats.md)
+  - [19 · mode](part-3-aggregations/19-mode.md)
+  - [20 · list_sum](part-3-aggregations/20-list-sum.md)
 
 # Part IV. Strings, parsing & iterators
 
 - [Overview](part-4-strings-parsing/README.md)
-  - [20 · trim_log_line](part-4-strings-parsing/20-trim-log-line.md)
-  - [21 · parse_srt_timestamp](part-4-strings-parsing/21-parse-srt-timestamp.md)
-  - [22 · iterators](part-4-strings-parsing/22-iterators.md)
-  - [23 · transformer](part-4-strings-parsing/23-transformer.md)
-  - [24 · fun_strings_ext](part-4-strings-parsing/24-fun-strings-ext.md)
-  - [25 · quicksort (bonus)](part-4-strings-parsing/25-quicksort.md)
+  - [21 · trim_log_line](part-4-strings-parsing/21-trim-log-line.md)
+  - [22 · parse_srt_timestamp](part-4-strings-parsing/22-parse-srt-timestamp.md)
+  - [23 · iterators](part-4-strings-parsing/23-iterators.md)
+  - [24 · transformer](part-4-strings-parsing/24-transformer.md)
+  - [25 · fun_strings_ext](part-4-strings-parsing/25-fun-strings-ext.md)
+  - [26 · quicksort (bonus)](part-4-strings-parsing/26-quicksort.md)
 
 # Part V. Domain modeling
 
 - [Overview](part-5-domain-modeling/README.md)
-  - [26 · rooms](part-5-domain-modeling/26-rooms.md)
-  - [27 · iban_prefix_check](part-5-domain-modeling/27-iban-prefix-check.md)
-  - [28 · http_response_router](part-5-domain-modeling/28-http-response-router.md)
-  - [29 · config_loader](part-5-domain-modeling/29-config-loader.md)
-  - [30 · buffer_policy](part-5-domain-modeling/30-buffer-policy.md)
-  - [31 · typed_ids](part-5-domain-modeling/31-typed-ids.md)
-  - [32 · validation_feedback](part-5-domain-modeling/32-validation-feedback.md)
-  - [33 · secret_token](part-5-domain-modeling/33-secret-token.md)
-  - [34 · config_typestate](part-5-domain-modeling/34-config-typestate.md)
-  - [35 · friends (advanced)](part-5-domain-modeling/35-friends.md)
+  - [27 · rooms](part-5-domain-modeling/27-rooms.md)
+  - [28 · iban_prefix_check](part-5-domain-modeling/28-iban-prefix-check.md)
+  - [29 · http_response_router](part-5-domain-modeling/29-http-response-router.md)
+  - [30 · config_loader](part-5-domain-modeling/30-config-loader.md)
+  - [31 · buffer_policy](part-5-domain-modeling/31-buffer-policy.md)
+  - [32 · typed_ids](part-5-domain-modeling/32-typed-ids.md)
+  - [33 · validation_feedback](part-5-domain-modeling/33-validation-feedback.md)
+  - [34 · secret_token](part-5-domain-modeling/34-secret-token.md)
+  - [35 · config_typestate](part-5-domain-modeling/35-config-typestate.md)
+  - [36 · friends (advanced)](part-5-domain-modeling/36-friends.md)
 
 # Part VI. Larger refactors
 
 - [Overview](part-6-capstone/README.md)
-  - [36 · env_file_parser](part-6-capstone/36-env-file-parser.md)
-  - [37 · mini_redis](part-6-capstone/37-mini-redis.md)
+  - [37 · env_file_parser](part-6-capstone/37-env-file-parser.md)
+  - [38 · mini_redis](part-6-capstone/38-mini-redis.md)
 
 ---
 
