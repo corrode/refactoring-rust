@@ -118,6 +118,10 @@ crate-type = ["lib"]
 name = "28_mini_redis"
 crate-type = ["lib"]
 
+[[example]]
+name = "29_is_inside_folder"
+crate-type = ["lib"]
+
 # --- Solutions (parallel to examples/; used as the "after" reference) ---
 
 [[example]]
@@ -274,4 +278,14 @@ crate-type = ["lib"]
 [[example]]
 name = "28_mini_redis_solution"
 path = "solutions/28_mini_redis.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "29_is_inside_folder_solution"
+path = "solutions/29_is_inside_folder.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "29_is_inside_folder_solution_alt"
+path = "solutions/29_is_inside_folder_alt.rs"
 crate-type = ["lib"]
