@@ -173,24 +173,38 @@ fn secret_token_starter_fails_desired_behavior_and_solution_passes() {
 }
 
 #[test]
+fn temp_file_starter_fails_desired_behavior_and_solution_passes() {
+    check_exercise_test(
+        "examples/36_temp_file.rs",
+        "tests::scratch_file_is_removed_after_read_error",
+        Some("scratch file must be removed when reading fails"),
+    );
+    check_exercise_test(
+        "solutions/36_temp_file.rs",
+        "tests::read_error_removes_scratch_file",
+        None,
+    );
+}
+
+#[test]
 fn friends_starter_panics_on_self_friendship_and_solution_passes() {
     check_exercise_test(
-        "examples/36_friends.rs",
+        "examples/37_friends.rs",
         "tests::self_friendship_is_a_noop",
         Some("already mutably borrowed"),
     );
-    check_exercise_test("solutions/36_friends.rs", "tests::own_id_is_a_noop", None);
+    check_exercise_test("solutions/37_friends.rs", "tests::own_id_is_a_noop", None);
 }
 
 #[test]
 fn friends_starter_rejects_equal_names_and_solution_passes() {
     check_exercise_test(
-        "examples/36_friends.rs",
+        "examples/37_friends.rs",
         "tests::people_with_same_name_are_distinct",
         Some("distinct people with the same name must be able to be friends"),
     );
     check_exercise_test(
-        "solutions/36_friends.rs",
+        "solutions/37_friends.rs",
         "tests::equal_names_have_distinct_ids",
         None,
     );
@@ -350,9 +364,59 @@ fn ready_cannot_be_constructed_directly() {
 }
 
 #[test]
+fn temp_file_cannot_be_constructed_directly() {
+    check(
+        "36_temp_file.rs",
+        "let _ = TempFile { path: std::path::PathBuf::new() };",
+        Some("E0451"),
+    );
+}
+
+#[test]
+fn temp_file_cannot_be_cloned() {
+    check(
+        "36_temp_file.rs",
+        r#"
+        let scratch = TempFile::create(std::path::Path::new("scratch.txt")).unwrap();
+        let _ = scratch.clone();
+        "#,
+        Some("E0599"),
+    );
+}
+
+#[test]
+fn temp_file_cannot_be_dropped_while_its_path_is_borrowed() {
+    check(
+        "36_temp_file.rs",
+        r#"
+        let scratch = TempFile::create(std::path::Path::new("scratch.txt")).unwrap();
+        let path = scratch.path();
+        drop(scratch);
+        let _ = std::fs::read(path);
+        "#,
+        Some("E0505"),
+    );
+}
+
+#[test]
+fn temp_file_path_cannot_outlive_its_owner() {
+    check(
+        "36_temp_file.rs",
+        r#"
+        let path = {
+            let scratch = TempFile::create(std::path::Path::new("scratch.txt")).unwrap();
+            scratch.path()
+        };
+        let _ = std::fs::read(path);
+        "#,
+        Some("E0597"),
+    );
+}
+
+#[test]
 fn people_allow_id_based_friendships_and_borrowed_views() {
     check(
-        "36_friends.rs",
+        "37_friends.rs",
         r#"
         let mut people = People::default();
         let alice: PersonId = people.add("Alice");
@@ -372,13 +436,13 @@ fn people_allow_id_based_friendships_and_borrowed_views() {
 
 #[test]
 fn person_id_cannot_be_constructed_directly() {
-    check("36_friends.rs", "let _ = PersonId(0);", Some("E0423"));
+    check("37_friends.rs", "let _ = PersonId(0);", Some("E0423"));
 }
 
 #[test]
 fn people_cannot_mutate_while_a_person_view_is_live() {
     check(
-        "36_friends.rs",
+        "37_friends.rs",
         r#"
         let mut people = People::default();
         let alice = people.add("Alice");

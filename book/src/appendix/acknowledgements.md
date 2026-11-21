@@ -18,7 +18,7 @@
 
 ## Named teaching sources
 
-- **Jack O'Connor, Object Soup is Made of Indexes:** the teaching article credited in [36: friends](../part-5-domain-modeling/36-friends.md), its slide page, and both Rust files.
+- **Jack O'Connor, Object Soup is Made of Indexes:** the teaching article credited in [37: friends](../part-5-domain-modeling/37-friends.md), its slide page, and both Rust files.
   - The example develops the distinction between object relationships and ownership through indices, not a report of a production refactoring PR.
   - Retain the [article link](https://jacko.io/object_soup.html) alongside the acknowledgement so the source remains identifiable.
 - **Advent of Code 2015, Day 1: Not Quite Lisp:** the problem source named in `examples/11_floor.rs` and the slide page for [11: floor](../part-2-option-result/11-floor.md).

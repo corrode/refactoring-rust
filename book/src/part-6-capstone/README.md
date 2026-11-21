@@ -11,10 +11,10 @@
 
 ## Exercises
 
-- [`env_file_parser`](37-env-file-parser.md): refactor a small line-based parser, then compare it with a state-machine alternative that supports a different grammar and reports errors.
+- [`env_file_parser`](38-env-file-parser.md): refactor a small line-based parser, then compare it with a state-machine alternative that supports a different grammar and reports errors.
   - Keep silent skipping and existing delimiter rules separate from decisions about quotes, escapes, multiline values, and malformed input.
   - The alternative is a limited `.env` dialect, not a claim of compatibility with every dotenv implementation.
-- [`mini_redis`](38-mini-redis.md): separate command handling in a small in-memory store, then explore a different representation for values, commands, and responses.
+- [`mini_redis`](39-mini-redis.md): separate command handling in a small in-memory store, then explore a different representation for values, commands, and responses.
   - Preserve the public storage fields in the first solution; changing to one value per key is a separate migration.
   - The exercise handles already-tokenized commands and returns reply strings; it is not a network server or a complete Redis implementation.
 

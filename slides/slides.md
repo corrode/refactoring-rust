@@ -314,7 +314,7 @@ Choose types and methods, then update callers and tests.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 27–36
+Exercises 27–37
 </div>
 
 ---
@@ -354,7 +354,11 @@ src: ./pages/35_config_typestate.md
 ---
 
 ---
-src: ./pages/36_friends.md
+src: ./pages/36_temp_file.md
+---
+
+---
+src: ./pages/37_friends.md
 ---
 
 ---
@@ -372,15 +376,15 @@ Lastly, two larger bonus problems.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 37–38
+Exercises 38–39
 </div>
 
 ---
-src: ./pages/37_env_file_parser.md
+src: ./pages/38_env_file_parser.md
 ---
 
 ---
-src: ./pages/38_mini_redis.md
+src: ./pages/39_mini_redis.md
 ---
 
 ---

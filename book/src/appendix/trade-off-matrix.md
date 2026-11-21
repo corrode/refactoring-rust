@@ -81,13 +81,16 @@
 - [33: validation_feedback](../part-5-domain-modeling/33-validation-feedback.md): compare open string categories and allocated messages with enum categories and static messages, including the closed-set migration and remaining vector allocation.
 - [34: secret_token](../part-5-domain-modeling/34-secret-token.md): compare ordinary string formatting with a restricted wrapper and redacted `Debug`, not with encryption, memory locking, or guaranteed erasure.
 - [35: config_typestate](../part-5-domain-modeling/35-config-typestate.md): compare runtime missing-roots errors with consuming concrete-state transitions, recording both compiler rejection and the loss of the starter's replacement flexibility.
-- [36: friends](../part-5-domain-modeling/36-friends.md): compare shared person handles with one owner and local IDs, including self-link behavior, equal-name identity, lifetime control, and unresolved cross-owner IDs.
+- [36: temp_file](../part-5-domain-modeling/36-temp-file.md): compare Original's end-of-function manual cleanup with a non-`Clone` `TempFile` guard owning a private `PathBuf`.
+  - `read_back` keeps its signature, while construction returns a guard and callers borrow its path; ordinary `?` errors now attempt cleanup, but deletion can fail and `Drop` cannot return the removal error.
+  - Both use absolute paths and `File::create_new` in a stable private directory controlled by the caller; neither generates secure temporary names or guarantees cleanup on abort.
+- [37: friends](../part-5-domain-modeling/37-friends.md): compare shared person handles with one owner and local IDs, including self-link behavior, equal-name identity, lifetime control, and unresolved cross-owner IDs.
 
 ## Part VI: larger refactors
 
-- [37: env_file_parser](../part-6-capstone/37-env-file-parser.md): compare Original with the compatible line helper first, then treat the state-machine alternative as a different grammar and failure policy.
+- [38: env_file_parser](../part-6-capstone/38-env-file-parser.md): compare Original with the compatible line helper first, then treat the state-machine alternative as a different grammar and failure policy.
   - Its richer errors do not yet imply reliable line locations after multiline quoted input, and partial accepted data differs from all-or-error parsing.
-- [38: mini_redis](../part-6-capstone/38-mini-redis.md): compare Original with the compatible dispatch cleanup before the single-map value/command/reply redesign.
+- [39: mini_redis](../part-6-capstone/39-mini-redis.md): compare Original with the compatible dispatch cleanup before the single-map value/command/reply redesign.
   - Keep store-field compatibility, cross-type collisions, arity behavior, command casing, and reply formatting beside the API comparison even though the handler signature stays unchanged.
 
 ## Conditions before final ratings

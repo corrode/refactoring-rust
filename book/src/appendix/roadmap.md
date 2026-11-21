@@ -1,6 +1,6 @@
 # Roadmap
 
-The book contains thirty-eight exercises in six parts. Read them in order, jump
+The book contains thirty-nine exercises in six parts. Read them in order, jump
 to the topic you need, or use this page to choose where to start. Each chapter
 stands on its own, while each part develops one group of related ideas.
 
@@ -53,24 +53,25 @@ In chapter 23, implementing `Iterator` makes methods such as `take`, `map`,
 `zip`, and `collect` available to your type. Chapter 26
 (`quicksort`) is an optional bonus exercise. Skip it when time is short.
 
-## Part V. Domain modeling (chapters 27–36)
+## Part V. Domain modeling (chapters 27–37)
 
-Part V moves from syntax to data and API design across ten exercises.
+Part V moves from syntax to data and API design across eleven exercises.
 Chapter 27 groups room aggregates on an owned **newtype**, revisiting the iterator functions from chapter 17.
 Chapter 28 validates IBAN prefixes, chapter 29 uses enums to separate routing decisions from side effects, and chapter 30 combines visibility with layered configuration through `TryFrom` and `FromStr`.
 Chapter 31 models buffer sizing policies, and chapter 32 separates ID types.
 Chapter 33 separates validation categories from display messages in a fresh instructor-created fixture inspired by beginner submissions, not copied from a learner's code.
 Chapter 34 controls access to secrets and their diagnostic output, and chapter 35 uses typestate to constrain configuration steps.
-Chapter 36 (`friends`) closes the part with an advanced exercise.
+Chapter 36 ([`temp_file`](../part-5-domain-modeling/36-temp-file.md)) assigns scratch-file cleanup to a guard, including attempts on ordinary error returns.
+Chapter 37 (`friends`) closes the part with an advanced exercise.
 
 If your team's Rust reviews spend more time on types and design than syntax,
 start here.
 
-## Part VI. Larger refactors (chapters 37–38)
+## Part VI. Larger refactors (chapters 38–39)
 
 The final two refactors combine most of the earlier work.
-Chapter 37 is a parser.
-Chapter 38 is a small `redis`-style server.
+Chapter 38 is a parser.
+Chapter 39 is a small `redis`-style server.
 Both include production concerns to investigate: additional tests, edge cases, and design decisions that compilation alone can't settle.
 
 These exercises introduce no new concepts.
@@ -92,7 +93,7 @@ book:
 
 - The [Cheatsheet](concept-index.md) lists every named concept and links
   to each chapter that uses it.
-- The [Trade-off matrix](trade-off-matrix.md) puts all thirty-eight
+- The [Trade-off matrix](trade-off-matrix.md) puts all thirty-nine
   canonical solutions and their scores side by side.
 - [Further reading](further-reading.md) collects and deduplicates every
   external resource cited in the book.

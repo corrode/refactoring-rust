@@ -147,15 +147,19 @@ name = "35_config_typestate"
 crate-type = ["lib"]
 
 [[example]]
-name = "36_friends"
+name = "36_temp_file"
 crate-type = ["lib"]
 
 [[example]]
-name = "37_env_file_parser"
+name = "37_friends"
 crate-type = ["lib"]
 
 [[example]]
-name = "38_mini_redis"
+name = "38_env_file_parser"
+crate-type = ["lib"]
+
+[[example]]
+name = "39_mini_redis"
 crate-type = ["lib"]
 
 # --- Solutions (parallel to examples/; used as the "after" reference) ---
@@ -412,26 +416,31 @@ path = "solutions/35_config_typestate.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "36_friends_solution"
-path = "solutions/36_friends.rs"
+name = "36_temp_file_solution"
+path = "solutions/36_temp_file.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "37_env_file_parser_solution"
-path = "solutions/37_env_file_parser.rs"
+name = "37_friends_solution"
+path = "solutions/37_friends.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "37_env_file_parser_alt"
-path = "solutions/37_env_file_parser_alt.rs"
+name = "38_env_file_parser_solution"
+path = "solutions/38_env_file_parser.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "38_mini_redis_solution"
-path = "solutions/38_mini_redis.rs"
+name = "38_env_file_parser_alt"
+path = "solutions/38_env_file_parser_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "38_mini_redis_alt"
-path = "solutions/38_mini_redis_alt.rs"
+name = "39_mini_redis_solution"
+path = "solutions/39_mini_redis.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "39_mini_redis_alt"
+path = "solutions/39_mini_redis_alt.rs"
 crate-type = ["lib"]

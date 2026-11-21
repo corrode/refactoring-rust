@@ -59,13 +59,14 @@
   - [33 · validation_feedback](part-5-domain-modeling/33-validation-feedback.md)
   - [34 · secret_token](part-5-domain-modeling/34-secret-token.md)
   - [35 · config_typestate](part-5-domain-modeling/35-config-typestate.md)
-  - [36 · friends (advanced)](part-5-domain-modeling/36-friends.md)
+  - [36 · temp_file](part-5-domain-modeling/36-temp-file.md)
+  - [37 · friends (advanced)](part-5-domain-modeling/37-friends.md)
 
 # Part VI. Larger refactors
 
 - [Overview](part-6-capstone/README.md)
-  - [37 · env_file_parser](part-6-capstone/37-env-file-parser.md)
-  - [38 · mini_redis](part-6-capstone/38-mini-redis.md)
+  - [38 · env_file_parser](part-6-capstone/38-env-file-parser.md)
+  - [39 · mini_redis](part-6-capstone/39-mini-redis.md)
 
 ---
 

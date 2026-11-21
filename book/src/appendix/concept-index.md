@@ -160,7 +160,7 @@
 
 ### Filter map
 
-- `filter_map` transforms each item into `Option` and keeps only `Some`; retaining errors through `.err()` in [10: parse_ints](../part-2-option-result/10-parse-ints.md) differs from silently skipping invalid lines in [37: env_file_parser](../part-6-capstone/37-env-file-parser.md).
+- `filter_map` transforms each item into `Option` and keeps only `Some`; retaining errors through `.err()` in [10: parse_ints](../part-2-option-result/10-parse-ints.md) differs from silently skipping invalid lines in [38: env_file_parser](../part-6-capstone/38-env-file-parser.md).
 
 ### Flat map
 
@@ -228,7 +228,7 @@
 
 ### Whitespace and tokenization
 
-- Replacing an ASCII-space loop with Unicode-aware trimming or splitting can change accepted separators and payload text: [21: trim_log_line](../part-4-strings-parsing/21-trim-log-line.md) and [37: env_file_parser](../part-6-capstone/37-env-file-parser.md).
+- Replacing an ASCII-space loop with Unicode-aware trimming or splitting can change accepted separators and payload text: [21: trim_log_line](../part-4-strings-parsing/21-trim-log-line.md) and [38: env_file_parser](../part-6-capstone/38-env-file-parser.md).
 
 ### OsStr and non-UTF-8 paths
 
@@ -270,7 +270,7 @@
 
 ### Typed IDs
 
-- Separate ID types prevent category mix-ups, unlike aliases for `usize`, but do not establish bounds, owner identity, or liveness: [32: typed_ids](../part-5-domain-modeling/32-typed-ids.md) and [36: friends](../part-5-domain-modeling/36-friends.md).
+- Separate ID types prevent category mix-ups, unlike aliases for `usize`, but do not establish bounds, owner identity, or liveness: [32: typed_ids](../part-5-domain-modeling/32-typed-ids.md) and [37: friends](../part-5-domain-modeling/37-friends.md).
 
 ### Mutually exclusive policies
 
@@ -288,21 +288,27 @@
 
 - Different types make operations available only after required transitions, while runtime data validity remains a separate concern: [35: config_typestate](../part-5-domain-modeling/35-config-typestate.md) and [30: config_loader](../part-5-domain-modeling/30-config-loader.md).
 
+### Drop guards
+
+- A guard owns cleanup responsibility for as long as the value lives; [36: temp_file](../part-5-domain-modeling/36-temp-file.md) ties a scratch file to a non-`Clone` guard rather than a path plus end-of-function removal.
+- `Drop` attempts removal on ordinary scope exit, including `?` error returns, but removal remains best-effort and cannot return an error to the caller.
+- Destructors do not guarantee cleanup after process abort or when a guard is deliberately leaked.
+
 ### Extension traits
 
 - A local trait can add methods to `str`, changing discovery and call syntax without removing intermediate allocations or preserving a changed casing policy: [25: fun_strings_ext](../part-4-strings-parsing/25-fun-strings-ext.md).
 
 ### Identity and ownership
 
-- Relationships need not own their targets, and equal names need not identify the same person; [36: friends](../part-5-domain-modeling/36-friends.md) contrasts shared handles with IDs resolved through one owner.
+- Relationships need not own their targets, and equal names need not identify the same person; [37: friends](../part-5-domain-modeling/37-friends.md) contrasts shared handles with IDs resolved through one owner.
 
 ### Parser states
 
-- Explicit states can distinguish quoted content, separators, comments, and end-of-input, but changing the grammar is not a mechanical refactor: [37: env_file_parser](../part-6-capstone/37-env-file-parser.md).
+- Explicit states can distinguish quoted content, separators, comments, and end-of-input, but changing the grammar is not a mechanical refactor: [38: env_file_parser](../part-6-capstone/38-env-file-parser.md).
 
 ### Command and storage models
 
-- Parsing commands, storing typed values, and formatting replies are separate boundaries; [38: mini_redis](../part-6-capstone/38-mini-redis.md) changes all three in its alternative despite retaining the handler signature.
+- Parsing commands, storing typed values, and formatting replies are separate boundaries; [39: mini_redis](../part-6-capstone/39-mini-redis.md) changes all three in its alternative despite retaining the handler signature.
 
 ## Tests and implementation limits
 
