@@ -1,5 +1,16 @@
 # `better_match`
 
+## Code to refactor
+
+```rust,editable
+{{#include ../../../examples/03_better_match.rs:listing}}
+```
+
+<script type="text/plain" class="playground-tests">
+{{#include ../../../examples/03_better_match.rs:tests}}
+</script>
+
+
 The function `describe` assigns "labels" to numbers.
 
 The (somewhat arbitrary) rules are:
@@ -11,17 +22,6 @@ The (somewhat arbitrary) rules are:
 
 Can you reduce the repetition?
 Keep the function signature and the exact output strings unchanged.
-
-## Code to refactor
-
-```rust,editable
-{{#include ../../../examples/03_better_match.rs:listing}}
-```
-
-<script type="text/plain" class="playground-tests">
-{{#include ../../../examples/03_better_match.rs:tests}}
-</script>
-
 
 ## Discussion
 
@@ -68,8 +68,12 @@ The `Some(11)` test confirms this: 11 is prime, but the function returns `"somet
 </details>
 
 
+## Solution
+
+The number labels stay fixed; the question is whether the matching rules become easier to read.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/03_better_match.rs:listing}}

@@ -2,10 +2,6 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Produce individual Fibonacci numbers and prefixes of the sequence beginning with `0, 1, 1`.
-- Keep `fib(n: u32) -> u64` and `first_n(n: usize) -> Vec<u64>` for the first solution.
-- Treat a different way of requesting sequence values as a separate API alternative.
-
 ## Code to refactor
 
 - Starter and its tests: `examples/23_iterators.rs`.
@@ -14,6 +10,10 @@
 - `first_n` grows a vector with a `while` counter and calls `fib` for each index.
 - Each index is cast from `usize` to `u32` before that call.
 - Separate the recurrence, prefix construction, and public return types when reviewing the implementation.
+
+- Produce individual Fibonacci numbers and prefixes of the sequence beginning with `0, 1, 1`.
+- Keep `fib(n: u32) -> u64` and `first_n(n: usize) -> Vec<u64>` for the first solution.
+- Treat a different way of requesting sequence values as a separate API alternative.
 
 ## Discussion
 
@@ -49,8 +49,12 @@
 
 </details>
 
+## Solution
+
+The comparison covers the cost of producing Fibonacci values and the limits callers face when requesting longer sequences.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 

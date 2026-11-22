@@ -12,9 +12,14 @@ git-repository-url = "https://github.com/corrode/refactoring"
 edit-url-template = "https://github.com/corrode/refactoring/edit/main/book/{path}"
 site-url = "/"
 additional-css = ["theme/css/corrode.css"]
-additional-js = ["theme/js/themes.js", "theme/js/playground-tests.js", "theme/js/code-font.js"]
+additional-js = ["theme/js/themes.js", "theme/js/playground-tests.js", "theme/js/code-font.js", "theme/js/chapter-folding.js"]
 no-section-label = false
 mathjax-support = false
+admonitions = true
+
+[output.html.fold]
+enable = true
+level = 0
 
 [output.html.playground]
 editable = true
@@ -37,7 +42,7 @@ heading-split-level = 3
 enable = true
 
 [output.html.redirect]
-"how-to-use.html" = "intro.html#how-to-use-this-book"
+"how-to-use.html" = "appendix/how-to-use.html"
 
 [rust]
 edition = "2024"

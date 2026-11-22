@@ -2,17 +2,17 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-> **BONUS.** Optional exercise.
-> Skip it if you're short on time; nothing later in the book depends on it.
-
-- Collapse consecutive equal integers to one value per run, preserving their order.
-- Keep the first solution's `dedup_runs(values: Vec<i32>) -> Vec<i32>` signature and caller-facing types.
-
 ## Code to refactor
 
 - Source and tests: `examples/14_dedup_runs.rs`.
 - Starting approach: walk the owned vector with an index, compare each value with the last output value, and push retained values into a new vector.
 - Companion source: `slides/pages/14_dedup_runs.md`, including the ownership question and presenter notes on custom equality.
+
+> **BONUS.** Optional exercise.
+> Skip it if you're short on time; nothing later in the book depends on it.
+
+- Collapse consecutive equal integers to one value per run, preserving their order.
+- Keep the first solution's `dedup_runs(values: Vec<i32>) -> Vec<i32>` signature and caller-facing types.
 
 ## Discussion
 
@@ -45,8 +45,12 @@
 
 </details>
 
+## Solution
+
+Compare the work and memory needed to collapse adjacent repeats without changing the order or removing separated repeats.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 

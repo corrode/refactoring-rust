@@ -2,10 +2,6 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Clean up a log message by removing a leading severity tag and normalizing whitespace.
-- Keep `trim_log_line(line: &str) -> String` for the first solution.
-- Account for untagged messages as well as `[INFO]`, `[WARN]`, and `[ERROR]` messages.
-
 ## Code to refactor
 
 - Starter and its tests: `examples/21_trim_log_line.rs`.
@@ -15,6 +11,10 @@
 - Slice off a matching tag and at most one following ASCII space.
 - Replace tabs and newlines, then use `prev_space` to collapse adjacent ASCII spaces.
 - Track the intermediate owned strings separately from the final output buffer.
+
+- Clean up a log message by removing a leading severity tag and normalizing whitespace.
+- Keep `trim_log_line(line: &str) -> String` for the first solution.
+- Account for untagged messages as well as `[INFO]`, `[WARN]`, and `[ERROR]` messages.
 
 ## Discussion
 
@@ -50,8 +50,12 @@
 
 </details>
 
+## Solution
+
+The comparison examines tag removal and whitespace rules as well as the cost of constructing the cleaned log message.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 

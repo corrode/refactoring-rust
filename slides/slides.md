@@ -318,7 +318,7 @@ Choose types and methods, then update callers and tests.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 28–38
+Exercises 28–39
 </div>
 
 ---
@@ -362,7 +362,11 @@ src: ./pages/37_temp_file.md
 ---
 
 ---
-src: ./pages/38_friends.md
+src: ./pages/38_mapped_parser.md
+---
+
+---
+src: ./pages/39_friends.md
 ---
 
 ---
@@ -380,15 +384,15 @@ Lastly, two larger bonus problems.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 39–40
+Exercises 40–41
 </div>
 
 ---
-src: ./pages/39_env_file_parser.md
+src: ./pages/40_env_file_parser.md
 ---
 
 ---
-src: ./pages/40_mini_redis.md
+src: ./pages/41_mini_redis.md
 ---
 
 ---

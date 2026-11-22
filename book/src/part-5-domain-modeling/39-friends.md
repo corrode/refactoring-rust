@@ -1,22 +1,13 @@
 # `friends`
 
-**Advanced.** This exercise combines object identity, borrowing, and graph ownership.
-`Person` records directed friendships.
-Review the model while preserving insertion order and repeated additions to other people.
-You may change the API, including how callers create people and record friendships.
-Removing people is out of scope.
-The example develops the friendship problem from Jack O'Connor's [Object Soup is Made of Indexes](https://jacko.io/object_soup.html), a teaching article rather than a production refactoring report.
-
-Two tests intentionally fail; make them pass without weakening their assertions.
-
 ## Code to refactor
 
 ```rust,editable
-{{#include ../../../examples/38_friends.rs:listing}}
+{{#include ../../../examples/39_friends.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests" data-expected-failures="tests::self_friendship_is_a_noop tests::people_with_same_name_are_distinct">
-{{#include ../../../examples/38_friends.rs:tests}}
+{{#include ../../../examples/39_friends.rs:tests}}
 </script>
 
 <div class="playground-local-setup">
@@ -26,10 +17,20 @@ Two tests intentionally fail; make them pass without weakening their assertions.
 From the repository root:
 
 ```sh
-cargo test --example 38_friends
+cargo test --example 39_friends
 ```
 
 </div>
+
+**Advanced.** This exercise combines object identity, borrowing, and graph ownership.
+`Person` records directed friendships.
+Review the model while preserving insertion order and repeated additions to other people.
+You may change the API, including how callers create people and record friendships.
+Removing people is out of scope.
+The example develops the friendship problem from Jack O'Connor's [Object Soup is Made of Indexes](https://jacko.io/object_soup.html), a teaching article rather than a production refactoring report.
+
+> [!NOTE]
+> Two tests intentionally fail; make them pass without weakening their assertions.
 
 ## Discussion
 
@@ -93,17 +94,21 @@ For this exercise, a single collection can own the people while their friendship
 
 </details>
 
+## Solution
+
+Compare how each friendship model handles identity, updates, and the lifetime of people in the graph.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Give the people one owner
 
 ```rust,editable
-{{#include ../../../solutions/38_friends.rs:listing}}
+{{#include ../../../solutions/39_friends.rs:listing}}
 ```
 
 <script type="text/plain" class="playground-tests">
-{{#include ../../../solutions/38_friends.rs:tests}}
+{{#include ../../../solutions/39_friends.rs:tests}}
 </script>
 
 `People` owns the records in a vector.

@@ -1,8 +1,8 @@
 # Roadmap
 
-The book contains forty exercises in six parts. Read them in order, jump
-to the topic you need, or use this page to choose where to start. Each chapter
-stands on its own, while each part develops one group of related ideas.
+The book contains forty-one exercises in six parts.
+Read them in order, jump to the topic you need, or use this page to choose where to start.
+Each chapter stands on its own, while each part develops one group of related ideas.
 
 ## Part I. Warm-ups (chapters 01–06)
 
@@ -56,25 +56,26 @@ In chapter 23, implementing `Iterator` makes methods such as `take`, `map`,
 `zip`, and `collect` available to your type. Chapter 27
 (`quicksort`) is an optional bonus exercise. Skip it when time is short.
 
-## Part V. Domain modeling (chapters 28–38)
+## Part V. Domain modeling (chapters 28–39)
 
-Part V moves from syntax to data and API design across eleven exercises.
+Part V moves from syntax to data and API design across twelve exercises.
 Chapter 28 groups room aggregates on an owned **newtype**, revisiting the iterator functions from chapter 17.
 Chapter 29 validates IBAN prefixes, chapter 30 uses enums to separate routing decisions from side effects, and chapter 31 combines visibility with layered configuration through `TryFrom` and `FromStr`.
 Chapter 32 models buffer sizing policies, and chapter 33 separates ID types.
 Chapter 34 separates validation categories from display messages in a fresh instructor-created fixture inspired by beginner submissions, not copied from a learner's code.
 Chapter 35 controls access to secrets and their diagnostic output, and chapter 36 uses typestate to constrain configuration steps.
 Chapter 37 ([`temp_file`](../part-5-domain-modeling/37-temp-file.md)) assigns scratch-file cleanup to a guard, including attempts on ordinary error returns.
-Chapter 38 (`friends`) closes the part with an advanced exercise.
+Chapter 38 ([`mapped_parser`](../part-5-domain-modeling/38-mapped-parser.md)) uses associated output and error types to express what a parser implementation determines, while retaining a generic input type.
+Chapter 39 (`friends`) closes the part with an advanced exercise.
 
 If your team's Rust reviews spend more time on types and design than syntax,
 start here.
 
-## Part VI. Larger refactors (chapters 39–40)
+## Part VI. Larger refactors (chapters 40–41)
 
 The final two refactors combine most of the earlier work.
-Chapter 39 is a parser.
-Chapter 40 is a small `redis`-style server.
+Chapter 40 is a parser.
+Chapter 41 is a small `redis`-style server.
 Both include production concerns to investigate: additional tests, edge cases, and design decisions that compilation alone can't settle.
 
 These exercises introduce no new concepts.
@@ -96,8 +97,7 @@ book:
 
 - The [Cheatsheet](concept-index.md) lists every named concept and links
   to each chapter that uses it.
-- The [Trade-off matrix](trade-off-matrix.md) puts all forty
-  canonical solutions and their scores side by side.
+- The [Trade-off matrix](trade-off-matrix.md) puts all forty-one canonical solutions and their scores side by side.
 - [Further reading](further-reading.md) collects and deduplicates every
   external resource cited in the book.
 

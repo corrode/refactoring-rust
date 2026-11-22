@@ -174,7 +174,7 @@
 
 ### Filter map
 
-- `filter_map` transforms each item into `Option` and keeps only `Some`; retaining errors through `.err()` in [10: parse_ints](../part-2-option-result/10-parse-ints.md) differs from silently skipping invalid lines in [39: env_file_parser](../part-6-capstone/39-env-file-parser.md).
+- `filter_map` transforms each item into `Option` and keeps only `Some`; retaining errors through `.err()` in [10: parse_ints](../part-2-option-result/10-parse-ints.md) differs from silently skipping invalid lines in [40: env_file_parser](../part-6-capstone/40-env-file-parser.md).
 
 ### Flat map
 
@@ -242,7 +242,7 @@
 
 ### Whitespace and tokenization
 
-- Replacing an ASCII-space loop with Unicode-aware trimming or splitting can change accepted separators and payload text: [21: trim_log_line](../part-4-strings-parsing/21-trim-log-line.md) and [39: env_file_parser](../part-6-capstone/39-env-file-parser.md).
+- Replacing an ASCII-space loop with Unicode-aware trimming or splitting can change accepted separators and payload text: [21: trim_log_line](../part-4-strings-parsing/21-trim-log-line.md) and [40: env_file_parser](../part-6-capstone/40-env-file-parser.md).
 
 ### OsStr and non-UTF-8 paths
 
@@ -284,7 +284,7 @@
 
 ### Typed IDs
 
-- Separate ID types prevent category mix-ups, unlike aliases for `usize`, but do not establish bounds, owner identity, or liveness: [33: typed_ids](../part-5-domain-modeling/33-typed-ids.md) and [38: friends](../part-5-domain-modeling/38-friends.md).
+- Separate ID types prevent category mix-ups, unlike aliases for `usize`, but do not establish bounds, owner identity, or liveness: [33: typed_ids](../part-5-domain-modeling/33-typed-ids.md) and [39: friends](../part-5-domain-modeling/39-friends.md).
 
 ### Mutually exclusive policies
 
@@ -308,21 +308,35 @@
 - `Drop` attempts removal on ordinary scope exit, including `?` error returns, but removal remains best-effort and cannot return an error to the caller.
 - Destructors do not guarantee cleanup after process abort or when a guard is deliberately leaked.
 
+### Associated types
+
+- In [38: mapped_parser](../part-5-domain-modeling/38-mapped-parser.md), a fixed `Self` and `Input` select one `Output` and one `Error` through `Parser<Input>`.
+  Generic helpers can name `P::Output` and `P::Error` instead of threading separate output and error parameters through every bound.
+- `Input` remains generic because the input type is still a genuine choice; the same parser type can implement the trait for different input types.
+  Unlike `Parser<I, O, E>`, the redesigned trait cannot support multiple output or error types for the same `Self` and input type.
+- This changes the trait contract and its callers, not the parsing algorithm or a guarantee about type inference.
+
+### Phantom data
+
+- `PhantomData<T>` records a type relationship without storing a `T`; it is zero-sized but can affect variance, drop checking, and auto traits such as `Send` and `Sync`.
+- [38: mapped_parser](../part-5-domain-modeling/38-mapped-parser.md) removes the adapter's redundant output parameter and marker after the inner parser determines that type.
+  Review those type-system effects rather than claiming an allocation or performance saving.
+
 ### Extension traits
 
 - A local trait can add methods to `str`, changing discovery and call syntax without removing intermediate allocations or preserving a changed casing policy: [25: fun_strings_ext](../part-4-strings-parsing/25-fun-strings-ext.md).
 
 ### Identity and ownership
 
-- Relationships need not own their targets, and equal names need not identify the same person; [38: friends](../part-5-domain-modeling/38-friends.md) contrasts shared handles with IDs resolved through one owner.
+- Relationships need not own their targets, and equal names need not identify the same person; [39: friends](../part-5-domain-modeling/39-friends.md) contrasts shared handles with IDs resolved through one owner.
 
 ### Parser states
 
-- Explicit states can distinguish quoted content, separators, comments, and end-of-input, but changing the grammar is not a mechanical refactor: [39: env_file_parser](../part-6-capstone/39-env-file-parser.md).
+- Explicit states can distinguish quoted content, separators, comments, and end-of-input, but changing the grammar is not a mechanical refactor: [40: env_file_parser](../part-6-capstone/40-env-file-parser.md).
 
 ### Command and storage models
 
-- Parsing commands, storing typed values, and formatting replies are separate boundaries; [40: mini_redis](../part-6-capstone/40-mini-redis.md) changes all three in its alternative despite retaining the handler signature.
+- Parsing commands, storing typed values, and formatting replies are separate boundaries; [41: mini_redis](../part-6-capstone/41-mini-redis.md) changes all three in its alternative despite retaining the handler signature.
 
 ## Tests and implementation limits
 

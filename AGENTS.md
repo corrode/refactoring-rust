@@ -24,10 +24,10 @@ and book. Most of what you need is in three places:
 
 ## Layout
 
-There are 40 exercises, starting with `01_is_yes`; `starts_with_uppercase` is 02.
+There are 41 exercises, starting with `01_is_yes`; `starts_with_uppercase` is 02.
 Keep numbering aligned across examples, solutions (including alternatives), book chapters, and slide pages.
 The parts cover warm-ups 01–06, Option/Result 07–13, aggregations 14–20,
-strings/parsing 21–27, domain modeling 28–38, and larger refactors 39–40.
+strings/parsing 21–27, domain modeling 28–39, and larger refactors 40–41.
 
 - `book/`: the mdBook (work-in-progress on the `book` branch).
 - `examples/`: starter code, one file per exercise.

@@ -1,9 +1,5 @@
 # `error_handling`
 
-This function reads a file's contents into a string.
-Refactor it without changing the public signature or turning I/O failures into panics.
-Preserve the returned errors, including `io::ErrorKind::NotFound` for a missing file.
-
 ## Code to refactor
 
 ```rust,editable
@@ -26,6 +22,10 @@ cargo test --example 12_error_handling
 
 </div>
 
+
+This function reads a file's contents into a string.
+Refactor it without changing the public signature or turning I/O failures into panics.
+Preserve the returned errors, including `io::ErrorKind::NotFound` for a missing file.
 
 ## Discussion
 
@@ -87,8 +87,12 @@ The tests check both outcomes: a readable file returns its text, and a missing f
 
 </details>
 
+## Solution
+
+The comparison weighs how much file-reading code you need to maintain without changing the errors callers receive.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/12_error_handling.rs:listing}}

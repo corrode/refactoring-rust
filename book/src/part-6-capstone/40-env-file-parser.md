@@ -2,16 +2,16 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Refactor a function that reads `.env` text and returns owned key/value pairs.
-- The first solution must preserve `parse_env(content: &str) -> HashMap<String, String>` and the existing input-handling rules.
-- Keep filesystem access and changes to the process environment outside this exercise.
-
 ## Code to refactor
 
-- Source: `examples/39_env_file_parser.rs`, including its five unit tests.
+- Source: `examples/40_env_file_parser.rs`, including its five unit tests.
 - Current approach: iterate over `content.lines()`, trim each line, remove comments, collect separator-delimited parts, and insert entries into a map.
 - Value processing trims whitespace and removes surrounding double quotes before insertion.
 - The starter tests cover ordinary assignments, blank lines and comments, surrounding quotes, whitespace, and empty values.
+
+- Refactor a function that reads `.env` text and returns owned key/value pairs.
+- The first solution must preserve `parse_env(content: &str) -> HashMap<String, String>` and the existing input-handling rules.
+- Keep filesystem access and changes to the process environment outside this exercise.
 
 ## Discussion
 
@@ -65,12 +65,16 @@
 
 </details>
 
+## Solution
+
+The comparison distinguishes simplifying the existing `.env` parser from changing its grammar, failure policy, and caller contract.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 
-- Source: `solutions/39_env_file_parser.rs`, with the original map-returning signature and owned key/value types.
+- Source: `solutions/40_env_file_parser.rs`, with the original map-returning signature and owned key/value types.
 - `parse_env` collects the results of `content.lines().filter_map(parse_line)` into the map.
 - Private `parse_line` returns `Option<(String, String)>`, using `None` for lines the original would skip.
 - `split_once('#')` selects the comment-free prefix before `split_once('=')` locates the assignment.
@@ -83,7 +87,7 @@
 
 ### Alternative: an explicit parser state machine
 
-- Source: `solutions/39_env_file_parser_alt.rs`, the only checked-in alternative for this exercise.
+- Source: `solutions/40_env_file_parser_alt.rs`, the only checked-in alternative for this exercise.
 - The public signature becomes `parse_env(content: &str) -> Result<HashMap<String, String>, ParseError>`.
 - Public `ParseError` contains `line: usize` and `kind: ErrorKind`, with `MissingEquals`, `EmptyKey`, `UnterminatedQuote`, and `TrailingGarbage` variants.
 - `LineStart`, `InKey`, and `AfterKey` separate leading whitespace, key accumulation, and whitespace before the separator.
@@ -167,4 +171,4 @@
 - [`Result`](https://doc.rust-lang.org/std/result/) documents explicit success and failure rather than partial-data conventions.
 - [`mem::take`](https://doc.rust-lang.org/std/mem/fn.take.html) moves owned buffers out while leaving default values behind.
 - [The six trade-off axes](../appendix/trade-off-axes.md#the-six-axes) provide the comparison criteria for the finished tables.
-- [`mini_redis` solutions](40-mini-redis.md#solutions) make the same distinction between compatibility work and a new contract.
+- [`mini_redis` solutions](41-mini-redis.md#solutions) make the same distinction between compatibility work and a new contract.

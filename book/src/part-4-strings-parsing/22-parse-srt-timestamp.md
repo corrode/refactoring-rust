@@ -2,10 +2,6 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Parse timestamp text such as `00:01:23,456` into a `Duration`.
-- Keep `parse_srt_timestamp(s: &str) -> Option<Duration>` for the first solution.
-- Establish the accepted input format before considering a different public interface.
-
 ## Code to refactor
 
 - Starter and its tests: `examples/22_parse_srt_timestamp.rs`.
@@ -15,6 +11,10 @@
 - Require two final pieces and parse seconds and milliseconds.
 - Multiply each component by its millisecond weight, add the results, and construct a `Duration`.
 - Note the separate format checks, numeric conversions, and arithmetic operations during the walkthrough.
+
+- Parse timestamp text such as `00:01:23,456` into a `Duration`.
+- Keep `parse_srt_timestamp(s: &str) -> Option<Duration>` for the first solution.
+- Establish the accepted input format before considering a different public interface.
 
 ## Discussion
 
@@ -52,8 +52,12 @@
 
 </details>
 
+## Solution
+
+Compare the timestamp parsers' accepted formats, arithmetic limits, and failure behavior.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 

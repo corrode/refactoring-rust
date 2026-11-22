@@ -1,13 +1,5 @@
 # `floor`
 
-This function follows a sequence of instructions to find the final floor, starting at zero.
-`(` moves up one floor and `)` moves down one.
-Can you express the calculation more directly?
-Keep the signature, result, and error for the first invalid instruction unchanged.
-
-This exercise comes from [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2015/day/1).
-
-
 > **Draft outline.** The exercise and solutions are runnable; the discussion and comparison notes still need to be expanded into prose.
 
 ## Code to refactor
@@ -31,6 +23,14 @@ cargo test --example 11_floor
 ```
 
 </div>
+
+This function follows a sequence of instructions to find the final floor, starting at zero.
+`(` moves up one floor and `)` moves down one.
+Can you express the calculation more directly?
+Keep the signature, result, and error for the first invalid instruction unchanged.
+
+This exercise comes from [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2015/day/1).
+
 
 ## Discussion
 
@@ -74,8 +74,12 @@ cargo test --example 11_floor
 
 </details>
 
+## Solution
+
+Compare how the versions calculate the final floor while preserving the first invalid instruction's error.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Using `sum`
 

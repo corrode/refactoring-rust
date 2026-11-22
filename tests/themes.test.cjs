@@ -7,6 +7,8 @@ const vm = require('node:vm');
 const path = require('node:path');
 
 const root = path.resolve(__dirname, '..');
+const summary = readFileSync(path.join(root, 'book/src/SUMMARY.md'), 'utf8');
+const exercises = [...summary.matchAll(/\]\((part-[^\s)]+\/\d{2}-[^\s)]+\.md)\)/g)].map(match => match[1]);
 const source = readFileSync(path.join(root, 'book/theme/js/themes.js'), 'utf8');
 const builtIndex = path.join(root, 'book/book/index.html');
 // Exercise the actual native implementation when a book build is available,
@@ -297,4 +299,185 @@ test('built page supplies native defaults and includes the custom script in orde
     assert.ok(themes > scripts.indexOf(bookScript));
     assert.match(scripts[themes + 1], /^theme\/js\/playground-tests-/);
     assert.match(scripts[themes + 2], /^theme\/js\/code-font-/);
+    assert.match(scripts[themes + 3], /^theme\/js\/chapter-folding-/);
+});
+
+const foldingSource = readFileSync(path.join(root, 'book/theme/js/chapter-folding.js'), 'utf8');
+
+function foldingHarness({ expanded = false, sidebar = true, controls = true } = {}) {
+    const classes = new Set(expanded ? ['expanded'] : []);
+    const chapter = { classList: { contains: name => classes.has(name) } };
+    const listeners = {
+        click: [() => {
+            if (classes.has('expanded')) classes.delete('expanded');
+            else classes.add('expanded');
+        }],
+    };
+    const toggle = {
+        attributes: {},
+        parentElement: { querySelector: () => ({ textContent: '  1. Overview  ' }) },
+        closest: () => chapter,
+        setAttribute(name, value) { this.attributes[name] = value; },
+        addEventListener(type, listener) { (listeners[type] ||= []).push(listener); },
+        click() { listeners.click.forEach(listener => listener()); },
+    };
+    vm.runInNewContext(foldingSource, {
+        document: {
+            addEventListener(type, listener) {
+                assert.equal(type, 'DOMContentLoaded');
+                listener();
+            },
+            getElementById: () => sidebar ? { querySelectorAll: () => controls ? [toggle] : [] } : null,
+        },
+    });
+    return {
+        toggle, classes,
+        key(key) {
+            let prevented = false;
+            const event = { key, preventDefault() { prevented = true; } };
+            listeners.keydown.forEach(listener => listener(event));
+            return prevented;
+        },
+    };
+}
+
+test('chapter folding controls expose their name, keyboard focus, and initial expanded state', () => {
+    for (const expanded of [false, true]) {
+        const h = foldingHarness({ expanded });
+        assert.deepEqual(h.toggle.attributes, {
+            role: 'button', tabindex: '0',
+            'aria-label': 'Toggle chapters under 1. Overview',
+            'aria-expanded': String(expanded),
+        });
+    }
+});
+
+test('chapter folding updates expanded state after native mouse clicks', () => {
+    const h = foldingHarness();
+    h.toggle.click();
+    assert.ok(h.classes.has('expanded'));
+    assert.equal(h.toggle.attributes['aria-expanded'], 'true');
+    h.toggle.click();
+    assert.ok(!h.classes.has('expanded'));
+    assert.equal(h.toggle.attributes['aria-expanded'], 'false');
+});
+
+test('Enter and Space activate native folding without scrolling or navigating', () => {
+    for (const key of ['Enter', ' ']) {
+        const h = foldingHarness();
+        assert.ok(h.key(key));
+        assert.ok(h.classes.has('expanded'));
+        assert.equal(h.toggle.attributes['aria-expanded'], 'true');
+        assert.ok(h.key(key));
+        assert.ok(!h.classes.has('expanded'));
+        assert.equal(h.toggle.attributes['aria-expanded'], 'false');
+    }
+});
+
+test('chapter folding leaves other keys alone', () => {
+    const h = foldingHarness();
+    for (const key of ['Tab', 'ArrowDown', 'Escape']) {
+        assert.equal(h.key(key), false);
+        assert.ok(!h.classes.has('expanded'));
+        assert.equal(h.toggle.attributes['aria-expanded'], 'false');
+    }
+});
+
+test('missing sidebar or folding controls are harmless', () => {
+    assert.doesNotThrow(() => foldingHarness({ sidebar: false }));
+    assert.doesNotThrow(() => foldingHarness({ controls: false }));
+});
+
+test('chapter folding has a theme-aware visible keyboard focus indicator', () => {
+    const css = readFileSync(path.join(root, 'book/theme/css/corrode.css'), 'utf8');
+    assert.match(css, /\.sidebar \.chapter-fold-toggle:focus-visible \{[^}]*outline: 2px solid var\(--sidebar-active\);/);
+});
+
+test('configuration enables chapter folding and native admonitions', () => {
+    const config = readFileSync(path.join(root, 'book/book.toml'), 'utf8');
+    const folding = config.match(/\[output\.html\.fold\]\n([\s\S]*?)(?=\n\[|$)/)?.[1];
+    const renderer = config.match(/\[output\.html\]\n([\s\S]*?)(?=\n\[|$)/)?.[1];
+    assert.match(folding, /^enable = true$/m);
+    assert.match(folding, /^level = 0$/m);
+    assert.match(renderer, /^admonitions = true$/m);
+});
+
+test('generated sidebar gives each part a collapsed chapter group', integration, () => {
+    const toc = readFileSync(path.join(root, 'book/book/toc.html'), 'utf8');
+    const groups = [...toc.matchAll(/<li class="([^"]*)"><span class="chapter-link-wrapper"><a href="(part-[^"]+\/index\.html)"/g)];
+    assert.ok(groups.length > 0, 'Part overview entries must exist');
+    for (const [, classes, href] of groups) {
+        assert.ok(!classes.split(/\s+/).includes('expanded'), `${href} starts collapsed`);
+    }
+    assert.equal((toc.match(/class="chapter-fold-toggle"/g) || []).length, groups.length);
+});
+
+test('native notes flag intentional starter failures before discussion', integration, () => {
+    for (const chapter of ['33-typed-ids', '35-secret-token', '37-temp-file', '39-friends']) {
+        const page = readFileSync(path.join(root, `book/book/part-5-domain-modeling/${chapter}.html`), 'utf8');
+        const note = page.search(/<blockquote class="[^"]*\bblockquote-tag-note\b[^"]*">/);
+        assert.ok(note > page.indexOf('class="playground-tests"'), `${chapter}: note follows the starter`);
+        assert.ok(note < page.indexOf('<details class="discussion-question">'), `${chapter}: note stays visible before discussion`);
+        assert.match(page.slice(note, page.indexOf('</blockquote>', note)), /intentionally fail/);
+        assert.doesNotMatch(page, /\[!NOTE\]/);
+    }
+});
+
+test('production warnings remain inside closed solution disclosures', integration, () => {
+    for (const chapter of ['35-secret-token', '37-temp-file']) {
+        const page = readFileSync(path.join(root, `book/book/part-5-domain-modeling/${chapter}.html`), 'utf8');
+        const solution = page.match(/<details class="solution" id="solutions">([\s\S]*?)<\/details>/)?.[1];
+        assert.ok(solution, `${chapter}: solution remains closed by default`);
+        assert.match(solution, /<blockquote class="[^"]*\bblockquote-tag-warning\b[^"]*">/);
+        assert.doesNotMatch(page, /\[!WARNING\]/);
+    }
+});
+
+test('every exercise has a solution heading and context before its closed disclosure', () => {
+    assert.ok(exercises.length > 0, 'Exercises must be listed in the summary');
+    for (const exercise of exercises) {
+        const chapter = readFileSync(path.join(root, 'book/src', exercise), 'utf8');
+        const section = chapter.match(/^## Solution\n\n([^\n]+(?:\n[^\n]+)*)\n\n<details class="solution" id="solutions">\n<summary>Show solution<\/summary>/m);
+        assert.ok(section, `${exercise}: visible context precedes a separate expand label`);
+        assert.equal((chapter.match(/^## Solution$/gm) || []).length, 1, exercise);
+        assert.ok(section.index > chapter.indexOf('## Discussion'), exercise);
+        assert.ok(section.index < chapter.indexOf('## Takeaways For Our Own Codebase'), exercise);
+        assert.doesNotMatch(chapter, /<summary>\s*<h[1-6]\b/, exercise);
+    }
+});
+
+test('rendered solution headings remain outside the disclosure and have their own anchors', integration, () => {
+    for (const exercise of exercises) {
+        const page = readFileSync(path.join(root, 'book/book', exercise.replace(/\.md$/, '.html')), 'utf8');
+        assert.match(page, /<h2 id="solution"><a class="header" href="#solution">Solution<\/a><\/h2>\s*<p>[\s\S]*?<\/p>\s*<details class="solution" id="solutions">\s*<summary>Show solution<\/summary>/, exercise);
+        assert.doesNotMatch(page, /<summary>\s*<h[1-6]\b/, exercise);
+    }
+});
+
+test('usage instructions and the legacy how-to-use redirect point to the appendix', () => {
+    const intro = readFileSync(path.join(root, 'book/src/intro.md'), 'utf8');
+    const config = readFileSync(path.join(root, 'book/book.toml'), 'utf8');
+    assert.ok(summary.indexOf('(appendix/how-to-use.md)') > summary.indexOf('# Appendix'));
+    assert.match(intro, /\]\(part-1-warmups\/01-is-yes\.md\)/);
+    assert.match(intro, /\]\(appendix\/how-to-use\.md\)/);
+    assert.match(intro, /\]\(appendix\/contributing\.md\)/);
+    assert.doesNotMatch(intro, /^## (How to use this book|Workshop and licensing)$/m);
+    assert.match(config, /^"how-to-use\.html" = "appendix\/how-to-use\.html"$/m);
+    const guide = readFileSync(path.join(root, 'book/src/appendix/how-to-use.md'), 'utf8');
+    for (const heading of ['Solo', 'Pair', 'Book club / team', 'Workshop facilitator', 'Running the code in the browser', 'Running the code locally', 'Building the book locally', 'Conventions']) {
+        assert.ok(guide.includes(`\n## ${heading}\n`), `${heading} stays available in the appendix`);
+    }
+});
+
+test('built introduction, appendix navigation, and legacy redirect use the new destinations', integration, () => {
+    const intro = readFileSync(path.join(root, 'book/book/intro.html'), 'utf8');
+    const toc = readFileSync(path.join(root, 'book/book/toc.html'), 'utf8');
+    const redirect = readFileSync(path.join(root, 'book/book/how-to-use.html'), 'utf8');
+    assert.match(intro, /href="appendix\/how-to-use\.html"/);
+    assert.match(toc, /href="appendix\/how-to-use\.html"/);
+    assert.ok(redirect.includes('appendix/how-to-use.html'));
+    const guide = readFileSync(path.join(root, 'book/book/appendix/how-to-use.html'), 'utf8');
+    assert.match(guide, /id="how-to-use-this-book"/);
+    assert.match(guide, /href="\.\.\/part-5-domain-modeling\/index\.html"/);
+    assert.match(guide, /href="contributing\.html#current-validation-workflow"/);
 });

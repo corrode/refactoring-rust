@@ -61,23 +61,25 @@
   - [35 · secret_token](part-5-domain-modeling/35-secret-token.md)
   - [36 · config_typestate](part-5-domain-modeling/36-config-typestate.md)
   - [37 · temp_file](part-5-domain-modeling/37-temp-file.md)
-  - [38 · friends (advanced)](part-5-domain-modeling/38-friends.md)
+  - [38 · mapped_parser](part-5-domain-modeling/38-mapped-parser.md)
+  - [39 · friends (advanced)](part-5-domain-modeling/39-friends.md)
 
 # Part VI. Larger refactors
 
 - [Overview](part-6-capstone/README.md)
-  - [39 · env_file_parser](part-6-capstone/39-env-file-parser.md)
-  - [40 · mini_redis](part-6-capstone/40-mini-redis.md)
+  - [40 · env_file_parser](part-6-capstone/40-env-file-parser.md)
+  - [41 · mini_redis](part-6-capstone/41-mini-redis.md)
 
 ---
 
 # Appendix
 
+- [How to use this book](appendix/how-to-use.md)
 - [How to run a code review](appendix/how-to-run-a-code-review.md)
 - [The trade-off axes](appendix/trade-off-axes.md)
 - [Roadmap](appendix/roadmap.md)
 - [Cheatsheet (Concept index)](appendix/concept-index.md)
 - [Trade-off matrix](appendix/trade-off-matrix.md)
 - [Further reading](appendix/further-reading.md)
-- [Contributing](appendix/contributing.md)
+- [Contributing & errata](appendix/contributing.md)
 - [Acknowledgements](appendix/acknowledgements.md)

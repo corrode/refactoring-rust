@@ -9,13 +9,17 @@
 
 - Code corrections, comment typo or clarity fixes, and alternative solutions in `examples/` and `solutions/` are welcome.
 - CI, build-script, tooling, and cross-browser stylesheet fixes are also listed as accepted contribution categories.
-- Book prose changes, including rewrites, new chapters, and prose typo fixes, should be reported as issues rather than submitted as edits to `book/src/**.md`.
+- The book has a single author to keep a consistent voice and teaching approach.
+  Report book prose changes, including rewrites, new chapters, and prose typo fixes, as issues rather than submitting edits to `book/src/**.md`.
 - `book/PLAN.md` and `book/STYLE.md` are also outside the accepted prose-PR route under the current policy.
 - A new `solutions/NN_name_alt.rs` needs a matching `[[example]]` entry in `Cargo.toml` so the repository tests exercise it.
 - An accepted alternative does not automatically become the chapter's recommended implementation or appear in the book.
 - Keep a PR focused on one change, and describe changed contracts rather than claiming a shorter implementation is universally better.
 
 ## Choosing an issue category
+
+Found a typo, broken link, missed refactor, or trade-off you'd score differently?
+Use the [issue templates](https://github.com/corrode/refactoring-rust/issues/new/choose) and choose the form that matches your feedback:
 
 - **Suggest a Discussion question:** `.github/ISSUE_TEMPLATE/review.yml` asks for the chapter, the proposed question, and why asking it would help.
 - **Suggest a Trade-off:** `.github/ISSUE_TEMPLATE/tradeoff.yml` asks for the chapter, the affected axis, and what the comparison missed.
@@ -39,7 +43,7 @@
 
 - From the repository root, `make test` runs Cargo examples and integration tests with all features, excluding five exact unit-test names from the broad run.
 - `tests/domain_modeling.rs` separately compiles and runs the relevant starter tests, requiring their expected failure messages and matching passing solution cases.
-- The five designated starter failures concern distinct ID categories in exercise 33, secret leakage through `Debug` in exercise 35, scratch-file cleanup after a read error in exercise 37, and self-friendship plus equal-name identity in exercise 38.
+- The five designated starter failures concern distinct ID categories in exercise 33, secret leakage through `Debug` in exercise 35, scratch-file cleanup after a read error in exercise 37, and self-friendship plus equal-name identity in exercise 39.
   - In [37: temp_file](../part-5-domain-modeling/37-temp-file.md), `tests::scratch_file_is_removed_after_read_error` is the intentional starter failure; the solution counterpart is `tests::read_error_removes_scratch_file`.
 - Integration fixtures also test actual solution callers that must compile, run, or fail compilation with a particular diagnostic code.
 - Plain `cargo test --examples` can fail on these starters by design, so it is not the current all-green acceptance command.
@@ -55,17 +59,18 @@
 
 ## Licenses and reuse
 
-- The root `LICENSE` specifies MIT for Rust files and Rust snippets in the book and slides, with the copyright and permission notice retained as required.
-- Book prose is separate, with all rights reserved by corrode under `book/LICENSE.md`; do not treat the Rust code license as a license for whole chapters or the book's design.
-- The book license permits short quotations with attribution and personal local study, but not substantial republication, translation without permission, or distribution of modified prose.
+- The root [`LICENSE`](https://github.com/corrode/refactoring-rust/blob/main/LICENSE) specifies MIT for Rust files and Rust snippets in the book and slides, with the copyright and permission notice retained as required.
+- Book prose is separate, with all rights reserved by corrode under the [book license](https://github.com/corrode/refactoring-rust/blob/main/book/LICENSE.md); do not treat the Rust code license as a license for whole chapters or the book's design.
+- The book license permits short quotations with attribution, including for review or teaching, and running the book locally for personal study, including offline reading and printing.
+- It prohibits substantial republication and distribution of modified prose; translations and use of the prose for machine-learning training, fine-tuning, or conditioning require prior written permission.
 - The attribution named by that license is *Refactoring Rust* by Matthias Endler (corrode), at `https://refactoring.corrode.dev`.
 - The contribution policy requires neither a CLA nor DCO signoff for code and states that submitted code is contributed under MIT.
-- Existing third-party notices remain relevant when adapted code is redistributed; `THIRD_PARTY_NOTICES.md` covers four specific exercises, not every source or dependency in the repository.
+- Existing third-party notices remain relevant when adapted code is redistributed; `THIRD_PARTY_NOTICES.md` covers five specific exercises (32, 33, 35, 36, and 38), not every source or dependency in the repository.
 - TODO(prose): Resolve the provisional dual-license wording still present in `book/LICENSE.md`; the root license currently specifies MIT, so this outline does not promise an Apache-2.0 option.
 
 ## Credit, contact, and publication details
 
-- Adopted suggestions receive credit according to the repository policy; the [Acknowledgements](acknowledgements.md) outline separates these contributions from upstream source attribution.
+- Authors of adopted suggestions receive credit according to the repository policy; the [Acknowledgements](acknowledgements.md) outline separates these contributions from upstream source attribution.
 - Security issues in dependencies or the CI pipeline should go privately to <matthias@corrode.dev>, not into a public issue.
 - The same contact is listed for conduct concerns and book-permission inquiries; disagree about ideas rather than people.
 - TODO(prose): Confirm the canonical repository and issue links before publication, since the current Git origin names `corrode/refactoring-rust` while `book/book.toml` points to `corrode/refactoring`.

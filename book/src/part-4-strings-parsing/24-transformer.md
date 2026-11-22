@@ -2,11 +2,6 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Apply one command to each string in a batch, then examine a separate pipeline of commands on one input.
-- Preserve `apply_commands(input: Vec<(String, Command)>) -> Vec<String>` for the first solution.
-- Also preserve `apply_pipeline(commands: &[Box<dyn PipelineCommand>], input: &str) -> String`, the enum, and the trait's `run` signature.
-- Keep batch output order and pipeline execution order explicit.
-
 ## Code to refactor
 
 - Starter and its tests: `examples/24_transformer.rs`.
@@ -16,6 +11,11 @@
 - Each branch pushes an owned string into the result vector.
 - The pipeline accepts heterogeneous boxed implementations of `PipelineCommand`.
 - It special-cases an empty command slice, then chooses each command's input by checking whether the accumulated string is empty.
+
+- Apply one command to each string in a batch, then examine a separate pipeline of commands on one input.
+- Preserve `apply_commands(input: Vec<(String, Command)>) -> Vec<String>` for the first solution.
+- Also preserve `apply_pipeline(commands: &[Box<dyn PipelineCommand>], input: &str) -> String`, the enum, and the trait's `run` signature.
+- Keep batch output order and pipeline execution order explicit.
 
 ## Discussion
 
@@ -61,8 +61,12 @@
 
 </details>
 
+## Solution
+
+Compare the string-processing costs and command handling for both independent batch results and successive pipeline outputs.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 

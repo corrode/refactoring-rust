@@ -2,16 +2,16 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Compute the total word count, unique word count, and average word length for a string.
-- Review the meaning of the results as well as the implementation.
-- Keep `text_stats(text: &str) -> (usize, usize, f64)` and the public `count_words(text: &str) -> HashMap<String, usize>` helper in the first solution.
-
 ## Code to refactor
 
 - Source and tests: `examples/18_text_stats.rs`.
 - Starting approach: build a frequency map, then derive three tuple fields from separate traversals of that map.
 - The helper uses `split_whitespace` and updates owned string keys through the entry API.
 - Companion source: `slides/pages/18_text_stats.md`, including its review example and notes about deciding metric definitions before replacing methods.
+
+- Compute the total word count, unique word count, and average word length for a string.
+- Review the meaning of the results as well as the implementation.
+- Keep `text_stats(text: &str) -> (usize, usize, f64)` and the public `count_words(text: &str) -> HashMap<String, usize>` helper in the first solution.
 
 ## Discussion
 
@@ -55,8 +55,12 @@
 
 </details>
 
+## Solution
+
+The comparison focuses on whether the reported counts and average match the intended meaning of the text statistics.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 

@@ -1,10 +1,5 @@
 # `rooms`
 
-These four functions calculate totals, find the largest adult count, and collect child ages from a room collection.
-Their iterator implementations are already concise.
-Consider how to organize the related operations.
-You may change the public API in this domain-modeling exercise, but keep the calculation results unchanged.
-
 ## Code to refactor
 
 ```rust,editable
@@ -26,6 +21,11 @@ cargo test --example 28_rooms
 ```
 
 </div>
+
+These four functions calculate totals, find the largest adult count, and collect child ages from a room collection.
+Their iterator implementations are already concise.
+Consider how to organize the related operations.
+You may change the public API in this domain-modeling exercise, but keep the calculation results unchanged.
 
 ## Discussion
 
@@ -92,8 +92,12 @@ Keep that distinction: reorganizing this code is not an invitation to change its
 
 </details>
 
+## Solution
+
+The room calculations stay the same; compare how their organization affects ownership, available operations, and caller changes.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### An owned collection
 

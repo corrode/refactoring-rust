@@ -11,7 +11,7 @@
 - [The Rust Book: references and borrowing](https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html) explains reading data without transferring ownership.
   - Pair with [01: is_yes](../part-1-warmups/01-is-yes.md), [02: starts_with_uppercase](../part-1-warmups/02-starts-with-uppercase.md), and [28: rooms](../part-5-domain-modeling/28-rooms.md), where accepting a borrow and choosing an owned domain object solve different problems.
 - [Rust Reference: or-patterns](https://doc.rust-lang.org/reference/patterns.html#or-patterns) and [slice patterns](https://doc.rust-lang.org/reference/patterns.html#slice-patterns) explain the syntax behind compact, explicit cases.
-  - Use with [03: better_match](../part-1-warmups/03-better-match.md), [26: frame_body](../part-4-strings-parsing/26-frame-body.md), [27: quicksort](../part-4-strings-parsing/27-quicksort.md), and command arity in [40: mini_redis](../part-6-capstone/40-mini-redis.md).
+  - Use with [03: better_match](../part-1-warmups/03-better-match.md), [26: frame_body](../part-4-strings-parsing/26-frame-body.md), [27: quicksort](../part-4-strings-parsing/27-quicksort.md), and command arity in [41: mini_redis](../part-6-capstone/41-mini-redis.md).
   - [Identifier patterns](https://doc.rust-lang.org/reference/patterns.html#identifier-patterns) and [range patterns](https://doc.rust-lang.org/reference/patterns.html#range-patterns) explain how `frame_body` combines `@` bindings with an inclusive range and a borrowed middle before the final suffix.
 - [The Rust Book: enums](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html) and [exhaustive matches](https://doc.rust-lang.org/book/ch06-02-match.html#matches-are-exhaustive) ground closed choices and compiler-checked dispatch.
   - Apply to [32: buffer_policy](../part-5-domain-modeling/32-buffer-policy.md) and [34: validation_feedback](../part-5-domain-modeling/34-validation-feedback.md), without assuming an enum validates every payload.
@@ -22,6 +22,9 @@
 
 - [`Drop`](https://doc.rust-lang.org/std/ops/trait.Drop.html) documents cleanup tied to a value's lifetime.
   - Use with [37: temp_file](../part-5-domain-modeling/37-temp-file.md) to distinguish owning a cleanup attempt from guaranteeing successful deletion; the [destructor rules](https://doc.rust-lang.org/reference/destructors.html#not-running-destructors) explain why abort does not guarantee cleanup.
+
+- [Rust Reference: associated types](https://doc.rust-lang.org/reference/items/associated-items.html#associated-types) and [`PhantomData`](https://doc.rust-lang.org/std/marker/struct.PhantomData.html) explain the type relationships in [38: mapped_parser](../part-5-domain-modeling/38-mapped-parser.md).
+  - Read [E0207](https://doc.rust-lang.org/error_codes/E0207.html) alongside them: moving a parameter to an associated type does not make an otherwise unconstrained implementation parameter valid.
 
 ## Style guidance already used in the chapters
 
@@ -36,11 +39,11 @@
 - [`Vec::dedup`](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.dedup) and [`Itertools::dedup`](https://docs.rs/itertools/latest/itertools/trait.Itertools.html#method.dedup) cover adjacent-run removal in [14: dedup_runs](../part-3-aggregations/14-dedup-runs.md).
   - The latter is a library alternative mentioned in the chapter, not a dependency or local implementation already added to this repository.
 - [`HashMap::entry`](https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.entry), [`HashMap::iter`](https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.iter), and [`Iterator::max_by_key`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.max_by_key) document counting, capacity-sensitive traversal, and tie selection.
-  - Consolidate their repeated use in [18: text_stats](../part-3-aggregations/18-text-stats.md), [19: mode](../part-3-aggregations/19-mode.md), and [40: mini_redis](../part-6-capstone/40-mini-redis.md).
+  - Consolidate their repeated use in [18: text_stats](../part-3-aggregations/18-text-stats.md), [19: mode](../part-3-aggregations/19-mode.md), and [41: mini_redis](../part-6-capstone/41-mini-redis.md).
 - [`str::chars`](https://doc.rust-lang.org/std/primitive.str.html#method.chars), [`split_whitespace`](https://doc.rust-lang.org/std/primitive.str.html#method.split_whitespace), and [`to_lowercase`](https://doc.rust-lang.org/std/primitive.str.html#method.to_lowercase) specify text units and transformations.
   - Contrast Unicode conversion with [`to_ascii_lowercase`](https://doc.rust-lang.org/std/primitive.str.html#method.to_ascii_lowercase) in [16: spell_check](../part-3-aggregations/16-spell-check.md) and [25: fun_strings_ext](../part-4-strings-parsing/25-fun-strings-ext.md), rather than calling both “case-insensitive” without qualification.
 - [`str::split_once`](https://doc.rust-lang.org/std/primitive.str.html#method.split_once) provides a delimiter split, not a complete grammar.
-  - Compare the different validation rules in [22: parse_srt_timestamp](../part-4-strings-parsing/22-parse-srt-timestamp.md) and [39: env_file_parser](../part-6-capstone/39-env-file-parser.md).
+  - Compare the different validation rules in [22: parse_srt_timestamp](../part-4-strings-parsing/22-parse-srt-timestamp.md) and [40: env_file_parser](../part-6-capstone/40-env-file-parser.md).
 - [Rust Reference: integer overflow](https://doc.rust-lang.org/reference/expressions/operator-expr.html#overflow), [`u64::checked_mul`](https://doc.rust-lang.org/std/primitive.u64.html#method.checked_mul), and [`checked_add`](https://doc.rust-lang.org/std/primitive.u64.html#method.checked_add) separate arithmetic policy from iterator syntax.
   - Use with [20: list_sum](../part-3-aggregations/20-list-sum.md), [22: parse_srt_timestamp](../part-4-strings-parsing/22-parse-srt-timestamp.md), and [23: iterators](../part-4-strings-parsing/23-iterators.md).
 - [Recursive types with `Box`](https://doc.rust-lang.org/book/ch15-01-box.html#enabling-recursive-types-with-boxes) and [destructors](https://doc.rust-lang.org/reference/destructors.html) distinguish finite type layout from traversal and destruction stack behavior in [20: list_sum](../part-3-aggregations/20-list-sum.md).
@@ -57,9 +60,14 @@
   - The [`secrecy` documentation](https://docs.rs/secrecy/) describes the production-oriented library; the local toy wrapper does not reproduce its memory-handling facilities.
 - **Historical typed API, not a verified before-and-after refactor:** [rustls's pinned client builder](https://github.com/rustls/rustls/blob/792045ba685965edc6f872cb8fcdd3136c8f0ef8/rustls/src/client/builder.rs#L16-L31) motivates [36: config_typestate](../part-5-domain-modeling/36-config-typestate.md).
   - Both local versions are instructor-created fixtures, and their labeled root store is not certificate validation.
+- **Verified production refactor, reduced teaching adaptation:** [nom PR #1626](https://github.com/rust-bakery/nom/pull/1626), merged January 22, 2023, supplies the change behind [38: mapped_parser](../part-5-domain-modeling/38-mapped-parser.md).
+  - Before: [`Parser<I, O, E>`](https://github.com/rust-bakery/nom/blob/4c6e45eded6e76a227f8069ec3f77f8a14b988c8/src/internal.rs#L237-L253) and [the marker-bearing `Map`](https://github.com/rust-bakery/nom/blob/4c6e45eded6e76a227f8069ec3f77f8a14b988c8/src/internal.rs#L397-L410) at the merge commit's parent.
+  - After: [`Parser<Input>` with associated `Output` and `Error: ParseError<Input>`](https://github.com/rust-bakery/nom/blob/bf8cddbdbdf768a2128b7817c4670da059351f9f/src/internal.rs#L237-L254) and [`Map<F, G>` without the output marker](https://github.com/rust-bakery/nom/blob/bf8cddbdbdf768a2128b7817c4670da059351f9f/src/internal.rs#L386-L403) at the merge commit.
+  - The std-only fixture uses `Result<O, E>`, `Decimal` yielding `u32` or `ParseIntError`, and `parse_all`; it omits remaining-input tracking, streaming, and nom error abstractions and adds no dependency.
+  - The PR author retained explicit `E` constraints in many combinators for readability; the same thread records winnow's E0207 counterexample, so this is not a blanket inference improvement or a rule to replace every generic parameter.
 - **External API example:** [the pinned `vimspell` iterator](https://github.com/exrok/vimspell/blob/361b63f71228af3d00291d3c257cd487cf5b95b8/src/lib.rs#L824) motivates lazy byte ranges in [16: spell_check](../part-3-aggregations/16-spell-check.md).
   - This citation illustrates a return contract, not a local implementation or evidence that its spelling rules equal the exercise's lowercase-set membership.
-- The repository's `THIRD_PARTY_NOTICES.md` records pinned MIT notices for exercises 32, 33, 35, and 36 only; see [Acknowledgements](acknowledgements.md) for the credit distinctions.
+- The repository's `THIRD_PARTY_NOTICES.md` records pinned MIT notices for exercises 32, 33, 35, 36, and 38 only; see [Acknowledgements](acknowledgements.md) for the credit distinctions.
 
 - **Production-library context:** [`tempfile::NamedTempFile`](https://docs.rs/tempfile/latest/tempfile/struct.NamedTempFile.html) documents temporary-file creation, cleanup, and security considerations relevant to [37: temp_file](../part-5-domain-modeling/37-temp-file.md).
   - It is further reading, not a dependency or tested alternative in this repository; the local guard does not generate secure temporary names.
@@ -68,13 +76,13 @@
 
 - [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2015/day/1) is the problem source cited in `examples/11_floor.rs` and its slide page.
   - [11: floor](../part-2-option-result/11-floor.md) uses the floor-instruction exercise to compare a loop, fallible summation, and `try_fold`, not to report a production refactor.
-- [Object Soup is Made of Indexes](https://jacko.io/object_soup.html), Jack O'Connor, develops the friendship and index-based ownership example behind [38: friends](../part-5-domain-modeling/38-friends.md).
+- [Object Soup is Made of Indexes](https://jacko.io/object_soup.html), Jack O'Connor, develops the friendship and index-based ownership example behind [39: friends](../part-5-domain-modeling/39-friends.md).
   - Treat it as a teaching article, and compare it with [reference cycles](https://doc.rust-lang.org/book/ch15-06-reference-cycles.html) when distinguishing links from ownership.
 - [34: validation_feedback](../part-5-domain-modeling/34-validation-feedback.md) records an instructor-written fixture inspired by a pattern in beginner-course submissions, not a specific copied submission or an attributable learner implementation.
 
 ## Protocol references and limits
 
-- [Redis `SET`](https://redis.io/docs/latest/commands/set/) and [RESP simple errors](https://redis.io/docs/latest/develop/reference/protocol-spec/#simple-errors) provide comparison points for replacement and error formatting in [40: mini_redis](../part-6-capstone/40-mini-redis.md).
+- [Redis `SET`](https://redis.io/docs/latest/commands/set/) and [RESP simple errors](https://redis.io/docs/latest/develop/reference/protocol-spec/#simple-errors) provide comparison points for replacement and error formatting in [41: mini_redis](../part-6-capstone/41-mini-redis.md).
   - They are specifications to check against, not evidence that either local implementation is wire-compatible with Redis.
 - [`http::StatusCode`](https://docs.rs/http/latest/http/status/struct.StatusCode.html) is the library type discussed as a possible redesign in [30: http_response_router](../part-5-domain-modeling/30-http-response-router.md).
   - Its range and classifications do not supply the application's retry policy, and the chapter's main solution does not introduce this dependency.

@@ -1,10 +1,5 @@
 # `path`
 
-This function checks whether a path has the extension `rs`.
-Can you simplify it without changing its signature or results?
-Keep the check case-sensitive and inspect only the path's syntax.
-Preserve the existing results for paths without an extension and for dotfiles.
-
 ## Code to refactor
 
 ```rust,editable
@@ -27,6 +22,11 @@ cargo test --example 07_path
 
 </div>
 
+
+This function checks whether a path has the extension `rs`.
+Can you simplify it without changing its signature or results?
+Keep the check case-sensitive and inspect only the path's syntax.
+Preserve the existing results for paths without an extension and for dotfiles.
 
 ## Discussion
 
@@ -79,8 +79,12 @@ It doesn't check whether the path exists or points to a regular file.
 
 </details>
 
+## Solution
+
+The comparison asks how clearly each version expresses the extension check while keeping the same path rules.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/07_path.rs:listing}}

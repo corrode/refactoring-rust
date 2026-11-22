@@ -1,10 +1,5 @@
 # `truncate_string`
 
-This function limits a string to a byte budget.
-Does it meet its documented behaviour for all inputs, or do the tests miss something?
-Add tests for the missing cases, then refactor the function and fix any behaviour that violates the contract.
-Keep the signature unchanged.
-
 ## Code to refactor
 
 ```rust,editable
@@ -26,6 +21,11 @@ cargo test --example 06_truncate_string
 ```
 
 </div>
+
+This function limits a string to a byte budget.
+Does it meet its documented behaviour for all inputs, or do the tests miss something?
+Add tests for the missing cases, then refactor the function and fix any behaviour that violates the contract.
+Keep the signature unchanged.
 
 ## Discussion
 
@@ -96,8 +96,12 @@ Name the unit with `max_bytes`, but also document what happens when the limit sp
 
 </details>
 
+## Solution
+
+Compare how the implementations respect the byte budget and what happens with non-ASCII input.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/06_truncate_string.rs:listing}}

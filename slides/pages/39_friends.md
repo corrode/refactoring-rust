@@ -3,7 +3,7 @@ layout: default
 zoom: 0.85
 ---
 
-# 38 · `friends` (advanced)
+# 39 · `friends` (advanced)
 
 ```rust
 use std::cell::RefCell;
@@ -32,14 +32,14 @@ Adapted from Jack O'Connor's <a href="https://jacko.io/object_soup.html">Object 
 </div>
 
 <!--
-Source: examples/38_friends.rs. Run cargo test --example 38_friends.
+Source: examples/39_friends.rs. Run cargo test --example 39_friends.
 Two tests intentionally fail. API redesign is allowed. Keep directed links,
 insertion order, and duplicate additions. Removing people is out of scope.
 -->
 
 ---
 
-# 38 · Review
+# 39 · Review
 
 ```rust
 let alice = Rc::new(RefCell::new(Person::new("Alice")));
@@ -65,7 +65,7 @@ The starter's mutual-friendship test explicitly clears links to avoid leaking.
 zoom: 0.9
 ---
 
-# 38 · Possible solution: one owner
+# 39 · Possible solution: one owner
 
 ```rust
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -89,7 +89,7 @@ pub struct Person {
 - An ID does not keep a person alive after the directory is dropped.
 
 <!--
-Full solution and tests: solutions/38_friends.rs.
+Full solution and tests: solutions/39_friends.rs.
 People::add appends a person and returns an ID; People::get returns Option<&Person>.
 Person::name and Person::friends expose borrowed views without mutable storage access.
 -->
@@ -98,7 +98,7 @@ Person::name and Person::friends expose borrowed views without mutable storage a
 zoom: 0.9
 ---
 
-# 38 · Change the caller, not just the pointer
+# 39 · Change the caller, not just the pointer
 
 ```rust
 impl People {
@@ -123,14 +123,14 @@ assert_eq!(people.add_friend(alice, other_alice), Some(()));
 
 <!--
 Fragments continue the solution definitions; add/get and the accessors are in
-solutions/38_friends.rs. Validate both IDs before mutation or the self-link no-op.
+solutions/39_friends.rs. Validate both IDs before mutation or the self-link no-op.
 Some(()) means a valid request, including a self-link that changes nothing.
-None means an out-of-range index. Run cargo test --example 38_friends_solution.
+None means an out-of-range index. Run cargo test --example 39_friends_solution.
 -->
 
 ---
 
-# 38 · What did we trade away?
+# 39 · What did we trade away?
 
 - IDs survive vector growth, not arbitrary removal or reordering.
 - IDs belong to their issuing directory by convention, not by type.

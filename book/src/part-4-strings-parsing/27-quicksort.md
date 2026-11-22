@@ -2,13 +2,6 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-> **BONUS.** Optional exercise.
-> Skip it if you're short on time; nothing later in the book depends on it.
-
-- Sort integers into ascending order while leaving the supplied slice unchanged.
-- Keep `quicksort(input: &[i32]) -> Vec<i32>` for the first solution.
-- Preserve every element, including duplicates, and consider other interfaces only as alternatives.
-
 ## Code to refactor
 
 - Starter and its tests: `examples/27_quicksort.rs`.
@@ -19,6 +12,13 @@
 - A Lomuto partition moves values less than or equal to the pivot to the left, then places the pivot between the partitions.
 - Recursive calls sort the ranges on either side of that pivot.
 - Distinguish mutation of the private copy from mutation of the caller's slice.
+
+> **BONUS.** Optional exercise.
+> Skip it if you're short on time; nothing later in the book depends on it.
+
+- Sort integers into ascending order while leaving the supplied slice unchanged.
+- Keep `quicksort(input: &[i32]) -> Vec<i32>` for the first solution.
+- Preserve every element, including duplicates, and consider other interfaces only as alternatives.
 
 ## Discussion
 
@@ -56,8 +56,12 @@
 
 </details>
 
+## Solution
+
+The quicksort comparison weighs readability against allocation costs and behavior on large inputs.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 

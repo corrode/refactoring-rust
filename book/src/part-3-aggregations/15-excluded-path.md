@@ -1,9 +1,5 @@
 # `excluded_path`
 
-This function checks whether a path starts with any configured exclusion prefix.
-Refactor it while preserving its signature and behaviour: absent or empty exclusions return `false`.
-Then consider whether you would change the interface as a separate step.
-
 ## Code to refactor
 
 ```rust,editable
@@ -26,6 +22,10 @@ cargo test --example 15_excluded_path
 
 </div>
 
+
+This function checks whether a path starts with any configured exclusion prefix.
+Refactor it while preserving its signature and behaviour: absent or empty exclusions return `false`.
+Then consider whether you would change the interface as a separate step.
 
 ## Discussion
 
@@ -84,8 +84,12 @@ A prefix match alone cannot prove filesystem containment.
 
 </details>
 
+## Solution
+
+The comparison separates the path-prefix check from the interface choices around missing and empty exclusions.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/15_excluded_path.rs:listing}}

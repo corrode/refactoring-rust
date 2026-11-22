@@ -1,9 +1,5 @@
 # `is_yes`
 
-This function checks whether a string means "yes."
-Refactor it without changing its signature or which inputs it accepts.
-The first solution keeps both; the alternatives explore changes to the API and behavior.
-
 You can edit the code below and press **Run** to test your changes.
 Each editable block has its own attached **Tests and local setup** editor.
 Expand it to inspect the assertions, add a case, or change a caller.
@@ -32,6 +28,10 @@ cargo test --example 01_is_yes
 ```
 
 </div>
+
+This function checks whether a string means "yes."
+Refactor it without changing its signature or which inputs it accepts.
+The first solution keeps both; the alternatives explore changes to the API and behavior.
 
 ## Discussion
 
@@ -81,8 +81,12 @@ Borrowing the parameter doesn't prevent an implementation from allocating later.
 
 </details>
 
+## Solution
+
+Compare the implementations by the spellings they accept and what they ask of callers.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Keep the signature and accepted spellings
 

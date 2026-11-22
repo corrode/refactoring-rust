@@ -1,9 +1,5 @@
 # `person_info`
 
-This function formats a person's name and an age-based label.
-Can you make the match easier to read?
-Keep the function signature, the `Person` fields, and the exact output strings unchanged.
-
 ## Code to refactor
 
 ```rust,editable
@@ -25,6 +21,10 @@ cargo test --example 04_person_info
 ```
 
 </div>
+
+This function formats a person's name and an age-based label.
+Can you make the match easier to read?
+Keep the function signature, the `Person` fields, and the exact output strings unchanged.
 
 ## Discussion
 
@@ -67,8 +67,12 @@ Changing the ranges or labels is a separate policy change; the boundary tests de
 
 </details>
 
+## Solution
+
+Compare how clearly each version connects a person's age and name to the description it returns.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/04_person_info.rs:listing}}

@@ -189,6 +189,9 @@ slidev --port 4000
   the clock.
 - File numbering matches `examples/NN_name.rs` exactly, so saying
   "exercise 19" works for both the deck and the codebase.
+- Exercise 38 (`mapped_parser`) comes before the advanced exercise 39 (`friends`), the last domain-modeling exercise.
+  Its std-only fixture reduces the real [nom PR #1626](https://github.com/rust-bakery/nom/pull/1626) refactor; it is not a verbatim upstream excerpt and adds no nom dependency.
+  Keep the generic-input and single-output/error trade-off visible rather than promising better inference or performance.
 
 ## Things to add later
 

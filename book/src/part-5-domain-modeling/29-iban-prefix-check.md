@@ -2,10 +2,6 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Review a checker for country codes, check-digit positions, ASCII content, and country-specific lengths.
-- Keep support limited to DE, GB, FR, CH, NL, and AT, without adding checksum or bank-account verification.
-- API design is open in this domain-modeling part, but any interface change needs an explicit caller and test migration.
-
 ## Code to refactor
 
 - Starter: `examples/29_iban_prefix_check.rs`, including its five unit tests.
@@ -13,6 +9,10 @@
 - Current approach: collect `s.chars()` into `Vec<char>`, check its length, slice the country from the string, then inspect individual characters.
 - Country lengths come from an `if` ladder, followed by a comparison against the collected character count.
 - Workshop context: `slides/pages/29_iban_prefix_check.md`, including notes on byte access, country tables, and the excluded checksum calculation.
+
+- Review a checker for country codes, check-digit positions, ASCII content, and country-specific lengths.
+- Keep support limited to DE, GB, FR, CH, NL, and AT, without adding checksum or bank-account verification.
+- API design is open in this domain-modeling part, but any interface change needs an explicit caller and test migration.
 
 ## Discussion
 
@@ -46,8 +46,12 @@
 
 </details>
 
+## Solution
+
+Compare how the checker handles arbitrary text and which guarantees its result actually provides about an IBAN prefix.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution: checked slicing and byte-oriented rules
 

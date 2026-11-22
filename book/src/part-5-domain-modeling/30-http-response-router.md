@@ -2,10 +2,6 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Review a function that chooses an application action from an HTTP status and an owned response body.
-- Account for status families, exceptional statuses, text decoding, and observable output when describing the behavior to retain.
-- API changes are allowed in this domain-modeling part, provided callers and tests migrate with them.
-
 ## Code to refactor
 
 - Starter: `examples/30_http_response_router.rs`, including the complete branches omitted from the shortened slide listing.
@@ -13,6 +9,10 @@
 - Public entry point: `handle_response(resp: Response) -> Action`, consuming the response rather than borrowing or cloning its body.
 - Current approach: repeated numeric comparisons, nested checks for particular statuses, UTF-8 conversion on the success path, and branch-local `println!` calls.
 - Workshop context: `slides/pages/30_http_response_router.md`, including speaker notes on separating classification from policy and using `http::StatusCode`.
+
+- Review a function that chooses an application action from an HTTP status and an owned response body.
+- Account for status families, exceptional statuses, text decoding, and observable output when describing the behavior to retain.
+- API changes are allowed in this domain-modeling part, provided callers and tests migrate with them.
 
 ## Discussion
 
@@ -46,8 +46,12 @@
 
 </details>
 
+## Solution
+
+Compare how clearly the routing rules handle status codes and response bodies, including the effects callers can observe.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution: classify first, then choose an action
 

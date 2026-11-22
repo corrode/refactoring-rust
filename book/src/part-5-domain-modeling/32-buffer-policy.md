@@ -1,10 +1,5 @@
 # `buffer_policy`
 
-`BufferConfig` selects how a read buffer is sized.
-Review its representation while keeping the setter signatures and behaviour unchanged.
-You may change the public type in this domain-modeling exercise; adapt code that constructs or inspects it directly.
-This exercise is inspired by hyper's buffer configuration.[^source]
-
 ## Code to refactor
 
 ```rust,editable
@@ -15,6 +10,11 @@ This exercise is inspired by hyper's buffer configuration.[^source]
 {{#include ../../../examples/32_buffer_policy.rs:tests}}
 </script>
 
+
+`BufferConfig` selects how a read buffer is sized.
+Review its representation while keeping the setter signatures and behaviour unchanged.
+You may change the public type in this domain-modeling exercise; adapt code that constructs or inspects it directly.
+This exercise is inspired by hyper's buffer configuration.[^source]
 
 ## Discussion
 
@@ -60,8 +60,12 @@ Adding a minimum exact size would change the contract rather than preserve it.
 
 </details>
 
+## Solution
+
+Compare how the representations express buffer-sizing choices while retaining the setters' behavior and numeric rules.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Name the three policies
 

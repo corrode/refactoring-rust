@@ -1,5 +1,8 @@
 # Acknowledgements
 
+Thanks to everyone who challenged an early workshop solution.
+Many of those objections now appear in the trade-off sections.
+
 > **Draft outline.** Bullet notes for the appendix; explanations still to be written.
 
 - Separate contributions to this book from the sources that informed its exercises and from the legal notices attached to adapted code.
@@ -18,7 +21,7 @@
 
 ## Named teaching sources
 
-- **Jack O'Connor, Object Soup is Made of Indexes:** the teaching article credited in [38: friends](../part-5-domain-modeling/38-friends.md), its slide page, and both Rust files.
+- **Jack O'Connor, Object Soup is Made of Indexes:** the teaching article credited in [39: friends](../part-5-domain-modeling/39-friends.md), its slide page, and both Rust files.
   - The example develops the distinction between object relationships and ownership through indices, not a report of a production refactoring PR.
   - Retain the [article link](https://jacko.io/object_soup.html) alongside the acknowledgement so the source remains identifiable.
 - **Advent of Code 2015, Day 1: Not Quite Lisp:** the problem source named in `examples/11_floor.rs` and the slide page for [11: floor](../part-2-option-result/11-floor.md).
@@ -36,6 +39,9 @@
   - The recorded MIT notice is copyright 2019 iqlusion; PR #1140 restructured `SecretBox` and is not evidence of an upstream version of the starter's secret leak.
 - **rustls and Joseph Birr-Pixton:** [36: config_typestate](../part-5-domain-modeling/36-config-typestate.md) simplifies a pinned generic typed transition into instructor-created concrete states.
   - The recorded MIT notice is copyright 2016 Joseph Birr-Pixton; the historical builder is a design source, not a verified before-and-after refactoring report.
+- **nom and Geoffroy Couprie:** [38: mapped_parser](../part-5-domain-modeling/38-mapped-parser.md) reduces the real parser-associated-types refactor in [PR #1626](https://github.com/rust-bakery/nom/pull/1626), merged January 22, 2023.
+  - The recorded MIT notice is copyright 2014–2019 Geoffroy Couprie; the std-only fixture omits nom's remaining-input, streaming, and error abstractions rather than reproducing upstream code verbatim.
+  - [Further reading](further-reading.md#production-history-and-design-sources) retains the pinned before-and-after sources and the PR's design caveats.
 - These names identify projects or copyright holders documented by the source records, not people claimed to have reviewed, approved, or contributed to this book.
 - Keep the full applicable notices with redistributed adapted code; a short acknowledgement does not replace a required copyright and permission notice.
 
@@ -48,8 +54,8 @@
 
 ## Attribution review before publication
 
-- `THIRD_PARTY_NOTICES.md` explicitly covers exercises 32, 33, 35, and 36 only, so it cannot stand in for a repository-wide attribution or dependency review.
-- TODO(prose): Review any retained article quotations, puzzle wording, or adapted snippets outside those four exercises and record the applicable terms rather than assuming the repository's MIT license grants upstream rights.
+- `THIRD_PARTY_NOTICES.md` explicitly covers exercises 32, 33, 35, 36, and 38 only, so it cannot stand in for a repository-wide attribution or dependency review.
+- TODO(prose): Review any retained article quotations, puzzle wording, or adapted snippets outside those five exercises and record the applicable terms rather than assuming the repository's MIT license grants upstream rights.
 - TODO(prose): Verify individual PR-author attribution before adding personal names to the project credits; a repository name, copyright holder, and change author are not interchangeable.
 - Check that chapter notes, slides, source comments, bibliography entries, and acknowledgements describe the same provenance when examples are revised.
 - Do not turn source credit into a statement of permission, sponsorship, endorsement, or participation unless the author has evidence for that statement.

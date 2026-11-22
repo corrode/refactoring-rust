@@ -2,11 +2,6 @@
 
 > **Draft outline.** The exercise and solution are runnable; the bullet notes are a reference for the chapter's prose.
 
-This function recognizes a complete buffer containing an opening `0xA5` byte, a kind byte in `1..=3`, any number of payload bytes, and a closing `0x5A` byte.
-It returns the kind and a borrowed payload, or `None` if the buffer does not match that format.
-Make the implementation easier to follow while preserving its signature, accepted inputs, and allocation-free behaviour.
-The starter is correct; this exercise does not require a bug fix.
-
 ## Code to refactor
 
 ```rust,editable
@@ -28,6 +23,11 @@ cargo test --example 26_frame_body
 ```
 
 </div>
+
+This function recognizes a complete buffer containing an opening `0xA5` byte, a kind byte in `1..=3`, any number of payload bytes, and a closing `0x5A` byte.
+It returns the kind and a borrowed payload, or `None` if the buffer does not match that format.
+Make the implementation easier to follow while preserving its signature, accepted inputs, and allocation-free behaviour.
+The starter is correct; this exercise does not require a bug fix.
 
 ## Discussion
 
@@ -65,8 +65,12 @@ cargo test --example 26_frame_body
 
 </details>
 
+## Solution
+
+Both versions recognize complete frames; compare how clearly they express the format and the borrowed payload contract.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Check the layout and bind its parts together
 

@@ -46,8 +46,8 @@ dividers**:
 - **Part II, `Option` · `Result` · `?`** (07–13)
 - **Part III, Aggregations & counting** (14–20)
 - **Part IV, Strings, parsing & iterators** (21–27)
-- **Part V, Domain modeling** (28–38)
-- **Part VI, Larger refactors** (39–40)
+- **Part V, Domain modeling** (28–39)
+- **Part VI, Larger refactors** (40–41)
 
 Each part has a 1–3 paragraph intro page describing the theme and what the
 reader will learn across its chapters.
@@ -57,24 +57,30 @@ reader will learn across its chapters.
 ## 3. Per-chapter anatomy
 
 Use `src/part-1-warmups/01-is-yes.md` as the format reference.
-Start with an unnumbered exercise-name title and a short task-specific introduction.
-State constraints without giving away the diagnosis or solution. Avoid repeating
-the first chapter's instructions for using the editor and repository.
+Start with an unnumbered exercise-name title, then **Code to refactor** before the task explanation.
+Only the first exercise explains how to run and edit code before the listing; its task explanation still follows the starter section.
+Existing draft-status notices may remain beneath the title.
+State constraints without giving away the diagnosis or solution, and avoid repeating the first chapter's instructions for using the editor and repository.
 
 1. **Code to refactor**: an editable include from `examples/`, followed by an expandable **Tests and local setup** editor.
    Each block has one explicitly attached suite; learners can edit callers when changing an API.
    No EXERCISE or TRY THIS callout.
-2. **Discussion**: independent, initially closed question-and-answer disclosures.
+2. **Task explanation**: describe the task and constraints after the starter listing, attached tests, and any local setup, without a separate heading.
+   Keep optional-exercise notices and intentional failure notices with this explanation, visible outside disclosures.
+   Draft outlines retain their source notes in **Code to refactor**, followed by the task explanation.
+3. **Discussion**: independent, initially closed question-and-answer disclosures.
    Put each explanation with its question; do not repeat the questions in a callout.
-3. **Show Solutions**: the main solution, alternatives, and relevant edge cases in one
-   collapsed box. Show a signature-preserving refactor first; reserve API changes for alternatives.
+4. **Solution**: a visible heading and brief, exercise-specific context, followed by a separate **Show solution** disclosure.
+   Keep the context free of spoilers and the disclosure closed by default.
+   Put the main solution, alternatives, and relevant edge cases inside it.
+   Show a signature-preserving refactor first; reserve API changes for alternatives.
    Keep the original caller-facing types in the first solution too.
    Domain modeling is the exception: the first solution may redesign the API, with caller migration and updated tests explained.
    Use level-three subheadings within it.
    End the disclosure with **Trade-offs** under `### Trade-offs`, with any subheadings at level four or deeper.
    Compare named variants against an **Original** column, with the six criteria as rows and a short reason beside each score.
-4. **Takeaways For Our Own Codebase**: questions for further work or team discussion.
-5. **References**: named concepts with links to the concept index.
+5. **Takeaways For Our Own Codebase**: questions for further work or team discussion.
+6. **References**: named concepts with links to the concept index.
 
 Preserve useful technical details when applying this format. Unwritten chapters
 stay marked as drafts. Quizzes are optional and must meet the criteria in §13;
@@ -150,7 +156,7 @@ These checks cover executable examples, not the correctness of every claim or ex
 **mdBook + judgement-style quizzes + Rust Playground integration.**
 
 - **Quizzes (optional):** only when a new application or decision adds value.
-  Place them outside the Show Solutions disclosure, after its Trade-offs section and before Takeaways For Our Own Codebase. Do not repeat
+  Place them outside the Show solution disclosure, after its Trade-offs section and before Takeaways For Our Own Codebase. Do not repeat
   points already covered in the chapter. Question style is **judgement**, not recall:
   - "Which of these signatures best expresses the invariant?"
   - "Which axis does change X improve at the cost of which other axis?"
@@ -163,6 +169,9 @@ These checks cover executable examples, not the correctness of every claim or ex
 - **Playground:** mdBook's built-in play button on `rust` blocks. Only
   enabled on blocks the reader is meant to run (starters, snippets); use
   `noplayground` for illustrative code. Pattern documented in `STYLE.md`.
+- **Sidebar navigation:** use native chapter folding, with unrelated parts initially collapsed and the current part opened automatically.
+- **Important caveats:** use native mdBook admonitions sparingly for expected starter failures and production limitations, without replacing the discussion and solution disclosures.
+  No additional preprocessor is needed.
 - **No CLI fetcher** in v1. `git clone` is good enough; mentioned in
   How-to-use.
 - **No ownership visualizer.** Wrong fit, this book teaches taste, not
@@ -197,28 +206,29 @@ Style rules (the full version lives in `book/STYLE.md`):
 
 **Front matter (in order, before Part I):**
 
-1. **Refactoring Rust.** Introduces the book and its approach.
-   Its **How to use this book** section covers **Solo**, **Pair**, **Book club / team**, and **Workshop facilitator** modes.
+1. **Refactoring Rust.** A short introduction to the book's purpose, assumed knowledge, and hands-on approach, with a direct link to the first exercise.
+   Link to the appendix for detailed instructions, contribution policy, and licensing rather than repeating them here.
+
 **Back matter (appendix, in order):**
 
-3. **How to run a code review.** ~5–8 pages, pure prose, no Rust-specific
+1. **How to use this book.** Covers **Solo**, **Pair**, **Book club / team**, and **Workshop facilitator** modes, browser and local code execution, building the book, and chapter conventions.
+2. **How to run a code review.** ~5–8 pages, pure prose, no Rust-specific
    code. The book's meta-thesis: ask questions, don't dictate; every
    refactor has a cost; type-driven design is a tool not a religion.
-4. **The trade-off axes.** Defines the six axes once and for all, with a
+3. **The trade-off axes.** Defines the six axes once and for all, with a
    worked example.
-5. **Roadmap.** One page listing the parts and what each teaches.
-
-6. **Concept index**: curated, not auto-generated. Every named concept
+4. **Roadmap.** One page listing the parts and what each teaches.
+5. **Concept index**: curated, not auto-generated. Every named concept
    listed with the chapters that introduce and reuse it. Doubles as the
    target of every chapter's References section. Surfaces in the top
    nav as **"Cheatsheet"** (friendlier label).
-7. **Trade-off matrix appendix**: one big table; rows are exercises,
+6. **Trade-off matrix appendix**: one big table; rows are exercises,
    columns are the six axes, with one row per exercise and solution variant. The whole-forest view no competitor publishes.
-8. **Further reading**: consolidated, deduplicated bibliography.
-9. **Contributing & errata**: short; points at the issue templates.
-10. **Acknowledgements**: every accepted issue, alternative-solution PR,
-    typo fix gets a name. Closes the loop with the community even when we
-    don't accept prose PRs.
+7. **Further reading**: consolidated, deduplicated bibliography.
+8. **Contributing & errata**: issue reporting, contribution policy, licensing, and reuse, with links to the policy and license sources.
+9. **Acknowledgements**: every accepted issue, alternative-solution PR,
+   typo fix gets a name. Closes the loop with the community even when we
+   don't accept prose PRs.
 
 **Glossary** is deliberately *not* a separate structure, definitions live
 inside Concept index entries.
@@ -255,6 +265,7 @@ refactoring/
 │   │   ├── part-2-control-flow/
 │   │   ├── ...
 │   │   └── appendix/
+│   │       ├── how-to-use.md
 │   │       ├── how-to-run-a-code-review.md
 │   │       ├── trade-off-axes.md
 │   │       ├── roadmap.md
@@ -356,7 +367,7 @@ v1 scope:
 
 **Diagrams:** tables everywhere they help; mermaid (~6–10 diagrams across
 the whole book, only where genuinely useful, e.g. state machines in ch. 24
-or type relationships in ch. 40). No hand-drawn illustrations. No
+or type relationships in ch. 41). No hand-drawn illustrations. No
 screenshots.
 
 ---
@@ -402,7 +413,7 @@ their structure. No separate format spec document.
 
 ### Phase 0, Scaffolding (~1 day)
 
-- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 40
+- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 41
   chapter entries (unwritten ones as plain text `- [Title]()`).
 - All part-intro stubs.
 - CI workflow (`cargo test --examples`, `mdbook test`, `mdbook build`,

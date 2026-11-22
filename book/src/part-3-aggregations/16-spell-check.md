@@ -2,15 +2,15 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Return input words not found in the dictionary under the existing case-insensitive comparison.
-- Preserve the output's original spelling, input order, and repeated misspellings.
-- Keep `spell_check(words: &Vec<String>, dict: &Vec<String>) -> Vec<String>` as the first solution's API.
-
 ## Code to refactor
 
 - Source and tests: `examples/16_spell_check.rs`.
 - Starting approach: nested loops, a `found` flag, lowercase-string comparisons, and a clone of each unmatched input word.
 - Companion sources: `slides/pages/16_spell_check.md` and its presenter notes, plus `TODO.md` §6 on a lazy spelling API.
+
+- Return input words not found in the dictionary under the existing case-insensitive comparison.
+- Preserve the output's original spelling, input order, and repeated misspellings.
+- Keep `spell_check(words: &Vec<String>, dict: &Vec<String>) -> Vec<String>` as the first solution's API.
 
 ## Discussion
 
@@ -51,8 +51,12 @@
 
 </details>
 
+## Solution
+
+Compare the cost of dictionary checks alongside the spelling rules and the requirements placed on callers.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 

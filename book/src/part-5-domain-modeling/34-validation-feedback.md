@@ -1,10 +1,5 @@
 # `validation_feedback`
 
-`ValidationReport::suggestions` turns recorded feedback into messages for display.
-Review the report's public interface while preserving the exact messages, order, and duplicates for the three known categories.
-You may change the API in this domain-modeling exercise; adapt callers and tests along with it.
-The task is about representing feedback, not implementing validation rules, password security, or scoring.[^provenance]
-
 ## Code to refactor
 
 ```rust,editable
@@ -26,6 +21,11 @@ cargo test --example 34_validation_feedback
 ```
 
 </div>
+
+`ValidationReport::suggestions` turns recorded feedback into messages for display.
+Review the report's public interface while preserving the exact messages, order, and duplicates for the three known categories.
+You may change the API in this domain-modeling exercise; adapt callers and tests along with it.
+The task is about representing feedback, not implementing validation rules, password security, or scoring.[^provenance]
 
 ## Discussion
 
@@ -67,8 +67,12 @@ An API change can require different construction syntax without changing those e
 
 </details>
 
+## Solution
+
+Compare how the report represents feedback and what callers must do to obtain the same ordered messages.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Store categories, render messages
 

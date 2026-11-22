@@ -1,12 +1,5 @@
 # `typed_ids`
 
-`Engine` stores variables and declarations in separate vectors and looks them up by ID.
-Review its public interface while keeping successful lookups and the `None` result for missing entries.
-You may change the API in this domain-modeling exercise, including how callers construct IDs.
-This workshop-created fixture draws on an ID refactor in [Nushell](https://github.com/nushell/nushell), not on a copy of its engine.[^provenance]
-
-One test intentionally fails; make it pass without weakening its assertion.
-
 ## Code to refactor
 
 ```rust,editable
@@ -29,6 +22,14 @@ cargo test --example 33_typed_ids
 
 </div>
 
+
+`Engine` stores variables and declarations in separate vectors and looks them up by ID.
+Review its public interface while keeping successful lookups and the `None` result for missing entries.
+You may change the API in this domain-modeling exercise, including how callers construct IDs.
+This workshop-created fixture draws on an ID refactor in [Nushell](https://github.com/nushell/nushell), not on a copy of its engine.[^provenance]
+
+> [!NOTE]
+> One test intentionally fails; make it pass without weakening its assertion.
 
 ## Discussion
 
@@ -76,8 +77,12 @@ Decide which guarantee you need before designing constructors that appear to pro
 
 </details>
 
+## Solution
+
+The comparison asks what an ID tells the lookup API and which mistakes callers can still make.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Give each category its own type
 

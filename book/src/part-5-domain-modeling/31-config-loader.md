@@ -2,10 +2,6 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Review access to `PORT`, `HOST`, `DEBUG`, and `MAX_CONNECTIONS` supplied through a `HashMap<String, String>`.
-- Account for defaults, caller ownership, and the public `settings::Settings` interface when comparing designs.
-- API redesign is allowed in this domain-modeling part, with caller migration and changes to input policy identified separately.
-
 ## Code to refactor
 
 - Starter: `examples/31_config_loader.rs`, with four unit tests and a public `settings` module.
@@ -13,6 +9,10 @@
 - Four independent free functions borrow the map and return a port, owned host string, debug flag, or connection limit.
 - Numeric getters parse text on each call, the host getter clones a string, and the debug getter compares exact spellings.
 - Workshop context: `slides/pages/31_config_loader.md`, whose visibility interlude precedes the getter cleanup and typed-settings alternatives.
+
+- Review access to `PORT`, `HOST`, `DEBUG`, and `MAX_CONNECTIONS` supplied through a `HashMap<String, String>`.
+- Account for defaults, caller ownership, and the public `settings::Settings` interface when comparing designs.
+- API redesign is allowed in this domain-modeling part, with caller migration and changes to input policy identified separately.
 
 ## Discussion
 
@@ -46,8 +46,12 @@
 
 </details>
 
+## Solution
+
+Compare the configuration designs by their default rules, handling of malformed values, and requirements for callers.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution: preserve the API and fallback policy
 

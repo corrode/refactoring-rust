@@ -1,9 +1,5 @@
 # `nesting`
 
-This function trims optional text and returns the remaining text in uppercase.
-Can you make it easier to read without changing its signature or results?
-Keep its behaviour for absent input, empty input, whitespace-only input, and non-empty text surrounded by whitespace.
-
 ## Code to refactor
 
 ```rust,editable
@@ -26,6 +22,10 @@ cargo test --example 08_nesting
 
 </div>
 
+
+This function trims optional text and returns the remaining text in uppercase.
+Can you make it easier to read without changing its signature or results?
+Keep its behaviour for absent input, empty input, whitespace-only input, and non-empty text surrounded by whitespace.
 
 ## Discussion
 
@@ -81,8 +81,12 @@ If callers need to tell those cases apart, you'll need a different return type, 
 </details>
 
 
+## Solution
+
+Compare how easily you can follow optional text from the input to an uppercase result, including the cases that return nothing.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/08_nesting.rs:listing}}

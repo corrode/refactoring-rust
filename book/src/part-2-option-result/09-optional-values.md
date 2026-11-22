@@ -1,11 +1,5 @@
 # `optional_values`
 
-This function adds up optional integers.
-Can you express that more directly?
-Keep the same totals, including for missing entries, empty input, and input with no present values.
-Keep the function signature for your first solution.
-Explore different input types as an alternative afterward.
-
 ## Code to refactor
 
 ```rust,editable
@@ -28,6 +22,12 @@ cargo test --example 09_optional_values
 
 </div>
 
+
+This function adds up optional integers.
+Can you express that more directly?
+Keep the same totals, including for missing entries, empty input, and input with no present values.
+Keep the function signature for your first solution.
+Explore different input types as an alternative afterward.
 
 ## Discussion
 
@@ -73,8 +73,12 @@ Depending on the build's overflow-check settings, the addition can panic or wrap
 
 </details>
 
+## Solution
+
+The comparison covers how clearly each version adds up optional integers and what ownership it requires from callers.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/09_optional_values.rs:listing}}

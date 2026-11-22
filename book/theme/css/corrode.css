@@ -537,6 +537,12 @@ html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .sidebar .chapter li.chap
     background: transparent;
 }
 
+.sidebar .chapter-fold-toggle:focus-visible {
+    outline: 2px solid var(--sidebar-active);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
 /* ---------- Info boxes / blockquotes ----------
  *
  * Brown-style: flat filled surface, NO coloured left border, NO rounded
@@ -668,9 +674,9 @@ html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .menu-bar {
  *   - Revisit inline-code colour (amber vs. teal) after prose lands.
  */
 
-/* The heading is also the native disclosure control. */
+/* Solution headings and context stay outside the native disclosure. */
 .content details.solution {
-    margin: 2em 0;
+    margin: 1em 0 2em;
     padding: 0 1.25rem;
     border: 1px solid var(--links);
     border-radius: 0.5rem;
@@ -682,8 +688,12 @@ html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .menu-bar {
 }
 
 .content details.solution > summary {
-    padding: 1.25rem 0;
+    margin: 0 -1.25rem;
+    padding: 1rem 1.25rem;
+    border-radius: inherit;
     cursor: pointer;
+    font-weight: 600;
+    line-height: 1.5;
 }
 
 .content details.solution > summary::marker {
@@ -696,12 +706,6 @@ html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .menu-bar {
     border-radius: 0.25rem;
 }
 
-.content details.solution > summary h2 {
-    display: inline;
-    margin: 0;
-    font-size: 1.2em;
-    line-height: 1.5;
-}
 
 .content details.solution[open] > summary {
     margin-bottom: 1rem;

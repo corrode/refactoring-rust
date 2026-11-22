@@ -189,22 +189,22 @@ fn temp_file_starter_fails_desired_behavior_and_solution_passes() {
 #[test]
 fn friends_starter_panics_on_self_friendship_and_solution_passes() {
     check_exercise_test(
-        "examples/38_friends.rs",
+        "examples/39_friends.rs",
         "tests::self_friendship_is_a_noop",
         Some("already mutably borrowed"),
     );
-    check_exercise_test("solutions/38_friends.rs", "tests::own_id_is_a_noop", None);
+    check_exercise_test("solutions/39_friends.rs", "tests::own_id_is_a_noop", None);
 }
 
 #[test]
 fn friends_starter_rejects_equal_names_and_solution_passes() {
     check_exercise_test(
-        "examples/38_friends.rs",
+        "examples/39_friends.rs",
         "tests::people_with_same_name_are_distinct",
         Some("distinct people with the same name must be able to be friends"),
     );
     check_exercise_test(
-        "solutions/38_friends.rs",
+        "solutions/39_friends.rs",
         "tests::equal_names_have_distinct_ids",
         None,
     );
@@ -414,9 +414,96 @@ fn temp_file_path_cannot_outlive_its_owner() {
 }
 
 #[test]
+fn mapped_parser_rejects_conflicting_outputs_for_one_input() {
+    check(
+        "38_mapped_parser.rs",
+        r#"
+        struct Ambiguous;
+        impl Parser<&str> for Ambiguous {
+            type Output = u32;
+            type Error = ();
+            fn parse(&mut self, _: &str) -> Result<u32, ()> { Ok(0) }
+        }
+        impl Parser<&str> for Ambiguous {
+            type Output = bool;
+            type Error = ();
+            fn parse(&mut self, _: &str) -> Result<bool, ()> { Ok(true) }
+        }
+        "#,
+        Some("E0119"),
+    );
+}
+
+#[test]
+fn mapped_parser_rejects_conflicting_errors_for_one_input() {
+    check(
+        "38_mapped_parser.rs",
+        r#"
+        struct Ambiguous;
+        impl Parser<&str> for Ambiguous {
+            type Output = u32;
+            type Error = ();
+            fn parse(&mut self, _: &str) -> Result<u32, ()> { Ok(0) }
+        }
+        impl Parser<&str> for Ambiguous {
+            type Output = u32;
+            type Error = &'static str;
+            fn parse(&mut self, _: &str) -> Result<u32, &'static str> { Ok(0) }
+        }
+        "#,
+        Some("E0119"),
+    );
+}
+
+#[test]
+fn mapped_parser_allows_different_input_types() {
+    check(
+        "38_mapped_parser.rs",
+        r#"
+        struct Flexible;
+        impl Parser<&str> for Flexible {
+            type Output = u32;
+            type Error = std::num::ParseIntError;
+            fn parse(&mut self, input: &str) -> Result<Self::Output, Self::Error> {
+                input.parse()
+            }
+        }
+        impl Parser<u32> for Flexible {
+            type Output = String;
+            type Error = std::convert::Infallible;
+            fn parse(&mut self, input: u32) -> Result<Self::Output, Self::Error> {
+                Ok(input.to_string())
+            }
+        }
+        assert_eq!(Flexible.parse("42"), Ok(42));
+        assert_eq!(Flexible.parse(7_u32), Ok(String::from("7")));
+        "#,
+        None,
+    );
+}
+
+#[test]
+fn mapped_parser_supports_generic_helpers_and_mapping() {
+    check(
+        "38_mapped_parser.rs",
+        r#"
+        fn read<I, P: Parser<I>>(mut parser: P, input: I) -> Result<P::Output, P::Error> {
+            parser.parse(input)
+        }
+        let parser: Map<Decimal, _> = Decimal.map(|number| number.to_string());
+        let values: Result<Vec<String>, std::num::ParseIntError> =
+            parse_all::<&str, _>(parser, ["3", "1"]);
+        assert_eq!(values, Ok(vec![String::from("3"), String::from("1")]));
+        assert_eq!(read(Decimal.map(|number| number + 1), "41"), Ok(42));
+        "#,
+        None,
+    );
+}
+
+#[test]
 fn people_allow_id_based_friendships_and_borrowed_views() {
     check(
-        "38_friends.rs",
+        "39_friends.rs",
         r#"
         let mut people = People::default();
         let alice: PersonId = people.add("Alice");
@@ -436,13 +523,13 @@ fn people_allow_id_based_friendships_and_borrowed_views() {
 
 #[test]
 fn person_id_cannot_be_constructed_directly() {
-    check("38_friends.rs", "let _ = PersonId(0);", Some("E0423"));
+    check("39_friends.rs", "let _ = PersonId(0);", Some("E0423"));
 }
 
 #[test]
 fn people_cannot_mutate_while_a_person_view_is_live() {
     check(
-        "38_friends.rs",
+        "39_friends.rs",
         r#"
         let mut people = People::default();
         let alice = people.add("Alice");

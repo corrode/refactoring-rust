@@ -1,12 +1,5 @@
 # `parse_ints`
 
-One function parses integers; the other collects validation errors.
-Can you make both easier to read without changing how they handle errors?
-Parsing must stop at the first failure.
-Validation must run every check and collect all errors in input order.
-Keep the original function signatures and results.
-Consider changes to input ownership afterward as a separate alternative.
-
 ## Code to refactor
 
 ```rust,editable
@@ -29,6 +22,13 @@ cargo test --example 10_parse_ints
 
 </div>
 
+
+One function parses integers; the other collects validation errors.
+Can you make both easier to read without changing how they handle errors?
+Parsing must stop at the first failure.
+Validation must run every check and collect all errors in input order.
+Keep the original function signatures and results.
+Consider changes to input ownership afterward as a separate alternative.
 
 ## Discussion
 
@@ -98,8 +98,12 @@ In an iterator chain, `filter_map` can consume that `Option` directly.
 
 </details>
 
+## Solution
+
+The comparison keeps the two error policies distinct: stop at the first parsing failure, but report every validation error.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/10_parse_ints.rs:listing}}

@@ -1,10 +1,5 @@
 # `room_occupancy`
 
-These functions calculate adult and child totals, find the largest adult count in a room, and collect child ages.
-Refactor one function at a time, keeping every public signature and the order returned by `child_ages`.
-Check what each function returns for empty input and for the full range of values its field types allow.
-Decide explicitly whether any result should change.
-
 ## Code to refactor
 
 ```rust,editable
@@ -27,6 +22,11 @@ cargo test --example 17_room_occupancy
 
 </div>
 
+
+These functions calculate adult and child totals, find the largest adult count in a room, and collect child ages.
+Refactor one function at a time, keeping every public signature and the order returned by `child_ages`.
+Check what each function returns for empty input and for the full range of values its field types allow.
+Decide explicitly whether any result should change.
 
 ## Discussion
 
@@ -85,8 +85,12 @@ Keep both orders when you refactor.
 
 </details>
 
+## Solution
+
+The comparison checks each room summary against its contract, including result order and the values allowed by the field types.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/17_room_occupancy.rs:listing}}

@@ -1,12 +1,5 @@
 # `secret_token`
 
-`Credentials` holds a username and an access token for a request.
-Review its diagnostic output and decide which operations callers should have.
-You may change the public API in this domain-modeling exercise, but keep the username visible and preserve deliberate access to the original token.
-
-This is an instructor-created starter inspired by the existing design of `secrecy`, not historical upstream code or an upstream vulnerability.[^source]
-One starter test intentionally fails; make it pass without weakening its assertions.
-
 ## Code to refactor
 
 ```rust,editable
@@ -29,6 +22,15 @@ cargo test --example 35_secret_token
 
 </div>
 
+
+`Credentials` holds a username and an access token for a request.
+Review its diagnostic output and decide which operations callers should have.
+You may change the public API in this domain-modeling exercise, but keep the username visible and preserve deliberate access to the original token.
+
+This is an instructor-created starter inspired by the existing design of `secrecy`, not historical upstream code or an upstream vulnerability.[^source]
+
+> [!NOTE]
+> One starter test intentionally fails; make it pass without weakening its assertions.
 
 ## Discussion
 
@@ -73,8 +75,12 @@ Test both formatting modes, including credentials nested inside another derived 
 
 </details>
 
+## Solution
+
+The comparison focuses on what credential diagnostics reveal and how callers deliberately access the token.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### A token with explicit access
 
@@ -106,9 +112,10 @@ Runtime formatting tests do not prove that external code cannot access private s
 
 ### Limits and production use
 
-This toy addresses accidental leakage through `Debug`, not secret handling in general.
-It does not zeroize memory, validate tokens, protect process memory, or stop `expose()` results from being logged, copied, or serialized.
-The username remains visible by requirement; whether that is appropriate for production logs is a separate policy decision.
+> [!WARNING]
+> This toy addresses accidental leakage through `Debug`, not secret handling in general.
+> It does not zeroize memory, validate tokens, protect process memory, or stop `expose()` results from being logged, copied, or serialized.
+> The username remains visible by requirement; whether that is appropriate for production logs is a separate policy decision.
 
 For production secret handling, evaluate the `secrecy` crate rather than treating this wrapper as a security implementation.[^source]
 Its existing design combines redacted debugging with explicit secret access and memory-handling facilities that this exercise does not reproduce.[^implementation]

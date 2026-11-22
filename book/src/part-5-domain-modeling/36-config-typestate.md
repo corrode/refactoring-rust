@@ -1,14 +1,5 @@
 # `config_typestate`
 
-This builder assembles a client configuration from a supplied root store.
-Review its public operations and decide which calls should be available at each stage.
-You may change the API in this domain-modeling exercise, but a configured build must preserve the supplied store without cloning it.
-`RootStore` is an opaque teaching stand-in with a string label, not a certificate store or an implementation of trust validation.
-
-The inspiration is [rustls][rustls], whose historical builder uses types to track configuration steps.[^rustls-builder]
-The single-state starter below is our teaching example, **not historical rustls code**.
-The linked source demonstrates a typed API; it is not evidence of a before-and-after refactoring PR.
-
 ## Code to refactor
 
 ```rust,editable
@@ -19,6 +10,15 @@ The linked source demonstrates a typed API; it is not evidence of a before-and-a
 {{#include ../../../examples/36_config_typestate.rs:tests}}
 </script>
 
+
+This builder assembles a client configuration from a supplied root store.
+Review its public operations and decide which calls should be available at each stage.
+You may change the API in this domain-modeling exercise, but a configured build must preserve the supplied store without cloning it.
+`RootStore` is an opaque teaching stand-in with a string label, not a certificate store or an implementation of trust validation.
+
+The inspiration is [rustls][rustls], whose historical builder uses types to track configuration steps.[^rustls-builder]
+The single-state starter above is our teaching example, **not historical rustls code**.
+The linked source demonstrates a typed API; it is not evidence of a before-and-after refactoring PR.
 
 ## Discussion
 
@@ -61,8 +61,12 @@ As with [Rooms](28-rooms.md), ownership and private storage are not content vali
 
 </details>
 
+## Solution
+
+Compare the builder interfaces by the call sequences they allow and the obligations they leave to callers.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Give each stage its own operations
 

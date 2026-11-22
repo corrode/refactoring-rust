@@ -2,15 +2,15 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Find a value with the highest occurrence count in a slice of integers.
-- Keep `most_common(numbers: &[i32]) -> i32` as the first solution's public API.
-- Review the result-selection logic as well as the counting stage.
-
 ## Code to refactor
 
 - Source and tests: `examples/19_mode.rs`; the exercise filename is `mode`, while the function is named `most_common`.
 - Starting approach: count occurrences in a `HashMap<i32, i32>`, seed a `(value, count)` pair from the map, and scan for a larger count.
 - Companion source: `slides/pages/19_mode.md`, including notes that separate the counting idiom from the manual maximum search.
+
+- Find a value with the highest occurrence count in a slice of integers.
+- Keep `most_common(numbers: &[i32]) -> i32` as the first solution's public API.
+- Review the result-selection logic as well as the counting stage.
 
 ## Discussion
 
@@ -55,8 +55,12 @@
 
 </details>
 
+## Solution
+
+Compare how the versions select a most-common value and what callers can expect for ties and empty input.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 

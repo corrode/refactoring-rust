@@ -2,17 +2,6 @@
 
 > **Draft outline.** The exercise and solution are runnable; the bullet notes are a reference for the chapter's prose.
 
-- `read_back` creates a scratch file, writes the supplied bytes, and reads them back as UTF-8 text.
-  Review the file's lifecycle and make the tests pass without weakening their assertions.
-- Keep `read_back(path: &Path, bytes: &[u8]) -> io::Result<String>`.
-  You may redesign the creation API and update its callers in this domain-modeling exercise.
-- Preserve exclusive creation: an existing file must not be truncated or removed.
-  Preserve best-effort cleanup: a removal error must not replace the result of writing or reading.
-- Assume a private, stable parent directory controlled by the caller.
-  Generating temporary names, setting a special permission policy, and defending against external path replacement are outside this exercise.
-
-One starter test intentionally fails.
-
 ## Code to refactor
 
 ```rust,editable
@@ -34,6 +23,18 @@ cargo test --example 37_temp_file
 ```
 
 </div>
+
+- `read_back` creates a scratch file, writes the supplied bytes, and reads them back as UTF-8 text.
+  Review the file's lifecycle and make the tests pass without weakening their assertions.
+- Keep `read_back(path: &Path, bytes: &[u8]) -> io::Result<String>`.
+  You may redesign the creation API and update its callers in this domain-modeling exercise.
+- Preserve exclusive creation: an existing file must not be truncated or removed.
+  Preserve best-effort cleanup: a removal error must not replace the result of writing or reading.
+- Assume a private, stable parent directory controlled by the caller.
+  Generating temporary names, setting a special permission policy, and defending against external path replacement are outside this exercise.
+
+> [!NOTE]
+> One starter test intentionally fails.
 
 ## Discussion
 
@@ -83,8 +84,12 @@ cargo test --example 37_temp_file
 
 </details>
 
+## Solution
+
+The comparison follows scratch-file creation, use, and cleanup across successful operations and early exits.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Give cleanup an owner
 
@@ -139,12 +144,15 @@ cargo test --example 37_temp_file
 
 ### Limits and production choices
 
+> [!WARNING]
+> Destruction is not guaranteed on process abort, `std::process::exit`, or forced termination.
+> Deliberately leaking a guard with `mem::forget` also bypasses its destructor.
+> Ownership arranges cleanup on the supported exits; it cannot promise deletion.
+
 - `Drop::drop` cannot return a cleanup error to the caller.
   Ignore removal errors under this exercise's best-effort policy rather than calling `unwrap`, which could cause a second panic during unwinding.
   Removing a file that is already absent must not panic either.
-- Destruction is not guaranteed on process abort, `std::process::exit`, or forced termination.
-  Deliberately leaking a guard with `mem::forget` also bypasses its destructor.
-  Ownership arranges cleanup on the supported exits; it cannot promise deletion.
+
 - Both versions resolve the supplied path with `std::path::absolute` before creation.
   This avoids a later working-directory change redirecting cleanup, but an absolute path does not establish filesystem identity.
 - Both versions close the creation handle before returning.
@@ -203,4 +211,4 @@ There is no claimed speed-up: the successful path does the same filesystem work,
 - [`File::create_new`](https://doc.rust-lang.org/std/fs/struct.File.html#method.create_new) and [`remove_file`](https://doc.rust-lang.org/std/fs/fn.remove_file.html): exclusive creation and fallible removal.
 - [`std::path::absolute`](https://doc.rust-lang.org/std/path/fn.absolute.html): an absolute path is not a guarantee of file identity.
 - [`tempfile::NamedTempFile`](https://docs.rs/tempfile/latest/tempfile/struct.NamedTempFile.html): production-library context, not an added dependency or tested alternative here.
-- [config_typestate](36-config-typestate.md) and [friends](38-friends.md): ownership can control available operations and object lifetimes, not only memory allocation.
+- [config_typestate](36-config-typestate.md) and [friends](39-friends.md): ownership can control available operations and object lifetimes, not only memory allocation.

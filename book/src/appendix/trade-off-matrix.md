@@ -88,13 +88,17 @@
 - [37: temp_file](../part-5-domain-modeling/37-temp-file.md): compare Original's end-of-function manual cleanup with a non-`Clone` `TempFile` guard owning a private `PathBuf`.
   - `read_back` keeps its signature, while construction returns a guard and callers borrow its path; ordinary `?` errors now attempt cleanup, but deletion can fail and `Drop` cannot return the removal error.
   - Both use absolute paths and `File::create_new` in a stable private directory controlled by the caller; neither generates secure temporary names or guarantees cleanup on abort.
-- [38: friends](../part-5-domain-modeling/38-friends.md): compare shared person handles with one owner and local IDs, including self-link behavior, equal-name identity, lifetime control, and unresolved cross-owner IDs.
+- [38: mapped_parser](../part-5-domain-modeling/38-mapped-parser.md): compare `Parser<I, O, E>` and its marker-bearing adapter with `Parser<Input>` and associated output and error types.
+  - Fixed `Self` and `Input` now determine one output and error type; bounds, adapter types, and explicit caller annotations must migrate, while genuinely generic inputs remain supported.
+  - Parsing results and errors stay unchanged, but multiple outputs or errors for the same parser and input are no longer permitted.
+  - Fewer type parameters do not guarantee better inference or runtime performance; `PhantomData` is zero-sized, and removing it can affect auto traits.
+- [39: friends](../part-5-domain-modeling/39-friends.md): compare shared person handles with one owner and local IDs, including self-link behavior, equal-name identity, lifetime control, and unresolved cross-owner IDs.
 
 ## Part VI: larger refactors
 
-- [39: env_file_parser](../part-6-capstone/39-env-file-parser.md): compare Original with the compatible line helper first, then treat the state-machine alternative as a different grammar and failure policy.
+- [40: env_file_parser](../part-6-capstone/40-env-file-parser.md): compare Original with the compatible line helper first, then treat the state-machine alternative as a different grammar and failure policy.
   - Its richer errors do not yet imply reliable line locations after multiline quoted input, and partial accepted data differs from all-or-error parsing.
-- [40: mini_redis](../part-6-capstone/40-mini-redis.md): compare Original with the compatible dispatch cleanup before the single-map value/command/reply redesign.
+- [41: mini_redis](../part-6-capstone/41-mini-redis.md): compare Original with the compatible dispatch cleanup before the single-map value/command/reply redesign.
   - Keep store-field compatibility, cross-type collisions, arity behavior, command casing, and reply formatting beside the API comparison even though the handler signature stays unchanged.
 
 ## Conditions before final ratings

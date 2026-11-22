@@ -2,16 +2,16 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Refactor an in-memory command interpreter for `SET key value`, `LPUSH key value [value ...]`, and `HSET key field value`.
-- The first solution must preserve `handle(db: &mut Db, args: &[&str]) -> String`, the public `Db` fields and their types, and existing observable behavior.
-- Keep the exercise focused on command handling, not building a Redis server.
-
 ## Code to refactor
 
-- Source: `examples/40_mini_redis.rs`, including its six unit tests.
+- Source: `examples/41_mini_redis.rs`, including its six unit tests.
 - Current storage: `Db` derives `Default` and exposes `strings`, `lists`, and `hashes` as separate maps.
 - Current dispatch: uppercase the command, choose an `if`/`else` branch, inspect arguments, mutate the relevant map, and format a reply string.
 - Callers provide an already separated argument slice, so tokenization, quoting syntax, and network input are not part of `handle`.
+
+- Refactor an in-memory command interpreter for `SET key value`, `LPUSH key value [value ...]`, and `HSET key field value`.
+- The first solution must preserve `handle(db: &mut Db, args: &[&str]) -> String`, the public `Db` fields and their types, and existing observable behavior.
+- Keep the exercise focused on command handling, not building a Redis server.
 
 ## Discussion
 
@@ -56,12 +56,16 @@
 
 </details>
 
+## Solution
+
+Compare the command handlers across argument rules, database updates, and exact replies, keeping compatibility separate from redesign.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 
-- Source: `solutions/40_mini_redis.rs`, with the same `handle` signature, `Db::default()`, and public field layout.
+- Source: `solutions/41_mini_redis.rs`, with the same `handle` signature, `Db::default()`, and public field layout.
 - Preserve `pub strings: HashMap<String, String>` and `pub lists: HashMap<String, Vec<String>>`.
 - Preserve `pub hashes: HashMap<String, HashMap<String, String>>`, including callers' direct access to inner maps.
 - `split_first` handles the empty slice before dispatch, and `match` groups the three normalized command cases.
@@ -75,7 +79,7 @@
 
 ### Alternative: typed values, commands, and replies
 
-- Source: `solutions/40_mini_redis_alt.rs`, the only checked-in redesign for this exercise.
+- Source: `solutions/41_mini_redis_alt.rs`, the only checked-in redesign for this exercise.
 - `Db` exposes `pub store: HashMap<String, Value>` instead of the original three fields.
 - Public `Value` variants contain a `String`, a `Vec<String>`, or a `HashMap<String, String>`, so each stored key has exactly one value variant.
 - The store is still public, allowing callers to replace a value's variant directly rather than enforcing all updates through commands.
@@ -160,4 +164,4 @@
 - [Redis `SET`](https://redis.io/docs/latest/commands/set/) documents replacement of an existing value regardless of type for the plain command.
 - [RESP simple errors](https://redis.io/docs/latest/develop/reference/protocol-spec/#simple-errors) distinguish the error prefix from the remaining message.
 - [The six trade-off axes](../appendix/trade-off-axes.md#the-six-axes) provide the criteria for later comparison tables without an overall winner.
-- [`env_file_parser` solutions](39-env-file-parser.md#solutions) separate a contract-preserving refactor from richer parsing and changed errors.
+- [`env_file_parser` solutions](40-env-file-parser.md#solutions) separate a contract-preserving refactor from richer parsing and changed errors.

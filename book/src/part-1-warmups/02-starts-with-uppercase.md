@@ -1,8 +1,5 @@
 # `starts_with_uppercase`
 
-This function checks whether a string starts with an uppercase letter.
-Refactor it while preserving its behaviour and function signature.
-
 ## Code to refactor
 
 
@@ -25,6 +22,9 @@ cargo test --example 02_starts_with_uppercase
 ```
 
 </div>
+
+This function checks whether a string starts with an uppercase letter.
+Refactor it while preserving its behaviour and function signature.
 
 ## Discussion
 
@@ -74,8 +74,12 @@ An empty string has no first character, so it cannot start with an uppercase let
 
 </details>
 
+## Solution
+
+The comparison covers empty strings, uppercase checks, and what callers need to provide.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/02_starts_with_uppercase.rs:listing}}

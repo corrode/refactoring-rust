@@ -1,9 +1,5 @@
 # `list_sum`
 
-This function consumes a linked list and returns the sum of its values, or zero for an empty list.
-Refactor it while keeping `sum(List) -> i32`, the `List` type, and the original behavior.
-The first solution preserves those constraints; the alternative explores a different implementation with the same API.
-
 ## Code to refactor
 
 ```rust,editable
@@ -26,6 +22,10 @@ cargo test --example 20_list_sum
 ```
 
 </div>
+
+This function consumes a linked list and returns the sum of its values, or zero for an empty list.
+Refactor it while keeping `sum(List) -> i32`, the `List` type, and the original behavior.
+The first solution preserves those constraints; the alternative explores a different implementation with the same API.
 
 ## Discussion
 
@@ -77,8 +77,12 @@ The same signature doesn't guarantee the same behavior.
 
 </details>
 
+## Solution
+
+Compare the list traversals by their clarity, arithmetic behavior, and memory requirements.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Repeat the item pattern with `while let`
 

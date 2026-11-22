@@ -1,6 +1,6 @@
-# Third-party notices for exercises 32–33 and 35–36
+# Third-party notices for exercises 32–33, 35–36, and 38
 
-This file records the upstream sources and MIT notices for these four exercises only; it is not a repository-wide dependency inventory.
+This file records the upstream sources and MIT notices for these five exercises only; it is not a repository-wide dependency inventory.
 The notices below were fetched from the same commits cited in the chapters.
 Keep the applicable copyright and permission notice when redistributing adapted code, including listings reproduced in the book or slides.
 These notices do not change the repository's separate code and prose licenses.
@@ -147,4 +147,41 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+```
+
+## 38 · nom parser associated types
+
+- Project: [nom](https://github.com/rust-bakery/nom).
+- Verified PR: [#1626, Parser associated types](https://github.com/rust-bakery/nom/pull/1626), merged January 22, 2023.
+- Pinned source before: [`src/internal.rs`, parser trait](https://github.com/rust-bakery/nom/blob/4c6e45eded6e76a227f8069ec3f77f8a14b988c8/src/internal.rs#L237-L253) and [`Map`](https://github.com/rust-bakery/nom/blob/4c6e45eded6e76a227f8069ec3f77f8a14b988c8/src/internal.rs#L397-L410), at the merge commit's parent.
+- Pinned source after: [`src/internal.rs`, parser trait](https://github.com/rust-bakery/nom/blob/bf8cddbdbdf768a2128b7817c4670da059351f9f/src/internal.rs#L237-L254) and [`Map`](https://github.com/rust-bakery/nom/blob/bf8cddbdbdf768a2128b7817c4670da059351f9f/src/internal.rs#L386-L403), at the merge commit.
+- License: [MIT notice at the merge commit](https://raw.githubusercontent.com/rust-bakery/nom/bf8cddbdbdf768a2128b7817c4670da059351f9f/LICENSE).
+- Local files: `examples/38_mapped_parser.rs`, `solutions/38_mapped_parser.rs`, `book/src/part-5-domain-modeling/38-mapped-parser.md`, and `slides/pages/38_mapped_parser.md`.
+
+Upstream changed `Parser<I, O, E>` to `Parser<Input>` with associated `Output` and `Error: ParseError<Input>`, and `Map<Self, G, O>` to `Map<Self, G>`, removing its `PhantomData`.
+The std-only workshop fixture reduces that change to `Result<O, E>`, a `Decimal` parser yielding `u32` or `ParseIntError`, a mapping adapter, and a `parse_all` helper.
+It omits remaining-input tracking, streaming, and nom's error abstractions, and adds no nom dependency.
+These are teaching adaptations of the real refactor, not verbatim upstream implementations.
+
+```text
+Copyright (c) 2014-2019 Geoffroy Couprie
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```

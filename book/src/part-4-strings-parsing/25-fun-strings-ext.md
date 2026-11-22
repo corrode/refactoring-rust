@@ -2,10 +2,6 @@
 
 > **Draft outline.** Bullet notes for the chapter; explanations still to be written.
 
-- Review three string helpers and how callers combine them.
-- Preserve `shout(s: &str) -> String`, `sparkle(s: &str) -> String`, and `spongebob_case(s: &str) -> String` in the first solution.
-- Keep the helpers' current text transformations while considering a separate caller-facing design.
-
 ## Code to refactor
 
 - Starter and its tests: `examples/25_fun_strings_ext.rs`.
@@ -15,6 +11,10 @@
 - `spongebob_case` enumerates input characters, alternating uppercase and lowercase conversion.
 - Each character conversion extends one output buffer.
 - The composition example nests free functions: `sparkle(&shout(s.trim()))`.
+
+- Review three string helpers and how callers combine them.
+- Preserve `shout(s: &str) -> String`, `sparkle(s: &str) -> String`, and `spongebob_case(s: &str) -> String` in the first solution.
+- Keep the helpers' current text transformations while considering a separate caller-facing design.
 
 ## Discussion
 
@@ -52,8 +52,12 @@
 
 </details>
 
+## Solution
+
+The comparison separates the readability of combined string helpers from the text transformations they actually perform.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ### Main solution
 

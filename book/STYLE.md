@@ -88,9 +88,12 @@ Use `src/part-1-warmups/01-is-yes.md` as the format reference.
 The chapter title is the exercise name in backticks, without its number. Keep
 exercise numbers in filenames, commands, and the table of contents.
 
-Start with a short introduction that states the task and any constraints. Adapt it
-to the exercise: don't repeat the first chapter's Run-button instructions, cloning
-instructions, or encouragement.
+Start with **Code to refactor**, then explain the task and its constraints after the starter listing, attached tests, and any local setup.
+Keep that explanation before **Discussion**, without adding a separate heading.
+Only the first exercise explains how to edit and run code before **Code to refactor**; its task explanation still follows the listing.
+Don't repeat those Run-button instructions, cloning instructions, or encouragement in later exercises.
+An existing draft-status notice may remain beneath the chapter title, but task descriptions, optional-exercise notices, and intentional failure notices follow the starter section.
+Draft outlines keep their existing source notes in **Code to refactor**, followed by the task explanation; do not add runnable listings as part of a layout change.
 There is no separate “The problem” heading or EXERCISE / TRY THIS callout.
 
 Put introductory local test commands in a `<div class="playground-local-setup">` directly after the starter listing's attached `script.playground-tests` closing tag, never between the listing and its test script.
@@ -102,7 +105,7 @@ Keep task constraints and intentional failure notices visible outside the disclo
 Do not add run instructions to placeholder or unwritten chapters.
 
 Do not identify the bug, name the refactor, or supply a failing input in the
-introduction. Put those discoveries in Discussion or an optional hint. State
+task explanation. Put those discoveries in Discussion or an optional hint. State
 that the first solution preserves the original function signatures, except in domain modeling.
 In that section, API design is part of the exercise and the first solution may change the interface.
 Explain how callers and tests must adapt whenever the API changes. Don't promise that code works when the task includes
@@ -110,15 +113,16 @@ finding and fixing a bug.
 
 Use this section order:
 
-1. Code to refactor: editable listing followed by one explicit test script.
-2. Discussion: one expandable question-and-answer pair per disclosure.
-3. Show Solutions: one collapsed box with implementations, explanations, and Trade-offs.
+1. Code to refactor: editable listing followed by one explicit test script and any local setup.
+2. Task explanation: what the code does, what to refactor, and the constraints, without a separate heading.
+3. Discussion: one expandable question-and-answer pair per disclosure.
+4. Solution: a visible heading and brief context, followed by one collapsed **Show solution** disclosure with implementations, explanations, and Trade-offs.
    End the disclosure with `### Trade-offs`: comparison matrices with an **Original** baseline column.
-4. Takeaways For Our Own Codebase: an unlabelled blockquote of questions and actions.
-5. References: a plain list of concept links and explanations.
+5. Takeaways For Our Own Codebase: an unlabelled blockquote of questions and actions.
+6. References: a plain list of concept links and explanations.
 
-Keep alternatives and relevant edge cases inside Show Solutions as level-three
-subheadings. Preserve useful caveats rather than deleting them to fit the format.
+Keep alternatives and relevant edge cases inside the solution disclosure as level-three subheadings.
+Preserve useful caveats rather than deleting them to fit the format.
 Unwritten chapters remain marked as drafts; do not add empty sections or invented
 content just to fill the template. A quiz remains optional under the rules below.
 
@@ -127,8 +131,12 @@ content just to fill the template. A quiz remains optional under the rules below
 Use an unlabelled blockquote for *Takeaways For Our Own Codebase*.
 Use a plain Markdown list for *References*, without a blockquote or label.
 
+Use native mdBook admonitions sparingly for information that would cause confusion or a costly mistake if missed.
+Use `> [!NOTE]` for expected starter-test failures and `> [!WARNING]` for important production or safety limitations.
+Keep solution-specific warnings inside the **Show solution** disclosure so they do not reveal the refactor before the exercise.
+Do not turn every caveat, draft label, or takeaway into an admonition.
 Code to refactor and Trade-offs do not need a callout repeating the heading.
-Within Show Solutions, an EDGE CASE callout can draw attention to a constraint.
+Keep the existing collapsible discussion and solution sections; admonitions do not replace disclosures.
 
 ## Discussion questions
 
@@ -161,17 +169,22 @@ Outside domain modeling, put signature-changing designs in `solutions/NN_name_al
 Do not weaken the original tests to accommodate the first solution's API.
 When the exercise asks for a bug fix, explain the behaviour change separately from any API redesign.
 
-Keep the main solution, alternative implementations, their explanations, and trade-off comparisons together
-in one disclosure titled **Show Solutions**, collapsed by default. Use subheadings to distinguish approaches
-inside it; do not nest another disclosure for each alternative. Readers should
-have a clear chance to try the exercise before seeing an answer. Put the heading inside
-the summary so it serves as the disclosure control without a repeated label. The
-`solution` class adds a tinted box, and the decorative icon is hidden from screen
-readers. Do not add a separate Markdown heading above it. Use this form:
+Start with a visible `## Solution` heading, followed by one or two short sentences giving context for the comparison.
+Make the context specific to the exercise without naming the solution mechanism or revealing the answer.
+Then put the main solution, alternatives, explanations, and trade-off comparisons in one disclosure labelled **Show solution**, collapsed by default.
+The heading and context stay visible while the implementation stays hidden.
+Use level-three subheadings inside the disclosure to distinguish approaches; do not nest another disclosure for each alternative.
+Keep the summary a plain label, not a heading, and retain `id="solutions"` for existing links.
+The `solution` class adds a tinted box; the native disclosure marker is the expand control.
+Use this form:
 
 ````markdown
+## Solution
+
+Compare which guarantees each version gives its callers.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/NN_name.rs:listing}}
@@ -242,7 +255,7 @@ block.
 
 ## Trade-off comparisons
 
-Compare the original and the implementations shown in Show Solutions side by side.
+Compare the original and the implementations in the solution disclosure side by side.
 Keep these comparisons inside the disclosure, under `### Trade-offs`.
 Use the six criteria as rows, in their usual order, and name each implementation
 in a column heading. The original column describes the baseline; other cells give
@@ -274,7 +287,7 @@ scores or calculate an overall winner.
 - Remove questions answered by repeating the preceding explanation, obvious
   yes/no questions, and generic questions about team preferences.
 - There is no minimum question count. Put any retained questions between
-  the *Show Solutions* disclosure and *Takeaways For Our Own Codebase*.
+  the *Show solution* disclosure and *Takeaways For Our Own Codebase*.
 - **Judgement** style, not recall. See `PLAN.md` §13.
 - Never "what does this print" unless the surprise is the point.
 - Until the quiz plugin is chosen, use numbered `###` question headings followed by

@@ -1,11 +1,5 @@
 # `even_numbers`
 
-In this exercise, the task is to return a sequence of even numbers below a given upper bound.
-For example, `evens(10)` should produce the sequence `[0, 2, 4, 6, 8]`.
-Refactor the implementation without changing its signature or returned values.
-Afterward, consider a lazy iterator as a separate API change.
-
-
 ## Code to refactor
 
 ```rust,editable
@@ -15,6 +9,12 @@ Afterward, consider a lazy iterator as a separate API change.
 <script type="text/plain" class="playground-tests">
 {{#include ../../../examples/05_even_numbers.rs:tests}}
 </script>
+
+
+In this exercise, the task is to return a sequence of even numbers below a given upper bound.
+For example, `evens(10)` should produce the sequence `[0, 2, 4, 6, 8]`.
+Refactor the implementation without changing its signature or returned values.
+Afterward, consider a lazy iterator as a separate API change.
 
 
 ## Discussion
@@ -72,8 +72,12 @@ Returning a `Vec` makes `evens` generate the complete result before returning.
 
 </details>
 
+## Solution
+
+The comparison looks at the work needed to produce the even numbers and how callers can use the result.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/05_even_numbers.rs:listing}}

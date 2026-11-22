@@ -1,10 +1,5 @@
 # `parse_port`
 
-This parser accepts ports from 1 through 65535.
-Refactor it without changing the function signature or accepted inputs.
-Keep the accepted range unchanged: zero, malformed text, and out-of-range numbers remain invalid.
-Afterward, consider an alternative API that distinguishes zero from other invalid input.
-
 ## Code to refactor
 
 ```rust,editable
@@ -27,6 +22,11 @@ cargo test --example 13_parse_port
 
 </div>
 
+
+This parser accepts ports from 1 through 65535.
+Refactor it without changing the function signature or accepted inputs.
+Keep the accepted range unchanged: zero, malformed text, and out-of-range numbers remain invalid.
+Afterward, consider an alternative API that distinguishes zero from other invalid input.
 
 ## Discussion
 
@@ -87,8 +87,12 @@ Add variants or retain the parsing error when callers need to act on that differ
 
 </details>
 
+## Solution
+
+Compare the port parsers by their accepted inputs, guarantees on success, and information on failure.
+
 <details class="solution" id="solutions">
-<summary><h2><span aria-hidden="true">💡</span> Show Solutions</h2></summary>
+<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/13_parse_port.rs:listing}}
