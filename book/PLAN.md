@@ -169,7 +169,8 @@ These checks cover executable examples, not the correctness of every claim or ex
 - **Playground:** mdBook's built-in play button on `rust` blocks. Only
   enabled on blocks the reader is meant to run (starters, snippets); use
   `noplayground` for illustrative code. Pattern documented in `STYLE.md`.
-- **Sidebar navigation:** use native chapter folding, with unrelated parts initially collapsed and the current part opened automatically.
+- **Sidebar navigation:** use native chapter folding with `level = 1`, so the overview groups start expanded and their exercise titles are visible.
+  Readers can still collapse each group manually; mdBook opens the current part automatically.
 - **Important caveats:** use native mdBook admonitions sparingly for expected starter failures and production limitations, without replacing the discussion and solution disclosures.
   No additional preprocessor is needed.
 - **No CLI fetcher** in v1. `git clone` is good enough; mentioned in

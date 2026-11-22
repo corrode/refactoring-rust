@@ -11,15 +11,15 @@ preferred-dark-theme = "navy"
 git-repository-url = "https://github.com/corrode/refactoring"
 edit-url-template = "https://github.com/corrode/refactoring/edit/main/book/{path}"
 site-url = "/"
-additional-css = ["theme/css/corrode.css"]
-additional-js = ["theme/js/themes.js", "theme/js/playground-tests.js", "theme/js/code-font.js", "theme/js/chapter-folding.js"]
+additional-css = ["theme/css/corrode.css", "theme/css/corrode-print.css"]
+additional-js = ["theme/js/themes.js", "theme/js/playground-tests.js", "theme/js/code-font.js", "theme/js/chapter-folding.js", "theme/js/print.js"]
 no-section-label = false
 mathjax-support = false
 admonitions = true
 
 [output.html.fold]
 enable = true
-level = 0
+level = 1
 
 [output.html.playground]
 editable = true

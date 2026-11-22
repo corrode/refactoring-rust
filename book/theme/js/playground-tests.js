@@ -11,6 +11,7 @@
     const editorOwners = new WeakMap();
     const playgroundUrl = 'https://play.rust-lang.org/execute';
     const activeRuns = new WeakMap();
+    let nextTestEditorId = 0;
 
     function editableCode(playground) {
         const code = playground.querySelector('code');
@@ -34,6 +35,9 @@
         const label = document.createElement('label');
         label.textContent = 'Edit tests and callers to match your API:';
         const textarea = document.createElement('textarea');
+        textarea.className = 'playground-tests-source';
+        textarea.id = `playground-tests-${++nextTestEditorId}`;
+        label.htmlFor = textarea.id;
         textarea.value = script.textContent.trim();
         textarea.rows = Math.min(24, Math.max(6, textarea.value.split('\n').length));
         textarea.spellcheck = false;
@@ -43,8 +47,57 @@
             details.append(localSetup);
         }
         playground.after(details);
-        testEditors.set(playground, textarea);
-        editorOwners.set(textarea, playground);
+        testEditors.set(playground, { getValue: () => textarea.value });
+        editorOwners.set(details, playground);
+
+        let editor;
+        details.addEventListener('toggle', () => {
+            if (!details.open || !window.ace) return;
+            if (!editor) {
+                const pre = document.createElement('pre');
+                pre.className = 'playground-tests-code';
+                const code = document.createElement('code');
+                code.textContent = textarea.value;
+                pre.append(code);
+                label.after(pre);
+
+                const snippetEditor = window.ace.edit(playground.querySelector('code'));
+                editor = window.ace.edit(code);
+                editor.setOptions({
+                    mode: 'ace/mode/rust',
+                    theme: snippetEditor.getTheme(),
+                    fontFamily: snippetEditor.getOption('fontFamily'),
+                    fontSize: 'inherit',
+                    highlightActiveLine: false,
+                    showPrintMargin: false,
+                    showLineNumbers: true,
+                    showGutter: true,
+                    minLines: 6,
+                    maxLines: 24,
+                    tabSize: 4,
+                    useSoftTabs: true,
+                });
+                const input = editor.textInput.getElement();
+                input.id = textarea.id;
+                input.setAttribute('aria-label', label.textContent);
+                textarea.remove();
+                editor.commands.addCommand({
+                    name: 'leave-test-editor',
+                    bindKey: { win: 'Esc', mac: 'Esc' },
+                    exec: () => summary.focus(),
+                });
+                const hint = document.createElement('p');
+                hint.className = 'playground-test-editor-hint';
+                hint.textContent = 'Press Escape to leave the editor.';
+                pre.after(hint);
+
+                testEditors.set(playground, editor);
+                // Native theme switching and font loading update this same list.
+                (window.editors ||= []).push(editor);
+            }
+            // Ace must remeasure after its disclosure becomes visible.
+            editor.resize(true);
+        });
     }
 
     function editionFor(playground) {
@@ -142,8 +195,8 @@
             return;
         }
 
-        const textarea = testEditors.get(playground);
-        const runsTests = Boolean(textarea);
+        const testEditor = testEditors.get(playground);
+        const runsTests = Boolean(testEditor);
         const result = resultBlock(playground);
         const button = playground.querySelector('.play-button');
         const controller = new AbortController();
@@ -158,7 +211,7 @@
 
         try {
             const output = await runOnPlayground(
-                runsTests ? `${code}\n\n${textarea.value}\n` : code,
+                runsTests ? `${code}\n\n${testEditor.getValue()}\n` : code,
                 playground,
                 runsTests,
                 controller.signal,
@@ -189,7 +242,8 @@
 
     function playgroundFromEvent(event) {
         const target = event.target instanceof Element ? event.target : null;
-        const playground = editorOwners.get(target) || target?.closest('pre.playground');
+        const playground = editorOwners.get(target?.closest('details.playground-test-editor'))
+            || target?.closest('pre.playground');
         if (!playground || editableCode(playground) === null) {
             return null;
         }

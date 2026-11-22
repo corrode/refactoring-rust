@@ -790,7 +790,7 @@ html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .menu-bar {
     margin-top: 0.75rem;
 }
 
-.content .playground-test-editor textarea {
+.content .playground-test-editor textarea.playground-tests-source {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -812,7 +812,18 @@ html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .menu-bar {
     tab-size: 4;
 }
 
-.content .playground-test-editor :is(summary, textarea):focus-visible {
+.content .playground-test-editor .playground-tests-code {
+    margin: 0.5rem 0 0;
+}
+
+.content .playground-test-editor-hint {
+    margin: 0.5rem 0 0;
+    color: var(--corrode-fg-muted);
+    font-size: 0.9em;
+}
+
+.content .playground-test-editor :is(summary, textarea.playground-tests-source):focus-visible,
+.content .playground-tests-code:focus-within {
     outline: 2px solid var(--links);
     outline-offset: 2px;
 }

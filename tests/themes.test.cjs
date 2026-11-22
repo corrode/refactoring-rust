@@ -398,16 +398,16 @@ test('configuration enables chapter folding and native admonitions', () => {
     const folding = config.match(/\[output\.html\.fold\]\n([\s\S]*?)(?=\n\[|$)/)?.[1];
     const renderer = config.match(/\[output\.html\]\n([\s\S]*?)(?=\n\[|$)/)?.[1];
     assert.match(folding, /^enable = true$/m);
-    assert.match(folding, /^level = 0$/m);
+    assert.match(folding, /^level = 1$/m);
     assert.match(renderer, /^admonitions = true$/m);
 });
 
-test('generated sidebar gives each part a collapsed chapter group', integration, () => {
+test('generated sidebar expands each overview group to show its exercises', integration, () => {
     const toc = readFileSync(path.join(root, 'book/book/toc.html'), 'utf8');
     const groups = [...toc.matchAll(/<li class="([^"]*)"><span class="chapter-link-wrapper"><a href="(part-[^"]+\/index\.html)"/g)];
     assert.ok(groups.length > 0, 'Part overview entries must exist');
     for (const [, classes, href] of groups) {
-        assert.ok(!classes.split(/\s+/).includes('expanded'), `${href} starts collapsed`);
+        assert.ok(classes.split(/\s+/).includes('expanded'), `${href} starts expanded`);
     }
     assert.equal((toc.match(/class="chapter-fold-toggle"/g) || []).length, groups.length);
 });
