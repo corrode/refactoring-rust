@@ -4,7 +4,7 @@
 
 ## What this part covers
 
-- Move from aggregating collections to interpreting text, defining iteration, and composing transformations.
+- Move from aggregating collections to interpreting text and bytes, defining iteration, and composing transformations.
 - Separate a shorter implementation from a changed input policy: whitespace, casing, delimiters, and integer limits are observable behavior.
 - Keep original signatures in the first solution; discuss different return types and interfaces afterward as alternatives.
 - Treat the compatibility questions recorded in individual outlines as decisions to settle before writing the finished chapter.
@@ -16,7 +16,8 @@
 - [`iterators`](23-iterators.md): produce a numeric sequence, expose it through the standard iterator protocol, and define exhaustion at the integer boundary.
 - [`transformer`](24-transformer.md): review batch transformations and command pipelines, including the meaning of an empty intermediate string.
 - [`fun_strings_ext`](25-fun-strings-ext.md): compare free functions with a fluent extension trait, while keeping ownership, allocation, and Unicode policy explicit.
-- [`quicksort`](26-quicksort.md): optional bonus on expressing a recursive algorithm without hiding duplicate handling, worst-case work, or memory costs.
+- [`frame_body`](26-frame-body.md): validate a complete byte frame and borrow its payload with a slice pattern, preserving the signature and allocation-free behavior.
+- [`quicksort`](27-quicksort.md): optional bonus on expressing a recursive algorithm without hiding duplicate handling, worst-case work, or memory costs.
 
 ## Connections and boundaries
 

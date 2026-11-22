@@ -271,7 +271,7 @@ Reach for the standard library before hand-rolling a loop.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 21–26
+Exercises 21–27
 </div>
 
 ---
@@ -295,7 +295,11 @@ src: ./pages/25_fun_strings_ext.md
 ---
 
 ---
-src: ./pages/26_quicksort.md
+src: ./pages/26_frame_body.md
+---
+
+---
+src: ./pages/27_quicksort.md
 ---
 
 ---
@@ -314,51 +318,51 @@ Choose types and methods, then update callers and tests.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 27–37
+Exercises 28–38
 </div>
 
 ---
-src: ./pages/27_rooms.md
+src: ./pages/28_rooms.md
 ---
 
 ---
-src: ./pages/28_iban_prefix_check.md
+src: ./pages/29_iban_prefix_check.md
 ---
 
 ---
-src: ./pages/29_http_response_router.md
+src: ./pages/30_http_response_router.md
 ---
 
 ---
-src: ./pages/30_config_loader.md
+src: ./pages/31_config_loader.md
 ---
 
 ---
-src: ./pages/31_buffer_policy.md
+src: ./pages/32_buffer_policy.md
 ---
 
 ---
-src: ./pages/32_typed_ids.md
+src: ./pages/33_typed_ids.md
 ---
 
 ---
-src: ./pages/33_validation_feedback.md
+src: ./pages/34_validation_feedback.md
 ---
 
 ---
-src: ./pages/34_secret_token.md
+src: ./pages/35_secret_token.md
 ---
 
 ---
-src: ./pages/35_config_typestate.md
+src: ./pages/36_config_typestate.md
 ---
 
 ---
-src: ./pages/36_temp_file.md
+src: ./pages/37_temp_file.md
 ---
 
 ---
-src: ./pages/37_friends.md
+src: ./pages/38_friends.md
 ---
 
 ---
@@ -376,15 +380,15 @@ Lastly, two larger bonus problems.
 </div>
 
 <div class="absolute bottom-12 right-12 text-sm opacity-50 tracking-wide">
-Exercises 38–39
+Exercises 39–40
 </div>
 
 ---
-src: ./pages/38_env_file_parser.md
+src: ./pages/39_env_file_parser.md
 ---
 
 ---
-src: ./pages/39_mini_redis.md
+src: ./pages/40_mini_redis.md
 ---
 
 ---

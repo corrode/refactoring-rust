@@ -1,6 +1,6 @@
 # Remaining workshop slide todos
 
-> Exercise numbers below use the current 01–39 numbering, starting with `01_is_yes`.
+> Exercise numbers below use the current 01–40 numbering, starting with `01_is_yes`.
 > The "(was N)" hint shows the old number where useful.
 
 ---
@@ -45,11 +45,11 @@ Notes:
 
 ---
 
-## 2. Exercise 27 · `rooms`: standalone domain-modeling exercise (done)
+## 2. Exercise 28 · `rooms`: standalone domain-modeling exercise (done)
 
-Moved the `Rooms` design from exercise 17 into `slides/pages/27_rooms.md`,
-using `solutions/27_rooms.rs` as the main solution.
-Exercise 17 keeps the iterator refactor; exercise 27 changes the API.
+Moved the `Rooms` design from exercise 17 into `slides/pages/28_rooms.md`,
+using `solutions/28_rooms.rs` as the main solution.
+Exercise 17 keeps the iterator refactor; exercise 28 changes the API.
 The four helpers become methods that operate on the receiver's collection.
 Callers cannot pass a different slice to each method, but the constructor still
 accepts any `Vec<RoomOccupancy>`; the wrapper does not validate which rooms belong together.

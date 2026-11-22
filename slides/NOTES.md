@@ -194,7 +194,7 @@ slidev --port 4000
 
 - A solution diff using Shiki Magic Move (` ```md magic-move `) for the
   meatier refactors - would animate starter → solution beautifully on
-  exercises 13, 26, 29, 30.
+  exercises 13, 27, 30, 31.
 - Per-phase recap slides that summarize the idioms introduced.
 - A "cheatsheet" appendix slide with all the `Option`/`Result`
   combinators, useful as a final hand-out.

@@ -31,7 +31,7 @@
 <div class="flex items-baseline gap-5">
   <div class="text-3xl font-bold opacity-60 w-8">4</div>
   <div>
-    <div class="text-xl"><strong>Strings, parsing & iterators</strong> <span class="opacity-50 text-base ml-2">21–26</span></div>
+    <div class="text-xl"><strong>Strings, parsing & iterators</strong> <span class="opacity-50 text-base ml-2">21–27</span></div>
     <div class="opacity-70 text-sm">Lean on the standard library.</div>
   </div>
 </div>
@@ -39,7 +39,7 @@
 <div class="flex items-baseline gap-5">
   <div class="text-3xl font-bold opacity-60 w-8">5</div>
   <div>
-    <div class="text-xl"><strong>Domain modeling</strong> <span class="opacity-50 text-base ml-2">27–37</span></div>
+    <div class="text-xl"><strong>Domain modeling</strong> <span class="opacity-50 text-base ml-2">28–38</span></div>
     <div class="opacity-70 text-sm">Types, APIs, and validation categories separate from display messages.</div>
   </div>
 </div>
@@ -47,7 +47,7 @@
 <div class="flex items-baseline gap-5">
   <div class="text-3xl font-bold opacity-60 w-8">6</div>
   <div>
-    <div class="text-xl"><strong>Larger refactors</strong> <span class="opacity-50 text-base ml-2">38–39</span></div>
+    <div class="text-xl"><strong>Larger refactors</strong> <span class="opacity-50 text-base ml-2">39–40</span></div>
     <div class="opacity-70 text-sm">Two larger bonus problems.</div>
   </div>
 </div>

@@ -7,8 +7,8 @@ Choosing types, constructors, and methods is kind of the point of these eleven e
 We'll start by giving a collection of rooms its own operations, then work on identifiers, response handling, and configuration.
 You'll also model buffer policies, separate ID types, separate validation categories from display messages, control access to secrets, and restrict which configuration steps callers can take.
 The validation-feedback exercise is a fresh instructor-created fixture inspired by beginner submissions, not an excerpt from a learner's code.
-In [temp_file](36-temp-file.md), you'll tie a scratch file's lifecycle to a guard that attempts cleanup on ordinary returns, including errors.
-The final exercise, [friends](37-friends.md), is advanced: it separates object identity and graph relationships from ownership, building on [typed IDs](32-typed-ids.md).
+In [temp_file](37-temp-file.md), you'll tie a scratch file's lifecycle to a guard that attempts cleanup on ordinary returns, including errors.
+The final exercise, [friends](38-friends.md), is advanced: it separates object identity and graph relationships from ownership, building on [typed IDs](33-typed-ids.md).
 Ask what each type represents, which values it should allow, and what callers need to do with it.
 Update callers and tests when the interface changes, but keep checking the behaviour they rely on.
 In the browser, expand **Tests and local setup** beneath a code block to edit its attached suite alongside your implementation.

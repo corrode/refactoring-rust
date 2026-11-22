@@ -45,9 +45,9 @@ dividers**:
 - **Part I, Warm-ups** (01–06)
 - **Part II, `Option` · `Result` · `?`** (07–13)
 - **Part III, Aggregations & counting** (14–20)
-- **Part IV, Strings, parsing & iterators** (21–26)
-- **Part V, Domain modeling** (27–37)
-- **Part VI, Larger refactors** (38–39)
+- **Part IV, Strings, parsing & iterators** (21–27)
+- **Part V, Domain modeling** (28–38)
+- **Part VI, Larger refactors** (39–40)
 
 Each part has a 1–3 paragraph intro page describing the theme and what the
 reader will learn across its chapters.
@@ -356,7 +356,7 @@ v1 scope:
 
 **Diagrams:** tables everywhere they help; mermaid (~6–10 diagrams across
 the whole book, only where genuinely useful, e.g. state machines in ch. 24
-or type relationships in ch. 39). No hand-drawn illustrations. No
+or type relationships in ch. 40). No hand-drawn illustrations. No
 screenshots.
 
 ---
@@ -402,7 +402,7 @@ their structure. No separate format spec document.
 
 ### Phase 0, Scaffolding (~1 day)
 
-- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 39
+- Directory layout, `book.toml`, brand CSS, `SUMMARY.md` with all 40
   chapter entries (unwritten ones as plain text `- [Title]()`).
 - All part-intro stubs.
 - CI workflow (`cargo test --examples`, `mdbook test`, `mdbook build`,
@@ -434,7 +434,7 @@ their structure. No separate format spec document.
 - Go part-by-part so part intros can be tightened against the chapters
   they introduce.
 - Add real solution files for the remaining alternatives the TODO identifies
-  (`NonZeroU16` for ch. 13 and a lazy iterator for ch. 16). The `Rooms` newtype now has its own domain-modeling chapter (27), following the aggregation work in ch. 17.
+  (`NonZeroU16` for ch. 13 and a lazy iterator for ch. 16). The `Rooms` newtype now has its own domain-modeling chapter (28), following the aggregation work in ch. 17.
   Alternative exclusion APIs remain in ch. 15.
 
 ### Phase 4, Back matter (~3 days)

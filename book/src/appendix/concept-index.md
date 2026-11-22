@@ -15,6 +15,7 @@
 ### Borrowed slices
 
 - `&[T]` accepts a read-only sequence without requiring an owned vector, but does not make an owned output free to construct: [10: parse_ints](../part-2-option-result/10-parse-ints.md) and [16: spell_check](../part-3-aggregations/16-spell-check.md).
+- Both implementations in [26: frame_body](../part-4-strings-parsing/26-frame-body.md) return a payload borrowed from the input without copying or allocating it.
 
 ### Optional borrows
 
@@ -49,10 +50,23 @@
 ### Range patterns
 
 - `0..=19` includes both endpoints; matching a range preserves only the stated rule, not the real-world accuracy of its label in [04: person_info](../part-1-warmups/04-person-info.md).
+- In [26: frame_body](../part-4-strings-parsing/26-frame-body.md), `1..=3` checks the kind byte without constraining any payload bytes.
+
+### At bindings
+
+- `name @ pattern` binds the value matched by a subpattern; `kind @ 1..=3` checks the range while keeping the kind available in [26: frame_body](../part-4-strings-parsing/26-frame-body.md).
+
+### Slice patterns
+
+- `[0xA5, kind @ 1..=3, body @ .., 0x5A]` checks the ends and kind of a complete byte slice, binding the middle as `&[u8]`: [26: frame_body](../part-4-strings-parsing/26-frame-body.md).
+- `body @ ..` may be empty and may contain either marker byte; the suffix must be the slice's final byte, not the first marker encountered in the body.
+- [27: quicksort](../part-4-strings-parsing/27-quicksort.md) reuses a rest binding for the slice after its pivot.
+- Matching a borrowed slice gives a borrowed rest; matching an owned fixed-size byte array by value can instead bind an owned `[u8; N]` remainder.
 
 ### Match ergonomics
 
 - Matching a borrowed struct with a struct pattern can bind its fields by reference; `name` is `&String`, not a moved or cloned `String`, in [04: person_info](../part-1-warmups/04-person-info.md).
+- Matching `&[u8]` with a slice pattern binds `kind` as `&u8` and `body` as `&[u8]` in [26: frame_body](../part-4-strings-parsing/26-frame-body.md); `*kind` copies the byte, not the payload.
 
 ### Wildcard patterns
 
@@ -60,7 +74,7 @@
 
 ### Exhaustive matching
 
-- A match must cover the input type, but a wildcard can satisfy coverage without naming every policy case; compare [03: better_match](../part-1-warmups/03-better-match.md), [29: http_response_router](../part-5-domain-modeling/29-http-response-router.md), and [33: validation_feedback](../part-5-domain-modeling/33-validation-feedback.md).
+- A match must cover the input type, but a wildcard can satisfy coverage without naming every policy case; compare [03: better_match](../part-1-warmups/03-better-match.md), [30: http_response_router](../part-5-domain-modeling/30-http-response-router.md), and [34: validation_feedback](../part-5-domain-modeling/34-validation-feedback.md).
 
 ### Let else
 
@@ -160,7 +174,7 @@
 
 ### Filter map
 
-- `filter_map` transforms each item into `Option` and keeps only `Some`; retaining errors through `.err()` in [10: parse_ints](../part-2-option-result/10-parse-ints.md) differs from silently skipping invalid lines in [38: env_file_parser](../part-6-capstone/38-env-file-parser.md).
+- `filter_map` transforms each item into `Option` and keeps only `Some`; retaining errors through `.err()` in [10: parse_ints](../part-2-option-result/10-parse-ints.md) differs from silently skipping invalid lines in [39: env_file_parser](../part-6-capstone/39-env-file-parser.md).
 
 ### Flat map
 
@@ -216,7 +230,7 @@
 
 ### UTF-8 byte boundaries
 
-- String slicing uses byte offsets and requires valid UTF-8 boundaries, even in safe Rust; [06: truncate_string](../part-1-warmups/06-truncate-string.md) and [28: iban_prefix_check](../part-5-domain-modeling/28-iban-prefix-check.md) separate byte limits from character checks.
+- String slicing uses byte offsets and requires valid UTF-8 boundaries, even in safe Rust; [06: truncate_string](../part-1-warmups/06-truncate-string.md) and [29: iban_prefix_check](../part-5-domain-modeling/29-iban-prefix-check.md) separate byte limits from character checks.
 
 ### Floor char boundary
 
@@ -228,7 +242,7 @@
 
 ### Whitespace and tokenization
 
-- Replacing an ASCII-space loop with Unicode-aware trimming or splitting can change accepted separators and payload text: [21: trim_log_line](../part-4-strings-parsing/21-trim-log-line.md) and [38: env_file_parser](../part-6-capstone/38-env-file-parser.md).
+- Replacing an ASCII-space loop with Unicode-aware trimming or splitting can change accepted separators and payload text: [21: trim_log_line](../part-4-strings-parsing/21-trim-log-line.md) and [39: env_file_parser](../part-6-capstone/39-env-file-parser.md).
 
 ### OsStr and non-UTF-8 paths
 
@@ -252,7 +266,7 @@
 
 ### Parse into the destination type
 
-- Parsing directly into `u16` enforces its numeric range but does not reject zero without a separate rule: [13: parse_port](../part-2-option-result/13-parse-port.md), contrasted with zero acceptance in [30: config_loader](../part-5-domain-modeling/30-config-loader.md).
+- Parsing directly into `u16` enforces its numeric range but does not reject zero without a separate rule: [13: parse_port](../part-2-option-result/13-parse-port.md), contrasted with zero acceptance in [31: config_loader](../part-5-domain-modeling/31-config-loader.md).
 
 ### Nonzero integers
 
@@ -262,35 +276,35 @@
 
 ### Newtype
 
-- A wrapper creates a distinct type and a place for domain operations, but does not validate its contents by existing: [15: excluded_path](../part-3-aggregations/15-excluded-path.md), [17: room_occupancy](../part-3-aggregations/17-room-occupancy.md), and [27: rooms](../part-5-domain-modeling/27-rooms.md).
+- A wrapper creates a distinct type and a place for domain operations, but does not validate its contents by existing: [15: excluded_path](../part-3-aggregations/15-excluded-path.md), [17: room_occupancy](../part-3-aggregations/17-room-occupancy.md), and [28: rooms](../part-5-domain-modeling/28-rooms.md).
 
 ### Type invariants
 
-- State precisely what construction proves and which mutation paths preserve it; nonzero ports in [13: parse_port](../part-2-option-result/13-parse-port.md) differ from the limited prefix checks in [28: iban_prefix_check](../part-5-domain-modeling/28-iban-prefix-check.md).
+- State precisely what construction proves and which mutation paths preserve it; nonzero ports in [13: parse_port](../part-2-option-result/13-parse-port.md) differ from the limited prefix checks in [29: iban_prefix_check](../part-5-domain-modeling/29-iban-prefix-check.md).
 
 ### Typed IDs
 
-- Separate ID types prevent category mix-ups, unlike aliases for `usize`, but do not establish bounds, owner identity, or liveness: [32: typed_ids](../part-5-domain-modeling/32-typed-ids.md) and [37: friends](../part-5-domain-modeling/37-friends.md).
+- Separate ID types prevent category mix-ups, unlike aliases for `usize`, but do not establish bounds, owner identity, or liveness: [33: typed_ids](../part-5-domain-modeling/33-typed-ids.md) and [38: friends](../part-5-domain-modeling/38-friends.md).
 
 ### Mutually exclusive policies
 
-- An enum can remove contradictory combinations of configuration fields without validating every numeric payload: [31: buffer_policy](../part-5-domain-modeling/31-buffer-policy.md).
+- An enum can remove contradictory combinations of configuration fields without validating every numeric payload: [32: buffer_policy](../part-5-domain-modeling/32-buffer-policy.md).
 
 ### Typed feedback
 
-- Closed enum categories separate machine-readable decisions from displayed text and expose missing match arms, but require a separate parser for external strings: [33: validation_feedback](../part-5-domain-modeling/33-validation-feedback.md).
+- Closed enum categories separate machine-readable decisions from displayed text and expose missing match arms, but require a separate parser for external strings: [34: validation_feedback](../part-5-domain-modeling/34-validation-feedback.md).
 
 ### Redacted debugging
 
-- Custom `Debug` and explicit secret access reduce accidental disclosure through formatting, not deliberate exposure or all memory copies: [34: secret_token](../part-5-domain-modeling/34-secret-token.md).
+- Custom `Debug` and explicit secret access reduce accidental disclosure through formatting, not deliberate exposure or all memory copies: [35: secret_token](../part-5-domain-modeling/35-secret-token.md).
 
 ### Typestate
 
-- Different types make operations available only after required transitions, while runtime data validity remains a separate concern: [35: config_typestate](../part-5-domain-modeling/35-config-typestate.md) and [30: config_loader](../part-5-domain-modeling/30-config-loader.md).
+- Different types make operations available only after required transitions, while runtime data validity remains a separate concern: [36: config_typestate](../part-5-domain-modeling/36-config-typestate.md) and [31: config_loader](../part-5-domain-modeling/31-config-loader.md).
 
 ### Drop guards
 
-- A guard owns cleanup responsibility for as long as the value lives; [36: temp_file](../part-5-domain-modeling/36-temp-file.md) ties a scratch file to a non-`Clone` guard rather than a path plus end-of-function removal.
+- A guard owns cleanup responsibility for as long as the value lives; [37: temp_file](../part-5-domain-modeling/37-temp-file.md) ties a scratch file to a non-`Clone` guard rather than a path plus end-of-function removal.
 - `Drop` attempts removal on ordinary scope exit, including `?` error returns, but removal remains best-effort and cannot return an error to the caller.
 - Destructors do not guarantee cleanup after process abort or when a guard is deliberately leaked.
 
@@ -300,15 +314,15 @@
 
 ### Identity and ownership
 
-- Relationships need not own their targets, and equal names need not identify the same person; [37: friends](../part-5-domain-modeling/37-friends.md) contrasts shared handles with IDs resolved through one owner.
+- Relationships need not own their targets, and equal names need not identify the same person; [38: friends](../part-5-domain-modeling/38-friends.md) contrasts shared handles with IDs resolved through one owner.
 
 ### Parser states
 
-- Explicit states can distinguish quoted content, separators, comments, and end-of-input, but changing the grammar is not a mechanical refactor: [38: env_file_parser](../part-6-capstone/38-env-file-parser.md).
+- Explicit states can distinguish quoted content, separators, comments, and end-of-input, but changing the grammar is not a mechanical refactor: [39: env_file_parser](../part-6-capstone/39-env-file-parser.md).
 
 ### Command and storage models
 
-- Parsing commands, storing typed values, and formatting replies are separate boundaries; [39: mini_redis](../part-6-capstone/39-mini-redis.md) changes all three in its alternative despite retaining the handler signature.
+- Parsing commands, storing typed values, and formatting replies are separate boundaries; [40: mini_redis](../part-6-capstone/40-mini-redis.md) changes all three in its alternative despite retaining the handler signature.
 
 ## Tests and implementation limits
 
@@ -322,7 +336,7 @@
 
 ### Recursion and hidden costs
 
-- Shorter recursive code can change stack depth, allocation, arithmetic order, or destruction behavior; compare [20: list_sum](../part-3-aggregations/20-list-sum.md) and [26: quicksort](../part-4-strings-parsing/26-quicksort.md).
+- Shorter recursive code can change stack depth, allocation, arithmetic order, or destruction behavior; compare [20: list_sum](../part-3-aggregations/20-list-sum.md) and [27: quicksort](../part-4-strings-parsing/27-quicksort.md).
 
 ## Editorial follow-up
 

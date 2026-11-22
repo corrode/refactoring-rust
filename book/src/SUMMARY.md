@@ -45,28 +45,29 @@
   - [23 · iterators](part-4-strings-parsing/23-iterators.md)
   - [24 · transformer](part-4-strings-parsing/24-transformer.md)
   - [25 · fun_strings_ext](part-4-strings-parsing/25-fun-strings-ext.md)
-  - [26 · quicksort (bonus)](part-4-strings-parsing/26-quicksort.md)
+  - [26 · frame_body](part-4-strings-parsing/26-frame-body.md)
+  - [27 · quicksort (bonus)](part-4-strings-parsing/27-quicksort.md)
 
 # Part V. Domain modeling
 
 - [Overview](part-5-domain-modeling/README.md)
-  - [27 · rooms](part-5-domain-modeling/27-rooms.md)
-  - [28 · iban_prefix_check](part-5-domain-modeling/28-iban-prefix-check.md)
-  - [29 · http_response_router](part-5-domain-modeling/29-http-response-router.md)
-  - [30 · config_loader](part-5-domain-modeling/30-config-loader.md)
-  - [31 · buffer_policy](part-5-domain-modeling/31-buffer-policy.md)
-  - [32 · typed_ids](part-5-domain-modeling/32-typed-ids.md)
-  - [33 · validation_feedback](part-5-domain-modeling/33-validation-feedback.md)
-  - [34 · secret_token](part-5-domain-modeling/34-secret-token.md)
-  - [35 · config_typestate](part-5-domain-modeling/35-config-typestate.md)
-  - [36 · temp_file](part-5-domain-modeling/36-temp-file.md)
-  - [37 · friends (advanced)](part-5-domain-modeling/37-friends.md)
+  - [28 · rooms](part-5-domain-modeling/28-rooms.md)
+  - [29 · iban_prefix_check](part-5-domain-modeling/29-iban-prefix-check.md)
+  - [30 · http_response_router](part-5-domain-modeling/30-http-response-router.md)
+  - [31 · config_loader](part-5-domain-modeling/31-config-loader.md)
+  - [32 · buffer_policy](part-5-domain-modeling/32-buffer-policy.md)
+  - [33 · typed_ids](part-5-domain-modeling/33-typed-ids.md)
+  - [34 · validation_feedback](part-5-domain-modeling/34-validation-feedback.md)
+  - [35 · secret_token](part-5-domain-modeling/35-secret-token.md)
+  - [36 · config_typestate](part-5-domain-modeling/36-config-typestate.md)
+  - [37 · temp_file](part-5-domain-modeling/37-temp-file.md)
+  - [38 · friends (advanced)](part-5-domain-modeling/38-friends.md)
 
 # Part VI. Larger refactors
 
 - [Overview](part-6-capstone/README.md)
-  - [38 · env_file_parser](part-6-capstone/38-env-file-parser.md)
-  - [39 · mini_redis](part-6-capstone/39-mini-redis.md)
+  - [39 · env_file_parser](part-6-capstone/39-env-file-parser.md)
+  - [40 · mini_redis](part-6-capstone/40-mini-redis.md)
 
 ---
 

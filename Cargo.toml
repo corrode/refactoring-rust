@@ -107,59 +107,63 @@ name = "25_fun_strings_ext"
 crate-type = ["lib"]
 
 [[example]]
-name = "26_quicksort"
+name = "26_frame_body"
 crate-type = ["lib"]
 
 [[example]]
-name = "27_rooms"
+name = "27_quicksort"
 crate-type = ["lib"]
 
 [[example]]
-name = "28_iban_prefix_check"
+name = "28_rooms"
 crate-type = ["lib"]
 
 [[example]]
-name = "29_http_response_router"
+name = "29_iban_prefix_check"
 crate-type = ["lib"]
 
 [[example]]
-name = "30_config_loader"
+name = "30_http_response_router"
 crate-type = ["lib"]
 
 [[example]]
-name = "31_buffer_policy"
+name = "31_config_loader"
 crate-type = ["lib"]
 
 [[example]]
-name = "32_typed_ids"
+name = "32_buffer_policy"
 crate-type = ["lib"]
 
 [[example]]
-name = "33_validation_feedback"
+name = "33_typed_ids"
 crate-type = ["lib"]
 
 [[example]]
-name = "34_secret_token"
+name = "34_validation_feedback"
 crate-type = ["lib"]
 
 [[example]]
-name = "35_config_typestate"
+name = "35_secret_token"
 crate-type = ["lib"]
 
 [[example]]
-name = "36_temp_file"
+name = "36_config_typestate"
 crate-type = ["lib"]
 
 [[example]]
-name = "37_friends"
+name = "37_temp_file"
 crate-type = ["lib"]
 
 [[example]]
-name = "38_env_file_parser"
+name = "38_friends"
 crate-type = ["lib"]
 
 [[example]]
-name = "39_mini_redis"
+name = "39_env_file_parser"
+crate-type = ["lib"]
+
+[[example]]
+name = "40_mini_redis"
 crate-type = ["lib"]
 
 # --- Solutions (parallel to examples/; used as the "after" reference) ---
@@ -361,86 +365,91 @@ path = "solutions/25_fun_strings_ext_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "26_quicksort_solution"
-path = "solutions/26_quicksort.rs"
+name = "26_frame_body_solution"
+path = "solutions/26_frame_body.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "27_rooms_solution"
-path = "solutions/27_rooms.rs"
+name = "27_quicksort_solution"
+path = "solutions/27_quicksort.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "28_iban_prefix_check_solution"
-path = "solutions/28_iban_prefix_check.rs"
+name = "28_rooms_solution"
+path = "solutions/28_rooms.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "29_http_response_router_solution"
-path = "solutions/29_http_response_router.rs"
+name = "29_iban_prefix_check_solution"
+path = "solutions/29_iban_prefix_check.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "30_config_loader_solution"
-path = "solutions/30_config_loader.rs"
+name = "30_http_response_router_solution"
+path = "solutions/30_http_response_router.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "30_config_loader_alt"
-path = "solutions/30_config_loader_alt.rs"
+name = "31_config_loader_solution"
+path = "solutions/31_config_loader.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "31_buffer_policy_solution"
-path = "solutions/31_buffer_policy.rs"
+name = "31_config_loader_alt"
+path = "solutions/31_config_loader_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "32_typed_ids_solution"
-path = "solutions/32_typed_ids.rs"
+name = "32_buffer_policy_solution"
+path = "solutions/32_buffer_policy.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "33_validation_feedback_solution"
-path = "solutions/33_validation_feedback.rs"
+name = "33_typed_ids_solution"
+path = "solutions/33_typed_ids.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "34_secret_token_solution"
-path = "solutions/34_secret_token.rs"
+name = "34_validation_feedback_solution"
+path = "solutions/34_validation_feedback.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "35_config_typestate_solution"
-path = "solutions/35_config_typestate.rs"
+name = "35_secret_token_solution"
+path = "solutions/35_secret_token.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "36_temp_file_solution"
-path = "solutions/36_temp_file.rs"
+name = "36_config_typestate_solution"
+path = "solutions/36_config_typestate.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "37_friends_solution"
-path = "solutions/37_friends.rs"
+name = "37_temp_file_solution"
+path = "solutions/37_temp_file.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "38_env_file_parser_solution"
-path = "solutions/38_env_file_parser.rs"
+name = "38_friends_solution"
+path = "solutions/38_friends.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "38_env_file_parser_alt"
-path = "solutions/38_env_file_parser_alt.rs"
+name = "39_env_file_parser_solution"
+path = "solutions/39_env_file_parser.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "39_mini_redis_solution"
-path = "solutions/39_mini_redis.rs"
+name = "39_env_file_parser_alt"
+path = "solutions/39_env_file_parser_alt.rs"
 crate-type = ["lib"]
 
 [[example]]
-name = "39_mini_redis_alt"
-path = "solutions/39_mini_redis_alt.rs"
+name = "40_mini_redis_solution"
+path = "solutions/40_mini_redis.rs"
+crate-type = ["lib"]
+
+[[example]]
+name = "40_mini_redis_alt"
+path = "solutions/40_mini_redis_alt.rs"
 crate-type = ["lib"]

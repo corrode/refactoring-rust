@@ -66,31 +66,35 @@
   - The current iterator's lookahead can overflow before yielding a requested valid value, so laziness is not a blanket safety improvement.
 - [24: transformer](../part-4-strings-parsing/24-transformer.md): use separate batch-command and trait-object-pipeline rows, distinguishing removed input clones from intermediate allocations and the corrected empty-string sentinel behavior.
 - [25: fun_strings_ext](../part-4-strings-parsing/25-fun-strings-ext.md): compare free functions and folding without conflating them with extension-trait syntax or the alternative's narrower ASCII casing.
-- [26: quicksort](../part-4-strings-parsing/26-quicksort.md): compare the copied-buffer in-place algorithm with recursive partition-and-concatenate, including skewed-input recursion and the main solution's possible quadratic retained heap storage.
+- [26: frame_body](../part-4-strings-parsing/26-frame-body.md): compare explicit length, index, and range checks with a single slice pattern, preserving `frame_body(frame: &[u8]) -> Option<(u8, &[u8])>`.
+  - Both are correct and allocation-free; the payload stays borrowed, may be empty, and may contain marker bytes.
+    Shorter syntax is not evidence of a speedup.
+  - Match the complete slice, including its final suffix; neither implementation detects frame boundaries in a byte stream.
+- [27: quicksort](../part-4-strings-parsing/27-quicksort.md): compare the copied-buffer in-place algorithm with recursive partition-and-concatenate, including skewed-input recursion and the main solution's possible quadratic retained heap storage.
   - Standard sorting is a production design option, not evidence that the displayed recursive refactor has better time or memory bounds.
 
 ## Part V: domain modeling
 
-- [27: rooms](../part-5-domain-modeling/27-rooms.md): compare slice-based helpers with the owned `Rooms` API, separating named collection ownership from validation that the constructor does not perform.
-- [28: iban_prefix_check](../part-5-domain-modeling/28-iban-prefix-check.md): compare Original with the allocation-free checked prefix/length implementation, without claiming full IBAN checksum validation or a checked wrapper already exists.
-- [29: http_response_router](../part-5-domain-modeling/29-http-response-router.md): compare Original with private status classification, preserving the public types while recording removed logging and the retained decode-before-204 ordering.
-- [30: config_loader](../part-5-domain-modeling/30-config-loader.md): separate the compatible getter cleanup from the fallible, privately stored `Settings` snapshot.
+- [28: rooms](../part-5-domain-modeling/28-rooms.md): compare slice-based helpers with the owned `Rooms` API, separating named collection ownership from validation that the constructor does not perform.
+- [29: iban_prefix_check](../part-5-domain-modeling/29-iban-prefix-check.md): compare Original with the allocation-free checked prefix/length implementation, without claiming full IBAN checksum validation or a checked wrapper already exists.
+- [30: http_response_router](../part-5-domain-modeling/30-http-response-router.md): compare Original with private status classification, preserving the public types while recording removed logging and the retained decode-before-204 ordering.
+- [31: config_loader](../part-5-domain-modeling/31-config-loader.md): separate the compatible getter cleanup from the fallible, privately stored `Settings` snapshot.
   - Defaults on invalid input, per-call observation, borrowed host access, and all-or-error construction are different policies, not interchangeable convenience details.
-- [31: buffer_policy](../part-5-domain-modeling/31-buffer-policy.md): compare two configuration fields with mutually exclusive enum variants, keeping the existing assertion behavior separate from representable policy combinations.
-- [32: typed_ids](../part-5-domain-modeling/32-typed-ids.md): compare aliases with separate newtypes, attributing compiler rejection only to category mix-ups rather than missing entries or IDs from another owner.
-- [33: validation_feedback](../part-5-domain-modeling/33-validation-feedback.md): compare open string categories and allocated messages with enum categories and static messages, including the closed-set migration and remaining vector allocation.
-- [34: secret_token](../part-5-domain-modeling/34-secret-token.md): compare ordinary string formatting with a restricted wrapper and redacted `Debug`, not with encryption, memory locking, or guaranteed erasure.
-- [35: config_typestate](../part-5-domain-modeling/35-config-typestate.md): compare runtime missing-roots errors with consuming concrete-state transitions, recording both compiler rejection and the loss of the starter's replacement flexibility.
-- [36: temp_file](../part-5-domain-modeling/36-temp-file.md): compare Original's end-of-function manual cleanup with a non-`Clone` `TempFile` guard owning a private `PathBuf`.
+- [32: buffer_policy](../part-5-domain-modeling/32-buffer-policy.md): compare two configuration fields with mutually exclusive enum variants, keeping the existing assertion behavior separate from representable policy combinations.
+- [33: typed_ids](../part-5-domain-modeling/33-typed-ids.md): compare aliases with separate newtypes, attributing compiler rejection only to category mix-ups rather than missing entries or IDs from another owner.
+- [34: validation_feedback](../part-5-domain-modeling/34-validation-feedback.md): compare open string categories and allocated messages with enum categories and static messages, including the closed-set migration and remaining vector allocation.
+- [35: secret_token](../part-5-domain-modeling/35-secret-token.md): compare ordinary string formatting with a restricted wrapper and redacted `Debug`, not with encryption, memory locking, or guaranteed erasure.
+- [36: config_typestate](../part-5-domain-modeling/36-config-typestate.md): compare runtime missing-roots errors with consuming concrete-state transitions, recording both compiler rejection and the loss of the starter's replacement flexibility.
+- [37: temp_file](../part-5-domain-modeling/37-temp-file.md): compare Original's end-of-function manual cleanup with a non-`Clone` `TempFile` guard owning a private `PathBuf`.
   - `read_back` keeps its signature, while construction returns a guard and callers borrow its path; ordinary `?` errors now attempt cleanup, but deletion can fail and `Drop` cannot return the removal error.
   - Both use absolute paths and `File::create_new` in a stable private directory controlled by the caller; neither generates secure temporary names or guarantees cleanup on abort.
-- [37: friends](../part-5-domain-modeling/37-friends.md): compare shared person handles with one owner and local IDs, including self-link behavior, equal-name identity, lifetime control, and unresolved cross-owner IDs.
+- [38: friends](../part-5-domain-modeling/38-friends.md): compare shared person handles with one owner and local IDs, including self-link behavior, equal-name identity, lifetime control, and unresolved cross-owner IDs.
 
 ## Part VI: larger refactors
 
-- [38: env_file_parser](../part-6-capstone/38-env-file-parser.md): compare Original with the compatible line helper first, then treat the state-machine alternative as a different grammar and failure policy.
+- [39: env_file_parser](../part-6-capstone/39-env-file-parser.md): compare Original with the compatible line helper first, then treat the state-machine alternative as a different grammar and failure policy.
   - Its richer errors do not yet imply reliable line locations after multiline quoted input, and partial accepted data differs from all-or-error parsing.
-- [39: mini_redis](../part-6-capstone/39-mini-redis.md): compare Original with the compatible dispatch cleanup before the single-map value/command/reply redesign.
+- [40: mini_redis](../part-6-capstone/40-mini-redis.md): compare Original with the compatible dispatch cleanup before the single-map value/command/reply redesign.
   - Keep store-field compatibility, cross-type collisions, arity behavior, command casing, and reply formatting beside the API comparison even though the handler signature stays unchanged.
 
 ## Conditions before final ratings

@@ -1,6 +1,6 @@
 # Roadmap
 
-The book contains thirty-nine exercises in six parts. Read them in order, jump
+The book contains forty exercises in six parts. Read them in order, jump
 to the topic you need, or use this page to choose where to start. Each chapter
 stands on its own, while each part develops one group of related ideas.
 
@@ -40,7 +40,7 @@ Rust does not guarantee tail-call optimization; don't assume recursion uses cons
 Chapter 14 (`dedup_runs`) is an optional bonus exercise. Skip it when time is
 short.
 
-## Part IV. Strings, parsing & iterators (chapters 21–26)
+## Part IV. Strings, parsing & iterators (chapters 21–27)
 
 Part IV covers standard library methods and custom iterators. You'll clean up
 log lines with `split_whitespace` and `strip_prefix`, parse
@@ -49,29 +49,32 @@ small transformer with an `enum`, and remove a sentinel from a command pipeline
 by choosing its identity value. You'll also turn free functions into a fluent
 extension trait and reduce a verbose quicksort to its textbook definition.
 
+Chapter 26 ([`frame_body`](../part-4-strings-parsing/26-frame-body.md)) replaces length, index, and range checks with a slice pattern that borrows the middle between a checked prefix and suffix.
+Both versions validate one complete frame without allocating; an empty payload and marker bytes inside it remain valid.
+
 In chapter 23, implementing `Iterator` makes methods such as `take`, `map`,
-`zip`, and `collect` available to your type. Chapter 26
+`zip`, and `collect` available to your type. Chapter 27
 (`quicksort`) is an optional bonus exercise. Skip it when time is short.
 
-## Part V. Domain modeling (chapters 27–37)
+## Part V. Domain modeling (chapters 28–38)
 
 Part V moves from syntax to data and API design across eleven exercises.
-Chapter 27 groups room aggregates on an owned **newtype**, revisiting the iterator functions from chapter 17.
-Chapter 28 validates IBAN prefixes, chapter 29 uses enums to separate routing decisions from side effects, and chapter 30 combines visibility with layered configuration through `TryFrom` and `FromStr`.
-Chapter 31 models buffer sizing policies, and chapter 32 separates ID types.
-Chapter 33 separates validation categories from display messages in a fresh instructor-created fixture inspired by beginner submissions, not copied from a learner's code.
-Chapter 34 controls access to secrets and their diagnostic output, and chapter 35 uses typestate to constrain configuration steps.
-Chapter 36 ([`temp_file`](../part-5-domain-modeling/36-temp-file.md)) assigns scratch-file cleanup to a guard, including attempts on ordinary error returns.
-Chapter 37 (`friends`) closes the part with an advanced exercise.
+Chapter 28 groups room aggregates on an owned **newtype**, revisiting the iterator functions from chapter 17.
+Chapter 29 validates IBAN prefixes, chapter 30 uses enums to separate routing decisions from side effects, and chapter 31 combines visibility with layered configuration through `TryFrom` and `FromStr`.
+Chapter 32 models buffer sizing policies, and chapter 33 separates ID types.
+Chapter 34 separates validation categories from display messages in a fresh instructor-created fixture inspired by beginner submissions, not copied from a learner's code.
+Chapter 35 controls access to secrets and their diagnostic output, and chapter 36 uses typestate to constrain configuration steps.
+Chapter 37 ([`temp_file`](../part-5-domain-modeling/37-temp-file.md)) assigns scratch-file cleanup to a guard, including attempts on ordinary error returns.
+Chapter 38 (`friends`) closes the part with an advanced exercise.
 
 If your team's Rust reviews spend more time on types and design than syntax,
 start here.
 
-## Part VI. Larger refactors (chapters 38–39)
+## Part VI. Larger refactors (chapters 39–40)
 
 The final two refactors combine most of the earlier work.
-Chapter 38 is a parser.
-Chapter 39 is a small `redis`-style server.
+Chapter 39 is a parser.
+Chapter 40 is a small `redis`-style server.
 Both include production concerns to investigate: additional tests, edge cases, and design decisions that compilation alone can't settle.
 
 These exercises introduce no new concepts.
@@ -93,7 +96,7 @@ book:
 
 - The [Cheatsheet](concept-index.md) lists every named concept and links
   to each chapter that uses it.
-- The [Trade-off matrix](trade-off-matrix.md) puts all thirty-nine
+- The [Trade-off matrix](trade-off-matrix.md) puts all forty
   canonical solutions and their scores side by side.
 - [Further reading](further-reading.md) collects and deduplicates every
   external resource cited in the book.
