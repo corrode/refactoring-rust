@@ -72,12 +72,11 @@ Returning a `Vec` makes `evens` generate the complete result before returning.
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison looks at the work needed to produce the even numbers and how callers can use the result.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/05_even_numbers.rs:listing}}
@@ -142,7 +141,7 @@ pub fn evens(max: u32) -> impl Iterator<Item = u32> {
 `filter` is useful when a predicate determines which values to keep.
 Here the values are evenly spaced, so `step_by(2)` states the rule directly without a parity test for each candidate.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -160,8 +159,6 @@ Both lazy variants give up direct indexing and repeated traversal; callers needi
 The main `Vec` solution preserves those capabilities and the original API.
 `filter` tests candidate parity, whereas `step_by` expresses the stride directly.
 Avoiding unused work helps partial consumers; fully collecting still allocates, and timing differences need measurement.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

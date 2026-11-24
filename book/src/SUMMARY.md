@@ -75,11 +75,8 @@
 # Appendix
 
 - [How to use this book](appendix/how-to-use.md)
-- [How to run a code review](appendix/how-to-run-a-code-review.md)
 - [The trade-off axes](appendix/trade-off-axes.md)
-- [Roadmap](appendix/roadmap.md)
 - [Cheatsheet (Concept index)](appendix/concept-index.md)
-- [Trade-off matrix](appendix/trade-off-matrix.md)
 - [Further reading](appendix/further-reading.md)
-- [Contributing & errata](appendix/contributing.md)
+- [Errata and reuse](appendix/contributing.md)
 - [Acknowledgements](appendix/acknowledgements.md)

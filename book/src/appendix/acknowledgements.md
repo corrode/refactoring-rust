@@ -3,60 +3,19 @@
 Thanks to everyone who challenged an early workshop solution.
 Many of those objections now appear in the trade-off sections.
 
-> **Draft outline.** Bullet notes for the appendix; explanations still to be written.
+The exercises also draw on these articles and projects:
 
-- Separate contributions to this book from the sources that informed its exercises and from the legal notices attached to adapted code.
-- `book/book.toml` names Matthias Endler as the author, and the book license attributes the work to Matthias Endler (corrode).
-- This outline records supported source attribution and credit categories, not an invented list of reviewers or a completed contributor register.
+- [Advent of Code 2015, Day 1: Not Quite Lisp](https://adventofcode.com/2015/day/1) supplies the problem behind [11: floor](../part-2-option-result/11-floor.md).
+- Jack O'Connor's [Object Soup is Made of Indexes](https://jacko.io/object_soup.html) is the teaching source for [39: friends](../part-5-domain-modeling/39-friends.md).
+- **hyper**, with code credited to Sean McArthur, provides the historical buffer setters adapted in [32: buffer_policy](../part-5-domain-modeling/32-buffer-policy.md).
+- **The Nushell Project Developers** provide the ID refactor behind [33: typed_ids](../part-5-domain-modeling/33-typed-ids.md).
+- **secrecy and iqlusion** provide the explicit-access and redacted-debugging design discussed in [35: secret_token](../part-5-domain-modeling/35-secret-token.md).
+- **rustls**, with code credited to Joseph Birr-Pixton, provides the typed-builder design simplified in [36: config_typestate](../part-5-domain-modeling/36-config-typestate.md).
+- **nom**, with code credited to Geoffroy Couprie, provides the parser-associated-types refactor adapted in [38: mapped_parser](../part-5-domain-modeling/38-mapped-parser.md).
 
-## Contributions to record
+The Rust documentation, Google Rust Style Guide, and vimspell's iterator API also inform the explanations.
+[Further reading](further-reading.md) collects their links, pinned sources, and the distinctions between upstream changes and local teaching examples.
+These source credits do not imply participation in or endorsement of the book.
 
-- Adopted Discussion questions: connect the credited person or handle with the question and chapter rather than offering an unexplained list of names.
-- Accepted alternative solutions and code fixes: retain the PR or commit reference, the exercise, and the contribution's purpose.
-- Corrections and edge cases: credit reports that change a contract explanation, test, comparison, or implementation, including small but useful typo and link reports.
-- Browser-runner, build, theme, and accessibility work: identify the actual contribution rather than crediting every tool author as a book reviewer.
-- Preview readers and workshop participants: record specific feedback where available, without assuming that attending a session means contributing text or endorsing the book.
-- TODO(prose): Assemble names and evidence from accepted issues, PRs, and author-held review notes; the policy promises credit for adopted suggestions, but these source records do not supply that completed list.
-- TODO(prose): Confirm preferred names or handles and whether private participants want public credit before adding them to the final acknowledgements.
-
-## Named teaching sources
-
-- **Jack O'Connor, Object Soup is Made of Indexes:** the teaching article credited in [39: friends](../part-5-domain-modeling/39-friends.md), its slide page, and both Rust files.
-  - The example develops the distinction between object relationships and ownership through indices, not a report of a production refactoring PR.
-  - Retain the [article link](https://jacko.io/object_soup.html) alongside the acknowledgement so the source remains identifiable.
-- **Advent of Code 2015, Day 1: Not Quite Lisp:** the problem source named in `examples/11_floor.rs` and the slide page for [11: floor](../part-2-option-result/11-floor.md).
-  - Credit the [puzzle source](https://adventofcode.com/2015/day/1) without presenting the workshop's iterator variants as copied puzzle solutions or a production change.
-- **Beginner-course feedback patterns:** [34: validation_feedback](../part-5-domain-modeling/34-validation-feedback.md) records an instructor-written fixture inspired by a recurring submission pattern.
-  - The source explicitly says no learner code was copied, so do not invent a named student, particular submission, or permission history.
-
-## Upstream projects and recorded notices
-
-- **hyper and Sean McArthur:** [32: buffer_policy](../part-5-domain-modeling/32-buffer-policy.md) adapts historical buffer setters, with a workshop-specific enum redesign rather than an upstream refactoring PR.
-  - `THIRD_PARTY_NOTICES.md` records the pinned MIT notice, copyright 2014–2021 Sean McArthur, and the standalone adaptation's changes.
-- **The Nushell Project Developers:** [33: typed_ids](../part-5-domain-modeling/33-typed-ids.md) is inspired by the verified ID refactor in PR #13832.
-  - The recorded MIT notice names The Nushell Project Developers, copyright 2019–2023; the local `Engine` and tuple newtypes are teaching fixtures rather than upstream excerpts.
-- **secrecy and iqlusion:** [35: secret_token](../part-5-domain-modeling/35-secret-token.md) draws on existing explicit-access and redacted-debugging design.
-  - The recorded MIT notice is copyright 2019 iqlusion; PR #1140 restructured `SecretBox` and is not evidence of an upstream version of the starter's secret leak.
-- **rustls and Joseph Birr-Pixton:** [36: config_typestate](../part-5-domain-modeling/36-config-typestate.md) simplifies a pinned generic typed transition into instructor-created concrete states.
-  - The recorded MIT notice is copyright 2016 Joseph Birr-Pixton; the historical builder is a design source, not a verified before-and-after refactoring report.
-- **nom and Geoffroy Couprie:** [38: mapped_parser](../part-5-domain-modeling/38-mapped-parser.md) reduces the real parser-associated-types refactor in [PR #1626](https://github.com/rust-bakery/nom/pull/1626), merged January 22, 2023.
-  - The recorded MIT notice is copyright 2014–2019 Geoffroy Couprie; the std-only fixture omits nom's remaining-input, streaming, and error abstractions rather than reproducing upstream code verbatim.
-  - [Further reading](further-reading.md#production-history-and-design-sources) retains the pinned before-and-after sources and the PR's design caveats.
-- These names identify projects or copyright holders documented by the source records, not people claimed to have reviewed, approved, or contributed to this book.
-- Keep the full applicable notices with redistributed adapted code; a short acknowledgement does not replace a required copyright and permission notice.
-
-## Other documented influences
-
-- The Google Rust Style Guide supplies cited API guidance on borrowing, iterators, enum parameters, standard traits, and newtypes, with chapter-specific qualifications.
-- Rust documentation supplies the language and library contracts used throughout the examples; citing those contracts is different from claiming an endorsement by their authors.
-- The pinned `vimspell` API is an external lazy-result example discussed in [16: spell_check](../part-3-aggregations/16-spell-check.md), not a checked-in local alternative or a verified source of a book contribution.
-- [Further reading](further-reading.md#production-history-and-design-sources) keeps the project, PR, and commit links together with their actual role in the book.
-
-## Attribution review before publication
-
-- `THIRD_PARTY_NOTICES.md` explicitly covers exercises 32, 33, 35, 36, and 38 only, so it cannot stand in for a repository-wide attribution or dependency review.
-- TODO(prose): Review any retained article quotations, puzzle wording, or adapted snippets outside those five exercises and record the applicable terms rather than assuming the repository's MIT license grants upstream rights.
-- TODO(prose): Verify individual PR-author attribution before adding personal names to the project credits; a repository name, copyright holder, and change author are not interchangeable.
-- Check that chapter notes, slides, source comments, bibliography entries, and acknowledgements describe the same provenance when examples are revised.
-- Do not turn source credit into a statement of permission, sponsorship, endorsement, or participation unless the author has evidence for that statement.
-- Keep the final list consistent with [Contributing & errata](contributing.md), especially the promise to credit adopted feedback despite closed prose authorship.
+The repository's [third-party notices](https://github.com/corrode/refactoring-rust/blob/main/THIRD_PARTY_NOTICES.md) retain the full copyright and permission notices for exercises 32, 33, 35, 36, and 38.
+Keep the applicable notices when redistributing adapted code; an acknowledgement does not replace them.

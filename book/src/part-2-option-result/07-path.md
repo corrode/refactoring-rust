@@ -79,12 +79,11 @@ It doesn't check whether the path exists or points to a regular file.
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison asks how clearly each version expresses the extension check while keeping the same path rules.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/07_path.rs:listing}}
@@ -163,7 +162,7 @@ That's enough if you only need a yes-or-no classifier.
 Do you need to distinguish “not Rust” from “the extension isn't valid UTF-8”?
 Then replace `bool` with a richer return type and document how you handle encoding.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -179,8 +178,6 @@ Readability depends on familiarity.
 
 Skipping UTF-8 validation doesn't establish a speed-up; you'd need to measure that.
 `is_some_and` requires Rust 1.70; `map_or` and explicit `match` work on older versions.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

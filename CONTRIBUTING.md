@@ -38,9 +38,11 @@ repository-root `LICENSE`). No CLA, no DCO signoff required.
 
 **Before opening a code PR:**
 
-1. `cargo test --examples` must pass on your branch.
-2. `cd book && mdbook build` must pass.
-3. Keep PRs focused — one fix per PR is easier to review than ten.
+1. Run `make test` from the repository root.
+   It checks intentional starter failures separately; plain `cargo test --examples` can fail by design.
+2. Run `make book-check` for the full source, book, browser-runner, and rendered-snippet checks.
+   This requires Rust/Cargo, mdBook, Node.js, and Python 3.10 or newer.
+3. Keep PRs focused: one fix per PR is easier to review than ten.
 
 ## Book prose: file an issue
 

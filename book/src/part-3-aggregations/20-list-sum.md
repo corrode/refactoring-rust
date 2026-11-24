@@ -77,12 +77,11 @@ The same signature doesn't guarantee the same behavior.
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the list traversals by their clarity, arithmetic behavior, and memory requirements.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Repeat the item pattern with `while let`
 
@@ -167,7 +166,7 @@ Dropping an entire unconsumed list can recursively drop its boxed tail.
 If addition panics while a loop still owns a long remainder, unwinding can drop that remainder recursively too.
 For unbounded or untrusted list lengths, review destruction and failure paths as well as traversal; a successful long-list sum doesn't test them all.
 
-### Trade-offs
+## Trade-offs
 
 Compare each implementation with the **Original** using the [six trade-off axes](../appendix/trade-off-axes.md).
 
@@ -189,8 +188,6 @@ The alternatives are not interchangeable contracts, even though all three accept
 
 For this exercise's behavior-preserving refactor, I'd use `while let`.
 Keep the recursive version as a comparison, or use it only where input bounds and arithmetic requirements justify its different behavior.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

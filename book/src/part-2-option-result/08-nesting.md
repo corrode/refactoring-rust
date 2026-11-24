@@ -81,12 +81,11 @@ If callers need to tell those cases apart, you'll need a different return type, 
 </details>
 
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare how easily you can follow optional text from the input to an uppercase result, including the cases that return nothing.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/08_nesting.rs:listing}}
@@ -162,7 +161,7 @@ Use the whitespace rule your contract requires; this exercise keeps the starter'
 `to_uppercase` isn't locale-aware either.
 Before you use its output for identifiers, security checks, or text shown to users, check whether your domain requires Unicode's default case conversion or a different normalization.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -178,8 +177,6 @@ Readability depends on familiarity.
 
 Longer chains can hide intermediate types and failure points.
 Prefer named locals and explicit branches when steps need comments or logging.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

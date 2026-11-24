@@ -74,12 +74,11 @@ This exercise comes from [Advent of Code 2015, Day 1: Not Quite Lisp](https://ad
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare how the versions calculate the final floor while preserving the first invalid instruction's error.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Using `sum`
 
@@ -122,7 +121,7 @@ Compare how the versions calculate the final floor while preserving the first in
 - **Possible extension, not implemented:** use `char_indices` for byte offsets or `enumerate` over `chars` for instruction positions; name the unit and change the error contract deliberately.
 - **Follow-up tests:** if adding the basement task, distinguish first arrival from the final floor and define what happens when the basement is never reached.
 
-### Trade-offs
+## Trade-offs
 
 - **Type-safety:** Original, `sum`, and `try_fold` all use `Result<i64, String>`; iterator syntax adds no new domain invariant.
 - **Readability:** Original exposes the state and early return; `sum` highlights the arithmetic once `Sum<Result<_, _>>` is familiar; `try_fold` keeps the state transition visible inside a closure.
@@ -130,8 +129,6 @@ Compare how the versions calculate the final floor while preserving the first in
 - **Performance:** all process instructions once up to the first error with constant auxiliary state; successful paths allocate nothing, while each error formats a `String`.
 - **Flexibility:** `sum` is specific to additive steps; Original and `try_fold` accommodate state-dependent steps without pretending every reduction is addition.
 - **Error reporting:** all stop at the first invalid character and discard the partial floor; none reports a position or all invalid characters.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

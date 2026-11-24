@@ -92,12 +92,11 @@ Keep that distinction: reorganizing this code is not an invitation to change its
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The room calculations stay the same; compare how their organization affects ownership, available operations, and caller changes.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### An owned collection
 
@@ -149,7 +148,7 @@ Asking for all four results still runs four separate calculations, and `child_ag
 The collection does not cache a summary.
 If repeated traversal is the problem, consider a summary calculation separately from this organizational refactor.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -166,8 +165,6 @@ Readability depends on familiarity.
 The owned API's advantages assume callers benefit from holding a named collection with a restricted interface.
 They are not a reason to require ownership for a calculation that only reads a slice.
 The newtype adds a constructor and an `impl`; keep the free functions if a named collection does not earn that extra structure.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

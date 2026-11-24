@@ -94,12 +94,11 @@ For this exercise, a single collection can own the people while their friendship
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare how each friendship model handles identity, updates, and the lifetime of people in the graph.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Give the people one owner
 
@@ -170,7 +169,7 @@ Bounds checks cannot detect a foreign ID whose index happens to be valid locally
 Use IDs only with the directory that issued them; an API that must enforce this needs an additional owner-identity design.
 This is the same distinction between category, validity, and instance identity explored in [typed_ids](33-typed-ids.md).
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -188,8 +187,6 @@ The performance comparison names removed work, not a measured speed-up.
 Names and friendship vectors still allocate, and resolving an ID requires a lookup.
 `None` does not distinguish which argument was out of range and does not detect in-range IDs from another directory.
 The solution fixes the two required behaviours and deliberately changes who controls lifetimes; it is not a drop-in replacement for independently owned handles.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

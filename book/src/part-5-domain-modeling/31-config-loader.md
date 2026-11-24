@@ -46,12 +46,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the configuration designs by their default rules, handling of malformed values, and requirements for callers.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution: preserve the API and fallback policy
 
@@ -99,10 +98,10 @@ Compare the configuration designs by their default rules, handling of malformed 
 - `ConfigError` implements `Debug` but not `Display` or `std::error::Error`, so a polished operator-facing diagnostic and an underlying parse-error chain remain future work.
 - The helper calls `to_string()` before parsing even on successful input, so parse-once does not mean allocation-free conversion.
 
-<!-- TODO(prose): Decide whether to narrow the roadmap's layered-configuration promise to single-map conversion or reserve actual source precedence for later work, without implying either solution loads or merges sources. -->
+
 <!-- TODO(prose): Keep the slides' parse-once recommendation attached to the alternative and qualify their every-getter-reparses claim, since only numeric getters parse and the main solution deliberately preserves per-call access. -->
 
-### Trade-offs
+## Trade-offs
 
 - **Type-safety:** **Original** and main return typed scalars but expose a mutable public port; the alternative protects its stored representation and makes numeric conversion fallible without enforcing nonzero ports, valid hosts, or semantic connection limits.
 - **Readability:** **Original** repeats eager fallback construction and parsing; main shortens each getter without new concepts, while the alternative centralizes conversion but adds a settings API, a generic helper, and an error type.
@@ -110,8 +109,6 @@ Compare the configuration designs by their default rules, handling of malformed 
 - **Performance:** **Original** allocates default strings eagerly and reparses on every numeric read; main removes that temporary work, while the alternative amortizes parsing and host cloning across reads but still allocates numeric text during construction.
 - **Flexibility:** **Original** and main observe the current map per call and allow independent field reads; the alternative offers one coherent snapshot but needs an explicit reload/update policy and rejects the whole conversion on either numeric error.
 - **Error reporting:** **Original** and main silently default invalid numbers; the alternative returns the first bad numeric key and value, yet still suppresses parser detail and accepts arbitrary debug text as false.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

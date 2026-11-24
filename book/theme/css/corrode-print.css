@@ -13,32 +13,30 @@
     }
 
     html,
-    body,
-    .page-wrapper,
-    .page,
-    .content {
+    .page-wrapper {
         background: white !important;
         color: #111 !important;
     }
 
-    html .content {
+    .content {
         font-size: 10.5pt;
         line-height: 1.45;
     }
 
-    html .content main {
+    .content main {
         max-width: none;
     }
 
     /* Override every reading theme, including inline syntax highlighting. */
-    html .content main,
-    html .content main * {
+    .content,
+    .content * {
         color: #111 !important;
         background: transparent !important;
         box-shadow: none !important;
         text-shadow: none !important;
     }
 
+    /* mdBook already hides navigation and keeps headings together. */
     .content h1 {
         break-before: page;
         font-size: 22pt;
@@ -51,78 +49,70 @@
     .content h2 { font-size: 16pt; }
     .content h3 { font-size: 12pt; }
 
-    .content :is(h1, h2, h3, h4, summary) {
-        break-after: avoid;
-        break-inside: avoid;
-    }
-
     .content :is(p, li) {
         orphans: 3;
         widows: 3;
     }
 
-    html .content pre,
-    html .content pre code {
-        white-space: pre-wrap !important;
+    .content pre,
+    .content pre code {
+        white-space: pre-wrap;
         overflow-wrap: anywhere;
-        overflow: visible !important;
+        overflow: visible;
         /* Long examples must be allowed to continue onto another page. */
         break-inside: auto;
-        page-break-inside: auto;
-        font-size: 8.5pt !important;
+        font-size: 8.5pt;
         line-height: 1.35;
     }
 
-    html .content pre {
+    .content pre {
         border: 1px solid #bbb !important;
-        border-radius: 0;
-        padding: 8pt;
     }
 
-    html .content pre code {
+    .content pre code {
         padding: 0;
     }
 
-    html .content :not(pre) > code {
+    .content :not(pre) > code {
         white-space: normal;
         overflow-wrap: anywhere;
     }
 
-    html .content .print-code {
+    .content .print-code {
         display: block;
     }
 
-    html .content :is(.ace_editor, .buttons, .playground-test-editor, .result),
-    .nav-wrapper,
-    .nav-wide-wrapper {
+    .content :is(.ace_editor, .buttons, .playground-test-editor, .result) {
         display: none !important;
     }
 
-    html .content :is(details.solution, details.discussion-question, blockquote) {
-        border: 0 !important;
-        border-left: 2pt solid #aaa !important;
+    .content :is(details.discussion-question, blockquote) {
+        border: 0;
+        border-left: 2pt solid #aaa;
         border-radius: 0;
         padding: 0 0 0 10pt;
         margin: 10pt 0;
     }
 
-    html .content details > summary {
+    .content details.discussion-question > summary {
         margin: 0 0 6pt;
         padding: 0;
         border: 0 !important;
         list-style: none;
+        break-after: avoid;
+        break-inside: avoid;
     }
 
-    .content summary::-webkit-details-marker {
+    .content details.discussion-question > summary::-webkit-details-marker {
         display: none;
     }
 
-    html .content table {
+    .content table {
         width: 100%;
         font-size: 9pt;
     }
 
-    html .content :is(th, td) {
+    .content table :is(th, td) {
         border: 1px solid #aaa;
         padding: 4pt 6pt;
         overflow-wrap: anywhere;
@@ -133,10 +123,9 @@
         min-width: 5.5em;
     }
 
-    .content thead { display: table-header-group; }
     .content tr { break-inside: avoid; }
 
-    html .content .tradeoff-icon {
+    .content .tradeoff-icon {
         filter: grayscale(1) !important;
     }
 

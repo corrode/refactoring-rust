@@ -96,12 +96,11 @@ Name the unit with `max_bytes`, but also document what happens when the limit sp
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare how the implementations respect the byte budget and what happens with non-ASCII input.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/06_truncate_string.rs:listing}}
@@ -208,7 +207,7 @@ An empty result does not.
 Returning `&str` would avoid copying and allocating, but the result could not outlive the input.
 Make that API change only when callers benefit from it.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -230,8 +229,6 @@ Copying only the prefix reduces copied bytes when truncating, not necessarily el
 `truncate_chars` is valid for a different contract, not a substitute for a byte cap: four scalar values from `"café"` occupy five bytes.
 Its negative scores concern the byte-budget requirement, and its performance is not scored against a different unit.
 None of these variants guarantees complete grapheme clusters.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

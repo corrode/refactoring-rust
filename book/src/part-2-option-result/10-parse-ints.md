@@ -98,12 +98,11 @@ In an iterator chain, `filter_map` can consume that `Option` directly.
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison keeps the two error policies distinct: stop at the first parsing failure, but report every validation error.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/10_parse_ints.rs:listing}}
@@ -168,12 +167,12 @@ Accepting whitespace or handling out-of-range values differently would change th
 `collect_errors` allocates every returned `String` because the trait asks validators for owned error messages.
 If callers need a field name, error code, or context, return structured errors rather than making them extract that data from human-readable text.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
-#### Parsing: `parse_values`
+### Parsing: `parse_values`
 
 | Criterion | Original | Owned `map().collect()` (main) | Borrowed slice + `map().collect()` |
 |---|---|---|---|
@@ -184,7 +183,7 @@ Readability depends on familiarity.
 | Flexibility | Requires owned vector | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Requires owned vector | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Accepts slices, arrays, borrowed vectors |
 | Error reporting | First `ParseIntError`; no input index | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same error, still no index | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same error, still no index |
 
-#### Validation: `collect_errors`
+### Validation: `collect_errors`
 
 | Criterion | Original | `filter_map` with `.err()` + `collect` |
 |---|---|---|
@@ -199,8 +198,6 @@ Only the borrowed alternative requires callers to pass a reference to `parse_val
 Borrowing saves a clone only if they would otherwise clone the input to keep it.
 Neither iterator chain guarantees a speed-up.
 Don't replace the validation chain with `collect` over `Result`: it would stop at the first error.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

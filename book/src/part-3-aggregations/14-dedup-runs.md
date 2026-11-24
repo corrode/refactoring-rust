@@ -45,12 +45,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the work and memory needed to collapse adjacent repeats without changing the order or removing separated repeats.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -85,7 +84,7 @@ Compare the work and memory needed to collapse adjacent repeats without changing
 - Suggested property checks: the output has no adjacent equal values, preserves run order, and is unchanged by a second application.
 - Keep capacity observations separate from content assertions; returning fewer elements does not imply returning memory to the allocator.
 
-### Trade-offs
+## Trade-offs
 
 <!-- Final comparison matrices are deferred until the prose is drafted. -->
 
@@ -95,8 +94,6 @@ Compare the work and memory needed to collapse adjacent repeats without changing
 - **Performance:** Original allocates a second output buffer while retaining the input during the scan; main compacts in place but retains the original capacity, with no change to linear scan complexity.
 - **Flexibility:** Original hard-codes integer equality; standard custom-comparison methods and a generic variant offer extensions, while lazy iteration adds an API and dependency decision.
 - **Error reporting:** Original's guarded `unwrap` does not reject empty input, and main also returns an empty vector; neither exposes recoverable errors or an allocation-failure result.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

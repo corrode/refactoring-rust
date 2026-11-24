@@ -20,6 +20,6 @@ Compare those reasons with your own rather than trying to match the solution.
 The book provides review practice, but it cannot replace a review from someone who knows your system.
 
 Start with [the first exercise, `is_yes`](part-1-warmups/01-is-yes.md).
-Try your own refactor before opening the solution.
+Try your own refactor before reading the solution.
 
-[Roadmap](appendix/roadmap.md) · [How to use this book](appendix/how-to-use.md) · [Contributing & errata](appendix/contributing.md)
+[How to use this book](appendix/how-to-use.md) · [Errata and reuse](appendix/contributing.md)

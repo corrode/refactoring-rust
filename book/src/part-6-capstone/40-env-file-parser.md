@@ -65,12 +65,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison distinguishes simplifying the existing `.env` parser from changing its grammar, failure policy, and caller contract.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -144,7 +143,7 @@ The comparison distinguishes simplifying the existing `.env` parser from changin
 <!-- TODO(prose): The slides advertise multiline support and the alternative promises line locations, but step does not count physical LF inside either quoted state; decide how prominently to teach this limitation without presenting it as fixed. -->
 <!-- TODO(prose): Describe the alternative as a chosen dotenv dialect rather than complete dotenv compatibility, and decide which unsupported shell conventions deserve space in the finished chapter. -->
 
-### Trade-offs
+## Trade-offs
 
 - **Type-safety:** Original returns an unrestricted string map; the main solution keeps that contract, while the alternative adds explicit error and control-state enums without enforcing conventional key syntax or buffer invariants in types.
 - **Readability:** Original exposes each line operation in a loop; the main solution isolates one line's rules, while the alternative makes contextual syntax visible at the cost of nine states and shared mutable parser data.
@@ -152,8 +151,6 @@ The comparison distinguishes simplifying the existing `.env` parser from changin
 - **Performance:** Original collects separator parts and recopies quoted values; the main solution avoids that work, while the alternative builds character buffers and copies bare values on commit, with no measured speed comparison between grammars.
 - **Flexibility:** Original and main remain line-oriented with fixed comment precedence; the alternative supports context-sensitive quoting and multiline values, but additional dialect rules require explicit transitions and EOF decisions.
 - **Error reporting:** Original and main silently skip rejected lines; the alternative names four failures but stops at the first and has inaccurate locations after multiline quoted input, so richer errors are not yet consistently accurate errors.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

@@ -87,12 +87,11 @@ Add variants or retain the parsing error when callers need to act on that differ
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the port parsers by their accepted inputs, guarantees on success, and information on failure.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/13_parse_port.rs:listing}}
@@ -164,7 +163,7 @@ Non-zero integer types also provide an unused value, called a niche.
 The alternative returns `Result`, not `Option`.
 It uses `NonZeroU16` to guarantee a non-zero value, not for that optimisation.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -182,8 +181,6 @@ Only callers of the alternative must handle `InvalidPort` and use `.get()` where
 Syntax and range errors still share `Invalid`.
 The original already rejects zero, so the new type enforces an existing domain rule rather than fixing a bug.
 Don't use it for bind APIs that accept zero.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

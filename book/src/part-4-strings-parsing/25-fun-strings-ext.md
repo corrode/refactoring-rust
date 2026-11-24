@@ -52,12 +52,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison separates the readability of combined string helpers from the text transformations they actually perform.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -102,7 +101,7 @@ The slides flag the behavior change, but the alternative source's shorter-pipeli
 - These methods do not perform locale-specific casing or Unicode normalization.
 - No numeric overflow is central to these algorithms; output growth and allocation remain resource limits for very large strings.
 
-### Trade-offs
+## Trade-offs
 
 <!-- Final comparison matrices are deferred while this chapter is a bullet outline. -->
 
@@ -112,8 +111,6 @@ The slides flag the behavior change, but the alternative source's shorter-pipeli
 - **Performance:** **Original:** one growing result per helper and intermediate strings during composition; main retains that work, and the trait chain does not remove those allocations.
 - **Flexibility:** **Original:** helpers callable without a trait import; an extension trait composes with `str` methods and autoderef, but adds method-discovery and name-collision considerations.
 - **Error reporting:** **Original:** transformations return strings without errors; all versions keep that policy, and the ASCII alternative silently leaves non-ASCII casing unchanged.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

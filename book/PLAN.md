@@ -70,17 +70,17 @@ State constraints without giving away the diagnosis or solution, and avoid repea
    Draft outlines retain their source notes in **Code to refactor**, followed by the task explanation.
 3. **Discussion**: independent, initially closed question-and-answer disclosures.
    Put each explanation with its question; do not repeat the questions in a callout.
-4. **Solution**: a visible heading and brief, exercise-specific context, followed by a separate **Show solution** disclosure.
-   Keep the context free of spoilers and the disclosure closed by default.
-   Put the main solution, alternatives, and relevant edge cases inside it.
+4. **Solution**: an ordinary chapter section with brief, exercise-specific context, followed by the main solution, alternatives, and relevant edge cases.
+   Keep this content visible, without a disclosure or enclosing tinted box.
+   Explain once in **How to use this book** that readers should attempt the exercise before continuing past this heading.
    Show a signature-preserving refactor first; reserve API changes for alternatives.
    Keep the original caller-facing types in the first solution too.
    Domain modeling is the exception: the first solution may redesign the API, with caller migration and updated tests explained.
-   Use level-three subheadings within it.
-   End the disclosure with **Trade-offs** under `### Trade-offs`, with any subheadings at level four or deeper.
+   Use level-three subheadings within the section.
+5. **Trade-offs**: a separate section after Solution, under `## Trade-offs`, with any subheadings at level three or deeper.
    Compare named variants against an **Original** column, with the six criteria as rows and a short reason beside each score.
-5. **Takeaways For Our Own Codebase**: questions for further work or team discussion.
-6. **References**: named concepts with links to the concept index.
+6. **Takeaways For Our Own Codebase**: questions for further work or team discussion.
+7. **References**: named concepts with links to the concept index.
 
 Preserve useful technical details when applying this format. Unwritten chapters
 stay marked as drafts. Quizzes are optional and must meet the criteria in §13;
@@ -156,8 +156,9 @@ These checks cover executable examples, not the correctness of every claim or ex
 **mdBook + judgement-style quizzes + Rust Playground integration.**
 
 - **Quizzes (optional):** only when a new application or decision adds value.
-  Place them outside the Show solution disclosure, after its Trade-offs section and before Takeaways For Our Own Codebase. Do not repeat
-  points already covered in the chapter. Question style is **judgement**, not recall:
+  Place them after the Trade-offs section and before Takeaways For Our Own Codebase.
+  Do not repeat points already covered in the chapter.
+  Question style is **judgement**, not recall:
   - "Which of these signatures best expresses the invariant?"
   - "Which axis does change X improve at the cost of which other axis?"
   - "Spot the smell in this related snippet."
@@ -171,7 +172,8 @@ These checks cover executable examples, not the correctness of every claim or ex
   `noplayground` for illustrative code. Pattern documented in `STYLE.md`.
 - **Sidebar navigation:** use native chapter folding with `level = 1`, so the overview groups start expanded and their exercise titles are visible.
   Readers can still collapse each group manually; mdBook opens the current part automatically.
-- **Important caveats:** use native mdBook admonitions sparingly for expected starter failures and production limitations, without replacing the discussion and solution disclosures.
+- **Important caveats:** use native mdBook admonitions sparingly for expected starter failures and production limitations.
+  Keep solution-specific warnings in the Solution section and discussion answers in their own disclosures.
   No additional preprocessor is needed.
 - **No CLI fetcher** in v1. `git clone` is good enough; mentioned in
   How-to-use.
@@ -212,24 +214,21 @@ Style rules (the full version lives in `book/STYLE.md`):
 
 **Back matter (appendix, in order):**
 
-1. **How to use this book.** Covers **Solo**, **Pair**, **Book club / team**, and **Workshop facilitator** modes, browser and local code execution, building the book, and chapter conventions.
-2. **How to run a code review.** ~5–8 pages, pure prose, no Rust-specific
-   code. The book's meta-thesis: ask questions, don't dictate; every
-   refactor has a cost; type-driven design is a tool not a religion.
-3. **The trade-off axes.** Defines the six axes once and for all, with a
-   worked example.
-4. **Roadmap.** One page listing the parts and what each teaches.
-5. **Concept index**: curated, not auto-generated. Every named concept
-   listed with the chapters that introduce and reuse it. Doubles as the
-   target of every chapter's References section. Surfaces in the top
-   nav as **"Cheatsheet"** (friendlier label).
-6. **Trade-off matrix appendix**: one big table; rows are exercises,
-   columns are the six axes, with one row per exercise and solution variant. The whole-forest view no competitor publishes.
-7. **Further reading**: consolidated, deduplicated bibliography.
-8. **Contributing & errata**: issue reporting, contribution policy, licensing, and reuse, with links to the policy and license sources.
-9. **Acknowledgements**: every accepted issue, alternative-solution PR,
-   typo fix gets a name. Closes the loop with the community even when we
-   don't accept prose PRs.
+1. **How to use this book.** Covers **Solo**, **Pair**, and **Book club / team** modes, browser and local code execution, building the book, and chapter conventions.
+   Points to the part overviews and concept index for choosing where to start.
+2. **The trade-off axes.** Defines the six axes, with a worked example.
+3. **Concept index**: curated, not auto-generated.
+   Named concepts link to the chapters that introduce and reuse them, and chapter References link back to the definitions.
+   Surfaces in the top nav as **"Cheatsheet"** (friendlier label).
+4. **Further reading**: consolidated, deduplicated bibliography, retaining source provenance and historical commit pins.
+5. **Errata and reuse**: a short reader-facing page for reporting errors and understanding code-versus-prose licensing.
+   Contributor workflows stay in the repository's `CONTRIBUTING.md`.
+6. **Acknowledgements**: source credits and credit for adopted feedback, with names and contributions verified before publication.
+   Link to the full third-party notices rather than replacing them with acknowledgements.
+
+The appendix is reference material for readers, not a maintainer handbook or a workshop delivery guide.
+Part overviews replace the separate roadmap; comparisons stay beside their exercises rather than in a second matrix.
+The retired code-review essay, roadmap, matrix outline, and editorial follow-ups live in `book/notes/`, outside the published source tree.
 
 **Glossary** is deliberately *not* a separate structure, definitions live
 inside Concept index entries.
@@ -246,6 +245,7 @@ refactoring/
 ├── book/
 │   ├── PLAN.md                 # this file
 │   ├── STYLE.md                # writing style guide
+│   ├── notes/                  # unpublished drafts and editorial follow-ups
 │   ├── book.toml
 │   ├── theme/                  # custom CSS, favicon, logo
 │   │   ├── css/
@@ -267,13 +267,10 @@ refactoring/
 │   │   ├── ...
 │   │   └── appendix/
 │   │       ├── how-to-use.md
-│   │       ├── how-to-run-a-code-review.md
 │   │       ├── trade-off-axes.md
-│   │       ├── roadmap.md
 │   │       ├── concept-index.md
-│   │       ├── trade-off-matrix.md
 │   │       ├── further-reading.md
-│   │       ├── contributing.md
+│   │       ├── contributing.md  # Errata and reuse
 │   │       └── acknowledgements.md
 │   └── LICENSE.md              # all rights reserved, © corrode
 ├── LICENSE                     # top-level for code: MIT (or dual MIT/Apache)
@@ -398,9 +395,7 @@ screenshots.
 **Order:** Scaffolding → Front matter → Reference trio → Bulk → Back
 matter → Final pass → Launch.
 
-The front matter must be written **before** the reference trio so the
-six trade-off axes and the meta-position on code review are committed to
-prose before any chapter operationalizes them.
+The introduction, usage guide, and trade-off axes must be written **before** the reference trio so the chapter conventions and comparison criteria are settled before drafting the exercises.
 
 The reference trio is **ch. 02, ch. 17, ch. 15**:
 - **02** tests "does the format collapse on a trivial exercise?"
@@ -427,11 +422,10 @@ their structure. No separate format spec document.
 
 ### Phase 1, Thesis (~3 days)
 
-- Preface
+- Introduction
 - How to use this book
-- How to run a code review
 - The trade-off axes
-- Roadmap
+- Part overviews
 
 ### Phase 2, Format lock / reference trio (~4 days)
 
@@ -452,9 +446,9 @@ their structure. No separate format spec document.
 ### Phase 4, Back matter (~3 days)
 
 - Concept index (aggregated from per-chapter References).
-- Trade-off matrix (aggregated from per-chapter Trade-offs).
 - Further reading (consolidated).
-- Contributing, Acknowledgements.
+- Errata and reuse, Acknowledgements.
+- Keep editorial follow-ups and retired drafts in `book/notes/`, not the published appendix.
 
 ### Phase 5, Final pass (~2 days)
 

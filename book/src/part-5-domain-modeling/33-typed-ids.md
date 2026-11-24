@@ -77,12 +77,11 @@ Decide which guarantee you need before designing constructors that appear to pro
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison asks what an ID tells the lookup API and which mistakes callers can still make.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Give each category its own type
 
@@ -152,7 +151,7 @@ For two categories, I would keep the distinction visible without introducing a g
 With many categories and shared ID operations, a generic wrapper can reduce repetition.
 The marker still identifies a category, not a particular engine or a valid slot.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -169,8 +168,6 @@ Readability depends on familiarity.
 The error-reporting advantage concerns category mistakes only.
 A missing entry still returns `None`, and a same-category ID from another engine can still return an unrelated value.
 This API deliberately removes interchangeability; it is not a drop-in replacement for the aliases.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

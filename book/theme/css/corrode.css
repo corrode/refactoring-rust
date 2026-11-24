@@ -520,21 +520,63 @@ html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) :not(pre) > code {
 }
 
 /* Sidebar: a thin accent bar marks the active entry. */
-html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .sidebar .chapter li.chapter-item a {
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .sidebar .chapter li.chapter-item a[href] {
     border-left: 2px solid transparent;
     padding-left: 0.5rem;
 }
 
-html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .sidebar .chapter li.chapter-item a.active {
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .sidebar .chapter li.chapter-item a[href].active {
     border-left-color: var(--sidebar-active);
     color: var(--sidebar-active);
     background: transparent;
     position: relative;
 }
 
-html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .sidebar .chapter li.chapter-item a:hover {
+html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .sidebar .chapter li.chapter-item a[href]:hover {
     color: var(--sidebar-active);
     background: transparent;
+}
+
+.sidebar .chapter-fold-toggle {
+    position: relative;
+    display: block;
+    flex: 0 0 28px;
+    inline-size: 28px;
+    block-size: 28px;
+    align-self: center;
+    padding: 0;
+    color: var(--sidebar-fg);
+    opacity: 1;
+    border-radius: 4px;
+}
+
+/* Replace mdBook's rotating text glyph without changing its folding behavior. */
+.sidebar .chapter-fold-toggle > div {
+    display: none;
+}
+
+.sidebar .chapter-fold-toggle::before,
+.sidebar .chapter-fold-toggle::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    inline-size: 10px;
+    block-size: 0;
+    border-block-start: 1.5px solid currentColor;
+}
+
+.sidebar .chapter-fold-toggle::after {
+    transform: rotate(90deg);
+}
+
+.sidebar .chapter-item.expanded > .chapter-link-wrapper > .chapter-fold-toggle::after {
+    display: none;
+}
+
+.sidebar .chapter-fold-toggle:hover {
+    color: var(--sidebar-active);
+    background: color-mix(in srgb, var(--sidebar-fg) 8%, transparent);
 }
 
 .sidebar .chapter-fold-toggle:focus-visible {
@@ -649,15 +691,6 @@ html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .menu-bar {
     color: var(--corrode-accent);
 }
 
-/* ---------- Print ---------- */
-
-@media print {
-    .content blockquote {
-        background: #f3f4f6 !important;
-        color: #1a1a1a !important;
-        border: 1px solid #d0d0d0 !important;
-    }
-}
 
 /* ---------- TODO(theme,v2) inventory ----------
  *
@@ -673,44 +706,6 @@ html:is(.navy, .light, .warm-dark, .rust, .coal, .ayu) .menu-bar {
  *   - Per-chapter trade-off radar chart, programmatically generated.
  *   - Revisit inline-code colour (amber vs. teal) after prose lands.
  */
-
-/* Solution headings and context stay outside the native disclosure. */
-.content details.solution {
-    margin: 1em 0 2em;
-    padding: 0 1.25rem;
-    border: 1px solid var(--links);
-    border-radius: 0.5rem;
-    background: color-mix(in srgb, var(--links) 8%, var(--bg));
-}
-
-.content details.solution[open] {
-    padding-bottom: 1.25rem;
-}
-
-.content details.solution > summary {
-    margin: 0 -1.25rem;
-    padding: 1rem 1.25rem;
-    border-radius: inherit;
-    cursor: pointer;
-    font-weight: 600;
-    line-height: 1.5;
-}
-
-.content details.solution > summary::marker {
-    color: var(--links);
-}
-
-.content details.solution > summary:focus-visible {
-    outline: 2px solid var(--links);
-    outline-offset: 4px;
-    border-radius: 0.25rem;
-}
-
-
-.content details.solution[open] > summary {
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--links);
-}
 
 /* Independent question cards keep answers optional without hiding the questions. */
 .content details.discussion-question {

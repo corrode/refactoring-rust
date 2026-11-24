@@ -60,12 +60,11 @@ Adding a minimum exact size would change the contract rather than preserve it.
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare how the representations express buffer-sizing choices while retaining the setters' behavior and numeric rules.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Name the three policies
 
@@ -116,7 +115,7 @@ The [rooms exercise](28-rooms.md) makes a related distinction: naming a type doe
 Here the enum enforces one specific invariant while leaving numeric checks in the setter.
 Neither implementation allocates a buffer or implements adaptive growth.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -133,8 +132,6 @@ Readability depends on familiarity.
 No speed or memory-layout improvement is assumed here.
 The benefit is expressing mutual exclusion in the type.
 Keep the original representation if its private mutation paths are easy to audit and changing it would cost more than it helps.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

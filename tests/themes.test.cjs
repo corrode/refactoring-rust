@@ -393,6 +393,14 @@ test('chapter folding has a theme-aware visible keyboard focus indicator', () =>
     assert.match(css, /\.sidebar \.chapter-fold-toggle:focus-visible \{[^}]*outline: 2px solid var\(--sidebar-active\);/);
 });
 
+test('chapter folding replaces the native glyph with decorative plus/minus strokes', () => {
+    const css = readFileSync(path.join(root, 'book/theme/css/corrode.css'), 'utf8');
+    assert.match(css, /\.sidebar \.chapter-fold-toggle > div \{\s*display: none;/);
+    assert.match(css, /\.sidebar \.chapter-fold-toggle::before,\s*\.sidebar \.chapter-fold-toggle::after \{[^}]*content: "";[^}]*border-block-start: 1\.5px solid currentColor;/);
+    assert.match(css, /\.sidebar \.chapter-fold-toggle::after \{\s*transform: rotate\(90deg\);/);
+    assert.match(css, /\.sidebar \.chapter-item\.expanded > \.chapter-link-wrapper > \.chapter-fold-toggle::after \{\s*display: none;/);
+});
+
 test('configuration enables chapter folding and native admonitions', () => {
     const config = readFileSync(path.join(root, 'book/book.toml'), 'utf8');
     const folding = config.match(/\[output\.html\.fold\]\n([\s\S]*?)(?=\n\[|$)/)?.[1];
@@ -423,61 +431,236 @@ test('native notes flag intentional starter failures before discussion', integra
     }
 });
 
-test('production warnings remain inside closed solution disclosures', integration, () => {
+function assertPlainSection(content, section, label, name = 'Solution') {
+    assert.ok(section, `${label}: ${name} has visible content`);
+    assert.doesNotMatch(content, /<(?:details|section)\b[^>]*\bclass="[^"]*\bsolution\b/, `${label}: solution cards are absent`);
+    assert.doesNotMatch(section[0], /<\/?(?:details|summary|section)\b/, `${label}: ${name} has no card or disclosure`);
+    const before = content.slice(0, section.index);
+    for (const tag of ['details', 'section']) {
+        assert.equal(
+            (before.match(new RegExp(`<${tag}\\b`, 'g')) || []).length,
+            (before.match(new RegExp(`</${tag}>`, 'g')) || []).length,
+            `${label}: ${name} is outside ${tag} wrappers`
+        );
+    }
+}
+
+function assertClosedDiscussionQuestions(discussion, label) {
+    const questions = [...discussion.matchAll(/<details\b([^>]*)>\s*<summary>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g)];
+    assert.ok(questions.length > 0, `${label}: discussion questions remain available`);
+    assert.equal((discussion.match(/<\/?details\b/g) || []).length, questions.length * 2, `${label}: question disclosures are independent and balanced`);
+    for (const [, attributes, question, answer] of questions) {
+        assert.equal(attributes, ' class="discussion-question"', `${label}: questions stay closed by default`);
+        assert.ok(question.trim(), `${label}: each disclosure has a question`);
+        assert.ok(answer.trim(), `${label}: each disclosure retains its answer`);
+    }
+    // mdBook escapes bare ampersands in summaries, including borrowed Rust types.
+    return questions.map(question => question[2].replaceAll('&amp;', '&'));
+}
+
+test('production warnings remain visible in the ordinary Solution section', integration, () => {
     for (const chapter of ['35-secret-token', '37-temp-file']) {
         const page = readFileSync(path.join(root, `book/book/part-5-domain-modeling/${chapter}.html`), 'utf8');
-        const solution = page.match(/<details class="solution" id="solutions">([\s\S]*?)<\/details>/)?.[1];
-        assert.ok(solution, `${chapter}: solution remains closed by default`);
-        assert.match(solution, /<blockquote class="[^"]*\bblockquote-tag-warning\b[^"]*">/);
+        const solution = page.match(/<h2 id="solution">[\s\S]*?<\/h2>([\s\S]*?)(?=<h2\b|<\/main>)/);
+        assertPlainSection(page, solution, chapter);
+        assert.match(solution[1], /<blockquote class="[^"]*\bblockquote-tag-warning\b[^"]*">/);
         assert.doesNotMatch(page, /\[!WARNING\]/);
     }
 });
 
-test('every exercise has a solution heading and context before its closed disclosure', () => {
-    assert.ok(exercises.length > 0, 'Exercises must be listed in the summary');
+test('every exercise has separate Solution and Trade-offs sections, a legacy anchor, and closed discussion questions', () => {
+    assert.equal(exercises.length, 41, 'All exercises must be listed in the summary');
     for (const exercise of exercises) {
         const chapter = readFileSync(path.join(root, 'book/src', exercise), 'utf8');
-        const section = chapter.match(/^## Solution\n\n([^\n]+(?:\n[^\n]+)*)\n\n<details class="solution" id="solutions">\n<summary>Show solution<\/summary>/m);
-        assert.ok(section, `${exercise}: visible context precedes a separate expand label`);
+        const section = chapter.match(/^<div id="solutions"><\/div>\n\n## Solution\n\n([^\n]+(?:\n[^\n]+)*)\n\n([\s\S]+?)(?=\n## )/m);
+        assertPlainSection(chapter, section, exercise);
+        assert.doesNotMatch(section[1], /^(?:#|<)/m, `${exercise}: context is ordinary prose`);
+        assert.match(section[2], /solutions\/\d{2}_/, `${exercise}: solution code or source references remain`);
+        const tradeoffs = chapter.match(/^## Trade-offs\n\n([\s\S]+?)(?=\n## )/m);
+        assertPlainSection(chapter, tradeoffs, exercise, 'Trade-offs');
+        assert.equal(tradeoffs.index, section.index + section[0].length + 1, `${exercise}: Trade-offs follows Solution as a peer section`);
+        assert.equal((chapter.match(/^#{1,6} Trade-offs$/gm) || []).length, 1, exercise);
+        let previousLevel = 2;
+        for (const [, hashes] of tradeoffs[1].matchAll(/^(#{3,6}) /gm)) {
+            assert.ok(hashes.length <= previousLevel + 1, `${exercise}: Trade-offs subheadings do not skip a level`);
+            previousLevel = hashes.length;
+        }
         assert.equal((chapter.match(/^## Solution$/gm) || []).length, 1, exercise);
-        assert.ok(section.index > chapter.indexOf('## Discussion'), exercise);
-        assert.ok(section.index < chapter.indexOf('## Takeaways For Our Own Codebase'), exercise);
+        assert.equal((chapter.match(/\bid="solutions"/g) || []).length, 1, exercise);
+        const discussion = chapter.indexOf('## Discussion');
+        assert.ok(discussion >= 0 && section.index > discussion, exercise);
+        assert.ok(tradeoffs.index < chapter.indexOf('## Takeaways For Our Own Codebase'), exercise);
+        assertClosedDiscussionQuestions(chapter.slice(discussion, section.index), exercise);
         assert.doesNotMatch(chapter, /<summary>\s*<h[1-6]\b/, exercise);
+        assert.doesNotMatch(chapter, /<summary>\s*(?:Show\s+)?solutions?\s*<\/summary>/i, exercise);
     }
 });
 
-test('rendered solution headings remain outside the disclosure and have their own anchors', integration, () => {
+test('rendered Solution and Trade-offs sections are peers with stable anchors while discussions stay collapsed', integration, () => {
     for (const exercise of exercises) {
         const page = readFileSync(path.join(root, 'book/book', exercise.replace(/\.md$/, '.html')), 'utf8');
-        assert.match(page, /<h2 id="solution"><a class="header" href="#solution">Solution<\/a><\/h2>\s*<p>[\s\S]*?<\/p>\s*<details class="solution" id="solutions">\s*<summary>Show solution<\/summary>/, exercise);
+        const section = page.match(/<div id="solutions"><\/div>\s*<h2 id="solution"><a class="header" href="#solution">Solution<\/a><\/h2>\s*<p>([\s\S]*?)<\/p>\s*([\s\S]+?)(?=<h2\b|<\/main>)/);
+        assertPlainSection(page, section, exercise);
+        assert.ok(section[1].trim(), `${exercise}: visible context remains`);
+        assert.match(section[2], /<(?:h3|pre|ul)\b/, `${exercise}: the solution body is rendered`);
+        const tradeoffs = page.match(/<h2 id="trade-offs"><a class="header" href="#trade-offs">Trade-offs<\/a><\/h2>\s*([\s\S]+?)(?=<h2\b|<\/main>)/);
+        assertPlainSection(page, tradeoffs, exercise, 'Trade-offs');
+        assert.equal(tradeoffs.index, section.index + section[0].length, `${exercise}: Trade-offs follows Solution as a peer section`);
+        assert.match(tradeoffs[1], /<(?:p|h3|table|div|ul)\b/, `${exercise}: comparison content is rendered`);
+        for (const id of ['solutions', 'solution', 'trade-offs']) {
+            assert.equal((page.match(new RegExp(`\\bid="${id}"`, 'g')) || []).length, 1, `${exercise}: unique #${id} anchor`);
+        }
+        const discussion = page.indexOf('<h2 id="discussion">');
+        assert.ok(discussion >= 0 && section.index > discussion, exercise);
+        assert.ok(tradeoffs.index < page.indexOf('<h2 id="takeaways-for-our-own-codebase">'), exercise);
+        const chapter = readFileSync(path.join(root, 'book/src', exercise), 'utf8');
+        const sourceDiscussion = chapter.slice(chapter.indexOf('## Discussion'), chapter.indexOf('<div id="solutions">'));
+        assert.deepEqual(
+            assertClosedDiscussionQuestions(page.slice(discussion, section.index), exercise),
+            assertClosedDiscussionQuestions(sourceDiscussion, exercise),
+            `${exercise}: rendered question controls match the source`
+        );
         assert.doesNotMatch(page, /<summary>\s*<h[1-6]\b/, exercise);
+        assert.doesNotMatch(page, /<summary>\s*(?:Show\s+)?solutions?\s*<\/summary>/i, exercise);
     }
 });
 
-test('usage instructions and the legacy how-to-use redirect point to the appendix', () => {
+const appendix = [
+    ['How to use this book', 'appendix/how-to-use.md'],
+    ['The trade-off axes', 'appendix/trade-off-axes.md'],
+    ['Cheatsheet (Concept index)', 'appendix/concept-index.md'],
+    ['Further reading', 'appendix/further-reading.md'],
+    ['Errata and reuse', 'appendix/contributing.md'],
+    ['Acknowledgements', 'appendix/acknowledgements.md'],
+];
+const retiredAppendices = ['how-to-run-a-code-review', 'roadmap', 'trade-off-matrix'];
+const editorialMarkers = /Draft outline|Editorial follow-up|TODO\(prose\)/i;
+const appendixRedirects = {
+    'how-to-use.html': 'appendix/how-to-use.html',
+    'how-to-run-a-code-review.html': 'appendix/how-to-use.html',
+    'roadmap.html': 'appendix/how-to-use.html#where-to-start',
+    'appendix/how-to-run-a-code-review.html': 'how-to-use.html',
+    'appendix/roadmap.html': 'how-to-use.html#where-to-start',
+    'appendix/trade-off-matrix.html': 'trade-off-axes.html',
+};
+
+test('usage instructions keep reader modes and link to the contributor policy', () => {
     const intro = readFileSync(path.join(root, 'book/src/intro.md'), 'utf8');
-    const config = readFileSync(path.join(root, 'book/book.toml'), 'utf8');
-    assert.ok(summary.indexOf('(appendix/how-to-use.md)') > summary.indexOf('# Appendix'));
     assert.match(intro, /\]\(part-1-warmups\/01-is-yes\.md\)/);
     assert.match(intro, /\]\(appendix\/how-to-use\.md\)/);
-    assert.match(intro, /\]\(appendix\/contributing\.md\)/);
+    assert.match(intro, /\[Errata and reuse\]\(appendix\/contributing\.md\)/);
+    assert.doesNotMatch(intro, /\]\([^)]*roadmap\.md(?:#[^)]*)?\)/);
     assert.doesNotMatch(intro, /^## (How to use this book|Workshop and licensing)$/m);
-    assert.match(config, /^"how-to-use\.html" = "appendix\/how-to-use\.html"$/m);
     const guide = readFileSync(path.join(root, 'book/src/appendix/how-to-use.md'), 'utf8');
-    for (const heading of ['Solo', 'Pair', 'Book club / team', 'Workshop facilitator', 'Running the code in the browser', 'Running the code locally', 'Building the book locally', 'Conventions']) {
+    for (const heading of ['Solo', 'Pair', 'Book club / team', 'Running the code in the browser', 'Running the code locally', 'Building the book locally', 'Conventions', 'Where to start']) {
         assert.ok(guide.includes(`\n## ${heading}\n`), `${heading} stays available in the appendix`);
+    }
+    assert.doesNotMatch(guide, /^## Workshop facilitator$/m);
+    assert.match(guide, /\]\(https:\/\/github\.com\/corrode\/refactoring-rust\/blob\/main\/CONTRIBUTING\.md\)/);
+    assert.doesNotMatch(guide, /contributing\.md#current-validation-workflow/);
+});
+
+test('appendix lists exactly six reader-facing pages in order, without editorial notes', () => {
+    const section = summary.split(/^# Appendix$/m)[1];
+    assert.ok(section, 'The appendix is listed in the summary');
+    assert.deepEqual([...section.matchAll(/\[([^\]]+)\]\(([^)]+)\)/g)].map(match => match.slice(1)), appendix);
+    for (const [, chapter] of appendix) {
+        assert.doesNotMatch(readFileSync(path.join(root, 'book/src', chapter), 'utf8'), editorialMarkers, chapter);
     }
 });
 
-test('built introduction, appendix navigation, and legacy redirect use the new destinations', integration, () => {
+test('retired appendix drafts live in notes, not the published source tree or title stubs', () => {
+    for (const slug of retiredAppendices) {
+        assert.ok(existsSync(path.join(root, 'book/notes', `${slug}.md`)), `${slug}: draft retained in notes`);
+        for (const directory of ['book/src', 'book/src/appendix']) {
+            assert.equal(existsSync(path.join(root, directory, `${slug}.md`)), false, `${directory}/${slug}.md is retired`);
+        }
+    }
+});
+
+test('legacy appendix redirect configuration uses page-relative destinations', () => {
+    const config = readFileSync(path.join(root, 'book/book.toml'), 'utf8');
+    const section = config.match(/\[output\.html\.redirect\]\n([\s\S]*?)(?=\n\[|$)/)?.[1];
+    assert.ok(section, 'Legacy redirects are configured');
+    const redirects = Object.fromEntries([...section.matchAll(/^"([^"]+)"\s*=\s*"([^"]+)"$/gm)].map(match => match.slice(1)));
+    for (const [from, to] of Object.entries(appendixRedirects)) assert.equal(redirects[from], to, from);
+});
+
+test('built introduction and usage guide use reader-facing destinations', integration, () => {
     const intro = readFileSync(path.join(root, 'book/book/intro.html'), 'utf8');
-    const toc = readFileSync(path.join(root, 'book/book/toc.html'), 'utf8');
-    const redirect = readFileSync(path.join(root, 'book/book/how-to-use.html'), 'utf8');
     assert.match(intro, /href="appendix\/how-to-use\.html"/);
-    assert.match(toc, /href="appendix\/how-to-use\.html"/);
-    assert.ok(redirect.includes('appendix/how-to-use.html'));
+    assert.match(intro, /href="appendix\/contributing\.html">Errata and reuse<\/a>/);
+    assert.doesNotMatch(intro, /href="appendix\/roadmap\.html(?:#[^"]*)?"/);
     const guide = readFileSync(path.join(root, 'book/book/appendix/how-to-use.html'), 'utf8');
     assert.match(guide, /id="how-to-use-this-book"/);
+    assert.match(guide, /id="where-to-start"/);
+    assert.doesNotMatch(guide, /id="workshop-facilitator"/);
     assert.match(guide, /href="\.\.\/part-5-domain-modeling\/index\.html"/);
-    assert.match(guide, /href="contributing\.html#current-validation-workflow"/);
+    assert.match(guide, /href="https:\/\/github\.com\/corrode\/refactoring-rust\/blob\/main\/CONTRIBUTING\.md"/);
+    assert.doesNotMatch(guide, /href="contributing\.html#current-validation-workflow"/);
+});
+
+test('generated appendix navigation, search, and print exclude retired drafts and editorial notes', integration, () => {
+    const toc = readFileSync(path.join(root, 'book/book/toc.html'), 'utf8');
+    assert.deepEqual(
+        [...toc.matchAll(/href="(appendix\/[^"]+)"/g)].map(match => match[1]),
+        appendix.map(([, chapter]) => chapter.replace(/\.md$/, '.html'))
+    );
+    const searchScript = html.match(/window\.path_to_searchindex_js = "([^"]+)"/)?.[1];
+    assert.ok(searchScript, 'The generated search index is linked');
+    const context = { window: { search: {} } };
+    vm.runInNewContext(readFileSync(path.join(root, 'book/book', searchScript), 'utf8'), context);
+    const search = context.window.search;
+    assert.ok(search.doc_urls.length > 0, 'Search indexes published pages');
+    const print = readFileSync(path.join(root, 'book/book/print.html'), 'utf8');
+    for (const slug of retiredAppendices) {
+        for (const [file, content] of [['toc.html', toc], [searchScript, search.doc_urls.join('\n')], ['print.html', print]]) {
+            assert.ok(!content.includes(`${slug}.html`), `${file}: ${slug} is not published or linked`);
+        }
+        assert.doesNotMatch(print, new RegExp(`id="${slug}(?:-\\d+)?"`), `${slug}: no printed chapter`);
+    }
+    const printedAppendix = print.match(/<h1 id="how-to-use-this-book">[\s\S]*?<\/main>/)?.[0];
+    assert.ok(printedAppendix, 'The appendix appears in print');
+    assert.doesNotMatch(printedAppendix, editorialMarkers);
+    for (const [id, url] of search.doc_urls.entries()) {
+        if (url.startsWith('appendix/')) {
+            assert.doesNotMatch(JSON.stringify(search.index.documentStore.docs[id]), editorialMarkers, url);
+        }
+    }
+});
+
+test('generated legacy redirects resolve relative to their pages and preserve incoming fragments', integration, () => {
+    for (const [from, to] of Object.entries(appendixRedirects)) {
+        const redirect = readFileSync(path.join(root, 'book/book', from), 'utf8');
+        assert.equal(redirect.match(/<meta http-equiv="refresh" content="0; URL=([^"]+)">/)?.[1], to, from);
+        assert.ok(redirect.includes(`<a href="${to}">`), `${from}: fallback link matches the redirect`);
+        const origin = new URL(from, 'https://example.test/book/');
+        const destination = new URL(to, origin);
+        const target = readFileSync(path.join(root, 'book/book', destination.pathname.slice('/book/'.length)), 'utf8');
+        if (destination.hash) assert.ok(target.includes(`id="${destination.hash.slice(1)}"`), `${from}: target anchor exists`);
+        const script = redirect.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+        assert.ok(script, `${from}: fragment redirect script exists`);
+        origin.hash = destination.hash = '#reader-bookmark';
+        let replaced;
+        vm.runInNewContext(script, {
+            URL,
+            document: { addEventListener(type, handler) { assert.equal(type, 'DOMContentLoaded'); handler(); } },
+            window: { location: { href: origin.href, hash: origin.hash, replace(url) { replaced = url; } } },
+        });
+        assert.equal(replaced, destination.href, `${from}: incoming fragments override the default fragment`);
+    }
+});
+
+test('concept index retains the anchors referenced by published chapters', integration, () => {
+    const conceptIndex = readFileSync(path.join(root, 'book/book/appendix/concept-index.html'), 'utf8');
+    const anchors = new Set([...conceptIndex.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]));
+    let references = 0;
+    for (const [, chapter] of summary.matchAll(/\]\(([^\s)]+\.md)\)/g)) {
+        const content = readFileSync(path.join(root, 'book/src', chapter), 'utf8');
+        for (const [, anchor] of content.matchAll(/\]\((?:\.\.\/)*(?:appendix\/)?concept-index\.md#([^\s)]+)\)/g)) {
+            assert.ok(anchors.has(decodeURIComponent(anchor)), `${chapter}: concept index retains #${anchor}`);
+            references++;
+        }
+    }
+    assert.ok(references > 0, 'Published chapters link to concept headings');
 });

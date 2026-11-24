@@ -55,12 +55,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison focuses on whether the reported counts and average match the intended meaning of the text statistics.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -99,7 +98,7 @@ The comparison focuses on whether the reported counts and average match the inte
 - `counts.len()` is constant-time; traversals of a standard `HashMap` can visit empty buckets, so their cost depends on capacity rather than only the number of live entries.
 - With expected hashing costs, total work includes scanning and hashing input bytes, scanning distinct token text for lengths, and traversing the map; fewer lines do not remove those costs.
 
-### Trade-offs
+## Trade-offs
 
 <!-- Final comparison matrices are deferred until the prose is drafted. -->
 
@@ -109,8 +108,6 @@ The comparison focuses on whether the reported counts and average match the inte
 - **Performance:** Original and main both build the same owned-key map; main adds frequency weighting while retaining per-token key creation, and a borrowed-key or summary-only design changes the work and lifetime constraints rather than proving a universal speed-up.
 - **Flexibility:** Original's frequency map already contains information for several metrics; main uses it correctly, while a summary-only set gives up frequencies and a named result can accommodate more metrics without positional ambiguity.
 - **Error reporting:** Original silently returns misleading statistics and `NaN` on no words; main returns defined values without an error channel, while an optional average or error-returning variant would expose a different empty-input policy.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

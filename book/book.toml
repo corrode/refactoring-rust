@@ -43,6 +43,11 @@ enable = true
 
 [output.html.redirect]
 "how-to-use.html" = "appendix/how-to-use.html"
+"how-to-run-a-code-review.html" = "appendix/how-to-use.html"
+"roadmap.html" = "appendix/how-to-use.html#where-to-start"
+"appendix/how-to-run-a-code-review.html" = "how-to-use.html"
+"appendix/roadmap.html" = "how-to-use.html#where-to-start"
+"appendix/trade-off-matrix.html" = "trade-off-axes.html"
 
 [rust]
 edition = "2024"

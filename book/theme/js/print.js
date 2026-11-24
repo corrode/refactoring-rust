@@ -9,7 +9,7 @@
         if (printing) return;
         printing = true;
         closedDetails = Array.from(document.querySelectorAll(
-            'main details.solution:not([open]), main details.discussion-question:not([open])'
+            'main details.discussion-question:not([open])'
         ));
         closedDetails.forEach(details => { details.open = true; });
 

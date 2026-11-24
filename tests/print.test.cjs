@@ -23,7 +23,7 @@ function setup(withEditor = true) {
         document: {
             querySelectorAll: selector => {
                 assert.equal(selector,
-                    'main details.solution:not([open]), main details.discussion-question:not([open])');
+                    'main details.discussion-question:not([open])');
                 return [closed, open].filter(details => !details.open);
             },
             createElement: tag => {
@@ -35,7 +35,7 @@ function setup(withEditor = true) {
     return { listeners, closed, open, snapshots };
 }
 
-test('print expands answers, snapshots edited source, and restores reading state', () => {
+test('print expands discussion answers, snapshots edited source, and restores reading state', () => {
     const { listeners, closed, open, snapshots } = setup();
     listeners.beforeprint();
     assert.equal(closed.open, true);

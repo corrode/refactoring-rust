@@ -61,12 +61,11 @@ As with [Rooms](28-rooms.md), ownership and private storage are not content vali
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the builder interfaces by the call sequences they allow and the obligations they leave to callers.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Give each stage its own operations
 
@@ -117,7 +116,7 @@ For one required value, `ClientConfig::new(roots)` could express the requirement
 A staged builder earns its extra types when several operations depend on earlier choices.
 Keep a runtime builder when callers genuinely need to assemble partial configuration dynamically and report missing fields together.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 
@@ -133,8 +132,6 @@ Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.s
 The contracts differ: compile-time rejection replaces a recoverable runtime error.
 Readability depends on familiarity with staged APIs, and a missing-method diagnostic still needs clear state names.
 Removing a source-level branch is not a measured speed-up; the compiler may already eliminate the starter's check in a known call chain.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

@@ -22,8 +22,8 @@ Allow five to twenty minutes for your first attempt at each exercise, plus time 
    Write down what you'd say in a review, then refactor the code in your editor.
 4. Read the *Discussion* questions and compare them with yours.
    Expand each question when you want to read its answer.
-5. Open *Show solution* under *Solution* and compare the implementations with your version.
-6. Read *Trade-offs* inside the same disclosure and decide whether you agree with the scores.
+5. Read *Solution* and compare the implementations with your version.
+6. Read the *Trade-offs* section and decide whether you agree with the scores.
 7. Choose a takeaway to investigate or discuss with someone else.
 
 For more practice, return to the starter after reading the chapter and refactor it again without referring to the solution.
@@ -51,17 +51,6 @@ Keep the meeting to an hour and spend it on four things:
 Between meetings, look for related examples in your team's code.
 Take more than one session for a chapter if needed, and skip the warm-ups if the team already knows the material.
 
-## Workshop facilitator
-
-I teach this material as a live workshop for teams, using the same exercises with more time for discussion.
-If you're running an internal workshop, use the slides in [`slides/`](https://github.com/corrode/refactoring-rust/tree/main/slides) for the live session and keep the book nearby as the reference.
-The chapter sections already divide the work:
-
-- Use *Discussion* to prompt the room.
-- Use *Trade-offs* inside *Show solution* when the discussion starts treating a preference as a rule.
-- Use *Takeaways For Our Own Codebase* for breakout rooms.
-
-To book a facilitated workshop for your team, visit <https://corrode.dev>.
 
 ## Running the code in the browser
 
@@ -96,7 +85,7 @@ make test
 > Some starters have intentional test failures, documented in [chapter 33](../part-5-domain-modeling/33-typed-ids.md), [35](../part-5-domain-modeling/35-secret-token.md), [37](../part-5-domain-modeling/37-temp-file.md), and [39](../part-5-domain-modeling/39-friends.md).
 > They remain ordinary failures in the browser and when you run those starters' tests directly.
 > `make test` checks these failures separately through integration tests, while plain `cargo test --examples` can fail by design.
-> See the [current validation workflow](contributing.md#current-validation-workflow) for the exact failures and contributor checks.
+> See the repository's [contribution guide](https://github.com/corrode/refactoring-rust/blob/main/CONTRIBUTING.md) for contributor checks.
 
 ## Building the book locally
 
@@ -117,14 +106,15 @@ make book-open      # build once, open the static HTML
 In *Discussion*, click a question to expand its answer.
 You can open several answers at once, or leave them closed while you work.
 
-Each chapter has a visible *Solution* heading and a short introduction that doesn't give away the refactor.
-The *Show solution* disclosure below it starts closed.
-Open it to read the implementations, explanations, alternatives, production concerns, and trade-off comparisons together.
+The *Solution* section is ordinary chapter content, not hidden behind a control.
+Stop at that heading until you've tried the exercise.
+Then read the implementations, explanations, alternatives, and production concerns.
+The following *Trade-offs* section compares the versions.
 
 Exercises come with tests, but passing them doesn't prove you've covered every input.
 A **NOTE** callout identifies expected starter-test failures.
 A **WARNING** callout flags important production or safety limitations.
-Solution-specific warnings stay inside *Show solution*.
+Solution-specific warnings appear alongside the relevant explanation in *Solution*.
 
 *Takeaways For Our Own Codebase* contains questions and actions in an unlabelled blockquote.
 *References* links to the [Cheatsheet](concept-index.md) and other relevant documentation.
@@ -137,6 +127,6 @@ Skip them when you're short on time because no later chapter depends on them.
 If you can follow the code to refactor in [chapter 01](../part-1-warmups/01-is-yes.md), start there and read forward.
 If not, work through *The Book* or *100 Exercises to Learn Rust* first.
 
-If you've written Rust for a while and want to get to the harder exercises, skim [How to run a code review](how-to-run-a-code-review.md) and [The trade-off axes](trade-off-axes.md) first.
-They define the vocabulary used throughout the book.
-Then use the [Roadmap](roadmap.md) to choose a part.
+If you've written Rust for a while, use the part overviews in the table of contents to choose a topic.
+The [Cheatsheet](concept-index.md) links individual concepts to the exercises that use them.
+Read [The trade-off axes](trade-off-axes.md) for the criteria used to compare solutions.

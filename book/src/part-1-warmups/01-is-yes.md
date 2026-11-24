@@ -81,12 +81,11 @@ Borrowing the parameter doesn't prevent an implementation from allocating later.
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the implementations by the spellings they accept and what they ask of callers.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Keep the signature and accepted spellings
 
@@ -163,7 +162,7 @@ Neither case-insensitive version performs Unicode case folding, trims whitespace
 All versions reject `" yes "`, `"yesterday"`, and `"yés"`.
 ASCII case handling fits these ASCII tokens; it isn't a general rule for comparing words in other languages.
 
-### Trade-offs
+## Trade-offs
 
 Compare each variant with the **Original** baseline using the [six trade-off axes](../appendix/trade-off-axes.md).
 The scores describe specific consequences, not an overall winner.
@@ -190,8 +189,6 @@ Choose the accepted inputs before choosing the implementation.
 For the existing contract, I'd keep the exact patterns and consider borrowing as a separate API change.
 If the requirement changes to ignore ASCII case, I'd use `eq_ignore_ascii_case` to avoid the temporary copy.
 Losing the ability to distinguish case variants is then intentional, not a defect.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

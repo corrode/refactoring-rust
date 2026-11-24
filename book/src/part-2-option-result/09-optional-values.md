@@ -73,12 +73,11 @@ Depending on the build's overflow-check settings, the addition can panic or wrap
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison covers how clearly each version adds up optional integers and what ownership it requires from callers.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/09_optional_values.rs:listing}}
@@ -175,7 +174,7 @@ If overflow is a valid runtime failure, fold with `checked_add` and return `Opti
 If large totals are valid, use a wider integer type.
 Check your callers and domain limits before making either change as part of a control-flow cleanup.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -192,8 +191,6 @@ Readability depends on familiarity.
 Callers must pass a reference to use the borrowed version.
 That saves a clone only if they would otherwise clone the vector to keep the input.
 Replacing the loop with an iterator chain doesn't guarantee a speed-up.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

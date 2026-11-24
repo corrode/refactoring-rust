@@ -65,12 +65,11 @@ The starter is correct; this exercise does not require a bug fix.
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Both versions recognize complete frames; compare how clearly they express the format and the borrowed payload contract.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Check the layout and bind its parts together
 
@@ -104,7 +103,7 @@ Both versions recognize complete frames; compare how clearly they express the fo
   Concatenating two valid frames can produce another accepted buffer because the internal markers become payload bytes.
   A streaming protocol needs a separate boundary rule, such as a length field or escaping.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 
@@ -120,8 +119,6 @@ Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.s
 Readability depends on familiarity with `@` and rest patterns.
 Neither version scans the payload, and fewer source lines do not establish a measured speed-up.
 Keep the explicit checks if they communicate the format better to your team.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

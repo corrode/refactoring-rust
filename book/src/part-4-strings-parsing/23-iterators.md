@@ -49,12 +49,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison covers the cost of producing Fibonacci values and the limits callers face when requesting longer sequences.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -105,7 +104,7 @@ Keep the lazy source's checked_add suggestion qualified by the pending-value pro
 - If a checked variant is added, test both final valid values and repeated `None` after exhaustion.
 - Avoid running the recursive starter at F(93) as a routine regression test; its exponential work makes that impractical.
 
-### Trade-offs
+## Trade-offs
 
 <!-- Final comparison matrices are deferred while this chapter is a bullet outline. -->
 
@@ -115,8 +114,6 @@ Keep the lazy source's checked_add suggestion qualified by the pending-value pro
 - **Performance:** **Original:** exponential recomputation and recursive stack use; main is linear with constant working state, while lazy consumption avoids an output vector only when callers do not collect.
 - **Flexibility:** **Original:** fixed prefix allocation; the iterator composes with consumers and adapters, but it is neither random access nor a finite checked sequence as written.
 - **Error reporting:** **Original:** no overflow result; main still panics or wraps beyond the numeric range, and the current iterator can panic before yielding an otherwise valid requested value.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

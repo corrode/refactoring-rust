@@ -67,12 +67,11 @@ An API change can require different construction syntax without changing those e
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare how the report represents feedback and what callers must do to obtain the same ordered messages.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Store categories, render messages
 
@@ -157,7 +156,7 @@ A direct Rust caller now supplies a known variant; a string-based caller needs a
 Do not hide that migration behind `filter_map` that quietly discards parse failures.
 An enum makes the internal category set explicit; it does not make external input trustworthy.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -174,8 +173,6 @@ Readability depends on familiarity.
 The error-reporting advantage concerns Rust category definitions and matches, not external parsing errors.
 This is an intentional API redesign, not an interchangeable implementation of the original string contract.
 For a fixed set of categories, I would accept the caller migration to get compiler feedback when that set changes.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

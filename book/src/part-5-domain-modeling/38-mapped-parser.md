@@ -89,12 +89,11 @@ The starter tests pass.
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the parser interfaces by the relationships their declarations repeat and the implementation choices they permit.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Let the implementation determine its result types
 
@@ -175,7 +174,7 @@ Compare the parser interfaces by the relationships their declarations repeat and
 - The pinned [MIT notice][nom-license], copyright 2014–2019 Geoffroy Couprie, is recorded in the repository's `THIRD_PARTY_NOTICES.md`.
   Keep that notice with redistributed adapted code; the exercise is an adaptation of a real change, not an upstream code quotation.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 
@@ -191,8 +190,6 @@ Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.s
 The type-safety advantage is enforcement of the chosen one-pair contract, not a repair of invalid or memory-unsafe code.
 Readability assumes some familiarity with associated types; a named equality constraint can be clearer than a long projection.
 The two APIs allow different sets of implementations, and removing the marker can change auto-trait behaviour, so they are not interchangeable public interfaces.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

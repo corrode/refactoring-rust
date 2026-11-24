@@ -84,12 +84,11 @@ A prefix match alone cannot prove filesystem containment.
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison separates the path-prefix check from the interface choices around missing and empty exclusions.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/15_excluded_path.rs:listing}}
@@ -248,12 +247,12 @@ Decide whether to allow an empty prefix: it can match every path.
 Define how absolute and relative prefixes should interact before mixing them.
 Put those rules in configuration validation or a domain type such as `Excluder`, rather than making every call site remember them.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
 
-#### Keeping an optional parameter
+### Keeping an optional parameter
 
 | Criterion | Original | `let ... else` + `any` (main) | `Option<&HashSet<PathBuf>>` |
 | --- | --- | --- | --- |
@@ -264,7 +263,7 @@ Readability depends on familiarity.
 | Flexibility | Requires optional `HashSet` | <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> Same container requirement | <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> Borrows standalone sets too |
 | Error reporting | Boolean match, no failure channel | N/A | N/A |
 
-#### Changing the interface
+### Changing the interface
 
 | Criterion | Original | Plain `&HashSet<PathBuf>` | `Excluder` | `Excludable` for `Path` |
 | --- | --- | --- | --- | --- |
@@ -282,8 +281,6 @@ Preserve absence in configuration layers that need it.
 `Excluder::new` collects owned prefixes into a set.
 The performance comparison covers the scan, not construction.
 None of these versions guarantees filesystem containment.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

@@ -85,12 +85,11 @@ Keep both orders when you refactor.
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison checks each room summary against its contract, including result order and the values allowed by the field types.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/17_room_occupancy.rs:listing}}
@@ -138,7 +137,7 @@ Use unsigned integers to rule out negative values, but don't expect them to prev
 To distinguish “no rooms” from a real maximum, return `Option<i32>`.
 Callers must then handle the absence of a maximum.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -156,8 +155,6 @@ The readability gains assume iterator familiarity.
 The iterator solution returns `-1` for adult counts `[-3, -1]`, where the original returns `0`.
 That changes the contract; it does not strengthen type safety.
 Use `fold(0, i32::max)` to preserve the original behaviour.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

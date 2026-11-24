@@ -52,12 +52,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the timestamp parsers' accepted formats, arithmetic limits, and failure behavior.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -97,7 +96,7 @@ Its source comment claims every failure is reported, but the unchecked arithmeti
 - Proposed main tests: trailing whitespace, non-ASCII digits, and a total exactly at the boundary assembled from multiple components.
 - Do not silently replace permissive acceptance tests with stricter SRT expectations.
 
-### Trade-offs
+## Trade-offs
 
 <!-- Final comparison matrices are deferred while this chapter is a bullet outline. -->
 
@@ -107,8 +106,6 @@ Its source comment claims every failure is reported, but the unchecked arithmeti
 - **Performance:** **Original:** two temporary vectors of borrowed fields; main and alternative avoid those allocations and remain O(n), with no benchmark-based ranking.
 - **Flexibility:** **Original:** permissive components; main and alternative retain that grammar, while stricter widths, ranges, or a wider duration range require separate decisions.
 - **Error reporting:** **Original:** either `None` or a panic; main consistently returns `None` for invalid/overflowing values, while the alternative distinguishes some causes but still misses arithmetic overflow.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

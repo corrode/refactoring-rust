@@ -75,12 +75,11 @@ Test both formatting modes, including credentials nested inside another derived 
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison focuses on what credential diagnostics reveal and how callers deliberately access the token.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### A token with explicit access
 
@@ -121,7 +120,7 @@ For production secret handling, evaluate the `secrecy` crate rather than treatin
 Its existing design combines redacted debugging with explicit secret access and memory-handling facilities that this exercise does not reproduce.[^implementation]
 PR #1140 is a reference for restructuring `SecretBox`, not evidence that upstream previously used this starter's insecure derived `Debug`.[^pr]
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 
@@ -137,8 +136,6 @@ Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.s
 These implementations intentionally have different diagnostic contracts.
 Readability assumes the team understands the explicit-access convention; the wrapper adds code and makes some generic APIs less convenient.
 The performance comparison concerns ownership and formatting work, not a measured speed-up or a memory-protection claim.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

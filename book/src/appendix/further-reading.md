@@ -1,10 +1,8 @@
 # Further reading
 
-> **Draft outline.** Bullet notes for the appendix; explanations still to be written.
-
-- A selected, consolidated bibliography from current chapter citations, source comments, and attribution records, not a completed inventory of every API link.
-- Distinguish language/API documentation, style guidance, teaching examples, historical implementations, and verified production changes.
-- A citation supplies context or provenance, not evidence that a local variant is faster, production-ready, or behaviorally identical to its source.
+These references explain the language features, API choices, and source material behind the exercises.
+The notes distinguish production refactors from teaching examples and historical designs.
+Follow the chapter links to see what each exercise keeps, changes, or leaves out.
 
 ## Language, ownership, and API design
 
@@ -39,7 +37,7 @@
 - [`Vec::dedup`](https://doc.rust-lang.org/std/vec/struct.Vec.html#method.dedup) and [`Itertools::dedup`](https://docs.rs/itertools/latest/itertools/trait.Itertools.html#method.dedup) cover adjacent-run removal in [14: dedup_runs](../part-3-aggregations/14-dedup-runs.md).
   - The latter is a library alternative mentioned in the chapter, not a dependency or local implementation already added to this repository.
 - [`HashMap::entry`](https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.entry), [`HashMap::iter`](https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.iter), and [`Iterator::max_by_key`](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.max_by_key) document counting, capacity-sensitive traversal, and tie selection.
-  - Consolidate their repeated use in [18: text_stats](../part-3-aggregations/18-text-stats.md), [19: mode](../part-3-aggregations/19-mode.md), and [41: mini_redis](../part-6-capstone/41-mini-redis.md).
+  - Compare their use in [18: text_stats](../part-3-aggregations/18-text-stats.md), [19: mode](../part-3-aggregations/19-mode.md), and [41: mini_redis](../part-6-capstone/41-mini-redis.md).
 - [`str::chars`](https://doc.rust-lang.org/std/primitive.str.html#method.chars), [`split_whitespace`](https://doc.rust-lang.org/std/primitive.str.html#method.split_whitespace), and [`to_lowercase`](https://doc.rust-lang.org/std/primitive.str.html#method.to_lowercase) specify text units and transformations.
   - Contrast Unicode conversion with [`to_ascii_lowercase`](https://doc.rust-lang.org/std/primitive.str.html#method.to_ascii_lowercase) in [16: spell_check](../part-3-aggregations/16-spell-check.md) and [25: fun_strings_ext](../part-4-strings-parsing/25-fun-strings-ext.md), rather than calling both “case-insensitive” without qualification.
 - [`str::split_once`](https://doc.rust-lang.org/std/primitive.str.html#method.split_once) provides a delimiter split, not a complete grammar.
@@ -67,7 +65,8 @@
   - The PR author retained explicit `E` constraints in many combinators for readability; the same thread records winnow's E0207 counterexample, so this is not a blanket inference improvement or a rule to replace every generic parameter.
 - **External API example:** [the pinned `vimspell` iterator](https://github.com/exrok/vimspell/blob/361b63f71228af3d00291d3c257cd487cf5b95b8/src/lib.rs#L824) motivates lazy byte ranges in [16: spell_check](../part-3-aggregations/16-spell-check.md).
   - This citation illustrates a return contract, not a local implementation or evidence that its spelling rules equal the exercise's lowercase-set membership.
-- The repository's `THIRD_PARTY_NOTICES.md` records pinned MIT notices for exercises 32, 33, 35, 36, and 38 only; see [Acknowledgements](acknowledgements.md) for the credit distinctions.
+- The repository's [third-party notices](https://github.com/corrode/refactoring-rust/blob/main/THIRD_PARTY_NOTICES.md) record pinned MIT notices for exercises 32, 33, 35, 36, and 38 only.
+  Keep the applicable notices when redistributing adapted code.
 
 - **Production-library context:** [`tempfile::NamedTempFile`](https://docs.rs/tempfile/latest/tempfile/struct.NamedTempFile.html) documents temporary-file creation, cleanup, and security considerations relevant to [37: temp_file](../part-5-domain-modeling/37-temp-file.md).
   - It is further reading, not a dependency or tested alternative in this repository; the local guard does not generate secure temporary names.
@@ -86,10 +85,3 @@
   - They are specifications to check against, not evidence that either local implementation is wire-compatible with Redis.
 - [`http::StatusCode`](https://docs.rs/http/latest/http/status/struct.StatusCode.html) is the library type discussed as a possible redesign in [30: http_response_router](../part-5-domain-modeling/30-http-response-router.md).
   - Its range and classifications do not supply the application's retry policy, and the chapter's main solution does not introduce this dependency.
-
-## Editorial follow-up
-
-- TODO(prose): Recheck the selected citations after chapter edits, deduplicating by resource while preserving distinct sections that support different claims.
-- Retain commit pins for historical design and attribution claims, and distinguish those from version-moving API documentation.
-- TODO(prose): Review quotation and adapted-code attribution separately from bibliography completeness; a reading link is not a license grant.
-- Use the [Concept index](concept-index.md) to find an idiom and the [Trade-off matrix](trade-off-matrix.md) to locate the local comparisons these sources inform.

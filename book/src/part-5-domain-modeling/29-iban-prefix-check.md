@@ -46,12 +46,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare how the checker handles arbitrary text and which guarantees its result actually provides about an IBAN prefix.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution: checked slicing and byte-oriented rules
 
@@ -97,7 +96,7 @@ Compare how the checker handles arbitrary text and which guarantees its result a
 <!-- TODO(prose): Decide whether the finished task should explicitly include finding a bug and gain an intentional starter regression test, since the current slides emphasize allocation and matching but omit the UTF-8 panic. -->
 <!-- TODO(prose): Decide whether to retain the main solution's redundant alphabetic checks as visible documentation or propose a later code cleanup, without claiming the current implementation uses only one check. -->
 
-### Trade-offs
+## Trade-offs
 
 - **Type-safety:** **Original** accepts arbitrary `&str` and returns `bool`; the main solution fixes a runtime panic without adding a checked-input type, while the proposed wrapper would record only its constructor's limited validation.
 - **Readability:** **Original** separates character checks from a six-branch country ladder; the main solution brings country lengths into one match but needs its byte-index safety argument and redundant checks explained.
@@ -105,8 +104,6 @@ Compare how the checker handles arbitrary text and which guarantees its result a
 - **Performance:** **Original** decodes and collects the whole input before rejecting it; the main solution allocates nothing, rejects unknown prefixes or wrong byte lengths early, and scans at most 27 bytes with the current table.
 - **Flexibility:** **Original** and main hard-code the same six countries and ASCII rules; a maintained table can ease registry updates, while normalization or full checksum validation would change the contract rather than merely the lookup mechanism.
 - **Error reporting:** **Original** conflates rejection reasons and can panic on a malformed boundary; main consistently returns `false` for rejected text, but only the proposed error-returning design could explain why.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

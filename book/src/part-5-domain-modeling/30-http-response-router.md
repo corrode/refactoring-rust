@@ -46,12 +46,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare how clearly the routing rules handle status codes and response bodies, including the effects callers can observe.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution: classify first, then choose an action
 
@@ -101,7 +100,7 @@ Compare how clearly the routing rules handle status codes and response bodies, i
 <!-- TODO(prose): Decide whether removed logging is an accepted behavior change or whether a later implementation should preserve it outside the classifier, and state that choice before calling this behavior-preserving. -->
 <!-- TODO(prose): Decide whether to retain decode-before-204 as the explicit exercise contract or propose a separate behavior change, and qualify the slide's exactly-one-place claim when writing the final explanation. -->
 
-### Trade-offs
+## Trade-offs
 
 - **Type-safety:** **Original** already returns a typed `Action` but accepts any `u16` status; main adds exhaustive handling of private classes without validating public response construction or proving retry safety.
 - **Readability:** **Original** interleaves repeated numeric conditions, special cases, and logging; main names the categories and localizes ranges, but readers still need the guarded 4xx arm and decode-before-204 ordering.
@@ -109,8 +108,6 @@ Compare how clearly the routing rules handle status codes and response bodies, i
 - **Performance:** **Original** and main both consume the body and validate UTF-8 on 2xx paths; main removes stdout work but still scans a 204 body before discarding it, with no measured dispatch speed-up claimed.
 - **Flexibility:** **Original** embeds classification in one handler; main makes the categories reusable internally, though adding a class still affects its declaration, numeric mapping, and policy matches.
 - **Error reporting:** **Original** offers string failures plus branch logging; main preserves returned messages but removes that output, and `Retry` still carries neither a reason nor timing information.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

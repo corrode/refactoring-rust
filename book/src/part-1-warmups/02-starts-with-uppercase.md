@@ -74,12 +74,11 @@ An empty string has no first character, so it cannot start with an uppercase let
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison covers empty strings, uppercase checks, and what callers need to provide.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/02_starts_with_uppercase.rs:listing}}
@@ -138,7 +137,7 @@ Both borrowed versions preserve the results, but change the original signature.
 The `chars().next().is_some_and(...)` version shows the intermediate `Option` and how it handles empty input.
 The `starts_with` version is shorter, but its predicate form may be less familiar.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -157,8 +156,6 @@ The main solution keeps the ownership contract; the borrowed alternatives requir
 Borrowing avoids a clone when callers need to keep their string, not a measured cost in the character check itself.
 If `is_some_and` is unfamiliar, an explicit `match` on `s.chars().next()` remains an option; the `starts_with` predicate form also needs familiarity.
 Empty input is an ordinary `false`, not an error.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

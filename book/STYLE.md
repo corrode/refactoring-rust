@@ -116,12 +116,12 @@ Use this section order:
 1. Code to refactor: editable listing followed by one explicit test script and any local setup.
 2. Task explanation: what the code does, what to refactor, and the constraints, without a separate heading.
 3. Discussion: one expandable question-and-answer pair per disclosure.
-4. Solution: a visible heading and brief context, followed by one collapsed **Show solution** disclosure with implementations, explanations, and Trade-offs.
-   End the disclosure with `### Trade-offs`: comparison matrices with an **Original** baseline column.
-5. Takeaways For Our Own Codebase: an unlabelled blockquote of questions and actions.
-6. References: a plain list of concept links and explanations.
+4. Solution: an ordinary, visible chapter section with brief context, implementations, alternatives, and explanations.
+5. Trade-offs: a separate `## Trade-offs` section with comparison matrices and an **Original** baseline column.
+6. Takeaways For Our Own Codebase: an unlabelled blockquote of questions and actions.
+7. References: a plain list of concept links and explanations.
 
-Keep alternatives and relevant edge cases inside the solution disclosure as level-three subheadings.
+Keep alternatives and relevant edge cases in the Solution section as level-three subheadings.
 Preserve useful caveats rather than deleting them to fit the format.
 Unwritten chapters remain marked as drafts; do not add empty sections or invented
 content just to fill the template. A quiz remains optional under the rules below.
@@ -133,10 +133,11 @@ Use a plain Markdown list for *References*, without a blockquote or label.
 
 Use native mdBook admonitions sparingly for information that would cause confusion or a costly mistake if missed.
 Use `> [!NOTE]` for expected starter-test failures and `> [!WARNING]` for important production or safety limitations.
-Keep solution-specific warnings inside the **Show solution** disclosure so they do not reveal the refactor before the exercise.
+Keep solution-specific warnings in the **Solution** section rather than before the exercise.
 Do not turn every caveat, draft label, or takeaway into an admonition.
 Code to refactor and Trade-offs do not need a callout repeating the heading.
-Keep the existing collapsible discussion and solution sections; admonitions do not replace disclosures.
+Keep discussion answers collapsible; admonitions do not replace their disclosures.
+Solutions remain ordinary visible content.
 
 ## Discussion questions
 
@@ -160,7 +161,7 @@ Leave blank lines around Markdown content inside a disclosure.
 Use HTML `<code>` for identifiers in summaries, since Markdown backticks do not render there.
 Keep the native disclosure marker and keyboard interaction; no click-handler script is needed.
 
-## Hidden solutions
+## Solutions
 
 Outside domain modeling, start with a solution that preserves the original function signatures and caller-facing types.
 Domain-modeling exercises may introduce new types and signatures in the main solution.
@@ -169,22 +170,20 @@ Outside domain modeling, put signature-changing designs in `solutions/NN_name_al
 Do not weaken the original tests to accommodate the first solution's API.
 When the exercise asks for a bug fix, explain the behaviour change separately from any API redesign.
 
-Start with a visible `## Solution` heading, followed by one or two short sentences giving context for the comparison.
-Make the context specific to the exercise without naming the solution mechanism or revealing the answer.
-Then put the main solution, alternatives, explanations, and trade-off comparisons in one disclosure labelled **Show solution**, collapsed by default.
-The heading and context stay visible while the implementation stays hidden.
-Use level-three subheadings inside the disclosure to distinguish approaches; do not nest another disclosure for each alternative.
-Keep the summary a plain label, not a heading, and retain `id="solutions"` for existing links.
-The `solution` class adds a tinted box; the native disclosure marker is the expand control.
+Start with `## Solution`, followed by one or two short sentences giving exercise-specific context for the comparison.
+Present the main solution, alternatives, explanations, and production concerns as ordinary Markdown below it.
+Keep the entire section visible, without a disclosure, reveal control, or enclosing tinted box.
+Use level-three subheadings to distinguish approaches.
+Explain once in *How to use this book* that readers should stop at **Solution** until they have attempted the exercise; do not repeat a warning in every chapter.
+Retain the empty `solutions` anchor before the heading for existing links; mdBook also generates the heading's `solution` anchor.
 Use this form:
 
 ````markdown
+<div id="solutions"></div>
+
 ## Solution
 
 Compare which guarantees each version gives its callers.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/NN_name.rs:listing}}
@@ -196,19 +195,16 @@ Compare which guarantees each version gives its callers.
 
 Walk through the code here.
 
-### Trade-offs
+## Trade-offs
 
 Compare the implementations with the original here.
-
-</details>
 ````
 
-Put *Alternative approaches* inside the disclosure, under a level-three heading.
-Put relevant *Edge cases and production concerns* inside it too.
-Put *Trade-offs* last inside the disclosure, under a level-three heading, with any subheadings at level four or deeper.
-Leave *Quiz* and later sections outside the disclosure. The native `details` element keeps
-the summary keyboard accessible, and mdBook still renders included code as a Playground
-block.
+Put *Alternative approaches* under a level-three heading within Solution.
+Keep relevant *Edge cases and production concerns* there too.
+Follow Solution with a separate `## Trade-offs` section, with any subheadings at level three or deeper.
+Use level-two headings for any *Quiz* and later sections.
+Discussion answers and **Tests and local setup** remain collapsible; solution prose and listings do not.
 
 ## Code blocks
 
@@ -256,8 +252,8 @@ block.
 
 ## Trade-off comparisons
 
-Compare the original and the implementations in the solution disclosure side by side.
-Keep these comparisons inside the disclosure, under `### Trade-offs`.
+Compare the original and the solution variants side by side.
+Put these comparisons in `## Trade-offs`, after the Solution section.
 Use the six criteria as rows, in their usual order, and name each implementation
 in a column heading. The original column describes the baseline; other cells give
 a relative score and a short reason:
@@ -287,8 +283,8 @@ scores or calculate an overall winner.
   Omit the heading and section when no question earns its place.
 - Remove questions answered by repeating the preceding explanation, obvious
   yes/no questions, and generic questions about team preferences.
-- There is no minimum question count. Put any retained questions between
-  the *Show solution* disclosure and *Takeaways For Our Own Codebase*.
+- There is no minimum question count.
+  Put any retained questions between the *Trade-offs* section and *Takeaways For Our Own Codebase*.
 - **Judgement** style, not recall. See `PLAN.md` §13.
 - Never "what does this print" unless the surprise is the point.
 - Until the quiz plugin is chosen, use numbered `###` question headings followed by

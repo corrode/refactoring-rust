@@ -43,10 +43,8 @@ that mostly writes loops may not. The axis still holds: a refactor changes how
 much context someone needs, and the review should say whether that amount went
 up or down.
 
-Clippy's readability suggestions are useful, but a recommended iterator chain
-can be clearer as two statements. This book follows
-Clippy by default and marks the places where it disagrees. See
-[how to run a code review](how-to-run-a-code-review.md).
+Clippy's readability suggestions are useful, but a recommended iterator chain can be clearer as two statements.
+This book follows Clippy by default and explains where it disagrees.
 
 ### 3. API design
 

@@ -68,12 +68,11 @@ The `Some(11)` test confirms this: 11 is prime, but the function returns `"somet
 </details>
 
 
+<div id="solutions"></div>
+
 ## Solution
 
 The number labels stay fixed; the question is whether the matching rules become easier to read.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/03_better_match.rs:listing}}
@@ -93,7 +92,7 @@ Since `None` and the fallback are unchanged, we still have four cases:
 4. every other `Some(u32)`.
 
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -109,9 +108,6 @@ Readability depends on familiarity.
 | Error reporting | Every input maps to a label | N/A |
 
 Note that keeping the expanded patterns is reasonable if your team finds them easier to scan.
-
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

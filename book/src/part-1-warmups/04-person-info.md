@@ -67,12 +67,11 @@ Changing the ranges or labels is a separate policy change; the boundary tests de
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare how clearly each version connects a person's age and name to the description it returns.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/04_person_info.rs:listing}}
@@ -89,7 +88,7 @@ The inclusive ranges, punctuation, and fallback label stay the same.
 Matching only `person.age` remains reasonable when it makes the decision easier to follow.
 Destructuring is useful when naming the fields used by an arm clarifies that arm; it is not a performance optimization here.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -104,8 +103,6 @@ Readability depends on familiarity.
 | Error reporting | Every `u8` age gets a description | N/A |
 
 The field-update requirement makes an explicit choice visible: list every field, or use `..` when extra fields should not affect the operation.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

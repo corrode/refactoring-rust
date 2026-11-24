@@ -56,12 +56,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the command handlers across argument rules, database updates, and exact replies, keeping compatibility separate from redesign.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -136,7 +135,7 @@ Compare the command handlers across argument rules, database updates, and exact 
 <!-- TODO(prose): The alternative's opening comment says rejecting SET on a list matches real Redis, but plain Redis SET replaces other types; decide whether to teach the restrictive policy as intentional or discuss a separate future Redis-compatible variant without misdescribing the current code. -->
 <!-- TODO(prose): The slides frame a missing CRLF as a client hang, but the exercise has no client or transport; present this as a potential protocol integration failure rather than an observed failure in this interpreter. -->
 
-### Trade-offs
+## Trade-offs
 
 - **Type-safety:** Original permits one key in three public maps; main preserves that model, while the alternative enforces one value variant per key but still checks command/type compatibility at runtime and exposes direct store mutation.
 - **Readability:** Original keeps validation, mutation, and formatting together; main clarifies dispatch with little added machinery, while the alternative adds value, command, error, and reply enums alongside parsing, execution, and formatting.
@@ -144,8 +143,6 @@ Compare the command handlers across argument rules, database updates, and exact 
 - **Performance:** Original repeats a hash-field lookup that main removes; the alternative owns parsed arguments even before cross-type rejection, retains front-insertion costs and its separate hash-field lookup, and has no measured overall speed or memory advantage.
 - **Flexibility:** Original and main can extend independent maps without cross-type policy; the alternative offers distinct places for new commands, values, and replies, but realistic commands can require changes to all three and additional protocol rules.
 - **Error reporting:** Original and main mix error strings with deliberate arity panics; the alternative returns command-specific arity and cross-type errors, but exposes them as strings with changed spelling and a generic `ERR` prefix rather than typed caller-facing failures.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

@@ -51,12 +51,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the cost of dictionary checks alongside the spelling rules and the requirements placed on callers.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -99,7 +98,7 @@ Compare the cost of dictionary checks alongside the spelling rules and the requi
 - Suggested main-solution test: composed and decomposed accented spellings remain distinct, documenting that lowercasing does not normalize Unicode.
 - The inputs are already strings to compare, not text to tokenize; punctuation and whitespace inside a supplied word are not stripped.
 
-### Trade-offs
+## Trade-offs
 
 <!-- Final comparison matrices are deferred until the prose is drafted. -->
 
@@ -109,8 +108,6 @@ Compare the cost of dictionary checks alongside the spelling rules and the requi
 - **Performance:** Original can repeat normalization across `n × m` comparisons; main adds a per-call set to reduce repeated work, and the alternative reuses that set but still converts queries and collects results, so small or empty workloads need separate measurement.
 - **Flexibility:** Original and main accept raw dictionaries each time; reusable storage suits repeated checks, while lazy results allow early stopping but require a deliberate policy for tokenization and spelling rules.
 - **Error reporting:** Original and main return unmatched original strings without positions or reasons; the ASCII alternative adds no validation errors for a misprepared dictionary, while a range API can locate misses without explaining them.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

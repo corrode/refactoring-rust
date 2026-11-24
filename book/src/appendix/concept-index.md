@@ -1,10 +1,8 @@
 # Cheatsheet (Concept index)
 
-> **Draft outline.** Bullet notes for the appendix; explanations still to be written.
-
-- A working selection from chapter References and discussions, not a claim that every concept in the final book is indexed.
-- Follow the chapter links for the actual contract, implementation, tests, and qualifications rather than treating an idiom as a universal recommendation.
-- The headings retain the concept anchors already used by chapter links; related entries connect the same idea across different exercises.
+Use this index to find a concept and the exercises that apply it.
+Each entry gives a short definition or names an important constraint.
+Follow the chapter links for implementations, tests, and trade-offs.
 
 ## Borrowing and ownership
 
@@ -351,9 +349,3 @@
 ### Recursion and hidden costs
 
 - Shorter recursive code can change stack depth, allocation, arithmetic order, or destruction behavior; compare [20: list_sum](../part-3-aggregations/20-list-sum.md) and [27: quicksort](../part-4-strings-parsing/27-quicksort.md).
-
-## Editorial follow-up
-
-- TODO(prose): Reconcile new chapter References with this selected index after the remaining drafts settle, adding definitions where a link currently points only to a related example.
-- Preserve existing heading anchors when reorganizing entries, and check incoming links before removing or merging a concept.
-- Use [Further reading](further-reading.md) for external sources and [Trade-off matrix](trade-off-matrix.md) for comparison groups rather than duplicating their full contents here.

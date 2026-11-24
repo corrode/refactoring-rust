@@ -50,12 +50,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison examines tag removal and whitespace rules as well as the cost of constructing the cleaned log message.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -92,7 +91,7 @@ The speaker notes in slides/pages/21_trim_log_line.md equate the first two loops
 - Unicode whitespace is not every invisible character; a zero-width space is not removed by these standard whitespace methods.
 - Preserve non-whitespace message bytes and their order; neither version performs Unicode normalization or parses a complete log format.
 
-### Trade-offs
+## Trade-offs
 
 <!-- Final comparison matrices are deferred while this chapter is a bullet outline. -->
 
@@ -102,8 +101,6 @@ The speaker notes in slides/pages/21_trim_log_line.md equate the first two loops
 - **Performance:** **Original:** multiple linear scans and owned intermediate buffers; main is still O(n), trading those buffers for borrowed word references and a final join, without a measured speed claim.
 - **Flexibility:** **Original:** a fixed array of recognized tags; main retains that policy, while its Unicode whitespace handling may be too broad for byte-sensitive log payloads.
 - **Error reporting:** **Original:** unknown tags remain text and no error is reported; main does the same, so callers still cannot use this helper as a validator.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

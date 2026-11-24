@@ -56,12 +56,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The quicksort comparison weighs readability against allocation costs and behavior on large inputs.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -107,7 +106,7 @@ The quicksort comparison weighs readability against allocation costs and behavio
 - Use a separate measurement plan for allocation volume and worst-case behavior if performance comparisons are added later.
 - There is no malformed-input error for an integer slice; stack exhaustion and allocation failures are resource failures, not recoverable results from this API.
 
-### Trade-offs
+## Trade-offs
 
 <!-- Final comparison matrices are deferred while this chapter is a bullet outline. -->
 
@@ -117,8 +116,6 @@ The quicksort comparison weighs readability against allocation costs and behavio
 - **Performance:** **Original:** one copied buffer plus stack; main adds recursive allocations and can retain quadratic heap storage, while standard sorting guarantees O(n log n) worst-case time.
 - **Flexibility:** **Original:** fixed `i32` sorting; main stays equally specialized, and generalizing to non-`Copy` records would require a new ownership and ordering discussion.
 - **Error reporting:** **Original:** no error channel and possible resource exhaustion; main keeps that limitation and may require much more memory on skewed partitions.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

@@ -61,12 +61,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare the string-processing costs and command handling for both independent batch results and successive pipeline outputs.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -106,7 +105,7 @@ Compare the string-processing costs and command handling for both independent ba
 - Pipeline command failures are not represented by `run`; a future fallible pipeline must decide how to report the failed stage.
 - For k stages, account for each stage's processing and output size rather than claiming O(k) regardless of string lengths.
 
-### Trade-offs
+## Trade-offs
 
 <!-- Final comparison matrices are deferred while this chapter is a bullet outline. -->
 
@@ -116,8 +115,6 @@ Compare the string-processing costs and command handling for both independent ba
 - **Performance:** **Original:** clones each batch string and grows append buffers incrementally; main removes those clones but allocates repeated suffixes and copies the pipeline seed up front.
 - **Flexibility:** **Original:** closed enum commands alongside extensible trait implementations; main keeps that distinction, and adding an enum variant now requires updating the match.
 - **Error reporting:** **Original:** no error return and empty output used as state; main preserves empty output as data, but command panics and resource failures still have no structured error path.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

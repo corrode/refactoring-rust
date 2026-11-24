@@ -84,12 +84,11 @@ cargo test --example 37_temp_file
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison follows scratch-file creation, use, and cleanup across successful operations and early exits.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Give cleanup an owner
 
@@ -175,7 +174,7 @@ The comparison follows scratch-file creation, use, and cleanup across successful
 - If callers need to retain the file permanently, add a deliberate ownership-transfer or persistence operation rather than teaching `mem::forget` as the normal interface.
   The minimal guard intentionally has no such operation.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 
@@ -191,8 +190,6 @@ Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.s
 The guard adds a type and requires familiarity with destruction timing; it does not make every caller shorter by itself.
 The type-safety advantage concerns ownership of a cleanup attempt, not proof that the filesystem accepted it or that destructors always run.
 There is no claimed speed-up: the successful path does the same filesystem work, and error paths now do the cleanup they previously skipped.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

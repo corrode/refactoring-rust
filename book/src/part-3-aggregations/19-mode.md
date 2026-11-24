@@ -55,12 +55,11 @@
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 Compare how the versions select a most-common value and what callers can expect for ties and empty input.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ### Main solution
 
@@ -99,7 +98,7 @@ Compare how the versions select a most-common value and what callers can expect 
 - With `n` inputs and `k` distinct values, both versions perform `n` expected constant-time hash updates and retain `O(k)` entries.
 - Maximum selection traverses the table, whose bucket capacity can exceed `k`; the main solution removes bookkeeping, not the full counting-and-selection passes.
 
-### Trade-offs
+## Trade-offs
 
 <!-- Final comparison matrices are deferred until the prose is drafted. -->
 
@@ -109,8 +108,6 @@ Compare how the versions select a most-common value and what callers can expect 
 - **Performance:** Original and main build the same frequency table and traverse it to select a maximum; consuming entries avoids borrowed result handling but does not establish a measured speed-up or remove the allocation.
 - **Flexibility:** Original's explicit comparison and main's key selector can both express tie policies, but first-in-input selection needs information the unordered table alone does not preserve.
 - **Error reporting:** Original and main panic with the same empty-input message; the main solution has one visible failure point, while `Option` would let callers handle absence without adding a descriptive error payload.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 

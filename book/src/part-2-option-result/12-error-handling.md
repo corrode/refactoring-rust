@@ -87,12 +87,11 @@ The tests check both outcomes: a readable file returns its text, and a missing f
 
 </details>
 
+<div id="solutions"></div>
+
 ## Solution
 
 The comparison weighs how much file-reading code you need to maintain without changing the errors callers receive.
-
-<details class="solution" id="solutions">
-<summary>Show solution</summary>
 
 ```rust,editable
 {{#include ../../../solutions/12_error_handling.rs:listing}}
@@ -151,7 +150,7 @@ Do callers need to distinguish opening, reading, decoding, or policy failures?
 A bare `io::Error` may not give them enough domain context.
 Add that context in a surrounding error type and keep the low-level I/O error as its source.
 
-### Trade-offs
+## Trade-offs
 
 Compared with the original: <img class="tradeoff-icon" src="../icons/advantage.svg" alt="Advantage" title="Advantage" width="20" height="20"> advantage, <img class="tradeoff-icon" src="../icons/comparable.svg" alt="Comparable" title="Comparable" width="20" height="20"> comparable, <img class="tradeoff-icon" src="../icons/disadvantage.svg" alt="Disadvantage" title="Disadvantage" width="20" height="20"> disadvantage, **N/A** not applicable.
 Readability depends on familiarity.
@@ -170,8 +169,6 @@ It still requires UTF-8 contents and hides the intermediate steps.
 Keep separate steps when you need limits or streaming.
 None of these versions adds error context.
 The readability scores assume familiarity with `?`.
-
-</details>
 
 ## Takeaways For Our Own Codebase
 
